@@ -44,7 +44,7 @@ public class UserController extends BaseController{
 		return result();
 	}
 	
-	@RequestMapping(value="/create",method=RequestMethod.POST)
+	@RequestMapping(value="/regist",method=RequestMethod.POST)
 	public Response create(User user) {
 		logger.info("create user begin, param is "+user);
 		try {

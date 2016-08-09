@@ -67,6 +67,11 @@ public class IndexController extends BaseController{
 		return "login";
 	}
 	
+	@RequestMapping(value="/regist",method=RequestMethod.GET)
+	public String regist() {
+		return "logout";
+	}
+	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
 	public String collect(Model model,Collect collect) {
 		if(getUser()==null){

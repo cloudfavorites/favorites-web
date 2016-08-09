@@ -1,52 +1,102 @@
 <html >
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta name="description" content="Bootstrap Admin App + jQuery"/>
+  <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin"/>
+  <title>Favorites</title>
   <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}"></link>
-  <link th:href="@{/css/index.css}" rel="stylesheet"></link>
+ 
+  <link rel="stylesheet" th:href="@{/vendor/fontawesome/css/font-awesome.min.css}"></link>
+  <link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.css}"></link>
+  <link rel="stylesheet" th:href="@{/media/css/bootstrap.css}" id="bscss"></link>
+  <link rel="stylesheet" th:href="@{/media/css/app.css}" id="maincss"></link>
+  <link rel="stylesheet" th:href="@{/media/css/theme-i.css}" id="maincss"></link>
+ </head>
   <body>
-    <div class="form-page" id="loginPage">
-	  <div class="form">
-	    <span class="register-form">
-			<form >
-		      <input type="text" placeholder="username" v-model="username"/>
-		      <input type="password" placeholder="password" v-model="password" />
-		      <input type="text" placeholder="email address" v-model="email"/>
-		    </form>	    
-		    <button v-on:click="create">create</button>
-		    <p class="message">Already registered? <a href="#">Sign In</a></p>
-	    </span>
-	    <span class="login-form"> 
-		    <form >
-		      <input type="text" placeholder="username" v-model="username"/>
-		      <input type="password" placeholder="password" v-model="password"/>
-		    </form>
-		    <button v-on:click="login">login</button>
-		    <p class="message">Not registered? <a href="#">Create an account</a></p>
-	    </span>
-	  </div>
-	</div>
+    <div class="wrapper">
+      <div class="block-center mt-xl wd-xl">
+         <div class="panel panel-dark panel-flat">
+            <div class="panel-heading text-center">
+               <a href="/">
+                  <img src="/img/logo.png" alt="Image" class="block-center img-rounded"/>
+               </a>
+            </div>
+            <div class="panel-body" id="loginPage">
+               <p class="text-center pv">请登录</p>
+               <form id="form" data-parsley-validate="true" onsubmit="return false">
+                  <div class="form-group has-feedback">
+                     <input type="text" placeholder="邮箱地址或昵称" v-model="username" class="form-control" data-parsley-error-message="请输入邮箱地址或昵称" required="required" />
+                     <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                  </div>
+                  <div class="form-group has-feedback">
+                     <input type="password" placeholder="密码" v-model="password" class="form-control" data-parsley-error-message="请输入密码" required="required" />
+                     <span class="fa fa-lock form-control-feedback text-muted"></span>
+                  </div>
+                  <div class="clearfix">
+                     <div class="pull-right">
+                        <a href="recover.html" class="text-muted">忘记密码？</a>
+                     </div>
+                  </div>
+                  <button v-on:click="login" class="btn btn-block btn-primary mt-lg">登录</button>
+               </form>
+               <p class="pt-lg text-center">社会化登录</p>
+               <div class="text-center">
+                  <a href="javascript:void(0);">
+                     <span class="fa-stack fa-2x mr"> <i class="fa fa-circle-thin fa-stack-2x"></i> <i class="fa fa-qq fa-stack-1x"></i>
+                     </span>
+                  </a>
+                  <a href="javascript:void(0);">
+                     <span class="fa-stack fa-2x">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-weibo fa-stack-1x"></i>
+                     </span>
+                  </a>
+                  <a href="javascript:void(0);">
+                     <span class="fa-stack fa-2x ml">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-wechat fa-stack-1x"></i>
+                     </span>
+                  </a>
+               </div>
+               <p class="pt-lg text-center">需要注册？</p>
+               <a href="/regist" class="btn btn-block btn-default">现在就注册</a>
+            </div>
+         </div>
+         <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>2016</span>
+            <span>-</span>
+            <span>Favorites</span>
+            <br/>
+            <span>contact@favorites.info</span>
+         </div>
+      </div>
+   </div>
   </body>
    <script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>   
    <script th:src="@{/webjars/vue/1.0.24/vue.min.js}"></script>   
-   <script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>   
+   <script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>
+   <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script> 
     <script type='text/javascript'>
-      Vue.http.options.emulateJSON = true; 
+    Vue.http.options.emulateJSON = true; 
         var loginPage = new Vue({
             el: '#loginPage',
             data: {
                 'username': '',
-                'email': '',
                 'password': ''
             },
             methods: {
             	login: function(event){
-            		 if(this.username == '' || this.password==''){
-            			 alert("用户名或者密码不能为空！");
-            			 return;
-            		 }
+            		var ok = $('#form').parsley().isValid({force: true});
+            		if(!ok){
+            			return;
+            		}
             		var datas={
             				 userName: this.username,
             				 passWord: this.password
 	            			 };
-            	     this.$http.post('/user/login',datas).then(function(response){
+            	    this.$http.post('/user/login',datas).then(function(response){
             	    	 if(response.data.rspCode == '000000'){
             	    		  window.open('/', '_self');
             	    	 }else{
@@ -56,34 +106,8 @@
                      }, function(response){
                          console.log('error');
                      })
-                },
-                create: function(event){
-                	 if(this.username == '' || this.password=='' || this.email==''){
-            			 alert("参数不能为空！");
-            			 return;
-            		 }
-               	    var datas={
-               	    		 userName: this.username,
-               				 email:this.email,
-               				 passWord: this.password
-                   			 };
-            	     this.$http.post('/user/create',datas).then(function(response){
-            	    	 if(response.data.rspCode == '000000'){
-	           	    		  window.open('/login', '_self');
-	           	    	 }else{
-	           	    		  console.log(response.data.rspMsg);
-	           	    		  alert(response.data.rspMsg);
-	           	    	 }
-                     }, function(response){
-                         console.log('error');
-                     })
                 }
             }
         })
     </script>
-	<script type="text/javascript">
-	$('.message a').click(function(){
-		   $('span').animate({height: "toggle", opacity: "toggle"}, "slow");
-		});
-	</script>
 </html>
