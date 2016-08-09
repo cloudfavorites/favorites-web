@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+     <header class="topnavbar-wrapper" th:fragment="header">
+      <nav class="navbar topnavbar" role="navigation">
+         <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+               <div class="brand-logo">
+                  <img class="img-responsive" alt="App Logo" src="img/logo.png" /></div>
+               <div class="brand-logo-collapsed">
+                  <img class="img-responsive" alt="App Logo" src="img/logo-single.png" /></div>
+            </a>
+         </div>
+         <div class="nav-wrapper">
+            <ul class="nav navbar-nav">
+               <li>
+                  <a title="缩小/扩大侧栏" class="hidden-xs" data-toggle-state="aside-collapsed" href="#"> <em class="fa fa-navicon"></em>
+                  </a>
+                  <a title="缩小/扩大侧栏" class="visible-xs sidebar-toggle" data-no-persist="true" data-toggle-state="aside-toggled" href="#"> <em class="fa fa-navicon"></em>
+                  </a>
+               </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+               <li>
+                  <a title="搜索" data-search-open="" href="#">
+                     <em class="icon-magnifier"></em>
+                  </a>
+               </li>
+               <li class="dropdown dropdown-list">
+                  <a title="消息通知" data-toggle="dropdown" href="#">
+                     <em class="icon-bell"></em>
+                  </a>
+                  <ul class="dropdown-menu animated flipInX">
+                     <li>
+                        <div class="list-group">
+                           <a class="list-group-item" href="#">
+                              <div class="media-box">
+                                 <div class="pull-left">
+                                    <em class="fa fa-at fa-2x text-info"></em>
+                                 </div>
+                                 <div class="media-box-body clearfix">
+                                    <p class="m0">@我的</p>
+                                    <p class="m0 text-muted">
+                                       <small>0 条新消息</small>
+                                    </p>
+                                 </div>
+                              </div>
+                           </a>
+                           <a class="list-group-item" href="#">
+                              <div class="media-box">
+                                 <div class="pull-left">
+                                    <em class="fa fa-comment fa-2x text-warning"></em>
+                                 </div>
+                                 <div class="media-box-body clearfix">
+                                    <p class="m0">评论我的</p>
+                                    <p class="m0 text-muted">
+                                       <small>0 条新评论</small>
+                                    </p>
+                                 </div>
+                              </div>
+                           </a>
+                           <a class="list-group-item" href="#">
+                              <div class="media-box">
+                                 <div class="pull-left">
+                                    <em class="fa fa-thumbs-up fa-2x text-success"></em>
+                                 </div>
+                                 <div class="media-box-body clearfix">
+                                    <p class="m0">赞我的</p>
+                                    <p class="m0 text-muted">
+                                       <small>0 个新的赞</small>
+                                    </p>
+                                 </div>
+                              </div>
+                           </a>
+                           <a class="list-group-item" href="#">
+                              <div class="media-box">
+                                 <div class="pull-left">
+                                    <em class="fa fa-bell fa-2x text-danger"></em>
+                                 </div>
+                                 <div class="media-box-body clearfix">
+                                    <p class="m0">群消息</p>
+                                    <p class="m0 text-muted">
+                                       <small>0 个入群邀请</small>
+                                    </p>
+                                 </div>
+                              </div>
+                           </a>
+                        </div>
+                     </li>
+                  </ul>
+               </li>
+               <li>
+                  <a title="浏览记录" href="#">
+                     <em class="icon-clock"></em>
+                  </a>
+               </li>
+               <li>
+                  <a title="回收站" href="#">
+                     <em class="icon-trash"></em>
+                  </a>
+               </li>
+               <li>
+                  <a title="设置" data-no-persist="true" data-toggle-state="offsidebar-open" href="#">
+                     <em class="icon-settings"></em>
+                  </a>
+               </li>
+            </ul>
+         </div>
+         <form class="navbar-form" action="search.html" role="search">
+            <div class="form-group has-feedback">
+               <input type="text" class="form-control" placeholder="输入并且按回车确定..." />
+               <div class="fa fa-times form-control-feedback" data-search-dismiss=""></div>
+            </div>
+            <button class="hidden btn btn-default" type="submit">提交</button>
+         </form>
+      </nav>
+   </header>
+</body>
+</html>

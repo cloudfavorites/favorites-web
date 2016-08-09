@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+   <aside class="aside" th:fragment="left">
+      <div class="aside-inner">
+         <nav class="sidebar" data-sidebar-anyclick-close="">
+            <ul class="nav">
+               <li class="has-user-block">
+                  <div>
+                     <div class="item user-block">
+                        <div class="user-block-picture">
+                           <div class="user-block-status">
+                              <a target="_blank" href="collect.html">
+                                 <img alt="" class="img-thumbnail img-circle" src="img/dummy.png"/></a>
+                              <div class="circle circle-success circle-lg"></div>
+                           </div>
+                        </div>
+                        <div class="user-block-info">
+                           <div class="user-block-name">欢迎 欢迎</div>
+                           <div class="user-block-role">暂无简介</div>
+                        </div>
+                     </div>
+                  </div>
+               </li>
+               <li class="nav-heading ">主导航</li>
+               <li class=" active">
+                  <a title="首页" href="home.html">
+                     <em class="icon-home"></em>
+                     <span>首页</span>
+                  </a>
+               </li>
+               <li class=" ">
+                  <a title="未读列表" href="unread.html">
+                     <div class="label label-success pull-right">1</div>
+                     <em class="icon-paper-clip"></em>
+                     <span>未读列表</span>
+                  </a>
+               </li>
+               <li class=" ">
+                  <a data-toggle="collapse" title="收藏夹" href="#favorites">
+                     <em class="icon-folder"></em>
+                     <span>收藏夹</span>
+                  </a>
+                  <ul class="nav sidebar-subnav collapse" id="favorites">
+                     <li class="sidebar-subnav-header">收藏夹</li>
+                     <li class=" ">
+                        <a title="+ 新建收藏夹" href="new_fav.html">
+                           <span>+ 新建收藏夹</span>
+                        </a>
+                     </li>
+                     <li class=" ">
+                        <a title="学习" href="fav.html">
+                           <div class="text-muted mr pull-right">8</div>
+                           <span>学习</span>
+                        </a>
+                     </li>
+                  </ul>
+               </li>
+               <li class=" ">
+                  <a title="发现" href="explore.html">
+                     <em class="icon-compass"></em>
+                     <span>发现</span>
+                  </a>
+               </li>
+               <li class=" ">
+                  <a data-toggle="collapse" title="群组" href="#groups">
+                     <em class="icon-folder"></em>
+                     <span>群组</span>
+                  </a>
+                  <ul class="nav sidebar-subnav collapse" id="groups">
+                     <li class="sidebar-subnav-header">群组</li>
+                     <li class=" ">
+                        <a title="+ 新建群组" href="new_group.html">
+                           <span>+ 新建群组</span>
+                        </a>
+                     </li>
+                  </ul>
+               </li>
+               <li class="nav-heading ">更多</li>
+               <li class=" ">
+                  <a title="网页收集工具" href="collect_tool.html">
+                     <em class="icon-wrench"></em>
+                     <span>网页收集工具</span>
+                  </a>
+               </li>
+               <li class=" ">
+                  <a title="移动客户端" href="mobile.html">
+                     <em class="icon-screen-smartphone"></em>
+                     <span>移动客户端</span>
+                  </a>
+               </li>
+               <li class=" ">
+                  <a title="导入收藏夹" href="import.html">
+                     <em class="icon-login"></em>
+                     <span>导入收藏夹</span>
+                  </a>
+               </li>
+            </ul>
+         </nav>
+      </div>
+   </aside>
+</body>
+</html>
+

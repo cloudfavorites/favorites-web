@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+   <div th:fragment="alert">
+	 <div id="modal-changeSharing" class="modal fade" >
+      <div class="modal-dialog wd-xl">
+         <div class="modal-content">
+            <div class="panel panel-dark panel-flat">
+               <div class="panel-heading text-center">
+                  <button class="close" data-dismiss="modal" type="button" style="color:#fff;">
+                     <span>×</span>
+                  </button>
+                  <a href="#" style="color:#fff;">Favorites</a>
+               </div>
+               <div class="panel-body">
+                  <form class="form-horizontal">
+                     <div class="mb">
+                                                  收藏备注
+                        <textarea name="" id="" class="form-control" cols="30" rows="2" placeholder="请输入收藏备注，也可以在这里@好友"></textarea>
+                     </div>
+                     <div class="pull-right dropdown dropdown-list">
+                        <a href="#" data-toggle="dropdown">
+                           at好友
+                           <i class="fa fa-caret-down"></i>
+                        </a>
+                     </div>
+                     <label style="font-weight:normal;margin-bottom:0;">
+                        <input type="checkbox" class="mb"/>私密收藏</label>
+                  </form>
+                  <p class="pt-lg text-center">选择一个收藏夹</p>
+                  <select name="" id="" class="mb form-control">
+                     <option value="未读列表">未读列表</option>
+                  </select>
+                  <p class="text-center">或者</p>
+                  <input type="text" class="mb form-control" placeholder="新建分类收藏夹"/>
+                  <button type="submit" class="mt-lg btn btn-primary btn-block">提交</button>
+                  <div class="text-right mt-sm">
+                     <a href="collect_expert.html" style="color:#666;text-decoration:none;">
+                        <i class="fa fa-refresh"></i>
+                        切换成专家模式
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-remove" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">删除收藏</h4>
+            </div>
+            <div class="modal-body">
+               <p>该收藏将被永久删除，且无法找回，是否继续？</p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary">确定</button>
+               <button type="button" data-dismiss="modal" class="btn btn-danger">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-defaultFav" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">选择默认收藏夹</h4>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <select name="" id="" class="form-control">
+                     <option value="未读列表">未读列表</option>
+                  </select>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary">确定</button>
+               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-changeDescription" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改个人简介</h4>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <textarea name="" id="" class="form-control" cols="30" rows="2"></textarea>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary">确定</button>
+               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-ChangeNickname" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改昵称</h4>
+            </div>
+            <div class="modal-body">
+               <div class="alert alert-danger text-center">该昵称已存在</div>
+               <div class="form-group has-feedback">
+                  <input type="text" placeholder="新昵称" class="form-control"/>
+                  <span class="fa fa-user form-control-feedback text-muted"></span>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="submit" class="btn btn-block btn-primary mt-lg">确定</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-ChangePass" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+               <div class="alert alert-danger text-center">密码输入错误</div>
+               <div class="form-group has-feedback">
+                  <input type="password" placeholder="旧密码" class="form-control"/>
+                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+               </div>
+               <div class="form-group has-feedback">
+                  <input type="password" placeholder="新密码" class="form-control"/>
+                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="submit" class="btn btn-block btn-primary mt-lg">确定</button>
+            </div>
+         </div>
+      </div>
+   </div>
+  </div> 
+</body>
+</html>
+
