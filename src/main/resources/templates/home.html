@@ -14,8 +14,8 @@
                      </label>
                   </div>
                   <ul class="timeline-alt">
-                     <li>
-                        <a href="#" class="hidden-xs timeline-badge sharing-user-avatar" style="background-image:url('img/dummy.png');"></a>
+                     <li th:each="collect,collectStat : ${collects}" >
+                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" style="background-image:url('img/dummy.png');"></a>
                         <div class="timeline-panel">
                            <div class="popover right">
                               <div class="arrow"></div>
@@ -60,7 +60,7 @@
                                           </ul>
                                        </div>
                                        <div class="m0">
-                                          <a href="#" class="text-muted">abc123</a>
+                                          <a href="#" class="text-muted" >abc123</a>
                                           <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密">
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
@@ -74,17 +74,17 @@
                                  <div class="m0">分享资源分享资源分享资源分享资源分享资源</div>
                                  <div class="media resource-card-thumbnail">
                                     <a href="#" class="pull-left" target="_blank">
-                                       <div class="media-object resource-card-image" style="background-image:url('http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png');"></div>
+                                       <div class="media-object resource-card-image"  th:style="'background:url(' + @{(${collect.webLogo}=='' ? 'img/favicon.png' : ${collect.webLogo})} + ')'" ></div>
                                     </a>
                                     <div class="media-body">
                                        <h4 class="visible-xs media-heading resource-card-title-xs">
-                                          <a href="#" target="_blank">Bootstrap中文网</a>
+                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
                                        </h4>
                                        <h3 class="hidden-xs media-heading resource-card-title">
-                                          <a href="#" target="_blank">Bootstrap中文网</a>
+                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
                                        </h3>
                                        <div class="hidden-xs resource-card-content">
-                                          <p>Bootstrap是Twitter推出的一个用于前端开发的开源工具包。它由Twitter的设计师Ma</p>
+                                          <p  th:text="${collect.description}">description</p>
                                        </div>
                                     </div>
                                  </div>
@@ -95,27 +95,27 @@
                                        <small>
                                           <a class="sharing-action-button">
                                              <span class="fa fa-share-alt"></span>
-                                             分享
+                                             	分享
                                           </a>
                                           |
                                           <a class="sharing-action-button">
                                              <span class="fa fa-thumbs-o-up"></span>
-                                             点赞(0)
+                                             	点赞(0)
                                           </a>
                                           |
                                           <a class="sharing-action-button">
                                              <span class="fa fa-thumbs-up"></span>
-                                             取消点赞
+                                          	      取消点赞
                                           </a>
                                           |
                                           <a class="sharing-action-button">
                                              <span class="fa fa-comment-o"></span>
-                                             评论(0)
+                                            	 评论(0)
                                           </a>
                                           |
                                           <a class="sharing-action-button">
                                              <span class="fa fa-spoon"></span>
-                                             挖一口
+                                           	  挖一口
                                           </a>
                                        </small>
                                     </div>
@@ -124,117 +124,7 @@
                            </div>
                         </div>
                      </li>
-                     <li>
-                        <a href="#" class="hidden-xs timeline-badge sharing-user-avatar" style="background-image:url('img/dummy.png');"></a>
-                        <div class="timeline-panel">
-                           <div class="popover right">
-                              <div class="arrow"></div>
-                              <div class="popover-content">
-                                 <div class="table-grid">
-                                    <div class="col">
-                                       <div class="pull-right dropdown dropdown-list">
-                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" >
-                                             <span class="fa fa-angle-down"></span>
-                                          </a>
-                                          <ul class="dropdown-menu animated bounceIn">
-                                             <li>
-                                                <div class="list-group">
-                                                   <a href="#" class="list-group-item">
-                                                      <div class="media-box">
-                                                         <div class="pull-left">
-                                                            <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
-                                                         </div>
-                                                         <div class="media-box-body clearfix">
-                                                            <p class="m0">修改收藏</p>
-                                                            <p class="m0 text-muted">
-                                                               <small>修改收藏的各种属性</small>
-                                                            </p>
-                                                         </div>
-                                                      </div>
-                                                   </a>
-                                                   <a href="#" class="list-group-item">
-                                                      <div class="media-box">
-                                                         <div class="pull-left">
-                                                            <em class="fa fa-trash fa-2x fa-fw text-danger"></em>
-                                                         </div>
-                                                         <div class="media-box-body clearfix">
-                                                            <p class="m0">删除</p>
-                                                            <p class="m0 text-muted">
-                                                               <small>该分享会永久删除</small>
-                                                            </p>
-                                                         </div>
-                                                      </div>
-                                                   </a>
-                                                </div>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                       <div class="m0">
-                                          <a href="#" class="text-muted">abc123</a>
-                                          <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密">
-                                             <span class="fa fa-lock" style="color: #eee;"></span>
-                                          </a>
-                                          <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开">
-                                             <span class="fa fa-lock text-warning"></span>
-                                          </a>
-                                          <small class="ml-sm text-muted">5天前</small>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="m0">分享资源分享资源分享资源分享资源分享资源</div>
-                                 <div class="media resource-card-thumbnail">
-                                    <a href="#" class="pull-left" target="_blank">
-                                       <div class="media-object resource-card-image" style="background-image:url('http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png');"></div>
-                                    </a>
-                                    <div class="media-body">
-                                       <h4 class="visible-xs media-heading resource-card-title-xs">
-                                          <a href="#" target="_blank">Bootstrap中文网</a>
-                                       </h4>
-                                       <h3 class="hidden-xs media-heading resource-card-title">
-                                          <a href="#" target="_blank">Bootstrap中文网</a>
-                                       </h3>
-                                       <div class="hidden-xs resource-card-content">
-                                          <p>Bootstrap是Twitter推出的一个用于前端开发的开源工具包。它由Twitter的设计师Ma</p>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="m0">
-                                    <span class="icon-folder mr-sm"></span>
-                                    <a href="#" class="normal-color-a ng-binding">未读列表</a>
-                                    <div class="pull-right hidden-xxs">
-                                       <small>
-                                          <a class="sharing-action-button">
-                                             <span class="fa fa-share-alt"></span>
-                                             分享
-                                          </a>
-                                          |
-                                          <a class="sharing-action-button">
-                                             <span class="fa fa-thumbs-o-up"></span>
-                                             点赞(0)
-                                          </a>
-                                          |
-                                          <a class="sharing-action-button">
-                                             <span class="fa fa-thumbs-up"></span>
-                                             取消点赞
-                                          </a>
-                                          |
-                                          <a class="sharing-action-button">
-                                             <span class="fa fa-comment-o"></span>
-                                             评论(0)
-                                          </a>
-                                          |
-                                          <a class="sharing-action-button">
-                                             <span class="fa fa-spoon"></span>
-                                             挖一口
-                                          </a>
-                                       </small>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
+                    </ul>
                </div>
             </div>
             <div class="row">
@@ -260,74 +150,6 @@
                                  <a href="#" class="mr"> <i class="fa fa-pencil"></i>
                                  </a>
                                  <a href="#" class="ml"> <i class="fa fa-trash text-danger"></i>
-                                 </a>
-                              </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#" target="_blank" style="font-size:16px;color:#656565;">Bootstrap中文网</a>
-                           </td>
-                           <td width="10%" class="text-center">
-                              <img src="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png" width="35px" height="25px" alt=""/></td>
-                           <td width="15%" class="text-center">
-                              <div>
-                                 <a href="#" class="mr">
-                                    <i class="fa fa-pencil"></i>
-                                 </a>
-                                 <a href="#" class="ml">
-                                    <i class="fa fa-trash text-danger"></i>
-                                 </a>
-                              </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#" target="_blank" style="font-size:16px;color:#656565;">Bootstrap中文网</a>
-                           </td>
-                           <td width="10%" class="text-center">
-                              <img src="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png" width="35px" height="25px" alt=""/></td>
-                           <td width="15%" class="text-center">
-                              <div>
-                                 <a href="#" class="mr">
-                                    <i class="fa fa-pencil"></i>
-                                 </a>
-                                 <a href="#" class="ml">
-                                    <i class="fa fa-trash text-danger"></i>
-                                 </a>
-                              </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#" target="_blank" style="font-size:16px;color:#656565;">Bootstrap中文网</a>
-                           </td>
-                           <td width="10%" class="text-center">
-                              <img src="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png" width="35px" height="25px" alt=""/></td>
-                           <td width="15%" class="text-center">
-                              <div>
-                                 <a href="#" class="mr">
-                                    <i class="fa fa-pencil"></i>
-                                 </a>
-                                 <a href="#" class="ml">
-                                    <i class="fa fa-trash text-danger"></i>
-                                 </a>
-                              </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#" target="_blank" style="font-size:16px;color:#656565;">Bootstrap中文网</a>
-                           </td>
-                           <td width="10%" class="text-center">
-                              <img src="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png" width="35px" height="25px" alt=""/></td>
-                           <td width="15%" class="text-center">
-                              <div>
-                                 <a href="#" class="mr">
-                                    <i class="fa fa-pencil"></i>
-                                 </a>
-                                 <a href="#" class="ml">
-                                    <i class="fa fa-trash text-danger"></i>
                                  </a>
                               </div>
                            </td>

@@ -14,7 +14,7 @@ apply plugin: 'war'
 apply plugin: 'eclipse'
 
 war {
-    baseName = 'favorites'
+    baseName = 'favorites-web'
     version =  '0.1.0'
 }
 
@@ -35,12 +35,12 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools:1.3.6.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-test:1.3.6.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-redis:1.3.6.RELEASE")
-	compile group: 'org.springframework.session', name: 'spring-session-data-redis', version: '1.2.1.RELEASE'
+    compile group: 'org.springframework.session', name: 'spring-session-data-redis', version: '1.2.1.RELEASE'
     compile 'org.webjars.bower:bootstrap:3.3.6'
-	compile 'org.webjars.bower:jquery:2.2.4'
+    compile 'org.webjars.bower:jquery:2.2.4'
     compile("org.webjars:vue:1.0.24")
-	compile 'org.webjars.bower:vue-resource:0.7.0'
-	compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
+    compile 'org.webjars.bower:vue-resource:0.7.0'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
 }
 
 bootRun {

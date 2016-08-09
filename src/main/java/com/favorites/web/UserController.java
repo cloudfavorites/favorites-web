@@ -17,6 +17,7 @@ import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.utils.Const;
 import com.favorites.utils.DateUtils;
+import com.favorites.utils.MD5Util;
 
 @RestController
 @RequestMapping("/user")
@@ -31,7 +32,7 @@ public class UserController extends BaseController{
 		logger.info("login begin, param is "+user);
 		try {
 			User loginUser=userRepository.findByUserNameOrEmail(user.getUserName(), user.getEmail());
-			if(loginUser==null || !loginUser.getPassWord().equals(user.getPassWord())){
+			if(loginUser==null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return result(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
@@ -44,10 +45,19 @@ public class UserController extends BaseController{
 		return result();
 	}
 	
-	@RequestMapping(value="/create",method=RequestMethod.POST)
+	@RequestMapping(value="/regist",method=RequestMethod.POST)
 	public Response create(User user) {
 		logger.info("create user begin, param is "+user);
 		try {
+			User registUser = userRepository.findByEmail(user.getEmail());
+			if(null != registUser){
+				return result(ExceptionMsg.EmailUsed);
+			}
+			User userNameUser = userRepository.findByUserName(user.getUserName());
+			if(null != userNameUser){
+				return result(ExceptionMsg.UserNameUsed);
+			}
+			user.setPassWord(getPwd(user.getPassWord()));
 			user.setRegTime(DateUtils.getDateSequence());
 			userRepository.save(user);
 		} catch (Exception e) {

@@ -19,9 +19,7 @@ public class User extends Entitys implements Serializable {
 	@Column(nullable = false)
 	private String passWord;
 	@Column(nullable = false, unique = true)
-	private String email;
-	@Column(nullable = true, unique = true)
-	private String nickName;
+	private String email;	
 	@Column(nullable = false)
 	private String regTime;
 
@@ -31,7 +29,6 @@ public class User extends Entitys implements Serializable {
 	public User(String email, String nickName, String passWord, String userName) {
 		super();
 		this.email = email;
-		this.nickName = nickName;
 		this.passWord = passWord;
 		this.userName = userName;
 	}
@@ -58,12 +55,6 @@ public class User extends Entitys implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getNickName() {
-		return nickName;
-	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
 	}
 	public String getRegTime() {
 		return regTime;

@@ -13,6 +13,7 @@ import com.favorites.domain.User;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.utils.Const;
+import com.favorites.utils.MD5Util;
 
 @Controller
 public class BaseController {
@@ -47,6 +48,15 @@ public class BaseController {
         return id;
     }
     
+    protected String getUserName() {
+    	String userName="云收藏";
+    	User user=getUser();
+    	if(user!=null){
+    		userName=user.getUserName();
+    	}
+        return userName;
+    }
+    
     protected String getUserIp() {
         String value = getRequest().getHeader("X-Real-IP");
         if (StringUtils.isNotBlank(value) && !"unknown".equalsIgnoreCase(value)) {
@@ -54,5 +64,15 @@ public class BaseController {
         } else {
             return getRequest().getRemoteAddr();
         }
+    }
+    
+    protected String getPwd(String password){
+    	try {
+    		String pwd = MD5Util.encrypt(password+Const.PASSWORD_KEY);
+    		return pwd;
+		} catch (Exception e) {
+			logger.error("密码加密异常：",e);
+		}
+    	return null;
     }
 }
