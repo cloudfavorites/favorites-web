@@ -4,23 +4,18 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.favorites.domain.Collect;
-import com.favorites.domain.CollectRepository;
 import com.favorites.utils.HtmlUtil;
 
 @Controller
 @RequestMapping("/")
 public class IndexController extends BaseController{
 	
-	@Autowired
-	private CollectRepository collectRepository;
-
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String hello(Locale locale, Model model) {
 		model.addAttribute("greeting", "Hello  neo!");
