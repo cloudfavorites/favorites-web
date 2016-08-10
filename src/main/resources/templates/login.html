@@ -26,7 +26,7 @@
                <p class="text-center pv">请登录</p>
                <form id="form" data-parsley-validate="true" onsubmit="return false">
                   <div class="form-group has-feedback">
-                     <input type="text" placeholder="邮箱地址或昵称" v-model="username" class="form-control" data-parsley-error-message="请输入邮箱地址或昵称" required="required" />
+                     <input type="text" placeholder="邮箱地址或登陆名称" v-model="username" class="form-control" data-parsley-error-message="请输入邮箱地址或登陆名称" required="required" />
                      <span class="fa fa-envelope form-control-feedback text-muted"></span>
                   </div>
                   <div class="form-group has-feedback">
@@ -59,6 +59,8 @@
                      </span>
                   </a>
                </div>
+               <p></p>
+               <div id="errorMsg" class="alert alert-danger text-center" style="display:none;"></div>
                <p class="pt-lg text-center">需要注册？</p>
                <a href="/register" class="btn btn-block btn-default">现在就注册</a>
             </div>
@@ -100,8 +102,8 @@
             	    	 if(response.data.rspCode == '000000'){
             	    		  window.open('/', '_self');
             	    	 }else{
-            	    		  console.log(response.data.rspMsg);
-            	    		  alert(response.data.rspMsg);
+            	    		  $("#errorMsg").html(response.data.rspMsg);
+            	    		  $("#errorMsg").show();
             	    	 }
                      }, function(response){
                          console.log('error');

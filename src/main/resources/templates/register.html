@@ -25,21 +25,23 @@
                <form id="form" data-parsley-validate="true" onsubmit="return false">
                   <div class="form-group has-feedback">
                      <label for="signupInputEmail1" class="text-muted">登录邮箱</label>
-                     <input id="signupInputEmail1" type="email" placeholder="输入邮箱地址" class="form-control" v-model="email" data-parsley-error-message="请输入邮箱地址" required="required"/>
+                     <input id="signupInputEmail1" type="email" placeholder="输入邮箱地址" class="form-control" v-model="email"  data-parsley-required-message="请输入邮箱地址" data-parsley-type-message="请输入正确的邮箱地址" required="required"/>
                      <span class="fa fa-envelope form-control-feedback text-muted"></span>
                   </div>
                   <div class="form-group has-feedback">
-                     <label for="signupInputEmail1" class="text-muted">昵称</label>
-                     <input id="signupInputEmail1" type="text" placeholder="我们该如何称呼您？" class="form-control" v-model="userName" data-parsley-error-message="请输入昵称" required="required"/>
+                     <label for="signupInputEmail1" class="text-muted">登陆名称</label>
+                     <input id="signupInputEmail1" type="text" placeholder="我们该如何称呼您？" class="form-control" v-model="userName" data-parsley-required-message="请输入登陆名称" required="required"/>
                      <span class="fa fa-user form-control-feedback text-muted"></span>
                   </div>
                   <div class="form-group has-feedback">
                      <label for="signupInputPassword" class="text-muted">密码</label>
-                     <input id="signupInputPassword" type="password" placeholder="密码" class="form-control" v-model="password" required="required" data-parsley-error-message="请输入密码" />
+                     <input id="signupInputPassword" type="password" placeholder="密码" class="form-control" v-model="password" required="required" data-parsley-required-message="请输入密码" />
                      <span class="fa fa-lock form-control-feedback text-muted"></span>
                   </div>
                   <button v-on:click="regist" class="btn btn-block btn-primary mt-lg">创建账户</button>
                </form>
+               <p></p>
+               <div id="errorMsg" class="alert alert-danger text-center" style="display:none;"></div>
                <p class="pt-lg text-center">已经有账户？</p>
                <a href="/login" class="btn btn-block btn-default">登录</a>
             </div>
@@ -82,8 +84,8 @@
             	    	 if(response.data.rspCode == '000000'){
             	    		  window.open('/', '_self');
             	    	 }else{
-            	    		  console.log(response.data.rspMsg);
-            	    		  alert(response.data.rspMsg);
+            	    		 $("#errorMsg").html(response.data.rspMsg);
+           	    		  	 $("#errorMsg").show();
             	    	 }
                      }, function(response){
                          console.log('error');
