@@ -29,7 +29,7 @@ public class Collect extends Entitys implements Serializable {
 	@Column(nullable = true,length = 65535,columnDefinition="Text")
 	private String remark;
 	@Column(nullable = false)
-	private String collectTime;
+	private Long collectTime;
 
 	public Collect() {
 		super();
@@ -91,11 +91,11 @@ public class Collect extends Entitys implements Serializable {
 		this.charset = charset;
 	}
 
-	public String getCollectTime() {
+	public Long getCollectTime() {
 		return collectTime;
 	}
 
-	public void setCollectTime(String collectTime) {
+	public void setCollectTime(Long collectTime) {
 		this.collectTime = collectTime;
 	}
 

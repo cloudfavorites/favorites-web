@@ -21,7 +21,7 @@ public class User extends Entitys implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String email;	
 	@Column(nullable = false)
-	private String regTime;
+	private Long regTime;
 
 	public User() {
 		super();
@@ -56,10 +56,10 @@ public class User extends Entitys implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRegTime() {
+	public Long getRegTime() {
 		return regTime;
 	}
-	public void setRegTime(String regTime) {
+	public void setRegTime(Long regTime) {
 		this.regTime = regTime;
 	}
 

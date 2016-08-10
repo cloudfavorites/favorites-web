@@ -60,14 +60,14 @@
                                           </ul>
                                        </div>
                                        <div class="m0">
-                                          <a href="#" class="text-muted" >abc123</a>
+                                          <a href="#" class="text-muted" th:text="${user.userName}">favorites_name</a>
                                           <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密">
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
                                           <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开">
                                              <span class="fa fa-lock text-warning"></span>
                                           </a>
-                                          <small class="ml-sm text-muted">5天前</small>
+                                          <small class="ml-sm text-muted" th:text="${collect.collectTime}">5天前  </small>
                                        </div>
                                     </div>
                                  </div>

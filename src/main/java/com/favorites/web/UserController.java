@@ -17,7 +17,6 @@ import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.utils.Const;
 import com.favorites.utils.DateUtils;
-import com.favorites.utils.MD5Util;
 
 @RestController
 @RequestMapping("/user")
@@ -35,7 +34,6 @@ public class UserController extends BaseController{
 			if(loginUser==null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return result(ExceptionMsg.LoginNameOrPassWordError);
 			}
-			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -58,7 +56,7 @@ public class UserController extends BaseController{
 				return result(ExceptionMsg.UserNameUsed);
 			}
 			user.setPassWord(getPwd(user.getPassWord()));
-			user.setRegTime(DateUtils.getDateSequence());
+			user.setRegTime(DateUtils.getCurrentTime());
 			userRepository.save(user);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -75,7 +73,7 @@ public class UserController extends BaseController{
 		try {
 			collect.setDescription(collect.getDescription());
 			collect.setUserId(getUserId());
-			collect.setCollectTime(DateUtils.getDateSequence());
+			collect.setCollectTime(DateUtils.getCurrentTime());
 			collectRepository.save(collect);
 		} catch (Exception e) {
 			// TODO: handle exception
