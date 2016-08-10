@@ -67,9 +67,9 @@ public class IndexController extends BaseController{
 		return "login";
 	}
 	
-	@RequestMapping(value="/regist",method=RequestMethod.GET)
+	@RequestMapping(value="/register",method=RequestMethod.GET)
 	public String regist() {
-		return "logout";
+		return "register";
 	}
 	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
