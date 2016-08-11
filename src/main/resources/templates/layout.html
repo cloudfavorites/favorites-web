@@ -8,12 +8,12 @@
     <meta name="author" content=""></meta>
     <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"></link>
    	<title th:text="${title == null} ? 'favorites': ${title} " >(favorites)</title>
-   	<link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css"/>
-    <link rel="stylesheet" href="vendor/animate.css/animate.min.css"/>
-  	<link rel="stylesheet" href="media/css/bootstrap.css" />
-    <link rel="stylesheet" href="media/css/app.css" />
-    <link rel="stylesheet" href="media/css/theme-i.css" />
+   	<link rel="stylesheet" th:href="@{/vendor/fontawesome/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/animate.css/animate.min.css}"/>
+  	<link rel="stylesheet" th:href="@{/media/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/media/css/app.css}" />
+    <link rel="stylesheet" th:href="@{/media/css/theme-i.css}" />
   </head>
 
   <body>
@@ -27,8 +27,8 @@
     </div>
     <script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/3.3.6/dist/js/bootstrap.min.js}"></script>
-	<script src="vendor/modernizr/modernizr.custom.js"></script>
-	<script src="vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
-	<script src="media/js/app.js"></script>
+	<script th:src="@{/vendor/modernizr/modernizr.custom.js}" ></script>
+	<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
+	<script th:src="@{/media/js/app.js}" ></script>
   </body>
 </html>

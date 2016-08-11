@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
-import com.favorites.utils.Const;
+import com.favorites.comm.Const;
 
 public class SecurityFilter implements Filter {
 

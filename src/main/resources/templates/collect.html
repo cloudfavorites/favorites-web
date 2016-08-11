@@ -44,7 +44,7 @@
     	         type: "POST",
     	         url:"/user/collect",
     	         data:$("#collect-form").serialize(),
-    	         success: function(msg) { console.log(msg);location.href="/home";},
+    	         success: function(msg) { console.log(msg);location.href="/home/standard";},
     	         error: function (jqXHR, textStatus, errorThrown) {
     	        	 console.log(jqXHR.responseText);
     	        	 console.log(jqXHR.status);

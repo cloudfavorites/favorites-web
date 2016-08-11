@@ -6,6 +6,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.favorites.comm.Const;
+
 public class HtmlUtil {
 	
     private static Logger logger = Logger.getLogger(HtmlUtil.class);

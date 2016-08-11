@@ -1,4 +1,4 @@
-package com.favorites.utils;
+package com.favorites.comm;
 
 public class Const {
 	

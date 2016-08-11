@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.favorites.comm.Const;
 import com.favorites.domain.User;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
-import com.favorites.utils.Const;
 import com.favorites.utils.MD5Util;
 
 @Controller

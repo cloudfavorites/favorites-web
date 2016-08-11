@@ -17,8 +17,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.favorites.Application;
+import com.favorites.comm.Const;
 import com.favorites.comm.config.Config;
-import com.favorites.utils.Const;
 import com.favorites.utils.URLUtil;
 
 

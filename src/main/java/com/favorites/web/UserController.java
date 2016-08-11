@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
-import com.favorites.utils.Const;
 import com.favorites.utils.DateUtils;
 
 @RestController
@@ -72,8 +72,9 @@ public class UserController extends BaseController{
 	public Response login(Collect collect) {
 		logger.info("collect begin, param is "+collect);
 		try {
-			collect.setDescription(collect.getDescription());
 			collect.setUserId(getUserId());
+			collect.setFavoritesId(1l);
+			collect.setIsDelete("NO");
 			collect.setCreateTime(DateUtils.getCurrentTime());
 			collect.setLastModifyTime(DateUtils.getCurrentTime());
 			collectRepository.save(collect);

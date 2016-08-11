@@ -3,13 +3,13 @@
   <body>
       <section layout:fragment="content">
          <div class="content-wrapper">
-            <div class="row">
+            <div class="row" id="standard">
                <div class="col-lg-12 col-md-12 mt">
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-                     <label class="btn btn-xs btn-default active">
+                     <label class="btn btn-xs btn-default active" onclick="javascript:window.location.href='/home/standard'">
                         <span class="icon-layers"></span>
                      </label>
-                     <label class="btn btn-xs btn-default">
+                     <label class="btn btn-xs btn-default" onclick="javascript:window.location.href='/home/simple'">
                         <span class="icon-list"></span>
                      </label>
                   </div>
@@ -126,38 +126,9 @@
                     </ul>
                </div>
             </div>
-            <div class="row">
-               <div class="col-lg-12 col-md-12 mt">
-                  <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-                     <label class="btn btn-xs btn-default">
-                        <span class="icon-layers"></span>
-                     </label>
-                     <label class="btn btn-xs btn-default active">
-                        <span class="icon-list"></span>
-                     </label>
-                  </div>
-                  <table class="table">
-                     <tbody>
-                        <tr>
-                           <td>
-                              <a href="#" target="_blank" style="font-size:16px;color:#656565;">Bootstrap中文网</a>
-                           </td>
-                           <td width="10%" class="text-center">
-                              <img src="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png" width="35px" height="25px" alt=""/></td>
-                           <td width="15%" class="text-center">
-                              <div>
-                                 <a href="#" class="mr"> <i class="fa fa-pencil"></i>
-                                 </a>
-                                 <a href="#" class="ml"> <i class="fa fa-trash text-danger"></i>
-                                 </a>
-                              </div>
-                           </td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
-            </div>
          </div>
       </section>
   </body>
+  <script type='text/javascript'>
+  </script>
 </html>
