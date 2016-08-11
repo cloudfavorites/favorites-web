@@ -51,7 +51,7 @@ public class IndexController extends BaseController{
 		if(getUser()==null){
 			return "login";
 		}
-		model.addAttribute("webLogo", HtmlUtil.getImge(collect.getUrl()));
+		model.addAttribute("logoUrl", HtmlUtil.getImge(collect.getUrl()));
 		return "collect";
 	}
 }

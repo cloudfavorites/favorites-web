@@ -47,7 +47,7 @@ public class HtmlUtil {
 	
 	
 	public static void main(String[] args) {
-		System.out.println(getPageImg("http://ghelei312.iteye.com/blog/2257579"));
+		System.out.println(getPageImg("http://www.cnblogs.com/"));
 	}
 
 }

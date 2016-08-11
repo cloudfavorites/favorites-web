@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
+import com.favorites.utils.DateUtils;
 
 @Controller
 @RequestMapping("/")
@@ -34,10 +35,21 @@ public class HomeController extends BaseController{
 	    }else{
 	    	 collects=collectRepository.findAll(pageable);
 	    }
-		model.addAttribute("collects", collects);
+		model.addAttribute("collects", convertCollect(collects));
 		model.addAttribute("user", getUser());
 		logger.info("user info :"+getUser());
 		return "home";
 	}
+	
+	
+	
+	private Page<Collect> convertCollect(Page<Collect> collects){
+		for (Collect collect : collects) {
+			collect.setCollectTime(DateUtils.getTimeFormatText(collect.getLastModifyTime()));
+		}
+		return collects;
+	}
+	
+	
 	
 }

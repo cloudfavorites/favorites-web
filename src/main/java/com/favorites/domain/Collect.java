@@ -17,19 +17,28 @@ public class Collect extends Entitys implements Serializable {
 	@Column(nullable = false)
 	private Long userId;
 	@Column(nullable = false)
+	private Long favoritesId;
+	@Column(nullable = false)
 	private String url;
 	@Column(nullable = false)
 	private String title;
-	@Column(nullable = true)
-	private String webLogo;
 	@Column(nullable = true,length = 65535,columnDefinition="Text")
 	private String description;
 	@Column(nullable = true)
+	private String logoUrl;
+	@Column(nullable = true)
 	private String charset;
-	@Column(nullable = true,length = 65535,columnDefinition="Text")
+	@Column(nullable = true)
+	private String type;
+	@Column(nullable = true)
 	private String remark;
 	@Column(nullable = false)
-	private Long collectTime;
+	private String isDelete;
+	@Column(nullable = false)
+	private Long creteTime;
+	@Column(nullable = false)
+	private Long lastModifyTime;
+	private String collectTime;
 
 	public Collect() {
 		super();
@@ -39,72 +48,113 @@ public class Collect extends Entitys implements Serializable {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public Long getFavoritesId() {
+		return favoritesId;
 	}
 
 	public String getUrl() {
 		return url;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 	public String getTitle() {
 		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getWebLogo() {
-		return webLogo;
-	}
-
-	public void setWebLogo(String webLogo) {
-		this.webLogo = webLogo;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public String getLogoUrl() {
+		return logoUrl;
 	}
 
 	public String getCharset() {
 		return charset;
 	}
 
-	public void setCharset(String charset) {
-		this.charset = charset;
-	}
-
-	public Long getCollectTime() {
-		return collectTime;
-	}
-
-	public void setCollectTime(Long collectTime) {
-		this.collectTime = collectTime;
+	public String getType() {
+		return type;
 	}
 
 	public String getRemark() {
 		return remark;
 	}
 
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	public Long getCreteTime() {
+		return creteTime;
+	}
+
+	public Long getLastModifyTime() {
+		return lastModifyTime;
+	}
+
+	public String getCollectTime() {
+		return collectTime;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setFavoritesId(Long favoritesId) {
+		this.favoritesId = favoritesId;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public void setCreteTime(Long creteTime) {
+		this.creteTime = creteTime;
+	}
+
+	public void setLastModifyTime(Long lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
+	}
+
+	public void setCollectTime(String collectTime) {
+		this.collectTime = collectTime;
+	}
+
 
 }
