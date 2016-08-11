@@ -59,16 +59,11 @@ public class UserController extends BaseController{
 			user.setProfilePicture(Const.default_Profile);
 			user.setCreateTime(DateUtils.getCurrentTime());
 			user.setLastModifyTime(DateUtils.getCurrentTime());
+			user.setCreateTime(DateUtils.getCurrentTime());
+			user.setLastModifyTime(DateUtils.getCurrentTime());
 			userRepository.save(user);
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error("create user failed, ",e);
-			return result(ExceptionMsg.FAILED);
-		}
-		return result();
-	}
-	
-	
 	@RequestMapping(value="/collect",method=RequestMethod.POST)
 	public Response login(Collect collect) {
 		logger.info("collect begin, param is "+collect);

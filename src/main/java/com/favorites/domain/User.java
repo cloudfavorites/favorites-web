@@ -6,7 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/**
+ * 用户
+ * @author DingYS
+ *
+ */
 @Entity
 public class User extends Entitys implements Serializable {
 
@@ -20,10 +24,14 @@ public class User extends Entitys implements Serializable {
 	private String passWord;
 	@Column(nullable = false, unique = true)
 	private String email;	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = true)
 	private String profilePicture;
+	@Column(nullable = true,length = 65535,columnDefinition="Text")
+	private String introduction;
 	@Column(nullable = false)
-	private Long regTime;
+	private Long createTime;
+	@Column(nullable = false)
+	private Long lastModifyTime;
 
 	public User() {
 		super();
@@ -58,11 +66,23 @@ public class User extends Entitys implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Long getRegTime() {
-		return regTime;
+	public String getIntroduction() {
+		return introduction;
 	}
-	public void setRegTime(Long regTime) {
-		this.regTime = regTime;
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+	public Long getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+	public Long getLastModifyTime() {
+		return lastModifyTime;
+	}
+	public void setLastModifyTime(Long lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
 	}
 	public String getProfilePicture() {
 		return profilePicture;

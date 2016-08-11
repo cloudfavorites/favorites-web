@@ -87,7 +87,8 @@ public class SecurityFilter implements Filter {
      */
     private boolean containsKey(String url) {
         if (url.contains("/media/")
-                || url.contains("/login")) {
+                || url.contains("/login")||url.contains("/user/login")
+                || url.contains("/register")||url.contains("/user/regist")) {
             return true;
         } else {
             return false;
