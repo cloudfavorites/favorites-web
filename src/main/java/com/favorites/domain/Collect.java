@@ -79,6 +79,14 @@ public class Collect extends Entitys implements Serializable {
 		this.logoUrl = logoUrl;
 	}
 
+	public String getCharset() {
+		return charset;
+	}
+
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
+
 	public String getType() {
 		return type;
 	}
