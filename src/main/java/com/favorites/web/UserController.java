@@ -56,21 +56,25 @@ public class UserController extends BaseController{
 				return result(ExceptionMsg.UserNameUsed);
 			}
 			user.setPassWord(getPwd(user.getPassWord()));
-			user.setProfilePicture(Const.default_Profile);
-			user.setCreateTime(DateUtils.getCurrentTime());
-			user.setLastModifyTime(DateUtils.getCurrentTime());
 			user.setCreateTime(DateUtils.getCurrentTime());
 			user.setLastModifyTime(DateUtils.getCurrentTime());
 			userRepository.save(user);
 		} catch (Exception e) {
 			// TODO: handle exception
+			logger.error("create user failed, ",e);
+			return result(ExceptionMsg.FAILED);
+		}
+		return result();
+	}
+	
+	
 	@RequestMapping(value="/collect",method=RequestMethod.POST)
 	public Response login(Collect collect) {
 		logger.info("collect begin, param is "+collect);
 		try {
+			collect.setDescription(collect.getDescription());
 			collect.setUserId(getUserId());
-			collect.setFavoritesId(1l);
-			collect.setCreteTime(DateUtils.getCurrentTime());
+			collect.setCreateTime(DateUtils.getCurrentTime());
 			collect.setLastModifyTime(DateUtils.getCurrentTime());
 			collectRepository.save(collect);
 		} catch (Exception e) {
