@@ -56,7 +56,8 @@ public class UserController extends BaseController{
 				return result(ExceptionMsg.UserNameUsed);
 			}
 			user.setPassWord(getPwd(user.getPassWord()));
-			user.setRegTime(DateUtils.getCurrentTime());
+			user.setCreateTime(DateUtils.getCurrentTime());
+			user.setLastModifyTime(DateUtils.getCurrentTime());
 			userRepository.save(user);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -73,7 +74,8 @@ public class UserController extends BaseController{
 		try {
 			collect.setDescription(collect.getDescription());
 			collect.setUserId(getUserId());
-			collect.setCollectTime(DateUtils.getCurrentTime());
+			collect.setCreateTime(DateUtils.getCurrentTime());
+			collect.setLastModifyTime(DateUtils.getCurrentTime());
 			collectRepository.save(collect);
 		} catch (Exception e) {
 			// TODO: handle exception

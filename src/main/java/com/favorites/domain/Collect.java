@@ -6,7 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/**
+ * 收藏（文章）
+ * @author DingYS
+ *
+ */
 @Entity
 public class Collect extends Entitys implements Serializable {
 
@@ -17,19 +21,27 @@ public class Collect extends Entitys implements Serializable {
 	@Column(nullable = false)
 	private Long userId;
 	@Column(nullable = false)
-	private String url;
+	private String favoritesId;
 	@Column(nullable = false)
 	private String title;
-	@Column(nullable = true)
-	private String webLogo;
-	@Column(nullable = true,length = 65535,columnDefinition="Text")
-	private String description;
+	@Column(nullable = false)
+	private String url;
 	@Column(nullable = true)
 	private String charset;
-	@Column(nullable = true,length = 65535,columnDefinition="Text")
+	@Column(nullable = true, length = 65535, columnDefinition = "Text")
+	private String description;
+	@Column(nullable = true)
+	private String logoUrl;
+	@Column(nullable = false)
+	private String type;
+	@Column(nullable = true, length = 65535, columnDefinition = "Text")
 	private String remark;
 	@Column(nullable = false)
-	private Long collectTime;
+	private String isDelete;
+	@Column(nullable = false)
+	private Long createTime;
+	@Column(nullable = false)
+	private Long lastModifyTime;
 
 	public Collect() {
 		super();
@@ -51,6 +63,54 @@ public class Collect extends Entitys implements Serializable {
 		this.userId = userId;
 	}
 
+	public String getFavoritesId() {
+		return favoritesId;
+	}
+
+	public void setFavoritesId(String favoritesId) {
+		this.favoritesId = favoritesId;
+	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public Long getLastModifyTime() {
+		return lastModifyTime;
+	}
+
+	public void setLastModifyTime(Long lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
+	}
+
 	public String getUrl() {
 		return url;
 	}
@@ -67,36 +127,12 @@ public class Collect extends Entitys implements Serializable {
 		this.title = title;
 	}
 
-	public String getWebLogo() {
-		return webLogo;
-	}
-
-	public void setWebLogo(String webLogo) {
-		this.webLogo = webLogo;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getCharset() {
-		return charset;
-	}
-
-	public void setCharset(String charset) {
-		this.charset = charset;
-	}
-
-	public Long getCollectTime() {
-		return collectTime;
-	}
-
-	public void setCollectTime(Long collectTime) {
-		this.collectTime = collectTime;
 	}
 
 	public String getRemark() {
