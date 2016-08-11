@@ -15,7 +15,7 @@
                   </div>
                   <ul class="timeline-alt">
                      <li th:each="collect,collectStat : ${collects}" >
-                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" style="background-image:url('img/dummy.png');"></a>
+                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background:url(' + @{(${collect.webLogo}=='' ? 'img/favicon.png' : ${collect.webLogo})} + ')'" ></a>
                         <div class="timeline-panel">
                            <div class="popover right">
                               <div class="arrow"></div>
@@ -71,7 +71,6 @@
                                        </div>
                                     </div>
                                  </div>
-                                 <div class="m0">分享资源分享资源分享资源分享资源分享资源</div>
                                  <div class="media resource-card-thumbnail">
                                     <a href="#" class="pull-left" target="_blank">
                                        <div class="media-object resource-card-image"  th:style="'background:url(' + @{(${collect.webLogo}=='' ? 'img/favicon.png' : ${collect.webLogo})} + ')'" ></div>

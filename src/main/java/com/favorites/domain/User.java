@@ -20,6 +20,8 @@ public class User extends Entitys implements Serializable {
 	private String passWord;
 	@Column(nullable = false, unique = true)
 	private String email;	
+	@Column(nullable = false, unique = true)
+	private String profilePicture;
 	@Column(nullable = false)
 	private Long regTime;
 
@@ -61,6 +63,12 @@ public class User extends Entitys implements Serializable {
 	}
 	public void setRegTime(Long regTime) {
 		this.regTime = regTime;
+	}
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 
 }

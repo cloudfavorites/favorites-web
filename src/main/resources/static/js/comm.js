@@ -25,7 +25,7 @@ function replaceEmpty(str) {
 }
 
 function isEmpty(str) {
-	if(str=="undefined" || str==null || string.length == 0) {
+	if(str=="undefined" || str==null || str.length == 0) {
 		return true;
 	}
 	return false;

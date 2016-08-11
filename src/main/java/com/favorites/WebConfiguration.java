@@ -4,7 +4,7 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.favorites.comm.filter.MyFilter;
+import com.favorites.comm.filter.SecurityFilter;
 
 @Configuration
 public class WebConfiguration {
@@ -13,7 +13,7 @@ public class WebConfiguration {
     public FilterRegistrationBean filterRegistration() {
 
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new MyFilter());
+        registration.setFilter(new SecurityFilter());
         registration.addUrlPatterns("/*");
         registration.addInitParameter("paramName", "paramValue");
         registration.setName("MyFilter");

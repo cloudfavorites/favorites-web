@@ -14,8 +14,11 @@ public class HTMLParserExample2 {
 	try {
 
 		//get all images
-		doc = Jsoup.connect("http://yahoo.com").get();
+		doc = Jsoup.connect("http://ghelei312.iteye.com/blog/2257579").get();
 		Elements images = doc.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
+		
+		String xxx=images.first().attr("src");
+		System.out.println("XXXXXX*="+xxx);
 		for (Element image : images) {
 
 			System.out.println("\nsrc : " + image.attr("src"));
