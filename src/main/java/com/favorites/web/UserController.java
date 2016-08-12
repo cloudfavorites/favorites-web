@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
+import com.favorites.domain.Favorites;
+import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -25,6 +28,8 @@ public class UserController extends BaseController{
 	private UserRepository userRepository;
 	@Autowired
 	private CollectRepository collectRepository;
+	@Autowired
+	private FavoritesRepository favoritesRepository;
  
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public Response login(User user) {
@@ -59,6 +64,13 @@ public class UserController extends BaseController{
 			user.setCreateTime(DateUtils.getCurrentTime());
 			user.setLastModifyTime(DateUtils.getCurrentTime());
 			userRepository.save(user);
+			Favorites favorites = new Favorites();
+			favorites.setName("未读列表");
+			favorites.setUserId(user.getId());
+			favorites.setCreateTime(DateUtils.getCurrentTime());
+			favorites.setLastModifyTime(DateUtils.getCurrentTime());
+			favoritesRepository.save(favorites);
+			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("create user failed, ",e);
@@ -73,10 +85,24 @@ public class UserController extends BaseController{
 		logger.info("collect begin, param is "+collect);
 		try {
 			collect.setUserId(getUserId());
-			collect.setFavoritesId(1l);
-			collect.setIsDelete("NO");
 			collect.setCreateTime(DateUtils.getCurrentTime());
 			collect.setLastModifyTime(DateUtils.getCurrentTime());
+			collect.setIsDelete("no");
+			if(StringUtils.isNotBlank(collect.getNewFavorites())){
+				Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), collect.getNewFavorites());
+				if(null == favorites){
+					favorites = new Favorites();
+					favorites.setName(collect.getNewFavorites());
+					favorites.setUserId(getUserId());
+					favorites.setCreateTime(DateUtils.getCurrentTime());
+					favorites.setLastModifyTime(DateUtils.getCurrentTime());
+					favoritesRepository.save(favorites);
+				}
+				collect.setFavoritesId(favorites.getId());
+			}
+			if(StringUtils.isBlank(collect.getType())){
+				collect.setType("public");
+			}
 			collectRepository.save(collect);
 		} catch (Exception e) {
 			// TODO: handle exception

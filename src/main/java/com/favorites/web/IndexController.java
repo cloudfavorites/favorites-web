@@ -2,19 +2,26 @@ package com.favorites.web;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.favorites.domain.Collect;
+import com.favorites.domain.Favorites;
+import com.favorites.domain.FavoritesRepository;
 import com.favorites.utils.HtmlUtil;
 
 @Controller
 @RequestMapping("/")
 public class IndexController extends BaseController{
+	
+	@Autowired
+	private FavoritesRepository favoritesRepository;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String hello(Locale locale, Model model) {
@@ -51,7 +58,10 @@ public class IndexController extends BaseController{
 		if(getUser()==null){
 			return "login";
 		}
+		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
+		logger.info("logoUrl:" + HtmlUtil.getImge(collect.getUrl()));
 		model.addAttribute("logoUrl", HtmlUtil.getImge(collect.getUrl()));
+		model.addAttribute("favoritesList",favoritesList);
 		return "collect";
 	}
 }
