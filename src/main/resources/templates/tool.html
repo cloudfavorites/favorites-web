@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+  <head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+  <body>
+      <section layout:fragment="content">
+        <div class="content-wrapper">
+            <h3>网页收集工具</h3>
+	        <span>网页收集小工具</span>
+	           <a href="javascript:(function()%7Bvar%20description;var%20desString=%22%22;var%20metas=document.getElementsByTagName('meta');for(var%20x=0,y=metas.length;x%3Cy;x++)%7Bif(metas%5Bx%5D.name.toLowerCase()==%22description%22)%7Bdescription=metas%5Bx%5D;%7D%7Dif(description)%7BdesString=%22&amp;description=%22+encodeURIComponent(description.content);%7Dvar%20win=window.open(%22http://192.168.111.166:8080/collect?from=webtool&amp;url=%22+encodeURIComponent(document.URL)+desString+%22&amp;title=%22+encodeURIComponent(document.title)+%22&amp;charset=%22+document.charset,'_blank');win.focus();%7D)();" ng-href="javascript:(function()%7Bvar%20description;var%20desString=%22%22;var%20metas=document.getElementsByTagName('meta');for(var%20x=0,y=metas.length;x%3Cy;x++)%7Bif(metas%5Bx%5D.name.toLowerCase()==%22description%22)%7Bdescription=metas%5Bx%5D;%7D%7Dif(description)%7BdesString=%22&amp;description=%22+encodeURIComponent(description.content);%7Dvar%20win=window.open(%22http://192.168.111.166:8080/collect?from=webtool&amp;url=%22+encodeURIComponent(document.URL)+desString+%22&amp;title=%22+encodeURIComponent(document.title)+%22&amp;charset=%22+document.charset,'_blank');win.focus();%7D)();" onclick="alert('请把这个按钮拖到您的浏览器书签栏'); return false;" class="btn btn-success">收藏</a>
+	        <span>(将该按钮拖动至浏览器书签栏,如下图)</span>
+         </div>
+         <div class="text-center">
+	       <img th:src="@{/img/useTool.gif}"  alt=""/>
+	      </div>
+      </section>
+  </body>
+  <script type='text/javascript'>
+ </script>
+</html>
