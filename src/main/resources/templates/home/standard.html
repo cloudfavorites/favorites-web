@@ -6,16 +6,16 @@
             <div class="row" id="standard">
                <div class="col-lg-12 col-md-12 mt">
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-                     <label class="btn btn-xs btn-default active" onclick="javascript:window.location.href='/home/standard'">
+                     <a class="btn btn-xs btn-default active"  th:href="@{/standard/{type}(type=${type})}">
                         <span class="icon-layers"></span>
-                     </label>
-                     <label class="btn btn-xs btn-default" onclick="javascript:window.location.href='/home/simple'">
+                     </a>
+                     <a class="btn btn-xs btn-default"  th:href="@{/simple/{type}(type=${type})}">
                         <span class="icon-list"></span>
-                     </label>
+                     </a>
                   </div>
                   <ul class="timeline-alt">
                      <li th:each="collect,collectStat : ${collects}" >
-                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></a>
+                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></a>
                         <div class="timeline-panel">
                            <div class="popover right">
                               <div class="arrow"></div>
@@ -72,8 +72,8 @@
                                     </div>
                                  </div>
                                  <div class="media resource-card-thumbnail">
-                                    <a href="#" class="pull-left" target="_blank">
-                                       <div class="media-object resource-card-image"  th:style="'background:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+                                    <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
+                                       <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
                                     </a>
                                     <div class="media-body">
                                        <h4 class="visible-xs media-heading resource-card-title-xs">

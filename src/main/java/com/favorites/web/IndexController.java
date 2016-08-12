@@ -1,9 +1,6 @@
 package com.favorites.web;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,23 +25,8 @@ public class IndexController extends BaseController{
 	private ConfigRepository configRepository;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
-	public String hello(Locale locale, Model model) {
-		model.addAttribute("greeting", "Hello  neo!");
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);        
-		String formattedDate = dateFormat.format(date);
-		model.addAttribute("currentTime", formattedDate);
-		return "hello";
-	}
-	
-	@RequestMapping(value="/about",method=RequestMethod.GET)
-	public String about() {
-		return "about";
-	}
-	
-	@RequestMapping(value="/contact",method=RequestMethod.GET)
-	public String contact() {
-		return "contact";
+	public String index() {
+		return "tool";
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)
@@ -57,11 +39,23 @@ public class IndexController extends BaseController{
 		return "register";
 	}
 	
+	@RequestMapping(value="/tool",method=RequestMethod.GET)
+	public String tool() {
+		return "tool";
+	}
+	
+	@RequestMapping(value="/mobile",method=RequestMethod.GET)
+	public String mobile() {
+		return "mobile";
+	}
+	
+	@RequestMapping(value="/import",method=RequestMethod.GET)
+	public String importm() {
+		return "import";
+	}
+	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
 	public String collect(Model model,Collect collect) {
-		if(getUser()==null){
-			return "login";
-		}
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
 		Config config = configRepository.findByUserId(getUserId());
 		logger.info("model：" + config.getDefaultModel());
@@ -71,4 +65,6 @@ public class IndexController extends BaseController{
 		model.addAttribute("configObj", config);
 		return "collect";
 	}
+	
+
 }
