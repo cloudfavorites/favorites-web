@@ -58,18 +58,15 @@
                      </a>
                   </div>
                   <label style="font-weight:normal;margin-bottom:0;">
-                     <input type="checkbox" name="type" class="mb" value="private"/> 私密收藏</label>
+                     <input id="type" type="checkbox" name="type" class="mb" value="private" /> 私密收藏</label>
                <p class="pt-lg text-center">选择一个收藏夹</p>
                <select  name="favoritesId" id="favoritesId" class="mb form-control">
-                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"></option>
+                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}" th:attr="selected=(${configObj.defaultFavorties} == *{favorites.id}) ? 'selected' : 'none'" ></option>
                </select>
                <p class="text-center">或者</p>
                <input type="text" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
                <button id="collect" class="mt-lg btn btn-primary btn-block">提交</button>
                <input type="hidden" name="url" id="url" value=""/>
-               <!-- <input type="hidden" name="title" id="title" value=""/> -->
-               <!-- <input type="hidden" name="description" value="" id="description"/> -->
-               <!-- <input type="hidden" name="logoUrl" th:value="${logoUrl}"/> -->
                <input type="hidden" name="charset" id="charset" value=""/>
                </form>
             </div>
@@ -107,8 +104,9 @@
    <script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>
    <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script> 
    <script th:src="@{/js/comm.js}"></script> 
-   <script type='text/javascript'>
+   <script type='text/javascript' th:inline="javascript">
    	$(function(){
+   		var config = /*[[${configObj}]]*/;
    		var request = new UrlSearch();
    		$("#titleShow").html(decodeURI(request.title));
    		$("#title").val(decodeURI(request.title));
@@ -116,7 +114,20 @@
    		$("#logoA").attr("href",decodeURIComponent(request.url));
    		$("#description").val(replaceEmpty(decodeURI(request.description)));
    		$("#charset").val(request.charset);
-   		
+   		if("private"== config.defaultCollectType){
+   			$("#type").attr("checked","checked");
+   		}
+   		if("simple" == config.defaultModel){
+   			$("#show2").hide();
+   			$("#show1").show();
+   			$("#model2").hide();
+   			$("#model1").show();
+   		}else{
+   			$("#show1").hide();
+   			$("#show2").show();
+   			$("#model1").hide();
+   			$("#model2").show();
+   		}
    		$("#changeModel1").click(function(){
    			$("#show1").hide();
    			$("#show2").show();

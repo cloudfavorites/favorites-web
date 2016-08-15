@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
+import com.favorites.domain.Config;
+import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.User;
@@ -30,6 +32,8 @@ public class UserController extends BaseController{
 	private CollectRepository collectRepository;
 	@Autowired
 	private FavoritesRepository favoritesRepository;
+	@Autowired
+	private ConfigRepository configRepository;
  
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public Response login(User user) {
@@ -64,12 +68,22 @@ public class UserController extends BaseController{
 			user.setCreateTime(DateUtils.getCurrentTime());
 			user.setLastModifyTime(DateUtils.getCurrentTime());
 			userRepository.save(user);
+			// 添加默认收藏夹
 			Favorites favorites = new Favorites();
 			favorites.setName("未读列表");
 			favorites.setUserId(user.getId());
 			favorites.setCreateTime(DateUtils.getCurrentTime());
 			favorites.setLastModifyTime(DateUtils.getCurrentTime());
 			favoritesRepository.save(favorites);
+			// 添加默认属性设置
+			Config config = new Config();
+			config.setUserId(user.getId());
+			config.setDefaultModel("simple");
+			config.setDefaultFavorties(String.valueOf(favorites.getId()));
+			config.setDefaultCollectType("public");
+			config.setCreateTime(DateUtils.getCurrentTime());
+			config.setLastModifyTime(DateUtils.getCurrentTime());
+			configRepository.save(config);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 		} catch (Exception e) {
 			// TODO: handle exception
