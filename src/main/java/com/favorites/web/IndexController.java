@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
@@ -71,5 +72,10 @@ public class IndexController extends BaseController{
 		return "collect";
 	}
 	
+	@RequestMapping(value="/logout",method=RequestMethod.GET)
+	public String logout() {
+		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
+		return "login";
+	}
 
 }
