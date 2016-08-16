@@ -16,7 +16,7 @@
     <link rel="stylesheet" th:href="@{/media/css/theme-i.css}" />
   </head>
 
-  <body>
+  <body class="layout-fixed">
     <div th:fragment="navbar"  class="wrapper"  role="navigation">
 		<div th:replace="fragments/header :: header">Header</div>
 		<div th:replace="fragments/left :: left">left</div>
@@ -31,5 +31,17 @@
 	<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
 	<script th:src="@{/media/js/app.js}" ></script>
 	<script th:src="@{/js/layout.js}" ></script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	    var size = /*[[${size}]]*/ 0;
+	    if(size!=null && size>0){
+	    	locationUrl('/standard/my','home');
+		  }else{
+			  locationUrl('/tool','tool');
+		  }
+	/*]]>*/
+	
+	
+	</script>
   </body>
 </html>

@@ -3,6 +3,8 @@ package com.favorites.domain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 public interface CollectRepository extends JpaRepository<Collect, Long> {
 
@@ -10,7 +12,13 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	
 	Page<Collect> findByUserId(Long userId,Pageable pageable);
 	
+	Long countByUserId(Long userId);
+	 
 	Page<Collect> findByFavoritesId(Long favoritesId,Pageable pageable);
+	
+	@Modifying
+	@Query("update Collect c set c.type = ?1 where c.id = ?2")
+	int modifyById(String type, long id);
 
 
 }

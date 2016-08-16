@@ -761,7 +761,8 @@ body
     .layout-fixed.aside-toggled,
     .layout-fixed.offsidebar-open
     {
-        overflow-y: hidden;
+        overflow: hidden;
+        overflow-y: auto;
     }
 }
 .layout-fixed .wrapper
@@ -1878,12 +1879,14 @@ _:-ms-lang(x),
     z-index: 116;
 
     overflow: hidden;
+    overflow-y: auto;
 }
 @media only screen and (min-width: 768px)
 {
     .offsidebar-open
     {
         overflow: hidden;
+        overflow-y: auto;
     }
 }
 .offsidebar
@@ -1899,10 +1902,10 @@ _:-ms-lang(x),
 {
     right: 0;
 
-    -webkit-transition: -webkit-transform .3s ease, z-index 0s linear .3s;
+    /* -webkit-transition: -webkit-transform .3s ease, z-index 0s linear .3s;
        -moz-transition:    -moz-transform .3s ease, z-index 0s linear .3s;
          -o-transition:      -o-transform .3s ease, z-index 0s linear .3s;
-            transition:         transform .3s ease, z-index 0s linear .3s;
+            transition:         transform .3s ease, z-index 0s linear .3s; */
     -webkit-transform: translate3d(235px, 0, 0);
             transform: translate3d(235px, 0, 0);
 }
