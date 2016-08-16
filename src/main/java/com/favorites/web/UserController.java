@@ -45,7 +45,7 @@ public class UserController extends BaseController{
 	public Response login(User user) {
 		logger.info("login begin, param is "+user);
 		try {
-			User loginUser=userRepository.findByUserNameOrEmail(user.getUserName(), user.getEmail());
+			User loginUser=userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if(loginUser==null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return result(ExceptionMsg.LoginNameOrPassWordError);
 			}
