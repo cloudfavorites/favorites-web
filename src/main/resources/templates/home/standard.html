@@ -6,10 +6,10 @@
             <div class="row" id="standard">
                <div class="col-lg-12 col-md-12 mt">
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-                     <a class="btn btn-xs btn-default active"  th:href="@{/standard/{type}(type=${type})}">
+                     <a class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '\',\'\');'">
                         <span class="icon-layers"></span>
                      </a>
-                     <a class="btn btn-xs btn-default"  th:href="@{/simple/{type}(type=${type})}">
+ 	                 <a class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '\',\'\');'" >
                         <span class="icon-list"></span>
                      </a>
                   </div>
