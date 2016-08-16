@@ -38,7 +38,8 @@
 					},
 					success: function(response){
 						if(response.rspCode == '000000'){
-							loadFavorites();
+							 loadFavorites();
+							 $("#errorMsg").hide();
           	    	 	}else{
           	    		  $("#errorMsg").html("<li>" + response.rspMsg + "</li>");
           	    		  $("#errorMsg").show();

@@ -19,6 +19,12 @@ function loadFavorites(){
 			console.log(errorThrown);
 		},
 		success: function(favorites){
+			$("#unread").html("");
+			$("#favorites > li").each(function(i){ 
+				if(i != 0 && i != 1){
+					$(this).remove();
+				}
+			});
 			initDatas(favorites);
 		}
 	});
