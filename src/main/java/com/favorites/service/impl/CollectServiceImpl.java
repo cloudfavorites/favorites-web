@@ -25,10 +25,10 @@ public class CollectServiceImpl implements CollectService{
 	    Page<Collect> collects=null;
 	    if("my".equals(type)){
 	    	 collects=collectRepository.findByUserId(userId,pageable);
-	    }else if("unread".equals(type)){
-	    	 collects=collectRepository.findByFavoritesId(1l, pageable);
 	    }else if("explore".equals(type)){
 	    	 collects=collectRepository.findAll(pageable);
+	    }else{
+	    	 collects=collectRepository.findByFavoritesId(Long.parseLong(type), pageable);
 	    }
 		return convertCollect(collects);
 	}

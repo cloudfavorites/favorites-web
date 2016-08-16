@@ -21,7 +21,7 @@
 		<div th:replace="fragments/header :: header">Header</div>
 		<div th:replace="fragments/left :: left">left</div>
 		<div th:replace="fragments/sidebar :: sidebar">sidebar</div>
-		<div layout:fragment="content"></div>
+		<div layout:fragment="content" id="content" ></div>
 		<div th:replace="fragments/footer :: footer">footer</div>
 		<div th:replace="fragments/alert :: alert">alert</div>
     </div>
@@ -30,5 +30,6 @@
 	<script th:src="@{/vendor/modernizr/modernizr.custom.js}" ></script>
 	<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
 	<script th:src="@{/media/js/app.js}" ></script>
+	<script th:src="@{/js/layout.js}" ></script>
   </body>
 </html>

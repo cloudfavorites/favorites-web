@@ -151,6 +151,19 @@ public class UserController extends BaseController{
 		return result();
 	}
 	
+	@RequestMapping(value="/getFavorites",method=RequestMethod.POST)
+	public List<Favorites> getFavorites() {
+		logger.info("getFavorites begin");
+		List<Favorites> favorites=null;
+		try {
+			favorites=favoritesRepository.findByUserId(getUserId());
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("getFavorites failed, ",e);
+		}
+		logger.info("getFavorites end favorites =="+favorites);
+		return favorites;
+	}
 	@RequestMapping("/uid")
     String uid(HttpSession session) {
         UUID uid = (UUID) session.getAttribute("uid");
