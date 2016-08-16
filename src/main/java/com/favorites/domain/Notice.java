@@ -26,7 +26,7 @@ public class Notice extends Entitys implements Serializable {
 	private String collectId;
 	@Column(nullable = false)
 	private String type;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String operId;
 	@Column(nullable = false)
 	private String readed;

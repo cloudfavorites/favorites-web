@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
 
 /**
  * 关注
@@ -25,7 +27,13 @@ public class Follow extends Entitys implements Serializable {
 	@Column(nullable = false)
 	private String followId;
 	@Column(nullable = false)
+	private String status;
+	@Column(nullable = false)
 	private Long createTime;
+	@Column(nullable = false)
+	private Long lastModifyTime;
+	@Transient
+	private String name;
 
 	public Follow() {
 		super();
@@ -62,5 +70,30 @@ public class Follow extends Entitys implements Serializable {
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Long getLastModifyTime() {
+		return lastModifyTime;
+	}
+
+	public void setLastModifyTime(Long lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 }

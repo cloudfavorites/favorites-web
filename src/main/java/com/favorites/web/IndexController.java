@@ -13,6 +13,7 @@ import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.FollowRepository;
 import com.favorites.utils.HtmlUtil;
 
 @Controller
@@ -23,6 +24,8 @@ public class IndexController extends BaseController{
 	private FavoritesRepository favoritesRepository;
 	@Autowired
 	private ConfigRepository configRepository;
+	@Autowired
+	private FollowRepository followRepository;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String index() {
@@ -58,11 +61,13 @@ public class IndexController extends BaseController{
 	public String collect(Model model,Collect collect) {
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
 		Config config = configRepository.findByUserId(getUserId());
+		List<String> followList = followRepository.findByUserId(getUserId());
 		logger.info("model：" + config.getDefaultModel());
 		logger.info("logoUrl:" + HtmlUtil.getImge(collect.getUrl()));
 		model.addAttribute("logoUrl", HtmlUtil.getImge(collect.getUrl()));
 		model.addAttribute("favoritesList",favoritesList);
 		model.addAttribute("configObj", config);
+		model.addAttribute("followList",followList);
 		return "collect";
 	}
 	

@@ -1,5 +1,6 @@
 package com.favorites.web;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -17,11 +18,14 @@ import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.Notice;
+import com.favorites.domain.NoticeRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.utils.DateUtils;
+import com.favorites.utils.StringUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -34,6 +38,8 @@ public class UserController extends BaseController{
 	private FavoritesRepository favoritesRepository;
 	@Autowired
 	private ConfigRepository configRepository;
+	@Autowired
+	private NoticeRepository noticeRepository;
  
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public Response login(User user) {
@@ -118,6 +124,25 @@ public class UserController extends BaseController{
 				collect.setType("public");
 			}
 			collectRepository.save(collect);
+			if(StringUtils.isNotBlank(collect.getRemark()) && collect.getRemark().indexOf("@") > -1){
+				List<String> atUsers = StringUtil.getAtUser(collect.getRemark());
+				for(String str : atUsers){
+					logger.info("用户名：" + str);
+					User user = userRepository.findByUserName(str);
+					if(null != user){
+						// 保存消息通知
+						Notice notice = new Notice();
+						notice.setCollectId(String.valueOf(collect.getId()));
+						notice.setReaded("unread");
+						notice.setType("at");
+						notice.setUserId(user.getId());
+						notice.setCreateTime(DateUtils.getCurrentTime());
+						noticeRepository.save(notice);
+					}else{
+						logger.info("为找到匹配：" + str + "的用户.");
+					}
+ 				}
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("collect failed, ",e);
@@ -135,4 +160,5 @@ public class UserController extends BaseController{
         session.setAttribute("uid", uid);
         return session.getId();
     }
+
 }

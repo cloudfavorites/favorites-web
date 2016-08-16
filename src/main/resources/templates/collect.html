@@ -53,9 +53,14 @@
                      <textarea name="remark" id="remark" class="form-control" cols="30" rows="2" placeholder="请输入收藏备注，也可以在这里@好友"></textarea>
                   </div>
                   <div class="pull-right dropdown dropdown-list">
-                     <a href="#" data-toggle="dropdown">
+                     <a href="javascript:void(0)" id="atshow" data-toggle="dropdown">
                         at好友 <i class="fa fa-caret-down"></i>
                      </a>
+                     <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0)" th:each="name : ${followList}" th:onclick="'javascript:showAt(\''+${name}+'\');'" th:text="${name}">好友名称</a>
+                        </li>
+                     </ul>
                   </div>
                   <label style="font-weight:normal;margin-bottom:0;">
                      <input id="type" type="checkbox" name="type" class="mb" value="private" /> 私密收藏</label>
@@ -107,6 +112,7 @@
    <script type='text/javascript' th:inline="javascript">
    	$(function(){
    		var config = /*[[${configObj}]]*/;
+   		var followList = /*[[${followList}]]*/;
    		var request = new UrlSearch();
    		$("#titleShow").html(decodeURI(request.title));
    		$("#title").val(decodeURI(request.title));
@@ -142,6 +148,22 @@
    			$("#model1").show();
    		});
    		
+   		$("#atshow").click(function(){
+   			if(followList.length > 0){
+   				$(".dropdown-menu").show();
+   			}
+   		});
+   	    $(document).bind('click', function() {  
+   	    	$(".dropdown-menu").hide();
+   	    });  
+   	    $('#atshow').bind('click', function(e) {  
+   	    	if(e.stopPropagation){ 
+   	            e.stopPropagation();
+   	    	}else{ 
+   	           e.cancelBubble = true;
+   	     	} 
+   	    }); 
+   		
    		$("#collect").click(function(){
    	  	  $.ajax({
    	  	         type: "POST",
@@ -149,7 +171,7 @@
    	  	         data:$("#collect-form").serialize(),
    	  	         success: function(msg) { 
    	  	        	 console.log(msg);
-   	  	        	 location.href="/home/standard";
+   	  	        	 location.href="/standard/my";
    	  	         },
    	  	         error: function (jqXHR, textStatus, errorThrown) {
    	  	        	 console.log(jqXHR.responseText);
@@ -162,6 +184,10 @@
    	  	     });
    		});
    	});
+   	function showAt(name){
+   		var text = $("#remark").val();
+   		$("#remark").val(text + "@" +name + " ").focus();
+   	}
    </script>  
 </body>
 </html>
