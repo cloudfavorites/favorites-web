@@ -78,6 +78,7 @@ public class UserController extends BaseController{
 			Favorites favorites = new Favorites();
 			favorites.setName("未读列表");
 			favorites.setUserId(user.getId());
+			favorites.setCount(0l);
 			favorites.setCreateTime(DateUtils.getCurrentTime());
 			favorites.setLastModifyTime(DateUtils.getCurrentTime());
 			favoritesRepository.save(favorites);
@@ -114,11 +115,16 @@ public class UserController extends BaseController{
 					favorites = new Favorites();
 					favorites.setName(collect.getNewFavorites());
 					favorites.setUserId(getUserId());
+					favorites.setCount(1l);
 					favorites.setCreateTime(DateUtils.getCurrentTime());
 					favorites.setLastModifyTime(DateUtils.getCurrentTime());
 					favoritesRepository.save(favorites);
+				}else{
+					favoritesRepository.updateCountById(favorites.getId(), DateUtils.getCurrentTime());
 				}
 				collect.setFavoritesId(favorites.getId());
+			}else{
+				favoritesRepository.updateCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 			}
 			if(StringUtils.isBlank(collect.getType())){
 				collect.setType("public");

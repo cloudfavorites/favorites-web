@@ -57,6 +57,11 @@ public class IndexController extends BaseController{
 		return "import";
 	}
 	
+	@RequestMapping(value="/newFavorites")
+	public String newFavorites(){
+		return "newfavorites";
+	}
+	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
 	public String collect(Model model,Collect collect) {
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
