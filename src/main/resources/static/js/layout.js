@@ -1,5 +1,5 @@
 /*---LEFT BAR ACCORDION----*/
-var mainActiveId;
+var mainActiveId='home';
 var firstUrl = null;//第一个页面
 var secondUrl = null;//第二个页面
 var flag = 1;
@@ -32,7 +32,9 @@ function initDatas(favorites){
 		var url ='/standard/'+ id;
 		if(name=="未读列表"){
 			var favorite="<a href=\"javascript:void(0);\" onclick=\"locationUrl('"+url+"','unread')\" title="+name+" >";
-			favorite=favorite+"<div class=\"label label-success pull-right\">"+count+"</div>";
+			if(count > 0){
+				favorite=favorite+"<div class=\"label label-success pull-right\">"+count+"</div>";
+			}
 			favorite=favorite+"<em class=\"icon-paper-clip\"></em>";
 			favorite=favorite+"<span>"+name+"</span>";
 			favorite=favorite+"</a>";
@@ -40,7 +42,9 @@ function initDatas(favorites){
 		}else{
 			var favorite="<li id="+id+">";
 			favorite=favorite+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('"+url+"','"+id+"')\" title="+name+" >";
-			favorite=favorite+"<div class=\"text-muted mr pull-right\">"+count+"</div>";
+			if(count>0){
+				favorite=favorite+"<div class=\"text-muted mr pull-right\">"+count+"</div>";
+			}
 			favorite=favorite+"<span>"+name+"</span>";
 			favorite=favorite+"</a></li>";
 			$("#newFavortes").after(favorite)
@@ -50,29 +54,9 @@ function initDatas(favorites){
 
 
 function locationUrl(url,activeId){
-	if(mainActiveId != null && mainActiveId != ""){
-		var acrr = mainActiveId.split("-");
-		if(acrr.length = 3){
-			//二级
-			var fatherActive = acrr[1]+"-"+acrr[2];
-			$("#"+mainActiveId).removeAttr("class");
-			$("#"+fatherActive).removeAttr("class");
-		}else{
-			//一级
-			$("#"+mainActiveId).removeAttr("class");
-		}
-	}
-	if(activeId != null && activeId != ""){
-		var acrr = activeId.split("-");
-		if(acrr.length = 3){
-			//二级
-			var fatherActive = acrr[1]+"-"+acrr[2];
-			$("#"+activeId).attr("class", "active");
-			$("#"+fatherActive).attr("class", "active");
-		}else{
-			//一级
-			$("#"+activeId).attr("class", "active");
-		}
+	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
+		$("#"+mainActiveId).removeAttr("class");
+		$("#"+activeId).attr("class", "active");
 		mainActiveId = activeId;
 	}
 	goUrl(url,null);

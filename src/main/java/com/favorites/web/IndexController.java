@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
+import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
@@ -27,10 +28,16 @@ public class IndexController extends BaseController{
 	private ConfigRepository configRepository;
 	@Autowired
 	private FollowRepository followRepository;
+	@Autowired
+	private CollectRepository collectRepository;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
-	public String index() {
-		return "tool";
+	public String index(Model model) {
+		//return "forward:/standard/my"; 
+		long size= collectRepository.countByUserId(getUserId());
+		model.addAttribute("size",size);
+		logger.info("collect size="+size+" userID="+getUserId());
+		return "home";
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)
@@ -43,19 +50,24 @@ public class IndexController extends BaseController{
 		return "register";
 	}
 	
-	@RequestMapping(value="/tool",method=RequestMethod.GET)
+	@RequestMapping(value="/tool")
 	public String tool() {
 		return "tool";
 	}
 	
-	@RequestMapping(value="/mobile",method=RequestMethod.GET)
+	@RequestMapping(value="/mobile")
 	public String mobile() {
 		return "mobile";
 	}
 	
-	@RequestMapping(value="/import",method=RequestMethod.GET)
+	@RequestMapping(value="/import")
 	public String importm() {
 		return "import";
+	}
+	
+	@RequestMapping(value="/newFavorites")
+	public String newFavorites(){
+		return "newfavorites";
 	}
 	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
