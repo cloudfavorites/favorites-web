@@ -9,9 +9,6 @@
                   <form id="form" data-parsley-validate="true" onsubmit="return false">
                      <div class="form-group">
                         <input id="name" type="text" class="form-control" placeholder="收藏夹名" data-parsley-error-message="请输入收藏夹名" required="required"/>
-                        <ul class="parsley-errors-list" id="errorMsg">
-                           
-                        </ul>
                      </div>
                      <button id="addFavorites" class="btn btn-block btn-primary mt-lg">提交</button>
                   </form>
@@ -22,6 +19,11 @@
 </body>
  <script type='text/javascript'>
  $(function(){
+	 toastr.options = {
+	            'closeButton': true,
+	            'positionClass': 'toast-top-center',
+	            'timeOut': '5000',
+	         };
 	 $("#addFavorites").click(function(){
 		 var ok = $('#form').parsley().isValid({force: true});
 		 if(ok){
@@ -39,10 +41,9 @@
 					success: function(response){
 						if(response.rspCode == '000000'){
 							 loadFavorites();
-							 $("#errorMsg").hide();
+							 toastr.success('收藏夹创建成功！', '操作成功');
           	    	 	}else{
-          	    		  $("#errorMsg").html("<li>" + response.rspMsg + "</li>");
-          	    		  $("#errorMsg").show();
+          	    			toastr.error(response.rspMsg, '操作失败');
           	    	 }
 					}
 				});
