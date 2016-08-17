@@ -19,6 +19,12 @@ function loadFavorites(){
 			console.log(errorThrown);
 		},
 		success: function(favorites){
+			$("#unread").html("");
+			$("#favorites > li").each(function(i){ 
+				if(i != 0 && i != 1){
+					$(this).remove();
+				}
+			});
 			initDatas(favorites);
 		}
 	});
@@ -32,7 +38,9 @@ function initDatas(favorites){
 		var url ='/standard/'+ id;
 		if(name=="未读列表"){
 			var favorite="<a href=\"javascript:void(0);\" onclick=\"locationUrl('"+url+"','unread')\" title="+name+" >";
-			favorite=favorite+"<div class=\"label label-success pull-right\">"+count+"</div>";
+			if(count > 0){
+				favorite=favorite+"<div class=\"label label-success pull-right\">"+count+"</div>";
+			}
 			favorite=favorite+"<em class=\"icon-paper-clip\"></em>";
 			favorite=favorite+"<span>"+name+"</span>";
 			favorite=favorite+"</a>";
@@ -40,7 +48,9 @@ function initDatas(favorites){
 		}else{
 			var favorite="<li id="+id+">";
 			favorite=favorite+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('"+url+"','"+id+"')\" title="+name+" >";
-			favorite=favorite+"<div class=\"text-muted mr pull-right\">"+count+"</div>";
+			if(count>0){
+				favorite=favorite+"<div class=\"text-muted mr pull-right\">"+count+"</div>";
+			}
 			favorite=favorite+"<span>"+name+"</span>";
 			favorite=favorite+"</a></li>";
 			$("#newFavortes").after(favorite)

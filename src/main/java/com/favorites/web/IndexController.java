@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Config;
@@ -64,6 +65,11 @@ public class IndexController extends BaseController{
 		return "import";
 	}
 	
+	@RequestMapping(value="/newFavorites")
+	public String newFavorites(){
+		return "newfavorites";
+	}
+	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
 	public String collect(Model model,Collect collect) {
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
@@ -78,5 +84,10 @@ public class IndexController extends BaseController{
 		return "collect";
 	}
 	
+	@RequestMapping(value="/logout",method=RequestMethod.GET)
+	public String logout() {
+		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
+		return "login";
+	}
 
 }

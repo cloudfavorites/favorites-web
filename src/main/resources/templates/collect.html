@@ -66,7 +66,7 @@
                      <input id="type" type="checkbox" name="type" class="mb" value="private" /> 私密收藏</label>
                <p class="pt-lg text-center">选择一个收藏夹</p>
                <select  name="favoritesId" id="favoritesId" class="mb form-control">
-                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}" th:attr="selected=(${configObj.defaultFavorties} == *{favorites.id}) ? 'selected' : 'none'" ></option>
+                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>
                </select>
                <p class="text-center">或者</p>
                <input type="text" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
@@ -171,7 +171,7 @@
    	  	         data:$("#collect-form").serialize(),
    	  	         success: function(msg) { 
    	  	        	 console.log(msg);
-   	  	        	 location.href="/standard/my";
+   	  	        	 location.href="/";
    	  	         },
    	  	         error: function (jqXHR, textStatus, errorThrown) {
    	  	        	 console.log(jqXHR.responseText);
