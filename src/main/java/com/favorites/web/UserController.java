@@ -48,8 +48,7 @@ public class UserController extends BaseController {
 	public Response login(User user) {
 		logger.info("login begin, param is " + user);
 		try {
-			User loginUser = userRepository.findByUserNameOrEmail(
-					user.getUserName(), user.getUserName());
+			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
 				return result(ExceptionMsg.LoginNameOrPassWordError);
 			}
@@ -117,7 +116,8 @@ public class UserController extends BaseController {
 		logger.info("getFavorites end favorites ==" + favorites);
 		return favorites;
 	}
-		@RequestMapping("/uid")
+	
+	@RequestMapping("/uid")
 	String uid(HttpSession session) {
 		UUID uid = (UUID) session.getAttribute("uid");
 		if (uid == null) {
