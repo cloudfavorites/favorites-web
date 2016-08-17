@@ -61,10 +61,10 @@
                                        </div>
                                        <div class="m0">
                                           <a href="#" class="text-muted" th:text="${user.userName}">favorites_name</a>
-                                          <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密">
+                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密" th:href="@{/login}"  th:if="${collect.type == 'public'}" >
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
-                                          <a href="#" class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开">
+                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开" th:href="@{/login}"  th:if="${collect.type == 'private'}" >
                                              <span class="fa fa-lock text-warning"></span>
                                           </a>
                                           <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前  </small>

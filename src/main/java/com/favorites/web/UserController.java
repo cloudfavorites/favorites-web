@@ -117,8 +117,7 @@ public class UserController extends BaseController {
 		logger.info("getFavorites end favorites ==" + favorites);
 		return favorites;
 	}
-
-	@RequestMapping("/uid")
+		@RequestMapping("/uid")
 	String uid(HttpSession session) {
 		UUID uid = (UUID) session.getAttribute("uid");
 		if (uid == null) {
