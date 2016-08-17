@@ -32,7 +32,7 @@ public class HomeController extends BaseController{
 		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
 		logger.info("user info :"+getUser());
-		return "home/standard";
+		return "collect/standard";
 	}
 	
 	
@@ -46,7 +46,7 @@ public class HomeController extends BaseController{
 		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
 		logger.info("user info :"+getUser());
-		return "home/simple";
+		return "collect/simple";
 	}
 	
 	
