@@ -4,19 +4,21 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
-import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
-import com.favorites.domain.NoticeRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -32,17 +34,21 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private CollectRepository collectRepository;
-	@Autowired
 	private FavoritesRepository favoritesRepository;
 	@Resource
 	private ConfigService configService;
-	@Autowired
-	private NoticeRepository noticeRepository;
 	@Resource
 	private FavoritesService favoritesService;
 	@Resource
 	private CollectService collectService;
+	@Resource
+    private JavaMailSender mailSender;
+	@Value("${spring.mail.username}")
+	private String mailFrom;
+	@Value("${mail.subject.forgotpassword}")
+	private String mailSubject;
+	@Value("${mail.content.forgotpassword}")
+	private String mailContent;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Response login(User user) {
@@ -125,6 +131,29 @@ public class UserController extends BaseController {
 		}
 		session.setAttribute("uid", uid);
 		return session.getId();
+	}
+	
+	@RequestMapping(value = "/sendForgotPasswordEmail", method = RequestMethod.POST)
+	public Response sendForgotPasswordEmail(String email) {
+		logger.info("sendForgotPasswordEmail begin, param is " + email);
+		try {
+			User registUser = userRepository.findByEmail(email);
+			if (null == registUser) {
+				return result(ExceptionMsg.EmailNotRegister);
+			}
+	        MimeMessage mimeMessage = mailSender.createMimeMessage();	        
+	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+	        helper.setFrom(mailFrom);
+	        helper.setTo(email);
+	        helper.setSubject(mailSubject);
+	        helper.setText(mailContent, true);
+	        mailSender.send(mimeMessage);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("sendForgotPasswordEmail failed, ", e);
+			return result(ExceptionMsg.FAILED);
+		}
+		return result();
 	}
 
 }
