@@ -95,4 +95,9 @@ public class IndexController extends BaseController{
 		return "forgotpassword";
 	}
 	
+	@RequestMapping(value="/newPassword",method=RequestMethod.GET)
+	public String newPassword(String email) {
+		return "newpassword";
+	}
+	
 }
