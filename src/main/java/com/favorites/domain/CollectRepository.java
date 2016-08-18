@@ -1,5 +1,7 @@
 package com.favorites.domain;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +21,11 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Modifying
 	@Query("update Collect c set c.type = ?1 where c.id = ?2")
 	int modifyById(String type, long id);
+	
+	@Transactional
+	@Modifying
+	@Query("delete from Collect where favoritesId = ?1")
+	void deleteByFavoritesId(Long favoritesId);
 
 
 }

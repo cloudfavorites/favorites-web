@@ -8,5 +8,7 @@ import com.favorites.domain.Collect;
 public interface CollectService {
 	
 	public Page<Collect>  getCollects(String type,Long userId,Pageable pageable);
+	
+	public void saveCollect(Collect collect, Long userId);
 
 }

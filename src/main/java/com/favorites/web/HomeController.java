@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.favorites.domain.Collect;
+import com.favorites.domain.Favorites;
+import com.favorites.domain.FavoritesRepository;
 import com.favorites.service.CollectService;
 
 @Controller
@@ -21,6 +23,8 @@ public class HomeController extends BaseController{
 	
 	@Autowired
 	private CollectService collectService;
+	@Autowired
+	private FavoritesRepository favoritesRepository;
 	
 	@RequestMapping(value="/standard/{type}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -31,6 +35,15 @@ public class HomeController extends BaseController{
 		model.addAttribute("collects", collects);
 		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
+		Favorites favorites = new Favorites();
+		if(!"my".equals(type)&&!"explore".equals(type)){
+			try {
+				favorites = favoritesRepository.findOne(Long.parseLong(type));
+			} catch (Exception e) {
+				logger.error("获取收藏夹异常：",e);
+			}
+		}
+		model.addAttribute("favorites", favorites);
 		logger.info("user info :"+getUser());
 		return "collect/standard";
 	}
@@ -45,6 +58,15 @@ public class HomeController extends BaseController{
 		model.addAttribute("collects", collects);
 		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
+		Favorites favorites = new Favorites();
+		if(!"my".equals(type)&&!"explore".equals(type)){
+			try {
+				favorites = favoritesRepository.findOne(Long.parseLong(type));
+			} catch (Exception e) {
+				logger.error("获取收藏夹异常：",e);
+			}
+		}
+		model.addAttribute("favorites", favorites);
 		logger.info("user info :"+getUser());
 		return "collect/simple";
 	}

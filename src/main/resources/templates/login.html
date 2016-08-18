@@ -35,7 +35,7 @@
                   </div>
                   <div class="clearfix">
                      <div class="pull-right">
-                        <a href="recover.html" class="text-muted">忘记密码？</a>
+                        <a href="/forgotPassword" class="text-muted">忘记密码？</a>
                      </div>
                   </div>
                   <button v-on:click="login" class="btn btn-block btn-primary mt-lg">登录</button>
@@ -100,7 +100,7 @@
 	            			 };
             	    this.$http.post('/user/login',datas).then(function(response){
             	    	 if(response.data.rspCode == '000000'){
-            	    		  window.open('/', '_self');
+            	    			 window.open(response.data.data, '_self');
             	    	 }else{
             	    		  $("#errorMsg").html(response.data.rspMsg);
             	    		  $("#errorMsg").show();

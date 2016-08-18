@@ -3,6 +3,15 @@
   <body>
       <section >
          <div class="content-wrapper">
+         	<h3 th:if="${favorites.name != null and favorites.name !='未读列表'}">
+             	 <span th:text="${favorites.name}"></span>
+               <span class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
+               <span data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
+               <div class="pull-right">
+                  <span class="title-small icon-folder-alt mr-sm"></span>
+                  <span data-toggle="modal" data-target="#modal-removeFav" class="title-small clickable">删除</span>
+               </div>
+            </h3>
             <div class="row" id="standard">
                <div class="col-lg-12 col-md-12 mt">
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
@@ -111,10 +120,11 @@
                                              <span class="fa fa-comment-o"></span>
                                             	 评论(0)
                                           </a>
-                                          <a class="sharing-action-button" th:if="${type == 'explore'}">
-                                             |
+                                          
+                                          <a class="sharing-action-button">
+										    |
                                              <span class="fa fa-spoon"></span>
-                                           	     收藏
+                                           	    收藏
                                           </a>
                                        </small>
                                     </div>
@@ -129,6 +139,12 @@
          </div>
       </section>
   </body>
-  <script type='text/javascript'>
+  <script type='text/javascript' th:inline="javascript">
+  $(function(){
+	  var favorites = /*[[${favorites}]]*/;
+	  if(null != favorites ){
+		  $("#favoritesId").val(favorites.id);
+	  }
+  });
   </script>
 </html>

@@ -21,5 +21,8 @@ public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
 	@Query("update Favorites f set f.count=(f.count+1),f.lastModifyTime =:lastModifyTime where f.id =:id")
 	void updateCountById(@Param("id") Long id,@Param("lastModifyTime") Long lastModifyTime);
 
-
+	@Modifying(clearAutomatically=true)
+	@Transactional
+	@Query("update Favorites set name=:name ,lastModifyTime=:lastModifyTime where id=:id")
+	void updateNameById(@Param("id") Long id,@Param("lastModifyTime") Long lastModifyTime,@Param("name") String name);
 }
