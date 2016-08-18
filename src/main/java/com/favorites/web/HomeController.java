@@ -58,6 +58,15 @@ public class HomeController extends BaseController{
 		model.addAttribute("collects", collects);
 		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
+		Favorites favorites = new Favorites();
+		if(!"my".equals(type)&&!"explore".equals(type)){
+			try {
+				favorites = favoritesRepository.findOne(Long.parseLong(type));
+			} catch (Exception e) {
+				logger.error("获取收藏夹异常：",e);
+			}
+		}
+		model.addAttribute("favorites", favorites);
 		logger.info("user info :"+getUser());
 		return "collect/simple";
 	}

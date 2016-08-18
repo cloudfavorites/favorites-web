@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * 属性设置
@@ -32,6 +33,10 @@ public class Config extends Entitys implements Serializable {
 	private Long createTime;
 	@Column(nullable = false)
 	private Long lastModifyTime;
+	@Transient
+	private String collectTypeName;
+	@Transient
+	private String modelName;
 
 	public Config() {
 		super();
@@ -91,6 +96,22 @@ public class Config extends Entitys implements Serializable {
 
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getCollectTypeName() {
+		return defaultCollectType.equals("private")?"私密":"公开";
+	}
+
+	public void setCollectTypeName(String collectTypeName) {
+		this.collectTypeName = collectTypeName;
+	}
+
+	public String getModelName() {
+		return defaultModel.equals("simple")?"简单":"专业";
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
 	}
 
 }

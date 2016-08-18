@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
+import com.favorites.domain.Config;
+import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.NoticeRepository;
@@ -43,6 +46,8 @@ public class UserController extends BaseController {
 	private FavoritesService favoritesService;
 	@Resource
 	private CollectService collectService;
+	@Autowired
+	private ConfigRepository configRepository;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Response login(User user) {
@@ -115,6 +120,40 @@ public class UserController extends BaseController {
 		}
 		logger.info("getFavorites end favorites ==" + favorites);
 		return favorites;
+	}
+	
+	/**
+	 * 获取属性设置
+	 * @return
+	 */
+	@RequestMapping(value = "/getConfig", method = RequestMethod.POST)
+	public Config getConfig(){
+		Config config = new Config();
+		try {
+			config = configRepository.findByUserId(getUserId());
+		} catch (Exception e) {
+			logger.error("异常：",e);
+		}
+		return config;
+	}
+	
+	/**
+	 * 属性修改
+	 * @param id
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value = "/updateConfig", method = RequestMethod.POST)
+	public Response updateConfig(Long id, String type,String defaultFavorites){
+		logger.info("param,id:" + id + "----type:" + type + "-----defaultFavorites:" + defaultFavorites);
+		if(null  != id && StringUtils.isNotBlank(type)){
+			try {
+				configService.updateConfig(id, type,defaultFavorites);
+			} catch (Exception e) {
+				logger.error("属性修改异常：",e);
+			}
+		}
+		return result();
 	}
 	
 	@RequestMapping("/uid")

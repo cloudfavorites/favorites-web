@@ -35,6 +35,10 @@ public class IndexController extends BaseController{
 	public String index(Model model) {
 		//return "forward:/standard/my"; 
 		long size= collectRepository.countByUserId(getUserId());
+		Config config = configRepository.findByUserId(getUserId());
+		Favorites favorites = favoritesRepository.findOne(Long.parseLong(config.getDefaultFavorties()));
+		model.addAttribute("config",config);
+		model.addAttribute("favorites",favorites);
 		model.addAttribute("size",size);
 		logger.info("collect size="+size+" userID="+getUserId());
 		return "home";

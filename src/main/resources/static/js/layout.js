@@ -5,6 +5,7 @@ var secondUrl = null;//第二个页面
 var flag = 1;
 $(function() {
 	loadFavorites();
+	loadConfig();
 });
 
 function loadFavorites(){
@@ -25,6 +26,7 @@ function loadFavorites(){
 					$(this).remove();
 				}
 			});
+			$("#layoutFavoritesName").html("");
 			initDatas(favorites);
 		}
 	});
@@ -53,9 +55,43 @@ function initDatas(favorites){
 			favorite=favorite+"</a></li>";
 			$("#newFavortes").after(favorite)
 		}
+		$("#layoutFavoritesName").append("<option value=\"" + id + "\">" + name + "</option>");
+		
 	}
 }
 
+function loadConfig(){
+	$.ajax({
+		async: false,
+		type: 'POST',
+		dataType: 'json',
+		url: '/user/getConfig',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+			console.log(textStatus);
+			console.log(errorThrown);
+		},
+		success: function(config){
+			$("#defaultCollectType").html("");
+			$("#defaultModel").html("");
+			$("#defaultFavorites").html("");
+			initConfigDatas(config);
+			//设置默认选中收藏夹
+			obj = document.getElementById("layoutFavoritesName");
+			for(i=0;i<obj.length;i++){
+			  if(obj[i].value == config.defaultFavorties){
+			    obj[i].selected = true;
+			  	$("#defaultFavorites").append("<strong>默认收藏夹(" +obj[i].text +")");
+			  }
+			}
+		}
+	});
+}
+
+function initConfigDatas(config){
+	$("#defaultCollectType").append("<strong>默认"+config.collectTypeName+"收藏（点击切换）</strong>")
+	$("#defaultModel").append("<strong>收藏时显示" +config.modelName+"模式</strong>");
+}
 
 function locationUrl(url,activeId){
 	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
