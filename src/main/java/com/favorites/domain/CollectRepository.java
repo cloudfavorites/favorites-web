@@ -1,5 +1,7 @@
 package com.favorites.domain;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +19,8 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	Long countByUserId(Long userId);
 	 
 	Page<Collect> findByFavoritesId(Long favoritesId,Pageable pageable);
+	
+	List<Collect> findByFavoritesIdAndUrlAndUserId(Long favoritesId,String url,Long userId);
 	
 	@Modifying
 	@Query("update Collect c set c.type = ?1 where c.id = ?2")

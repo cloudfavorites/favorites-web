@@ -1,8 +1,6 @@
 package com.favorites.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -113,7 +111,11 @@ public class UserController extends BaseController {
 	public Response login(Collect collect) {
 		logger.info("collect begin, param is " + collect);
 		try {
-			collectService.saveCollect(collect, getUserId());
+			if(collectService.checkCollect(collect, getUserId())){
+				collectService.saveCollect(collect, getUserId());
+			}else{
+				return result(ExceptionMsg.CollectExist);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("collect failed, ", e);

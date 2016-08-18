@@ -22,7 +22,7 @@
                <a href="#" style="color:#fff;">Favorites</a>
             </div>
             <div class="panel-body">
-              <form id="collect-form" class="form-horizontal">
+              <form id="collect-form" class="form-horizontal" onsubmit="return false">
                <div id="show1">
                <div class="media mb">
                   <a id="logoA" href="javascript:void(0);" target="_blank" class="pull-left">
@@ -74,6 +74,8 @@
                <input type="hidden" name="url" id="url" value=""/>
                <input type="hidden" name="charset" id="charset" value=""/>
                </form>
+               <p></p>
+               <div id="errorMsg" class="alert alert-danger text-center" style="display:none;"></div>
             </div>
          </div>
          <div class="text-right mt-sm" id="model1" >
@@ -165,13 +167,33 @@
    	    }); 
    		
    		$("#collect").click(function(){
+   		 if($("#title").val()==""){
+   			 $("#errorMsg").text("标题不能为空");
+   			 $("#errorMsg").show();
+   			 return;
+   		 }
+   		 if($("#description").val() == ""){
+   			 $("#errorMsg").text("简介不能为空");
+  			 $("#errorMsg").show();
+  			 return;
+   		 }
+   		 if($("#logoUrl").val() ==""){
+   			 $("#errorMsg").text("图片链接不能为空");
+ 			 $("#errorMsg").show();
+ 			 return;
+   		 }
+   		  $("#errorMsg").hide();
    	  	  $.ajax({
    	  	         type: "POST",
    	  	         url:"/user/collect",
    	  	         data:$("#collect-form").serialize(),
-   	  	         success: function(msg) { 
-   	  	        	 console.log(msg);
-   	  	        	 window.location="/";
+   	  	         success: function(response) { 
+   	  	        	 if(response.rspCode == '000000'){
+   	  	        		window.location="/";
+   	  	        	 }else{
+   	  	        		$("#errorMsg").text(response.rspMsg);
+   	 			 		$("#errorMsg").show();
+   	  	        	 }
    	  	         },
    	  	         error: function (jqXHR, textStatus, errorThrown) {
    	  	        	 console.log(jqXHR.responseText);

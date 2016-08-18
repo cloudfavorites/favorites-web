@@ -109,5 +109,35 @@ public class CollectServiceImpl implements CollectService {
 			}
 		}
 	}
+	
+	/**
+	 * 验证是否重复收藏
+	 * @param collect
+	 * @param userId
+	 * @return
+	 */
+	public boolean checkCollect(Collect collect,Long userId){
+		if(StringUtils.isNotBlank(collect.getNewFavorites())){
+			// url+favoritesId+userId
+			Favorites favorites = favoritesRepository.findByUserIdAndName(userId, collect.getNewFavorites());
+			if(null == favorites){
+				return true;
+			}else{
+				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(favorites.getId(), collect.getUrl(), userId);
+				if(null != list && list.size() > 0){
+					return false;
+				}else{
+					return true;
+				}
+			}
+		}else{
+			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(collect.getFavoritesId(), collect.getUrl(), userId);
+			if(null != list && list.size() > 0){
+				return false;
+			}else{
+				return true;
+			}
+		}
+	}
 
 }

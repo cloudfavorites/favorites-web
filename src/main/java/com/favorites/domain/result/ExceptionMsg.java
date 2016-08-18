@@ -13,6 +13,8 @@ public enum ExceptionMsg {
     FavoritesNameIsNull("000200","收藏夹名称不能为空"),
     FavoritesNameUsed("000201","收藏夹名称已被创建"),
     
+    CollectExist("000300","该文章已被收藏"),
+    
     EmailNotRegister("000101","该邮箱地址未注册")
     ;
    private ExceptionMsg(String code, String msg) {

@@ -10,5 +10,7 @@ public interface CollectService {
 	public Page<Collect>  getCollects(String type,Long userId,Pageable pageable);
 	
 	public void saveCollect(Collect collect, Long userId);
+	
+	public boolean checkCollect(Collect collect,Long userId);
 
 }
