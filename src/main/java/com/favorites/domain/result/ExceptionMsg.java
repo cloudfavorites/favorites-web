@@ -11,7 +11,9 @@ public enum ExceptionMsg {
     UserNameUsed("000102","该登陆名称已存在"),
 
     FavoritesNameIsNull("000200","收藏夹名称不能为空"),
-    FavoritesNameUsed("000201","收藏夹名称已被创建")
+    FavoritesNameUsed("000201","收藏夹名称已被创建"),
+    
+    EmailNotRegister("000101","该邮箱地址未注册")
     ;
    private ExceptionMsg(String code, String msg) {
         this.code = code;

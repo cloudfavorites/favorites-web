@@ -94,4 +94,9 @@ public class IndexController extends BaseController{
 		return "login";
 	}
 
+	@RequestMapping(value="/forgotPassword",method=RequestMethod.GET)
+	public String forgotPassword() {
+		return "forgotpassword";
+	}
+	
 }
