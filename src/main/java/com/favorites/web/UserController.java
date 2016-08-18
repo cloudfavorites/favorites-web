@@ -1,6 +1,8 @@
 package com.favorites.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -26,6 +28,7 @@ import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
+import com.favorites.domain.result.ResponseData;
 import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
@@ -57,20 +60,24 @@ public class UserController extends BaseController {
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Response login(User user) {
+	public ResponseData login(User user) {
 		logger.info("login begin, param is " + user);
 		try {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
-				return result(ExceptionMsg.LoginNameOrPassWordError);
+				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
+			String preUrl = "";
+			if(null != getSession().getAttribute(Const.LAST_REFERER)){
+				preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
+			}
+			return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("login failed, ", e);
-			return result(ExceptionMsg.FAILED);
+			return new ResponseData(ExceptionMsg.FAILED);
 		}
-		return result();
 	}
 
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)

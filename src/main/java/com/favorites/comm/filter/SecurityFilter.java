@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.favorites.comm.Const;
@@ -44,6 +45,18 @@ public class SecurityFilter implements Filter {
 	            return;
 	        }else{
 	        	//跳转到登陆页面
+	        	String referer = "";
+				String param = this.codeToString(request.getQueryString());
+				if(StringUtils.isNotBlank(request.getContextPath())){
+					referer = referer + request.getContextPath();
+				}
+	        	if(StringUtils.isNotBlank(request.getServletPath())){
+					referer = referer + request.getServletPath();
+				}
+				if(StringUtils.isNotBlank(param)){
+					referer = referer + "?" + param;
+				}
+	        	request.getSession().setAttribute(Const.LAST_REFERER, referer);
 	        	logger.debug("security filter, deney, " + request.getRequestURI());
 				String html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
 				html = html.replace("_BP_", Const.BASE_PATH);
@@ -73,7 +86,8 @@ public class SecurityFilter implements Filter {
                 || url.endsWith(".svg")
                 || url.endsWith(".ttf")
                 || url.endsWith(".woff")
-                || url.endsWith(".ico")) {
+                || url.endsWith(".ico")
+                || url.endsWith(".woff2")) {
             return true;
         } else {
             return false;
@@ -102,4 +116,15 @@ public class SecurityFilter implements Filter {
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
+	
+	public  String codeToString(String str) {
+        String strString = str;
+        try {
+            byte tempB[] = strString.getBytes("ISO-8859-1");
+            strString = new String(tempB);
+            return strString;
+        } catch (Exception e) {
+            return strString;
+        }
+    } 
 }

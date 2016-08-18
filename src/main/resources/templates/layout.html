@@ -42,6 +42,10 @@
 		  }else{
 			  locationUrl('/tool','tool');
 		  }
+	    var config = /*[[${config}]]*/;
+		if(null != config){
+			$("#layoutConfigId").val(config.id);
+		} 
 	/*]]>*/
 	</script>
 	

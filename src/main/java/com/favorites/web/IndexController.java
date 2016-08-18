@@ -91,6 +91,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public String logout() {
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
+		getSession().removeAttribute(Const.LAST_REFERER);
 		return "login";
 	}
 

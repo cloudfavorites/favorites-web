@@ -8,12 +8,12 @@
 	      </a>
 	   </div>
 	   <div class="p-lg text-center">
-	      <a class="btn btn-default btn-block" href="javascript:void(0)" id="defaultCollectType" onclick="changeConfig('defaultCollectType')"> 
+	      <a class="btn btn-default btn-block" href="javascript:void(0);" id="defaultCollectType" onclick="changeConfig('defaultCollectType')"> 
 	      </a>
 	   </div>
 	   <input type="hidden" id="configId" th:value="${config.id}"/>
 	   <div class="p-lg text-center">
-	      <a class="btn btn-default btn-block" href="javascript:void(0)" id="defaultModel" onclick="changeConfig('defaultModel')">
+	      <a class="btn btn-default btn-block" href="javascript:void(0);" id="defaultModel" onclick="changeConfig('defaultModel')">
 	      </a>
 	   </div>
 	   <div class="p-lg text-center">
@@ -41,13 +41,7 @@
 	         <strong>注销</strong>
 	      </a>
 	   </div>
-		<script type="text/javascript" th:inline="javascript">
-		$(function(){
-			var config = /*[[${config}]]*/;
-			if(null != config){
-				$("#layoutConfigId").val(config.id);
-			}
-		});
+	  <script type="text/javascript" th:inline="javascript">
 		function changeConfig(type){
 			 $.ajax({
 				async: false,
