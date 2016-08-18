@@ -13,6 +13,8 @@ public class Const {
 	public static String userAgent="Mozilla";
 	
 	public static String default_Profile="http://localhost:8080/file/logo.jpg";
+	
+	public static String LAST_REFERER = "LAST_REFERER";
 
 	
 	

@@ -100,7 +100,7 @@
 	            			 };
             	    this.$http.post('/user/login',datas).then(function(response){
             	    	 if(response.data.rspCode == '000000'){
-            	    		  window.open('/', '_self');
+            	    			 window.open(response.data.data, '_self');
             	    	 }else{
             	    		  $("#errorMsg").html(response.data.rspMsg);
             	    		  $("#errorMsg").show();

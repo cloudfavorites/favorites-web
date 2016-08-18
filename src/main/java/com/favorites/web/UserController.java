@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,12 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.Const;
 import com.favorites.domain.Collect;
+import com.favorites.domain.Config;
+import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
+import com.favorites.domain.result.ResponseData;
 import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
@@ -52,22 +56,29 @@ public class UserController extends BaseController {
 	private String mailSubject;
 	@Value("${mail.content.forgotpassword}")
 	private String mailContent;
-
+	@Autowired	
+	private ConfigRepository configRepository;
+	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Response login(User user) {
+	public ResponseData login(User user) {
 		logger.info("login begin, param is " + user);
 		try {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
-				return result(ExceptionMsg.LoginNameOrPassWordError);
+				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
+			String preUrl = "";
+			if(null != getSession().getAttribute(Const.LAST_REFERER)){
+				preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
+			}
+			return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("login failed, ", e);
-			return result(ExceptionMsg.FAILED);
+			return new ResponseData(ExceptionMsg.FAILED);
 		}
-		return result();
 	}
 
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
@@ -103,7 +114,11 @@ public class UserController extends BaseController {
 	public Response login(Collect collect) {
 		logger.info("collect begin, param is " + collect);
 		try {
-			collectService.saveCollect(collect, getUserId());
+			if(collectService.checkCollect(collect, getUserId())){
+				collectService.saveCollect(collect, getUserId());
+			}else{
+				return result(ExceptionMsg.CollectExist);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("collect failed, ", e);
@@ -124,6 +139,40 @@ public class UserController extends BaseController {
 		}
 		logger.info("getFavorites end favorites ==" + favorites);
 		return favorites;
+	}
+	
+	/**
+	 * 获取属性设置
+	 * @return
+	 */
+	@RequestMapping(value = "/getConfig", method = RequestMethod.POST)
+	public Config getConfig(){
+		Config config = new Config();
+		try {
+			config = configRepository.findByUserId(getUserId());
+		} catch (Exception e) {
+			logger.error("异常：",e);
+		}
+		return config;
+	}
+	
+	/**
+	 * 属性修改
+	 * @param id
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value = "/updateConfig", method = RequestMethod.POST)
+	public Response updateConfig(Long id, String type,String defaultFavorites){
+		logger.info("param,id:" + id + "----type:" + type + "-----defaultFavorites:" + defaultFavorites);
+		if(null  != id && StringUtils.isNotBlank(type)){
+			try {
+				configService.updateConfig(id, type,defaultFavorites);
+			} catch (Exception e) {
+				logger.error("属性修改异常：",e);
+			}
+		}
+		return result();
 	}
 	
 	@RequestMapping("/uid")

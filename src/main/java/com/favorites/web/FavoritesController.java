@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -23,6 +24,8 @@ public class FavoritesController extends BaseController{
 	private FavoritesRepository favoritesRepository;
 	@Resource
 	private FavoritesService favoritesService;
+	@Autowired
+	private CollectRepository collectRepository;
 	
 	/**
 	 * 添加
@@ -86,6 +89,8 @@ public class FavoritesController extends BaseController{
 		}
 		try {
 			favoritesRepository.delete(id);
+			// 删除该收藏夹下文章
+			collectRepository.deleteByFavoritesId(id);
 		} catch (Exception e) {
 			logger.error("删除异常：",e);
 		}
