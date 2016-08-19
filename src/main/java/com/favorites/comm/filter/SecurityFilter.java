@@ -30,6 +30,7 @@ public class SecurityFilter implements Filter {
 		GreenUrlSet.add(Const.BASE_PATH + "/register");
 		GreenUrlSet.add(Const.BASE_PATH + "/index.html");
 		GreenUrlSet.add(Const.BASE_PATH + "/forgotPassword");
+		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
 	}
 	
 	@Override
@@ -104,7 +105,8 @@ public class SecurityFilter implements Filter {
         if (url.contains("/media/")
                 || url.contains("/login")||url.contains("/user/login")
                 || url.contains("/register")||url.contains("/user/regist")
-                || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")) {
+                || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
+                || url.contains("/newPassword")||url.contains("/user/setNewPassword")) {
             return true;
         } else {
             return false;

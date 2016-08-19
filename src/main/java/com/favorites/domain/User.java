@@ -32,6 +32,10 @@ public class User extends Entitys implements Serializable {
 	private Long createTime;
 	@Column(nullable = false)
 	private Long lastModifyTime;
+	@Column(nullable = false)
+	private String outDate;
+	@Column(nullable = false)
+	private String validataCode;
 
 	public User() {
 		super();
@@ -89,6 +93,18 @@ public class User extends Entitys implements Serializable {
 	}
 	public void setProfilePicture(String profilePicture) {
 		this.profilePicture = profilePicture;
+	}
+	public String getOutDate() {
+		return outDate;
+	}
+	public void setOutDate(String outDate) {
+		this.outDate = outDate;
+	}
+	public String getValidataCode() {
+		return validataCode;
+	}
+	public void setValidataCode(String validataCode) {
+		this.validataCode = validataCode;
 	}
 
 }
