@@ -13,6 +13,7 @@ import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
+import com.favorites.domain.result.ResponseData;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
 
@@ -52,6 +53,23 @@ public class FavoritesController extends BaseController{
 			return result(ExceptionMsg.FavoritesNameIsNull);
 		}
 		return result();
+	}
+	
+	/**
+	 * 创建导入收藏夹
+	 * @return
+	 */
+	@RequestMapping(value="/addImportFavorites",method=RequestMethod.POST)
+	public ResponseData addImportFavorites(){
+		Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "导入自浏览器");
+		if(null == favorites){
+			try {
+				favorites = favoritesService.saveFavorites(getUserId(), 0l, "导入自浏览器");
+			} catch (Exception e) {
+				logger.error("异常：",e);				
+			}
+		}
+		return new ResponseData(ExceptionMsg.SUCCESS, favorites.getId());
 	}
 	
 	@RequestMapping(value="/update",method=RequestMethod.POST)

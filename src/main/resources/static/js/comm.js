@@ -60,3 +60,11 @@ function deleteCookie(name){
 	document.cookie=name+"=v; expires="+date.toGMTString(); 
 }
 
+function getFileName(param){
+	　　var myFile = document.getElementById(param).value;
+	　　var length = myFile.length;
+	　　var x = myFile.lastIndexOf("\\");
+	　　x++;
+	　　var fileName = myFile.substring(x,length);
+		$("#"+param + "Name").val(fileName);
+	　　}

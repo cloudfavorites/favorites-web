@@ -39,6 +39,7 @@ dependencies {
     compile group: 'org.springframework.session', name: 'spring-session-data-redis', version: '1.2.1.RELEASE'
     compile 'org.webjars.bower:bootstrap:3.3.6'
     compile 'org.webjars.bower:jquery:2.2.4'
+    compile 'org.webjars:jquery-form:3.51'
     compile("org.webjars:vue:1.0.24")
     compile 'org.webjars.bower:vue-resource:0.7.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
