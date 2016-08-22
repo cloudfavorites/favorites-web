@@ -72,6 +72,9 @@ public class UserController extends BaseController {
 			String preUrl = "";
 			if(null != getSession().getAttribute(Const.LAST_REFERER)){
 				preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
+				if(preUrl.indexOf("/collect?") < 0){
+					preUrl = "/";
+				}
 			}
 			return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
 		} catch (Exception e) {
