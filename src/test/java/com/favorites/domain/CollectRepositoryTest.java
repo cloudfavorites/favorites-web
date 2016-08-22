@@ -1,17 +1,17 @@
 package com.favorites.domain;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.favorites.Application;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(Application.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class CollectRepositoryTest {
 
 	@Autowired
@@ -19,9 +19,45 @@ public class CollectRepositoryTest {
 
 	@Test
 	public void test() throws Exception {
-		int count=collectRepository.modifyById("public", 4l);
-		Assert.assertEquals(1, count);
+	/*	List<CollectView> views=collectRepository.findByUserId(1l);
+	    for(CollectView view:views){
+	    	System.out.println("collect title ：" +view.getTitle());
+	    }	*/
+	    
+	}
+	
+	
+	@Test
+	public void testFindView() throws Exception {
+	 /*   Page<CollectView> views=collectRepository.findByUserId(1l,new PageRequest(0, 10, Direction.ASC, "title"));
+	    for(CollectView view:views){
+	    	System.out.println("collect title==" +view.getTitle());
+	    }*/
 	}
 
+	
+	@Test
+	public void testFindAllView() throws Exception {
+	    Page<CollectView> views=collectRepository.findAllView(new PageRequest(0, 10, Direction.ASC, "title"));
+	    for(CollectView view:views){
+	    	System.out.print("   collect title==" +view.getTitle());
+	    	System.out.print("   FavoriteName==" +view.getFavoriteName());
+	    	System.out.print("   UserName==" +view.getUserName());
+	    	System.out.println("   Url==" +view.getUrl());
+	    }
+	}
+	
+	
+	@Test
+	public void testFindViewByUserId() throws Exception {
+	    Page<CollectView> views=collectRepository.findViewByUserId(2l,new PageRequest(0, 10, Direction.ASC, "title"));
+	    for(CollectView view:views){
+	    	System.out.print("   collect title==" +view.getTitle());
+	    	System.out.print("   FavoriteName==" +view.getFavoriteName());
+	    	System.out.print("   UserName==" +view.getUserName());
+	    	System.out.println("   Url==" +view.getUrl());
+	    }
+	}
+	
 
 }

@@ -1,77 +1,45 @@
 package com.favorites.domain;
 
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
-@Entity
-public class Collect  implements Serializable {
+public class CollectSummary  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue
+	
 	private Long id;
-	@Column(nullable = false)
 	private Long userId;
-	@Column(nullable = false)
 	private Long favoritesId;
-	@Column(nullable = false)
 	private String url;
-	@Column(nullable = false)
 	private String title;
-	@Column(nullable = true, length = 65535, columnDefinition = "Text")
 	private String description;
-	@Column(nullable = true)
 	private String logoUrl;
-	@Column(nullable = true)
-	private String charset;
-	@Column(nullable = true)
 	private String type;
-	@Column(nullable = true)
 	private String remark;
-	@Column(nullable = false)
-	private String isDelete;
-	@Column(nullable = false)
-	private Long createTime;
-	@Column(nullable = false)
 	private Long lastModifyTime;
-	@Transient
+	private String userName;
+	private Long favoriteId;
+	private String favoriteName;
 	private String collectTime;
-	@Transient
 	private String newFavorites;
+	private Long praiseCount;
+	private Long commentCount;
+	private boolean isPraise;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "collect")
-	private Set<Praise> praises;
-
-	public Collect() {
-		super();
+	public CollectSummary(CollectView view) {
+		this.id = view.getId();
+		this.userId = view.getUserId();
+		this.favoritesId = view.getFavoriteId();
+		this.url = view.getUrl();
+		this.title = view.getTitle();
+		this.description = view.getDescription();
+		this.logoUrl = view.getLogoUrl();
+		this.type = view.getType();
+		this.remark = view.getRemark();
+		this.lastModifyTime = view.getLastModifyTime();
+		this.userName = view.getUserName();
+		this.favoriteId = view.getFavoriteId();
+		this.favoriteName = view.getFavoriteName();
 	}
-
-	
-	public Collect(Long userId, Long favoritesId, String url, String title, String description, String logoUrl,
-			String charset, String type, String remark, String isDelete, Long createTime, Long lastModifyTime) {
-		super();
-		this.userId = userId;
-		this.favoritesId = favoritesId;
-		this.url = url;
-		this.title = title;
-		this.description = description;
-		this.logoUrl = logoUrl;
-		this.charset = charset;
-		this.type = type;
-		this.remark = remark;
-		this.isDelete = isDelete;
-		this.createTime = createTime;
-		this.lastModifyTime = lastModifyTime;
-	}
-
 
 	public Long getId() {
 		return id;
@@ -129,14 +97,6 @@ public class Collect  implements Serializable {
 		this.logoUrl = logoUrl;
 	}
 
-	public String getCharset() {
-		return charset;
-	}
-
-	public void setCharset(String charset) {
-		this.charset = charset;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -151,22 +111,6 @@ public class Collect  implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public String getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(String isDelete) {
-		this.isDelete = isDelete;
-	}
-
-	public Long getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
 	}
 
 	public Long getLastModifyTime() {
@@ -192,5 +136,54 @@ public class Collect  implements Serializable {
 	public void setNewFavorites(String newFavorites) {
 		this.newFavorites = newFavorites;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Long getFavoriteId() {
+		return favoriteId;
+	}
+
+	public void setFavoriteId(Long favoriteId) {
+		this.favoriteId = favoriteId;
+	}
+
+	public String getFavoriteName() {
+		return favoriteName;
+	}
+
+	public void setFavoriteName(String favoriteName) {
+		this.favoriteName = favoriteName;
+	}
+
+	public Long getPraiseCount() {
+		return praiseCount;
+	}
+
+	public void setPraiseCount(Long praiseCount) {
+		this.praiseCount = praiseCount;
+	}
+
+	public Long getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(Long commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public boolean isPraise() {
+		return isPraise;
+	}
+
+	public void setPraise(boolean isPraise) {
+		this.isPraise = isPraise;
+	}
+
 
 }

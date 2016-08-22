@@ -1,7 +1,8 @@
 package com.favorites.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.favorites.domain.Collect;
+import com.favorites.domain.CollectSummary;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.service.CollectService;
@@ -31,9 +32,8 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    Page<Collect> collects=collectService.getCollects(type,getUserId(), pageable);
+	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
 		model.addAttribute("collects", collects);
-		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type)){
@@ -54,9 +54,8 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    Page<Collect> collects=collectService.getCollects(type,getUserId(), pageable);
+	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
 		model.addAttribute("collects", collects);
-		model.addAttribute("user", getUser());
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type)){
