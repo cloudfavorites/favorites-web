@@ -94,6 +94,9 @@ public class CollectServiceImpl implements CollectService {
 		if (StringUtils.isBlank(collect.getType())) {
 			collect.setType("public");
 		}
+		if(StringUtils.isBlank(collect.getDescription())){
+			collect.setDescription(collect.getTitle());
+		}
 		collectRepository.save(collect);
 		if (StringUtils.isNotBlank(collect.getRemark())&& collect.getRemark().indexOf("@") > -1) {
 			List<String> atUsers = StringUtil.getAtUser(collect.getRemark());
