@@ -32,9 +32,9 @@ public class User extends Entitys implements Serializable {
 	private Long createTime;
 	@Column(nullable = false)
 	private Long lastModifyTime;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String outDate;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String validataCode;
 
 	public User() {

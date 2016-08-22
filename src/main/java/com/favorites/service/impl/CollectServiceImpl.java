@@ -1,8 +1,7 @@
 package com.favorites.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -13,9 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
+import com.favorites.domain.CollectSummary;
+import com.favorites.domain.CollectView;
+import com.favorites.domain.CommentRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
-import com.favorites.domain.Notice;
+import com.favorites.domain.Praise;
+import com.favorites.domain.PraiseRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.service.CollectService;
@@ -34,26 +37,29 @@ public class CollectServiceImpl implements CollectService {
 
 	@Autowired
 	private FavoritesRepository favoritesRepository;
-	@Resource
+	@Autowired
 	private FavoritesService favoritesService;
 	@Autowired
 	private UserRepository userRepository;
-	@Resource
+	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private PraiseRepository praiseRepository;
+	@Autowired
+	private CommentRepository commentRepository;
 
 	@Override
-	public Page<Collect> getCollects(String type, Long userId, Pageable pageable) {
+	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable) {
 		// TODO Auto-generated method stub
-		Page<Collect> collects = null;
+		Page<CollectView> views = null;
 		if ("my".equals(type)) {
-			collects = collectRepository.findByUserId(userId, pageable);
+			views = collectRepository.findViewByUserId(userId, pageable);
 		} else if ("explore".equals(type)) {
-			collects = collectRepository.findAll(pageable);
+			views = collectRepository.findAllView(pageable);
 		} else {
-			collects = collectRepository.findByFavoritesId(
-					Long.parseLong(type), pageable);
+			views = collectRepository.findViewByFavoritesId(Long.parseLong(type), pageable);
 		}
-		return convertCollect(collects);
+		return convertCollect(views);
 	}
 
 	/**
@@ -62,12 +68,22 @@ public class CollectServiceImpl implements CollectService {
 	 * @param collects
 	 * @return
 	 */
-	private Page<Collect> convertCollect(Page<Collect> collects) {
-		for (Collect collect : collects) {
-			collect.setCollectTime(DateUtils.getTimeFormatText(collect
-					.getLastModifyTime()));
+	private List<CollectSummary> convertCollect(Page<CollectView> views) {
+		List<CollectSummary> summarys=new ArrayList<CollectSummary>();
+		for (CollectView view : views) {
+			CollectSummary summary=new CollectSummary(view);
+			summary.setPraiseCount(praiseRepository.countByCollectId(view.getId()));
+			summary.setCommentCount(commentRepository.countByCollectId(view.getId()));
+			Praise praise=praiseRepository.findByPraiseIdAndCollectId(view.getUserId(), view.getId());
+			if(praise!=null){
+				summary.setPraise(true);
+			}else{
+				summary.setPraise(false);
+			}
+			summary.setCollectTime(DateUtils.getTimeFormatText(view.getLastModifyTime()));
+			summarys.add(summary);
 		}
-		return collects;
+		return summarys;
 	}
 
 	/**

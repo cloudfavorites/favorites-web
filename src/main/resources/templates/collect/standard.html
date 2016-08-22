@@ -69,7 +69,7 @@
                                           </ul>
                                        </div>
                                        <div class="m0">
-                                          <a href="#" class="text-muted" th:text="${user.userName}">favorites_name</a>
+                                          <a href="#" class="text-muted" th:text="${collect.userName}">favorites_name</a>
                                           <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密" th:href="@{/login}"  th:if="${collect.type == 'public'}" >
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
@@ -98,31 +98,36 @@
                                  </div>
                                  <div class="m0">
                                     <span class="icon-folder mr-sm"></span>
-                                    <a href="#" class="normal-color-a ng-binding">未读列表</a>
+                                    <a href="#" class="normal-color-a ng-binding"  th:href="@{/favorite/{id}(id=${collect.favoriteId})}" th:text="${collect.favoriteName}" >未读列表</a>
                                     <div class="pull-right hidden-xxs">
                                        <small>
                                           <a class="sharing-action-button">
                                              <span class="fa fa-share-alt"></span>
                                              	分享
                                           </a>
-                                          |
-                                          <a class="sharing-action-button">
+                                           <if th:unless="${collect.Praise}"> 
+										     | 
+										  </if> 
+                                          <a class="sharing-action-button" th:unless="${collect.Praise}"  th:text="|点赞(${collect.praiseCount})|">
                                              <span class="fa fa-thumbs-o-up"></span>
-                                             	点赞(0)
+                                             	点赞
                                           </a>
-                                          |
-                                          <a class="sharing-action-button">
+                                           <if th:if="${collect.Praise}"> 
+										     | 
+										  </if> 
+                                          <a class="sharing-action-button" th:if="${collect.Praise}"  th:text="|取消点赞(${collect.praiseCount})|">
                                              <span class="fa fa-thumbs-up"></span>
                                           	      取消点赞
                                           </a>
-                                          |
-                                          <a class="sharing-action-button">
+                                          | 
+                                          <a class="sharing-action-button" th:text="|评论(${collect.commentCount})|">
                                              <span class="fa fa-comment-o"></span>
                                             	 评论(0)
                                           </a>
-                                          
+										  <if th:if="${type == 'explore'}"> 
+										     | 
+										  </if> 
                                           <a class="sharing-action-button"  th:if="${type == 'explore'}">
-										    |
                                              <span class="fa fa-spoon"></span>
                                            	    收藏
                                           </a>

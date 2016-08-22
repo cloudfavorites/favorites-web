@@ -1,13 +1,15 @@
 package com.favorites.service;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 
 import com.favorites.domain.Collect;
+import com.favorites.domain.CollectSummary;
 
 public interface CollectService {
 	
-	public Page<Collect>  getCollects(String type,Long userId,Pageable pageable);
+	public List<CollectSummary>  getCollects(String type,Long userId,Pageable pageable);
 	
 	public void saveCollect(Collect collect, Long userId);
 	

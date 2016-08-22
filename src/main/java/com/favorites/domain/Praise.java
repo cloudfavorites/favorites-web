@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * 点赞
@@ -20,15 +21,22 @@ public class Praise extends Entitys implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@ManyToOne(optional = false)
+	private Collect collect;
 	@Column(nullable = false)
-	private String collectId;
-	@Column(nullable = false)
-	private String praiseId;
+	private Long praiseId;
 	@Column(nullable = false)
 	private Long createTime;
 
 	public Praise() {
 		super();
+	}
+	
+	public Praise(Collect collect, Long praiseId, Long createTime) {
+		super();
+		this.collect = collect;
+		this.praiseId = praiseId;
+		this.createTime = createTime;
 	}
 
 	public Long getId() {
@@ -39,19 +47,15 @@ public class Praise extends Entitys implements Serializable {
 		this.id = id;
 	}
 
-	public String getCollectId() {
-		return collectId;
+	public Collect getCollect() {
+		return collect;
 	}
 
-	public void setCollectId(String collectId) {
-		this.collectId = collectId;
-	}
-
-	public String getPraiseId() {
+	public Long getPraiseId() {
 		return praiseId;
 	}
 
-	public void setPraiseId(String praiseId) {
+	public void setPraiseId(Long praiseId) {
 		this.praiseId = praiseId;
 	}
 

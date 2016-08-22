@@ -21,7 +21,7 @@ public class Comment extends Entitys implements Serializable {
 	@GeneratedValue
 	private Long id;
 	@Column(nullable = false)
-	private String collectId;
+	private Long collectId;
 	@Column(nullable = false, length = 65535, columnDefinition = "Text")
 	private String content;
 	@Column(nullable = false)
@@ -43,11 +43,11 @@ public class Comment extends Entitys implements Serializable {
 		this.id = id;
 	}
 
-	public String getCollectId() {
+	public Long getCollectId() {
 		return collectId;
 	}
 
-	public void setCollectId(String collectId) {
+	public void setCollectId(Long collectId) {
 		this.collectId = collectId;
 	}
 
