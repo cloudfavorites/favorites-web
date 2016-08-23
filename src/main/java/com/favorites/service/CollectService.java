@@ -14,5 +14,7 @@ public interface CollectService {
 	public void saveCollect(Collect collect, Long userId);
 	
 	public boolean checkCollect(Collect collect,Long userId);
+	
+	public void importHtml(List<String> urlList,Long favoritesId,Long userId);
 
 }

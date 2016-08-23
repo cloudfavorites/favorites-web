@@ -13,7 +13,7 @@ function loadFavorites(){
 		async: false,
 		type: 'POST',
 		dataType: 'json',
-		url: '/user/getFavorites',
+		url: '/favorites/getFavorites',
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);
 			console.log(textStatus);

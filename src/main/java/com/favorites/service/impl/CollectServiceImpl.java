@@ -2,6 +2,7 @@ package com.favorites.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,6 +26,7 @@ import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
+import com.favorites.utils.HtmlUtil;
 import com.favorites.utils.StringUtil;
 
 @Service("collectService")
@@ -160,6 +162,46 @@ public class CollectServiceImpl implements CollectService {
 				return true;
 			}
 		}
+	}
+	
+	/**
+	 * 导入收藏文章
+	 */
+	public void importHtml(List<String> urlList,Long favoritesId,Long userId){
+		for(String url : urlList){
+			try {
+				Map<String, String> result = HtmlUtil.getCollectFromUrl(url);
+				Collect collect = new Collect();
+				collect.setCharset(result.get("charset"));
+				if(StringUtils.isBlank(result.get("title"))){
+					if(StringUtils.isNotBlank(result.get("description"))){
+						collect.setTitle(result.get("description"));
+					}else{
+						continue;
+					}
+				}else{
+					collect.setTitle(result.get("title"));
+				}
+				if(StringUtils.isBlank(result.get("description"))){
+					collect.setDescription(collect.getTitle());
+				}else{
+					collect.setDescription(result.get("description"));
+				}
+				collect.setFavoritesId(favoritesId);
+				collect.setIsDelete("no");
+				collect.setLogoUrl(result.get("logoUrl"));
+				collect.setType("private");
+				collect.setUrl(url);
+				collect.setUserId(userId);
+				collect.setCreateTime(DateUtils.getCurrentTime());
+				collect.setLastModifyTime(DateUtils.getCurrentTime());
+				collectRepository.save(collect);
+				favoritesRepository.updateCountById(favoritesId, DateUtils.getCurrentTime());
+			} catch (Exception e) {
+				logger.error("导入存储异常：",e);
+			}
+		}
+		
 	}
 
 }

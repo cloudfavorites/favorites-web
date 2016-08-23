@@ -1,5 +1,7 @@
 package com.favorites.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -72,6 +74,12 @@ public class FavoritesController extends BaseController{
 		return new ResponseData(ExceptionMsg.SUCCESS, favorites.getId());
 	}
 	
+	/**
+	 * 修改
+	 * @param favoritesName
+	 * @param favoritesId
+	 * @return
+	 */
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public Response updateFavorites(String favoritesName,Long favoritesId){
 		logger.info("param favoritesName:" + favoritesName + "----favoritesId:" + favoritesId);
@@ -113,6 +121,24 @@ public class FavoritesController extends BaseController{
 			logger.error("删除异常：",e);
 		}
 		return result();
+	}
+	
+	/**
+	 * 获取收藏夹
+	 * @return
+	 */
+	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
+	public List<Favorites> getFavorites() {
+		logger.info("getFavorites begin");
+		List<Favorites> favorites = null;
+		try {
+			favorites = favoritesRepository.findByUserIdOrderByIdDesc(getUserId());
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("getFavorites failed, ", e);
+		}
+		logger.info("getFavorites end favorites ==" + favorites);
+		return favorites;
 	}
 
 }
