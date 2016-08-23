@@ -69,7 +69,7 @@ public class UserController extends BaseController {
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
-			String preUrl = "";
+			String preUrl = "/";
 			if(null != getSession().getAttribute(Const.LAST_REFERER)){
 				preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
 				if(preUrl.indexOf("/collect?") < 0){
@@ -135,7 +135,7 @@ public class UserController extends BaseController {
 		logger.info("getFavorites begin");
 		List<Favorites> favorites = null;
 		try {
-			favorites = favoritesRepository.findByUserId(getUserId());
+			favorites = favoritesRepository.findByUserIdOrderByIdDesc(getUserId());
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);

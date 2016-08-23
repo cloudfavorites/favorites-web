@@ -1,0 +1,310 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+<body>
+      <section>
+         <div class="content-wrapper">
+            <div class="unwrap">
+               <div class="bg-cover" style="background-image:url('img/profile-bg.jpg');">
+                  <div class="p-xl text-center text-white">
+                     <a href="#">
+                        <img src="img/dummy.png" alt="" class="img-thumbnail img-circle thumb128"/></a>
+                     <h3 class="m0 mt" th:text="${user.userName}">用户昵称</h3>
+                     <p th:if="${myself == 'yes'}" th:text="${user.email}">123456789@qq.com</p>
+                     <p th:text="${user.introduction== null ? '暂无简介': user.introduction}">暂无简介</p>
+                     <a href="javascript:void(0);" th:if="${myself == 'no'}" id="follow"></a>
+                     <!-- <a class="btn btn-success" th:if="${myself == 'no' and isFollow== 0}" th:onclick="'changeFollow(\'follow\',\''+${user.id}+'\')'" id="follow">关注</a> -->
+                  </div>
+               </div>
+               <div class="text-center bg-gray-dark p-lg mb">
+                  <div class="row row-table">
+                     <div class="col-xs-4 br">
+                        <h3 class="m0" th:text="${collectCount}">4</h3>
+                        <p class="m0">
+                           <span th:if="${myself == 'yes'}">收藏</span>
+                           <span th:if="${myself == 'no'}">公开收藏</span>
+                        </p>
+                     </div>
+                     <div class="col-xs-4 br">
+                        <h3 class="m0" th:text="${follow}">0</h3>
+                        <p class="m0">
+                           <span>关注</span>
+                        </p>
+                     </div>
+                     <div class="col-xs-4">
+                        <h3 class="m0" th:text="${followed}">0</h3>
+                        <p class="m0">
+                           <span>粉丝</span>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="p-lg">
+                  <div class="row" >
+                     <div class="col-lg-9 col-md-9 mt" id="standard">
+                        <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
+                           <a class="btn btn-xs btn-default active" >
+                              <span class="icon-layers"></span>
+                           </a>
+                           <a class="btn btn-xs btn-default" id="standardBtn">
+                              <span class="icon-list"></span>
+                           </a>
+                        </div>
+                        <ul class="timeline-alt">
+	                     <li th:each="collect,collectStat : ${collects}" >
+	                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></a>
+	                        <div class="timeline-panel">
+	                           <div class="popover right">
+	                              <div class="arrow"></div>
+	                              <div class="popover-content">
+	                                 <div class="table-grid">
+	                                    <div class="col">
+	                                       <div class="pull-right dropdown dropdown-list">
+	                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" >
+	                                             <span class="fa fa-angle-down"></span>
+	                                          </a>
+	                                          <ul class="dropdown-menu animated bounceIn">
+	                                             <li>
+	                                                <div class="list-group">
+	                                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-changeSharing" class="list-group-item">
+	                                                      <div class="media-box">
+	                                                         <div class="pull-left">
+	                                                            <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
+	                                                         </div>
+	                                                         <div class="media-box-body clearfix">
+	                                                            <p class="m0">修改收藏</p>
+	                                                            <p class="m0 text-muted">
+	                                                               <small>修改收藏的各种属性</small>
+	                                                            </p>
+	                                                         </div>
+	                                                      </div>
+	                                                   </a>
+	                                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-remove" class="list-group-item">
+	                                                      <div class="media-box">
+	                                                         <div class="pull-left">
+	                                                            <em class="fa fa-trash fa-2x fa-fw text-danger"></em>
+	                                                         </div>
+	                                                         <div class="media-box-body clearfix">
+	                                                            <p class="m0">删除</p>
+	                                                            <p class="m0 text-muted">
+	                                                               <small>该分享会永久删除</small>
+	                                                            </p>
+	                                                         </div>
+	                                                      </div>
+	                                                   </a>
+	                                                </div>
+	                                             </li>
+	                                          </ul>
+	                                       </div>
+	                                       <div class="m0">
+	                                          <a href="#" class="text-muted" th:text="${user.userName}">favorites_name</a>
+	                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密" th:href="@{/login}"  th:if="${collect.type == 'public'}" >
+	                                             <span class="fa fa-lock" style="color: #eee;"></span>
+	                                          </a>
+	                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开" th:href="@{/login}"  th:if="${collect.type == 'private'}" >
+	                                             <span class="fa fa-lock text-warning"></span>
+	                                          </a>
+	                                          <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前  </small>
+	                                       </div>
+	                                    </div>
+	                                 </div>
+	                                 <div class="media resource-card-thumbnail">
+	                                    <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
+	                                       <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+	                                    </a>
+	                                    <div class="media-body">
+	                                       <h4 class="visible-xs media-heading resource-card-title-xs">
+	                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+	                                       </h4>
+	                                       <h3 class="hidden-xs media-heading resource-card-title">
+	                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+	                                       </h3>
+	                                       <div class="hidden-xs resource-card-content">
+	                                          <p  th:text="${collect.description}">description</p>
+	                                       </div>
+	                                    </div>
+	                                 </div>
+	                                 <div class="m0">
+	                                    <span class="icon-folder mr-sm"></span>
+	                                    <a href="#" class="normal-color-a ng-binding">未读列表</a>
+	                                    <div class="pull-right hidden-xxs">
+	                                       <small>
+	                                          <a class="sharing-action-button">
+	                                             <span class="fa fa-share-alt"></span>
+	                                             	分享
+	                                          </a>
+	                                          |
+	                                          <a class="sharing-action-button">
+	                                             <span class="fa fa-thumbs-o-up"></span>
+	                                             	点赞(0)
+	                                          </a>
+	                                          |
+	                                          <a class="sharing-action-button">
+	                                             <span class="fa fa-thumbs-up"></span>
+	                                          	      取消点赞
+	                                          </a>
+	                                          |
+	                                          <a class="sharing-action-button">
+	                                             <span class="fa fa-comment-o"></span>
+	                                            	 评论(0)
+	                                          </a>
+	                                          
+	                                          <a class="sharing-action-button"  th:if="${type == 'explore'}">
+											    |
+	                                             <span class="fa fa-spoon"></span>
+	                                           	    收藏
+	                                          </a>
+	                                       </small>
+	                                    </div>
+	                                 </div>
+	                              </div>
+	                           </div>
+	                        </div>
+	                     </li>
+                    	</ul>
+                     </div>
+                     <div class="col-lg-9 col-md-9 mt" id="simple" style="display:none;">
+                        <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
+                           <a class="btn btn-xs btn-default" id="simpleBtn">
+                              <span class="icon-layers"></span>
+                           </a>
+                           <a class="btn btn-xs btn-default active" >
+                              <span class="icon-list"></span>
+                           </a>
+                        </div>
+                        <table class="table">
+	                     <tbody>
+	                        <tr th:each="collect,collectStat : ${collects}">
+	                           <td>
+	                              <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">Bootstrap中文网</a>
+	                           </td>
+	                           <td width="10%" class="text-center">
+	                              <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
+	                           <td width="15%" class="text-center">
+	                              <div>
+	                                 <a href="#" class="mr"> <i class="fa fa-pencil"></i>
+	                                 </a>
+	                                 <a href="#" class="ml"> <i class="fa fa-trash text-danger"></i>
+	                                 </a>
+	                              </div>
+	                           </td>
+	                        </tr>
+	                     </tbody>
+	                  </table>
+                  </div>
+                     <div class="col-lg-3 col-md-3">
+                        <div class="panel panel-default">
+                           <div class="panel-heading text-center">TA的收藏夹</div>
+                           <div class="list-group">
+                              <a href="javascript:void(0)" class="media p mt0 list-group-item active">
+                                 <span class="media-body">
+                                    <span class="media-heading">
+                                       <strong>全部收藏</strong>
+                                       <small th:text="${collectCount} + '个收藏'">4个收藏</small>
+                                    </span>
+                                 </span>
+                              </a>
+                           </div>
+                           <div class="list-group" th:each="favoriest : ${favoritesList}">
+                              <a href="#" class="media p mt0 list-group-item">
+                                 <span class="media-body">
+                                    <span class="media-heading">
+                                       <strong th:text="${favoriest.name}">未读列表</strong>
+                                       <small th:text="${favoriest.count} + '个收藏'">4个收藏</small>
+                                    </span>
+                                 </span>
+                              </a>
+                           </div>
+                        </div>
+                        <div class="panel panel-default">
+                           <div class="panel-heading text-center">关注</div>
+                           <div class="list-group ng-scope" th:each=" follow : ${followUser}">
+				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${follow[3]}+'\',\'\');'">
+				                  <span class="pull-left">
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? follow[2]:'img/dummy.png'}" />
+				                  </span>
+				                  <span class="media-body">
+				                     <span class="media-heading">
+				                        <strong class="ng-binding" th:text="${follow[0]}">粉丝1</strong>
+				                        <small class="text-muted ng-binding" th:text="${follow[1] !=null?follow[1]:'暂无简介'}">暂无简介</small>
+				                     </span>
+				                  </span>
+				               </a>
+				            </div>
+                        </div>
+                        <div class="panel panel-default">
+                           <div class="panel-heading text-center">粉丝</div>
+                           <div class="list-group ng-scope" th:each=" followed : ${followedUser}">
+				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${followed[3]}+'\',\'\');'">
+				                  <span class="pull-left">
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? followed[2]:'img/dummy.png'}" />
+				                  </span>
+				                  <span class="media-body">
+				                     <span class="media-heading">
+				                        <strong class="ng-binding" th:text="${followed[0]}">粉丝1</strong>
+				                        <small class="text-muted ng-binding" th:text="${followed[1] !=null?followed[1]:'暂无简介'}">暂无简介</small>
+				                     </span>
+				                  </span>
+				               </a>
+				            </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+	</body>
+	<script type='text/javascript' th:inline="javascript">
+	$(function(){
+		var isFollow = /*[[${isFollow}]]*/;
+		var user = /*[[${user}]]*/;
+		if(isFollow > 0){
+			$("#follow").attr("class","btn btn-default");
+			$("#follow").attr("onclick","changeFollow('unfollow','"+user.id+"')");
+			$("#follow").text("取消关注");
+		}else{
+			$("#follow").attr("class","btn btn-success");
+			$("#follow").attr("onclick","changeFollow('follow','"+user.id+"')");
+			$("#follow").text("关注");
+		}
+		$("#standardBtn").click(function(){
+			$("#standard").hide();
+			$("#simple").show();
+		});
+		$("#simpleBtn").click(function(){
+			$("#standard").show();
+			$("#simple").hide();
+		});
+	});
+	function changeFollow(status,userId){
+		$.ajax({
+					async: false,
+					type: 'POST',
+					dataType: 'json',
+					data:{'status':status,'userId':userId},
+					url: '/follow/changeFollowStatus',
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log(XMLHttpRequest);
+						console.log(textStatus);
+						console.log(errorThrown);
+					},
+					success: function(response){
+						if(response.rspCode == '000000'){
+							$("#follow").removeAttr("class");
+						    $("#follow").removeAttr("onclick");
+						    $("#follow").text("");
+							if(status == "follow"){
+								 	$("#follow").attr("class","btn btn-default");
+									$("#follow").attr("onclick","changeFollow('unfollow','"+userId+"')");
+									$("#follow").text("取消关注");
+							 }else{
+								 	$("#follow").attr("class","btn btn-success");
+									$("#follow").attr("onclick","changeFollow('follow','"+userId+"')");
+									$("#follow").text("关注");
+							 }
+          	    	 	}
+					}
+				});
+	}
+	</script>
+</html>

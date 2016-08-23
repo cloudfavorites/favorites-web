@@ -10,14 +10,14 @@
                      <div class="item user-block">
                         <div class="user-block-picture">
                            <div class="user-block-status">
-                              <a target="_blank" href="collect.html">
+                              <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${user.id}+'\',\'\');'">
                                  <img alt="" class="img-thumbnail img-circle"  th:src="@{/img/dummy.png}" /></a>
                               <div class="circle circle-success circle-lg"></div>
                            </div>
                         </div>
                         <div class="user-block-info">
-                           <div class="user-block-name">欢迎 欢迎</div>
-                           <div class="user-block-role">暂无简介</div>
+                           <div class="user-block-name" th:text="'欢迎  '+${user.userName}">欢迎 欢迎</div>
+                           <div class="user-block-role" th:text="${user.introduction}">暂无简介</div>
                         </div>
                      </div>
                   </div>
