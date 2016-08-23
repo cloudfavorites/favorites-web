@@ -188,6 +188,11 @@ public class UserController extends BaseController {
 		return session.getId();
 	}
 	
+	/**
+	 * 发送忘记密码邮件
+	 * @param email
+	 * @return
+	 */
 	@RequestMapping(value = "/sendForgotPasswordEmail", method = RequestMethod.POST)
 	public Response sendForgotPasswordEmail(String email) {
 		logger.info("sendForgotPasswordEmail begin, param is " + email);
@@ -225,6 +230,13 @@ public class UserController extends BaseController {
 		return result();
 	}
 	
+	/**
+	 * 设置新密码
+	 * @param newpwd
+	 * @param email
+	 * @param sid
+	 * @return
+	 */
 	@RequestMapping(value = "/setNewPassword", method = RequestMethod.POST)
 	public Response setNewPassword(String newpwd, String email, String sid) {
 		logger.info("setNewPassword begin, param is " + email);
@@ -243,6 +255,34 @@ public class UserController extends BaseController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("setNewPassword failed, ", e);
+			return result(ExceptionMsg.FAILED);
+		}
+		return result();
+	}
+	
+	/**
+	 * 修改密码
+	 * @param oldPassword
+	 * @param newPassword
+	 * @return
+	 */
+	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+	public Response updatePassword(String oldPassword, String newPassword) {
+		logger.info("updatePassword begin, param is " + oldPassword + "," + newPassword);
+		try {
+			User user = (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
+			String password = user.getPassWord();
+			String newpwd = getPwd(newPassword);
+			if(password.equals(getPwd(oldPassword))){
+				userRepository.setNewPassword(newpwd, user.getEmail());
+				user.setPassWord(newpwd);
+				getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+			}else{
+				return result(ExceptionMsg.PassWordError);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("updatePassword failed, ", e);
 			return result(ExceptionMsg.FAILED);
 		}
 		return result();
