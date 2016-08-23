@@ -1,7 +1,6 @@
 package com.favorites.web;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -18,17 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.Const;
-import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
-import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
-import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
@@ -40,14 +36,10 @@ import com.favorites.utils.MessageUtil;
 public class UserController extends BaseController {
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private FavoritesRepository favoritesRepository;
 	@Resource
 	private ConfigService configService;
 	@Resource
 	private FavoritesService favoritesService;
-	@Resource
-	private CollectService collectService;
 	@Resource
     private JavaMailSender mailSender;
 	@Value("${spring.mail.username}")
@@ -69,7 +61,7 @@ public class UserController extends BaseController {
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
-			String preUrl = "";
+			String preUrl = "/";
 			if(null != getSession().getAttribute(Const.LAST_REFERER)){
 				preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
 				if(preUrl.indexOf("/collect?") < 0){
@@ -111,37 +103,6 @@ public class UserController extends BaseController {
 			return result(ExceptionMsg.FAILED);
 		}
 		return result();
-	}
-
-	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response login(Collect collect) {
-		logger.info("collect begin, param is " + collect);
-		try {
-			if(collectService.checkCollect(collect, getUserId())){
-				collectService.saveCollect(collect, getUserId());
-			}else{
-				return result(ExceptionMsg.CollectExist);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("collect failed, ", e);
-			return result(ExceptionMsg.FAILED);
-		}
-		return result();
-	}
-
-	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
-	public List<Favorites> getFavorites() {
-		logger.info("getFavorites begin");
-		List<Favorites> favorites = null;
-		try {
-			favorites = favoritesRepository.findByUserId(getUserId());
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("getFavorites failed, ", e);
-		}
-		logger.info("getFavorites end favorites ==" + favorites);
-		return favorites;
 	}
 	
 	/**
