@@ -9,7 +9,6 @@ var gconfig;
 $(function() {
 	loadConfig();
 	loadFavorites();
-	loadConfig();
 	loadFollows();
 	$("#passwordError").hide();
 	$("#nicknameError").hide();
@@ -64,14 +63,12 @@ function loadFavorites(){
 				}
 			});
 			$("#layoutFavoritesName").html("");
-			initDatas(favorites);
 			gfavorites=favorites;
 			initFavorites(favorites);
 		}
 	});
 }
 
-function initDatas(favorites){
 function loadFollows(){
 	$.ajax({
 		async: false,
@@ -119,34 +116,6 @@ function initFavorites(favorites){
 		
 	}
 	$("#favoritesSelect").val(gconfig.defaultFavorties);
-}
-
-function loadConfig(){
-	$.ajax({
-		async: false,
-		type: 'POST',
-		dataType: 'json',
-		url: '/user/getConfig',
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(XMLHttpRequest);
-			console.log(textStatus);
-			console.log(errorThrown);
-		},
-		success: function(config){
-			$("#defaultCollectType").html("");
-			$("#defaultModel").html("");
-			$("#defaultFavorites").html("");
-			initConfigDatas(config);
-			//设置默认选中收藏夹
-			obj = document.getElementById("layoutFavoritesName");
-			for(i=0;i<obj.length;i++){
-			  if(obj[i].value == config.defaultFavorties){
-			    obj[i].selected = true;
-			  	$("#defaultFavorites").append("<strong>默认收藏夹(" +obj[i].text +")");
-			  }
-			}
-		}
-	});
 }
 
 function initConfigDatas(config){
@@ -384,4 +353,4 @@ function updateNickname() {
   	    	}
 		}
 	});
-}
+   }
