@@ -18,6 +18,8 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	 
 	Page<Collect> findByFavoritesId(Long favoritesId,Pageable pageable);
 	
+	List<Collect> findByFavoritesId(Long favoritesId);
+	
 	List<Collect> findByFavoritesIdAndUrlAndUserId(Long favoritesId,String url,Long userId);
 	
 	@Modifying

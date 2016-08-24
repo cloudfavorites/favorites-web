@@ -88,21 +88,35 @@ public class HtmlUtil {
 		return result;
 	}
 	
-	public static List<String> importHtml(InputStream in){
-		List<String> urlList = new ArrayList<>();
+	public static Map<String, String> importHtml(InputStream in){
+		Map<String, String> map = new HashMap<>();
 		try {
 			Document doc = Jsoup.parse(in, "UTF-8", "");
 			Elements metas = doc.select("a");  
 			for (Element meta : metas) {  
 	            String url = meta.attr("href");
 	            if(url.startsWith("http")){
-	            	urlList.add(url);
+	            	map.put(url, meta.text());
 	            }
 	        }
 		} catch (Exception e) {
 			logger.error("解析html 文件异常：",e);
 		}
-		return urlList;
+		return map;
+	}
+	
+	public static StringBuilder exportHtml(String title,StringBuilder body){
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html>");
+		sb.append("<head>");
+		sb.append("<title>"+title+"</title>"); 
+		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"); 
+		sb.append("</head>");
+		sb.append("<body><dl><dt><h3>"+title+"</h3></dt></dl>");
+		sb.append(body);
+		sb.append("</body>");
+		
+		return sb;
 	}
 	
 	public static void main(String[] args) {

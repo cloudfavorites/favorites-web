@@ -1,9 +1,14 @@
 package com.favorites.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,18 +78,45 @@ public class CollectController extends BaseController{
 			return;
 		}
 		try {
-			List<String> urlList = HtmlUtil.importHtml(htmlFile.getInputStream());
-			if(null == urlList || urlList.size() <= 0){
+			Map<String, String> map = HtmlUtil.importHtml(htmlFile.getInputStream());
+			if(null == map || map.isEmpty()){
 				logger.info("未获取到url连接");
 				return ;
 			}
-			collectService.importHtml(urlList, favoritesId, getUserId());
+			collectService.importHtml(map, favoritesId, getUserId());
 		} catch (Exception e) {
 			logger.error("导入html异常:",e);
 		}
 	}
 	
-
-	
-	
+	/**
+	 * 导出收藏夹
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping("/export")
+	public void export(String favoritesId,HttpServletResponse response){
+		logger.info("favoritesId:" + favoritesId);
+		if(StringUtils.isNotBlank(favoritesId)){
+			try {
+				String[] ids = favoritesId.split(",");
+				String date = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+				String fileName= "favorites_" + date + ".html";
+				StringBuilder sb = new StringBuilder();
+				for(String id : ids){
+					try {
+						sb = sb.append(collectService.exportToHtml(Long.parseLong(id)));
+					} catch (Exception e) {
+						logger.error("异常：",e);
+					}
+				}
+				sb = HtmlUtil.exportHtml("云收藏夹", sb);
+				response.setCharacterEncoding("UTF-8");  
+				response.setHeader("Content-disposition","attachment; filename=" + fileName);
+				response.getWriter().print(sb);
+			} catch (Exception e) {
+				logger.error("异常：",e);
+			}
+		}
+	}
 }

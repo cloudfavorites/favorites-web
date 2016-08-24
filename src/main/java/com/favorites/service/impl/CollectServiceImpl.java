@@ -167,18 +167,14 @@ public class CollectServiceImpl implements CollectService {
 	/**
 	 * 导入收藏文章
 	 */
-	public void importHtml(List<String> urlList,Long favoritesId,Long userId){
-		for(String url : urlList){
+	public void importHtml(Map<String, String> map,Long favoritesId,Long userId){
+		for(Map.Entry<String, String> entry : map.entrySet()){
 			try {
-				Map<String, String> result = HtmlUtil.getCollectFromUrl(url);
+				Map<String, String> result = HtmlUtil.getCollectFromUrl(entry.getKey());
 				Collect collect = new Collect();
 				collect.setCharset(result.get("charset"));
 				if(StringUtils.isBlank(result.get("title"))){
-					if(StringUtils.isNotBlank(result.get("description"))){
-						collect.setTitle(result.get("description"));
-					}else{
-						continue;
-					}
+					collect.setTitle(entry.getValue());
 				}else{
 					collect.setTitle(result.get("title"));
 				}
@@ -191,7 +187,7 @@ public class CollectServiceImpl implements CollectService {
 				collect.setIsDelete("no");
 				collect.setLogoUrl(result.get("logoUrl"));
 				collect.setType("private");
-				collect.setUrl(url);
+				collect.setUrl(entry.getKey());
 				collect.setUserId(userId);
 				collect.setCreateTime(DateUtils.getCurrentTime());
 				collect.setLastModifyTime(DateUtils.getCurrentTime());
@@ -202,6 +198,27 @@ public class CollectServiceImpl implements CollectService {
 			}
 		}
 		
+	}
+	
+	/**
+	 * 导出到html文件
+	 * @param favoritesId
+	 */
+	public StringBuilder exportToHtml(Long favoritesId){
+		try {
+			Favorites favorites = favoritesRepository.findOne(favoritesId);
+			StringBuilder sb = new StringBuilder();
+			List<Collect> collects = collectRepository.findByFavoritesId(favoritesId);
+			StringBuilder sbc = new StringBuilder();
+			for(Collect collect : collects){
+				sbc.append("<dt><a href=\""+collect.getUrl()+"\" target=\"_blank\">"+collect.getTitle()+"</a></dt>");
+			}
+			sb.append("<dl><dt><h3>"+favorites.getName()+"</h3></dt>"+sbc+"</dl>");
+			return sb;
+		} catch (Exception e) {
+			logger.error("异常：",e);
+		}
+		return null;
 	}
 
 }
