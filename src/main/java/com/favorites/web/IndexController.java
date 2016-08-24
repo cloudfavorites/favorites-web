@@ -2,6 +2,8 @@ package com.favorites.web;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.FollowRepository;
+import com.favorites.service.CollectService;
 import com.favorites.utils.HtmlUtil;
 
 @Controller
@@ -30,6 +33,8 @@ public class IndexController extends BaseController{
 	private FollowRepository followRepository;
 	@Autowired
 	private CollectRepository collectRepository;
+	@Resource
+	private CollectService collectService;
 	
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
@@ -43,6 +48,7 @@ public class IndexController extends BaseController{
 		model.addAttribute("favorites",favorites);
 		model.addAttribute("size",size);
 		model.addAttribute("followList",followList);
+		model.addAttribute("user",getUser());
 		logger.info("collect size="+size+" userID="+getUserId());
 		return "home";
 	}
@@ -107,5 +113,6 @@ public class IndexController extends BaseController{
 	public String newPassword(String email) {
 		return "newpassword";
 	}
+
 	
 }

@@ -125,6 +125,7 @@ function modifyCollect(id){
 				$("#cremark").val(collect.remark);
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
+				$("#favoritesSelect").val(collect.favoritesId);
 			}
 		});
 }
