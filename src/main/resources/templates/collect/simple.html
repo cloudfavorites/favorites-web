@@ -32,7 +32,7 @@
                               <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
                            <td width="15%" class="text-center">
                               <div>
-                                 <a href="javascript:void(0);" class="mr" th:onclick="'modifyCollect(' + ${collect.id} + ');'" > <i class="fa fa-pencil"></i>
+                                 <a href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ');'" > <i class="fa fa-pencil"></i>
                                  </a>
                                  <a href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ');'"> <i class="fa fa-trash text-danger"></i>
                                  </a>

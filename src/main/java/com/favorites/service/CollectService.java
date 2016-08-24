@@ -1,6 +1,7 @@
 package com.favorites.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 
@@ -17,6 +18,8 @@ public interface CollectService {
 	
 	public boolean checkCollect(Collect collect);
 	
-	public void importHtml(List<String> urlList,Long favoritesId,Long userId);
+	public void importHtml(Map<String, String> map,Long favoritesId,Long userId);
+	
+	public StringBuilder exportToHtml(Long favoritesId);
 
 }

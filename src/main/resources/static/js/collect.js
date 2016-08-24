@@ -1,16 +1,4 @@
 $(function(){
-	if("private"== gconfig.defaultCollectType){
-		$("#type").attr("checked","checked");
-	}
-	if("simple" == gconfig.defaultModel){
-		$("#show2").hide();
-		$("#model2").hide();
-		$("#model1").show();
-	}else{
-		$("#show2").show();
-		$("#model1").hide();
-		$("#model2").show();
-	}
 	$("#changeModel1").click(function(){
 		$("#show2").show();
 		$("#model1").hide();
@@ -40,40 +28,41 @@ $(function(){
     }); 
 	
 	$("#ccollect").click(function(){
-	 if($("#title").val()==""){
-		 $("#errorMsg").text("标题不能为空");
-		 $("#errorMsg").show();
-		 return;
-	 }
-	 if($("#clogoUrl").val() ==""){
-		 $("#errorMsg").text("图片链接不能为空");
-		 $("#errorMsg").show();
-		 return;
-	 }
-	  $("#errorMsg").hide();
-  	  $.ajax({
-  	         type: "POST",
-  	         url:"/user/collect",
-  	         data:$("#collect-form").serialize(),
-  	         success: function(response) { 
-  	        	 if(response.rspCode == '000000'){
-  					$('#modal-changeSharing').modal('hide');
-  					locationUrl($("#forward").val(),"home");
-  	        	 }else{
-  	        		$("#errorMsg").text(response.rspMsg);
- 			 		$("#errorMsg").show();
-  	        	 }
-  	         },
-  	         error: function (jqXHR, textStatus, errorThrown) {
-  	        	 console.log(jqXHR.responseText);
-  	        	 console.log(jqXHR.status);
-  	        	 console.log(jqXHR.readyState);
-  	        	 console.log(jqXHR.statusText);
-  	             console.log(textStatus);
-  	             console.log(errorThrown);
-  	         }
-  	     });
-	});
+		 if($("#ctitle").val()==""){
+			 $("#errorMsg").text("标题不能为空");
+			 $("#errorMsg").show();
+			 return;
+		 }
+		 if($("#clogoUrl").val() ==""){
+			 $("#errorMsg").text("图片链接不能为空");
+			 $("#errorMsg").show();
+			 return;
+		 }
+		  $("#errorMsg").hide();
+	  	  $.ajax({
+	  	         type: "POST",
+	  	         url:"/user/collect",
+	  	         data:$("#collect-form").serialize(),
+	  	         success: function(response) { 
+	  	        	 if(response.rspCode == '000000'){
+	  	        		loadFavorites();
+	  					$('#modal-changeSharing').modal('hide');
+	  					locationUrl($("#forward").val(),"home");
+	  	        	 }else{
+	  	        		$("#errorMsg").text(response.rspMsg);
+	 			 		$("#errorMsg").show();
+	  	        	 }
+	  	         },
+	  	         error: function (jqXHR, textStatus, errorThrown) {
+	  	        	 console.log(jqXHR.responseText);
+	  	        	 console.log(jqXHR.status);
+	  	        	 console.log(jqXHR.readyState);
+	  	        	 console.log(jqXHR.statusText);
+	  	             console.log(textStatus);
+	  	             console.log(errorThrown);
+	  	         }
+	  	     });
+		});
 });
 
 
@@ -107,7 +96,7 @@ function delCollect(){
 }
 
 
-function modifyCollect(id){
+function getCollect(id){
 	 $.ajax({
 			async: false,
 			type: 'POST',
@@ -126,7 +115,70 @@ function modifyCollect(id){
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
 				$("#favoritesSelect").val(collect.favoritesId);
+				$("#newFavorites").val("");
 			}
 		});
 }
+
+
+function changePrivacy(id,type){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:"",
+			url: '/collect/changePrivacy/'+id+'/'+type,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(collect){
+				if(type=='public'){
+					$("#public"+id).hide();
+					$("#private"+id).show();
+				}else{
+					$("#public"+id).show();
+					$("#private"+id).hide();
+				}
+			}
+		});
+}
+
+
+function changeLike(id){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:"",
+			url: '/collect/like/'+id,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(like){
+				if($("#like"+id).is(":hidden")){ 
+					$("#like"+id).show();
+					var praiseCount=parseInt($("#praiseC"+id).val())-1;
+					$("#praiseC"+id).val(praiseCount);
+					$("#likeS"+id).html("点赞("+praiseCount+")");
+					$("#likel"+id).show();
+					$("#unlike"+id).hide();
+					$("#unlikel"+id).hide();
+				}else{
+					$("#like"+id).hide();
+					$("#likel"+id).hide();
+					$("#unlike"+id).show();
+					$("#unlikel"+id).show();
+					var praiseCount=parseInt($("#praiseC"+id).val())+1;
+					$("#praiseC"+id).val(praiseCount);
+					$("#UNlikeS"+id).html("取消点赞("+praiseCount+")");
+
+				} 
+			}
+		});
+}
+
 

@@ -114,5 +114,11 @@ public class IndexController extends BaseController{
 		return "newpassword";
 	}
 
+	@RequestMapping(value="/export")
+	public String export(Model model){
+		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
+		model.addAttribute("favoritesList",favoritesList);
+		return "export";
+	}
 	
 }

@@ -21,8 +21,11 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	
 	Page<Collect> findByFavoritesId(Long favoritesId,Pageable pageable);
 	
+	List<Collect> findByFavoritesId(Long favoritesId);
+	
 	List<Collect> findByFavoritesIdAndUrlAndUserId(Long favoritesId,String url,Long userId);
 	
+	@Transactional
 	@Modifying
 	@Query("update Collect c set c.type = ?1 where c.id = ?2")
 	int modifyById(String type, long id);

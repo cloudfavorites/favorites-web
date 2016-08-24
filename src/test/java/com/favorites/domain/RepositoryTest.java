@@ -21,7 +21,7 @@ public class RepositoryTest {
 	public void testPraise() throws Exception {
 		long count=praiseRepository.countByCollectId(1l);
 		System.out.println("count===="+count);
-		Praise praise=praiseRepository.findByPraiseIdAndCollectId(1l, 1l);
+		Praise praise=praiseRepository.findByUserIdAndCollectId(1l, 1l);
 		System.out.println("exists===="+praise);
 
 	}
