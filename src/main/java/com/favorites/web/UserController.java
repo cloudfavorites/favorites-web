@@ -1,11 +1,11 @@
 package com.favorites.web;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.Const;
+import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
+import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.FollowRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
+import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
@@ -50,6 +54,13 @@ public class UserController extends BaseController {
 	private String mailContent;
 	@Autowired	
 	private ConfigRepository configRepository;
+	@Autowired
+	private FollowRepository followRepository;
+	@Autowired
+	private CollectService collectService;
+	@Autowired
+	private FavoritesRepository favoritesRepository;
+	
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -104,6 +115,42 @@ public class UserController extends BaseController {
 		}
 		return result();
 	}
+
+	@RequestMapping(value = "/collect", method = RequestMethod.POST)
+	public Response collect(Collect collect) {
+		logger.info("collect begin, param is " + collect);
+		try {
+			collect.setUserId(getUserId());
+			if(collectService.checkCollect(collect)){
+				if(collect.getId()==null){
+					collectService.saveCollect(collect);
+				}else{
+					collectService.updateCollect(collect);
+				}
+			}else{
+				return result(ExceptionMsg.CollectExist);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("collect failed, ", e);
+			return result(ExceptionMsg.FAILED);
+		}
+		return result();
+	}
+
+	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
+	public List<Favorites> getFavorites() {
+		logger.info("getFavorites begin");
+		List<Favorites> favorites = null;
+		try {
+			favorites = favoritesRepository.findByUserId(getUserId());
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("getFavorites failed, ", e);
+		}
+		logger.info("getFavorites end favorites ==" + favorites);
+		return favorites;
+	}
 	
 	/**
 	 * 获取属性设置
@@ -139,14 +186,10 @@ public class UserController extends BaseController {
 		return result();
 	}
 	
-	@RequestMapping("/uid")
-	String uid(HttpSession session) {
-		UUID uid = (UUID) session.getAttribute("uid");
-		if (uid == null) {
-			uid = UUID.randomUUID();
-		}
-		session.setAttribute("uid", uid);
-		return session.getId();
+	@RequestMapping(value="/getFollows")
+	public List<String> getFollows() {
+		List<String> followList = followRepository.findByUserId(getUserId());
+		return followList;
 	}
 	
 	/**

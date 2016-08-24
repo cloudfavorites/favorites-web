@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-   <div th:fragment="alert">
+   <div th:fragment="alert" style="z-index:1050;position:relative;">
 	 <div id="modal-changeSharing" class="modal fade" >
-      <div class="modal-dialog wd-xl">
+	 <div class="modal-dialog wd-xl">
+	   <div th:replace="fragments/collect :: collect">collect</div>
+	   </div>
+ <!--      <div class="modal-dialog wd-xl">
          <div class="modal-content">
             <div class="panel panel-dark panel-flat">
                <div class="panel-heading text-center">
@@ -43,7 +46,7 @@
                </div>
             </div>
          </div>
-      </div>
+      </div> -->
    </div>
    <div id="modal-remove" class="modal fade">
       <div class="modal-dialog">
@@ -58,7 +61,7 @@
                <p>该收藏将被永久删除，且无法找回，是否继续？</p>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-primary">确定</button>
+               <button id="delCollect" type="button"  class="btn btn-primary" onclick="delCollect()" >确定</button>
                <button type="button" data-dismiss="modal" class="btn btn-danger">取消</button>
             </div>
          </div>

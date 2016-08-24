@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,10 +32,35 @@ public class CollectController extends BaseController{
 	private CollectService collectService;
 	
 	@RequestMapping(value="/changePrivacy/{id}/{type}")
-	public String changePrivacy(Model model,@PathVariable("id") long id,@PathVariable("type") String type) {
-		collectRepository.modifyById(type, id);
+	public String changePrivacy(@PathVariable("id") long id,@PathVariable("type") String type) {
+		int ss=collectRepository.modifyById(type, id);
 		logger.info("user info :"+getUser());
 		return "home/standard";
+	}
+	
+	/**
+	 * @author neo
+	 * @date 2016年8月24日
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/delete/{id}")
+	public Response delete(@PathVariable("id") long id) {
+		collectRepository.deleteById(id);
+		return result();
+	}
+	
+	
+	/**
+	 * @author neo
+	 * @date 2016年8月24日
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/detail/{id}")
+	public Collect detail(@PathVariable("id") long id) {
+		Collect collect=collectRepository.findOne(id);
+		return collect;
 	}
 	
 	/**
@@ -48,8 +72,9 @@ public class CollectController extends BaseController{
 	public Response login(Collect collect) {
 		logger.info("collect begin, param is " + collect);
 		try {
-			if(collectService.checkCollect(collect, getUserId())){
-				collectService.saveCollect(collect, getUserId());
+			collect.setUserId(getUserId());
+			if(collectService.checkCollect(collect)){
+				collectService.saveCollect(collect);
 			}else{
 				return result(ExceptionMsg.CollectExist);
 			}
@@ -83,8 +108,5 @@ public class CollectController extends BaseController{
 			logger.error("导入html异常:",e);
 		}
 	}
-	
-
-	
 	
 }
