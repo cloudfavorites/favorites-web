@@ -11,9 +11,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CollectRepository extends JpaRepository<Collect, Long> {
-
+	
 	Long countByUserId(Long userId);
+	
+	Long countByUserIdAndType(Long userId,String type);
 	 
+	@Transactional
+    Long deleteById(Long id);
+	
 	Page<Collect> findByFavoritesId(Long favoritesId,Pageable pageable);
 	
 	List<Collect> findByFavoritesIdAndUrlAndUserId(Long favoritesId,String url,Long userId);
@@ -27,6 +32,7 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Query("delete from Collect where favoritesId = ?1")
 	void deleteByFavoritesId(Long favoritesId);
 	
+
 	
 	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
@@ -34,6 +40,11 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.userId=?1 ")
 	Page<CollectView> findViewByUserId(Long userId,Pageable pageable);
 	
+	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
+			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.userId=?1 and c.type=?2")
+	Page<CollectView> findViewByUserIdAndType(Long userId,Pageable pageable,String type);
 	
 	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "

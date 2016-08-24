@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
-import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
-import com.favorites.domain.result.ExceptionMsg;
-import com.favorites.domain.result.ResponseData;
+import com.favorites.domain.result.Response;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
@@ -36,10 +33,22 @@ public class CollectController extends BaseController{
 	private FavoritesService favoritesService;
 	
 	@RequestMapping(value="/changePrivacy/{id}/{type}")
-	public String changePrivacy(Model model,@PathVariable("id") long id,@PathVariable("type") String type) {
-		collectRepository.modifyById(type, id);
+	public String changePrivacy(@PathVariable("id") long id,@PathVariable("type") String type) {
+		int ss=collectRepository.modifyById(type, id);
 		logger.info("user info :"+getUser());
 		return "home/standard";
+	}
+	
+	@RequestMapping(value="/delete/{id}")
+	public Response delete(@PathVariable("id") long id) {
+		collectRepository.deleteById(id);
+		return result();
+	}
+	
+	@RequestMapping(value="/detail/{id}")
+	public Collect detail(@PathVariable("id") long id) {
+		Collect collect=collectRepository.findOne(id);
+		return collect;
 	}
 	
 	/**
@@ -92,8 +101,5 @@ public class CollectController extends BaseController{
 			logger.error("导入html异常:",e);
 		}
 	}
-	
-
-	
 	
 }

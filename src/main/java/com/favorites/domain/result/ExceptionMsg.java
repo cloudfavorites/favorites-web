@@ -11,6 +11,7 @@ public enum ExceptionMsg {
     UserNameUsed("000102","该登陆名称已存在"),
     EmailNotRegister("000103","该邮箱地址未注册"), 
     LinkOutdated("000104","该链接已过期，请重新请求"),
+    PassWordError("000105","密码输入错误"),
 
     FavoritesNameIsNull("000200","收藏夹名称不能为空"),
     FavoritesNameUsed("000201","收藏夹名称已被创建"),

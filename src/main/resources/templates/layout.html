@@ -24,8 +24,8 @@
 		<div th:replace="fragments/sidebar :: sidebar">sidebar</div>
 		<div layout:fragment="content" id="content" ></div>
 		<div th:replace="fragments/footer :: footer">footer</div>
-		<div th:replace="fragments/alert :: alert">alert</div>
     </div>
+	<div th:replace="fragments/alert :: alert">alert</div>
     <script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
     <script th:src="@{/webjars/jquery-form/3.51/jquery.form.js}"></script>
 	<script th:src="@{/webjars/bootstrap/3.3.6/dist/js/bootstrap.min.js}"></script>
@@ -33,6 +33,7 @@
 	<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
 	<script th:src="@{/media/js/app.js}" ></script>
 	<script th:src="@{/js/layout.js}" ></script>
+	<script th:src="@{/js/collect.js}" ></script>
 	<script th:src="@{/js/comm.js}" ></script>
 	<script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
 	<script th:src="@{/vendor/toastr/toastr.min.js}"></script>  	
@@ -115,6 +116,34 @@
                <button type="button" id="updateFavoritestBtn" onclick="changeConfig('defaultFavorites')" class="btn btn-primary">确定</button>
                <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>
             </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-ChangePass" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改密码</h4>
+            </div>
+            <form id="updatePwdForm" data-parsley-validate="true" onsubmit="return false">
+            <div class="modal-body">
+               <div class="alert alert-danger text-center" id="pwderror">密码输入错误</div>
+               <div class="form-group has-feedback">
+                  <input id="oldPassword" name="oldPassword" type="password" placeholder="旧密码" class="form-control" required="required" data-parsley-error-message="请输入旧密码"/>
+                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+               </div>
+               <div class="form-group has-feedback">
+                  <input id="newPassword" name="newPassword" type="password" placeholder="新密码" class="form-control" required="required" data-parsley-error-message="请输入新密码"/>
+                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="submit" id="updatePwdBtn" class="btn btn-block btn-primary mt-lg" onclick="updatePwd();">确定</button>
+            </div>
+            </form>
          </div>
       </div>
    </div>

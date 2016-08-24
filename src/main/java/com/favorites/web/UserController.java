@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.FollowRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -58,6 +58,8 @@ public class UserController extends BaseController {
 	private String mailContent;
 	@Autowired	
 	private ConfigRepository configRepository;
+	@Autowired
+	private FollowRepository followRepository;
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -114,11 +116,16 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response login(Collect collect) {
+	public Response collect(Collect collect) {
 		logger.info("collect begin, param is " + collect);
 		try {
-			if(collectService.checkCollect(collect, getUserId())){
-				collectService.saveCollect(collect, getUserId());
+			collect.setUserId(getUserId());
+			if(collectService.checkCollect(collect)){
+				if(collect.getId()==null){
+					collectService.saveCollect(collect);
+				}else{
+					collectService.updateCollect(collect);
+				}
 			}else{
 				return result(ExceptionMsg.CollectExist);
 			}
@@ -178,14 +185,10 @@ public class UserController extends BaseController {
 		return result();
 	}
 	
-	@RequestMapping("/uid")
-	String uid(HttpSession session) {
-		UUID uid = (UUID) session.getAttribute("uid");
-		if (uid == null) {
-			uid = UUID.randomUUID();
-		}
-		session.setAttribute("uid", uid);
-		return session.getId();
+	@RequestMapping(value="/getFollows")
+	public List<String> getFollows() {
+		List<String> followList = followRepository.findByUserId(getUserId());
+		return followList;
 	}
 	
 	@RequestMapping(value = "/sendForgotPasswordEmail", method = RequestMethod.POST)

@@ -2,6 +2,7 @@ package com.favorites.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,16 +26,15 @@ import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
+import com.favorites.utils.HtmlUtil;
 import com.favorites.utils.StringUtil;
 
 @Service("collectService")
 public class CollectServiceImpl implements CollectService {
-
 	protected Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
 	private CollectRepository collectRepository;
-
 	@Autowired
 	private FavoritesRepository favoritesRepository;
 	@Autowired
@@ -48,6 +48,15 @@ public class CollectServiceImpl implements CollectService {
 	@Autowired
 	private CommentRepository commentRepository;
 
+	/**
+	 * 展示收藏列表
+	 * @author neo
+	 * @date 2016年8月24日
+	 * @param type
+	 * @param userId
+	 * @param pageable
+	 * @return
+	 */
 	@Override
 	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable) {
 		// TODO Auto-generated method stub
@@ -56,11 +65,14 @@ public class CollectServiceImpl implements CollectService {
 			views = collectRepository.findViewByUserId(userId, pageable);
 		} else if ("explore".equals(type)) {
 			views = collectRepository.findAllView(pageable);
-		} else {
+		} else if("others".equals(type)){
+			views = collectRepository.findViewByUserIdAndType(userId, pageable, "public");
+		}else {
 			views = collectRepository.findViewByFavoritesId(Long.parseLong(type), pageable);
 		}
 		return convertCollect(views);
 	}
+
 
 	/**
 	 * @author neo
@@ -91,22 +103,11 @@ public class CollectServiceImpl implements CollectService {
 	 * @param collect
 	 * @param userId
 	 */
-	public void saveCollect(Collect collect, Long userId) {
-		collect.setUserId(userId);
+	public void saveCollect(Collect collect) {
+		updatefavorites(collect);
 		collect.setCreateTime(DateUtils.getCurrentTime());
 		collect.setLastModifyTime(DateUtils.getCurrentTime());
 		collect.setIsDelete("no");
-		if (StringUtils.isNotBlank(collect.getNewFavorites())) {
-			Favorites favorites = favoritesRepository.findByUserIdAndName(userId, collect.getNewFavorites());
-			if (null == favorites) {
-				favorites = favoritesService.saveFavorites(userId, 1l,collect.getNewFavorites());
-			} else {
-				favoritesRepository.updateCountById(favorites.getId(),DateUtils.getCurrentTime());
-			}
-			collect.setFavoritesId(favorites.getId());
-		} else {
-			favoritesRepository.updateCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
-		}
 		if (StringUtils.isBlank(collect.getType())) {
 			collect.setType("public");
 		}
@@ -114,19 +115,29 @@ public class CollectServiceImpl implements CollectService {
 			collect.setDescription(collect.getTitle());
 		}
 		collectRepository.save(collect);
-		if (StringUtils.isNotBlank(collect.getRemark())&& collect.getRemark().indexOf("@") > -1) {
-			List<String> atUsers = StringUtil.getAtUser(collect.getRemark());
-			for (String str : atUsers) {
-				logger.info("用户名：" + str);
-				User user = userRepository.findByUserName(str);
-				if (null != user) {
-					// 保存消息通知
-					noticeService.saveNotice(String.valueOf(collect.getId()),"at", userId, null);
-				} else {
-					logger.info("为找到匹配：" + str + "的用户.");
-				}
-			}
+		noticeFriends(collect);
+	}
+	
+	/**
+	 *  修改文章
+	 * @author neo
+	 * @date 2016年8月24日
+	 * @param newCollect
+	 */
+	public void updateCollect(Collect newCollect) {
+		Collect collect=collectRepository.findOne(newCollect.getId());
+		collect.setFavoritesId(newCollect.getFavoritesId());
+		updatefavorites(collect);
+		collect.setTitle(newCollect.getTitle());
+		collect.setDescription(newCollect.getDescription());
+		collect.setLogoUrl(newCollect.getLogoUrl());
+		collect.setRemark(newCollect.getRemark());
+		if (StringUtils.isBlank(newCollect.getType())) {
+			collect.setType("public");
 		}
+		collect.setLastModifyTime(DateUtils.getCurrentTime());
+		collectRepository.save(collect);
+		noticeFriends(collect);
 	}
 	
 	/**
@@ -135,14 +146,14 @@ public class CollectServiceImpl implements CollectService {
 	 * @param userId
 	 * @return
 	 */
-	public boolean checkCollect(Collect collect,Long userId){
+	public boolean checkCollect(Collect collect){
 		if(StringUtils.isNotBlank(collect.getNewFavorites())){
 			// url+favoritesId+userId
-			Favorites favorites = favoritesRepository.findByUserIdAndName(userId, collect.getNewFavorites());
+			Favorites favorites = favoritesRepository.findByUserIdAndName(collect.getUserId(), collect.getNewFavorites());
 			if(null == favorites){
 				return true;
 			}else{
-				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(favorites.getId(), collect.getUrl(), userId);
+				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(favorites.getId(), collect.getUrl(), collect.getUserId());
 				if(null != list && list.size() > 0){
 					return false;
 				}else{
@@ -150,7 +161,7 @@ public class CollectServiceImpl implements CollectService {
 				}
 			}
 		}else{
-			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(collect.getFavoritesId(), collect.getUrl(), userId);
+			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(collect.getFavoritesId(), collect.getUrl(), collect.getUserId());
 			if(null != list && list.size() > 0){
 				return false;
 			}else{
@@ -158,5 +169,91 @@ public class CollectServiceImpl implements CollectService {
 			}
 		}
 	}
+	
+	/**
+	 * 导入收藏文章
+	 */
+	public void importHtml(List<String> urlList,Long favoritesId,Long userId){
+		for(String url : urlList){
+			try {
+				Map<String, String> result = HtmlUtil.getCollectFromUrl(url);
+				Collect collect = new Collect();
+				collect.setCharset(result.get("charset"));
+				if(StringUtils.isBlank(result.get("title"))){
+					if(StringUtils.isNotBlank(result.get("description"))){
+						collect.setTitle(result.get("description"));
+					}else{
+						continue;
+					}
+				}else{
+					collect.setTitle(result.get("title"));
+				}
+				if(StringUtils.isBlank(result.get("description"))){
+					collect.setDescription(collect.getTitle());
+				}else{
+					collect.setDescription(result.get("description"));
+				}
+				collect.setFavoritesId(favoritesId);
+				collect.setIsDelete("no");
+				collect.setLogoUrl(result.get("logoUrl"));
+				collect.setType("private");
+				collect.setUrl(url);
+				collect.setUserId(userId);
+				collect.setCreateTime(DateUtils.getCurrentTime());
+				collect.setLastModifyTime(DateUtils.getCurrentTime());
+				collectRepository.save(collect);
+				favoritesRepository.updateCountById(favoritesId, DateUtils.getCurrentTime());
+			} catch (Exception e) {
+				logger.error("导入存储异常：",e);
+			}
+		}
+		
+	}
 
+	
+	/**
+	 * 更新收藏夹
+	 * @author neo
+	 * @date 2016年8月24日
+	 * @param collect
+	 */
+	private void  updatefavorites(Collect collect){
+		if (StringUtils.isNotBlank(collect.getNewFavorites())) {
+			Favorites favorites = favoritesRepository.findByUserIdAndName(collect.getUserId(), collect.getNewFavorites());
+			if (null == favorites) {
+				favorites = favoritesService.saveFavorites(collect.getUserId(), 1l,collect.getNewFavorites());
+			} else {
+				favoritesRepository.updateCountById(favorites.getId(),DateUtils.getCurrentTime());
+			}
+			collect.setFavoritesId(favorites.getId());
+		} else {
+			favoritesRepository.updateCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
+		}
+	}
+	
+	
+	
+	/**
+	 * @通知好友
+	 * @author neo
+	 * @date 2016年8月24日
+	 * @param collect
+	 */
+	private void noticeFriends(Collect collect){
+		if (StringUtils.isNotBlank(collect.getRemark())&& collect.getRemark().indexOf("@") > -1) {
+			List<String> atUsers = StringUtil.getAtUser(collect.getRemark());
+			for (String str : atUsers) {
+				logger.info("用户名：" + str);
+				User user = userRepository.findByUserName(str);
+				if (null != user) {
+					// 保存消息通知
+					noticeService.saveNotice(String.valueOf(collect.getId()),"at", collect.getUserId(), null);
+				} else {
+					logger.info("为找到匹配：" + str + "的用户.");
+				}
+			}
+		}
+	}
+	
+	
 }

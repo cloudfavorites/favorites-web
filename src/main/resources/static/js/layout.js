@@ -3,17 +3,52 @@ var mainActiveId='home';
 var firstUrl = null;//第一个页面
 var secondUrl = null;//第二个页面
 var flag = 1;
+var gfavorites;
+var gfollows;
+var gconfig;
 $(function() {
-	loadFavorites();
 	loadConfig();
+	loadFavorites();
+	loadFollows();
+	$("#pwderror").hide();
 });
+
+
+function loadConfig(){
+	$.ajax({
+		async: true,
+		type: 'POST',
+		dataType: 'json',
+		url: '/user/getConfig',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+			console.log(textStatus);
+			console.log(errorThrown);
+		},
+		success: function(config){
+			gconfig=config;
+			$("#defaultCollectType").html("");
+			$("#defaultModel").html("");
+			$("#defaultFavorites").html("");
+			initConfigDatas(config);
+			//设置默认选中收藏夹
+			obj = document.getElementById("layoutFavoritesName");
+			for(i=0;i<obj.length;i++){
+			  if(obj[i].value == config.defaultFavorties){
+			    obj[i].selected = true;
+			  	$("#defaultFavorites").append("<strong>默认收藏夹(" +obj[i].text +")");
+			  }
+			}
+		}
+	});
+}
 
 function loadFavorites(){
 	$.ajax({
 		async: false,
 		type: 'POST',
 		dataType: 'json',
-		url: '/user/getFavorites',
+		url: '/favorites/getFavorites',
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);
 			console.log(textStatus);
@@ -27,12 +62,31 @@ function loadFavorites(){
 				}
 			});
 			$("#layoutFavoritesName").html("");
-			initDatas(favorites);
+			gfavorites=favorites;
+			initFavorites(favorites);
 		}
 	});
 }
 
-function initDatas(favorites){
+function loadFollows(){
+	$.ajax({
+		async: false,
+		type: 'POST',
+		dataType: 'json',
+		url: '/user/getFollows',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+			console.log(textStatus);
+			console.log(errorThrown);
+		},
+		success: function(follows){
+			gfollows=follows;
+			initFollows(follows);
+		}
+	});
+}
+
+function initFavorites(favorites){
 	for(var i=0;i<favorites.length;i++){
 		var id = favorites[i].id ;
 		var name = favorites[i].name;
@@ -55,42 +109,27 @@ function initDatas(favorites){
 			favorite=favorite+"</a></li>";
 			$("#newFavortes").after(favorite)
 		}
+		//collct favorites
+		$("#favoritesSelect").append("<option value=\"" + id + "\">" + name + "</option>");
 		$("#layoutFavoritesName").append("<option value=\"" + id + "\">" + name + "</option>");
 		
 	}
-}
-
-function loadConfig(){
-	$.ajax({
-		async: false,
-		type: 'POST',
-		dataType: 'json',
-		url: '/user/getConfig',
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(XMLHttpRequest);
-			console.log(textStatus);
-			console.log(errorThrown);
-		},
-		success: function(config){
-			$("#defaultCollectType").html("");
-			$("#defaultModel").html("");
-			$("#defaultFavorites").html("");
-			initConfigDatas(config);
-			//设置默认选中收藏夹
-			obj = document.getElementById("layoutFavoritesName");
-			for(i=0;i<obj.length;i++){
-			  if(obj[i].value == config.defaultFavorties){
-			    obj[i].selected = true;
-			  	$("#defaultFavorites").append("<strong>默认收藏夹(" +obj[i].text +")");
-			  }
-			}
-		}
-	});
+	$("#favoritesSelect").val(gconfig.defaultFavorties);
 }
 
 function initConfigDatas(config){
 	$("#defaultCollectType").append("<strong>默认"+config.collectTypeName+"收藏（点击切换）</strong>")
 	$("#defaultModel").append("<strong>收藏时显示" +config.modelName+"模式</strong>");
+}
+
+function initFollows(follows){
+	$("#friends").html("");
+	var friends="";
+	for(var i=0;i<follows.length;i++){
+		var name="<a href=\"javascript:void(0);\" onclick=\"showAt('"+follows[i]+"')\" >"+follows[i]+"</a>";
+		friends=friends+name;
+	}
+	$("#friends").append(friends);
 }
 
 function locationUrl(url,activeId){
@@ -229,3 +268,31 @@ function delFavorites(){
 	});
 }
 
+function updatePwd() {
+    var ok = $('#updatePwdForm').parsley().isValid({force: true});
+	if(!ok){
+		return;
+	}
+	var url = '/user/updatePassword';
+	$.ajax({
+		async: false,
+		url : url,
+		data : 'oldPassword='+$("#oldPassword").val()+'&newPassword='+$("#newPassword").val(),
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(data, textStatus) {
+			if(data.rspCode == '000000'){
+				$("#pwderror").hide();
+				$("#updatePwdBtn").attr("aria-hidden","true");
+				$("#updatePwdBtn").attr("data-dismiss","modal");
+				$("#updatePwdForm")[0].reset();
+  	    	}else{
+  	    		$("#pwderror").show();
+  	    		$("#updatePwdBtn").removeAttr("aria-hidden");
+				$("#updatePwdBtn").removeAttr("data-dismiss");
+  	    	}
+		}
+	});
+}

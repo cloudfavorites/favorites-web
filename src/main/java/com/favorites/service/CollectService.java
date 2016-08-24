@@ -11,8 +11,12 @@ public interface CollectService {
 	
 	public List<CollectSummary>  getCollects(String type,Long userId,Pageable pageable);
 	
-	public void saveCollect(Collect collect, Long userId);
+	public void saveCollect(Collect collect);
 	
-	public boolean checkCollect(Collect collect,Long userId);
+	public void updateCollect(Collect newCollect);
+	
+	public boolean checkCollect(Collect collect);
+	
+	public void importHtml(List<String> urlList,Long favoritesId,Long userId);
 
 }
