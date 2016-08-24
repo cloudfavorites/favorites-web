@@ -6,7 +6,8 @@ var flag = 1;
 $(function() {
 	loadFavorites();
 	loadConfig();
-	$("#pwderror").hide();
+	$("#passwordError").hide();
+	$("#nicknameError").hide();
 });
 
 function loadFavorites(){
@@ -246,14 +247,71 @@ function updatePwd() {
 		},
 		success : function(data, textStatus) {
 			if(data.rspCode == '000000'){
-				$("#pwderror").hide();
+				$("#passwordError").hide();
 				$("#updatePwdBtn").attr("aria-hidden","true");
 				$("#updatePwdBtn").attr("data-dismiss","modal");
 				$("#updatePwdForm")[0].reset();
   	    	}else{
-  	    		$("#pwderror").show();
+  	    		$("#passwordError").show();
   	    		$("#updatePwdBtn").removeAttr("aria-hidden");
 				$("#updatePwdBtn").removeAttr("data-dismiss");
+  	    	}
+		}
+	});
+}
+
+function updateIntroduction() {
+    var ok = $('#updateIntroductionForm').parsley().isValid({force: true});
+	if(!ok){
+		return;
+	}
+	var url = '/user/updateIntroduction';
+	$.ajax({
+		async: false,
+		url : url,
+		data : 'introduction='+$("#introduction").val(),
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(data, textStatus) {
+			if(data.rspCode == '000000'){
+				$("#updateIntroductionBtn").attr("aria-hidden","true");
+				$("#updateIntroductionBtn").attr("data-dismiss","modal");
+				$("#updateIntroductionForm")[0].reset();
+				$("#leftIntroduction").html(data.data);
+				$("#userIntroduction").html(data.data);
+  	    	}
+		}
+	});
+}
+
+function updateNickname() {
+    var ok = $('#updateNicknameForm').parsley().isValid({force: true});
+	if(!ok){
+		return;
+	}
+	var url = '/user/updateUserName';
+	$.ajax({
+		async: false,
+		url : url,
+		data : 'userName='+$("#newNickname").val(),
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(data, textStatus) {
+			if(data.rspCode == '000000'){
+				$("#nicknameError").hide();
+				$("#updateNicknameBtn").attr("aria-hidden","true");
+				$("#updateNicknameBtn").attr("data-dismiss","modal");
+				$("#updateNicknameForm")[0].reset();
+				$("#leftUserName").html(data.data);
+				$("#userUserName").html(data.data);
+  	    	}else{
+  	    		$("#nicknameError").show();
+  	    		$("#updateNicknameBtn").removeAttr("aria-hidden");
+				$("#updateNicknameBtn").removeAttr("data-dismiss");
   	    	}
 		}
 	});

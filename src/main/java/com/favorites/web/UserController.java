@@ -248,5 +248,57 @@ public class UserController extends BaseController {
 		}
 		return result();
 	}
+	
+	/**
+	 * 修改个人简介
+	 * @param introduction
+	 * @return
+	 */
+	@RequestMapping(value = "/updateIntroduction", method = RequestMethod.POST)
+	public ResponseData updateIntroduction(String introduction) {
+		logger.info("updateIntroduction begin, param is " + introduction);
+		ResponseData responseData;
+		try {
+			User user = (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
+			userRepository.setIntroduction(introduction, user.getEmail());
+			user.setIntroduction(introduction);
+			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+			responseData = new ResponseData(introduction);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("updateIntroduction failed, ", e);
+			responseData = new ResponseData(ExceptionMsg.FAILED);
+			return responseData;
+		}
+		return responseData;
+	}
+	
+	/**
+	 * 修改昵称
+	 * @param userName
+	 * @return
+	 */
+	@RequestMapping(value = "/updateUserName", method = RequestMethod.POST)
+	public ResponseData updateUserName(String userName) {
+		logger.info("updateUserName begin, param is " + userName);
+		ResponseData responseData;
+		try {
+			User user = (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
+			if(user.getUserName().equals(userName)){
+				responseData = new ResponseData(ExceptionMsg.UserNameUsed);
+				return responseData;
+			}
+			userRepository.setUserName(userName, user.getEmail());
+			user.setUserName(userName);
+			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+			responseData = new ResponseData(userName);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("updateUserName failed, ", e);
+			responseData = new ResponseData(ExceptionMsg.FAILED);
+			return responseData;
+		}
+		return responseData;
+	}
 
 }

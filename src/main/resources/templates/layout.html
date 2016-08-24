@@ -118,6 +118,7 @@
          </div>
       </div>
    </div>
+   <input type="hidden" id="layoutConfigId" name="layoutConfigId"/>
    <div id="modal-ChangePass" class="modal fade">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -128,24 +129,71 @@
                <h4 class="modal-title">修改密码</h4>
             </div>
             <form id="updatePwdForm" data-parsley-validate="true" onsubmit="return false">
-            <div class="modal-body">
-               <div class="alert alert-danger text-center" id="pwderror">密码输入错误</div>
-               <div class="form-group has-feedback">
-                  <input id="oldPassword" name="oldPassword" type="password" placeholder="旧密码" class="form-control" required="required" data-parsley-error-message="请输入旧密码"/>
-                  <span class="fa fa-lock form-control-feedback text-muted"></span>
-               </div>
-               <div class="form-group has-feedback">
-                  <input id="newPassword" name="newPassword" type="password" placeholder="新密码" class="form-control" required="required" data-parsley-error-message="请输入新密码"/>
-                  <span class="fa fa-lock form-control-feedback text-muted"></span>
-               </div>
-            </div>
-            <div class="modal-footer">
-               <button type="submit" id="updatePwdBtn" class="btn btn-block btn-primary mt-lg" onclick="updatePwd();">确定</button>
-            </div>
+	            <div class="modal-body">
+	               <div class="alert alert-danger text-center" id="passwordError">密码输入错误</div>
+	               <div class="form-group has-feedback">
+	                  <input id="oldPassword" name="oldPassword" type="password" placeholder="旧密码" class="form-control" required="required" data-parsley-error-message="请输入旧密码"/>
+	                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+	               </div>
+	               <div class="form-group has-feedback">
+	                  <input id="newPassword" name="newPassword" type="password" placeholder="新密码" class="form-control" required="required" data-parsley-error-message="请输入新密码"/>
+	                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+	               </div>
+	            </div>
+	            <div class="modal-footer">
+	               <button type="submit" id="updatePwdBtn" class="btn btn-block btn-primary mt-lg" onclick="updatePwd();">确定</button>
+	            </div>
             </form>
          </div>
       </div>
    </div>
-   <input type="hidden" id="layoutConfigId" name="layoutConfigId"/>
+   <div id="modal-changeDescription" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改个人简介</h4>
+            </div>
+            <form id="updateIntroductionForm" data-parsley-validate="true" onsubmit="return false">
+	            <div class="modal-body">
+	               <div class="form-group">
+	                  <textarea name="introduction" id="introduction" class="form-control" cols="30" rows="2" required="required" data-parsley-error-message="请输入个人简介"></textarea>
+	               </div>
+	            </div>
+	            <div class="modal-footer">
+	               <button type="submit" id="updateIntroductionBtn" class="btn btn-block btn-primary mt-lg" onclick="updateIntroduction();">确定</button>
+	               <!--  <button type="button" class="btn btn-primary">确定</button>
+	               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>  -->
+	            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div id="modal-ChangeNickname" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改昵称</h4>
+            </div>
+            <form id="updateNicknameForm" data-parsley-validate="true" onsubmit="return false">
+	            <div class="modal-body">
+	               <div class="alert alert-danger text-center" id="nicknameError">该昵称已存在</div>
+	               <div class="form-group has-feedback">
+	                  <input id="newNickname" name="newNickname" type="text" placeholder="新昵称" class="form-control" required="required" data-parsley-error-message="请输入新昵称"/>
+	                  <span class="fa fa-user form-control-feedback text-muted"></span>
+	               </div>
+	            </div>
+	            <div class="modal-footer">
+	               <button type="submit" id="updateNicknameBtn" class="btn btn-block btn-primary mt-lg" onclick="updateNickname();">确定</button>
+	            </div>
+	        </form>
+         </div>
+      </div>
+   </div>
 </body>
 </html>

@@ -24,6 +24,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User set passWord=:passWord where email=:email") 
     int setNewPassword(@Param("passWord") String passWord, @Param("email") String email);
+    
+    @Modifying(clearAutomatically=true)
+    @Transactional
+    @Query("update User set introduction=:introduction where email=:email") 
+    int setIntroduction(@Param("introduction") String introduction, @Param("email") String email);
+    
+    @Modifying(clearAutomatically=true)
+    @Transactional
+    @Query("update User set userName=:userName where email=:email") 
+    int setUserName(@Param("userName") String userName, @Param("email") String email);
 
 /*    @Query("from User u where u.name=:name")
     User findUser(@Param("name") String name);
