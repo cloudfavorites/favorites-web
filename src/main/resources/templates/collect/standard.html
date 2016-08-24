@@ -38,7 +38,7 @@
                                           <ul class="dropdown-menu animated bounceIn">
                                              <li>
                                                 <div class="list-group">
-                                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-changeSharing" class="list-group-item">
+                                                   <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'modifyCollect(' + ${collect.id} + ');'" >
                                                       <div class="media-box">
                                                          <div class="pull-left">
                                                             <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
@@ -51,7 +51,7 @@
                                                          </div>
                                                       </div>
                                                    </a>
-                                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-remove" class="list-group-item">
+                                                   <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ');'">
                                                       <div class="media-box">
                                                          <div class="pull-left">
                                                             <em class="fa fa-trash fa-2x fa-fw text-danger"></em>
@@ -80,6 +80,7 @@
                                        </div>
                                     </div>
                                  </div>
+                                  <div class="m0" th:text="${collect.remark}"></div>
                                  <div class="media resource-card-thumbnail">
                                     <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
                                        <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
@@ -141,6 +142,8 @@
                     </ul>
                </div>
             </div>
+            <input type="hidden" name="collectId" id="collectId" />
+            <input type="hidden" name="forward" id="forward" th:value="'/standard/'+${type}" />
          </div>
       </section>
   </body>
@@ -151,5 +154,6 @@
 		  $("#favoritesId").val(favorites.id);
 	  }
   });
+ 
   </script>
 </html>

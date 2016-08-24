@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-   <div th:fragment="alert">
+   <div th:fragment="alert" style="z-index:1050;position:relative;">
 	 <div id="modal-changeSharing" class="modal fade" >
-      <div class="modal-dialog wd-xl">
+	 <div class="modal-dialog wd-xl">
+	   <div th:replace="fragments/collect :: collect">collect</div>
+	   </div>
+ <!--      <div class="modal-dialog wd-xl">
          <div class="modal-content">
             <div class="panel panel-dark panel-flat">
                <div class="panel-heading text-center">
@@ -43,7 +46,7 @@
                </div>
             </div>
          </div>
-      </div>
+      </div> -->
    </div>
    <div id="modal-remove" class="modal fade">
       <div class="modal-dialog">
@@ -58,51 +61,8 @@
                <p>该收藏将被永久删除，且无法找回，是否继续？</p>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-primary">确定</button>
+               <button id="delCollect" type="button"  class="btn btn-primary" onclick="delCollect()" >确定</button>
                <button type="button" data-dismiss="modal" class="btn btn-danger">取消</button>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div id="modal-changeDescription" class="modal fade">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" data-dismiss="modal" class="close">
-                  <span>&times;</span>
-               </button>
-               <h4 class="modal-title">修改个人简介</h4>
-            </div>
-            <div class="modal-body">
-               <div class="form-group">
-                  <textarea name="" id="" class="form-control" cols="30" rows="2"></textarea>
-               </div>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-primary">确定</button>
-               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div id="modal-ChangeNickname" class="modal fade">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" data-dismiss="modal" class="close">
-                  <span>&times;</span>
-               </button>
-               <h4 class="modal-title">修改昵称</h4>
-            </div>
-            <div class="modal-body">
-               <div class="alert alert-danger text-center">该昵称已存在</div>
-               <div class="form-group has-feedback">
-                  <input type="text" placeholder="新昵称" class="form-control"/>
-                  <span class="fa fa-user form-control-feedback text-muted"></span>
-               </div>
-            </div>
-            <div class="modal-footer">
-               <button type="submit" class="btn btn-block btn-primary mt-lg">确定</button>
             </div>
          </div>
       </div>

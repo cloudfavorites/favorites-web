@@ -23,7 +23,7 @@ public class CollectRepositoryTest {
 	    for(CollectView view:views){
 	    	System.out.println("collect title ：" +view.getTitle());
 	    }	*/
-	    
+		collectRepository.deleteById(3l);
 	}
 	
 	

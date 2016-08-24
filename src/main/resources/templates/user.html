@@ -8,9 +8,9 @@
                   <div class="p-xl text-center text-white">
                      <a href="#">
                         <img src="img/dummy.png" alt="" class="img-thumbnail img-circle thumb128"/></a>
-                     <h3 class="m0 mt" th:text="${user.userName}">用户昵称</h3>
+                     <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
                      <p th:if="${myself == 'yes'}" th:text="${user.email}">123456789@qq.com</p>
-                     <p th:text="${user.introduction== null ? '暂无简介': user.introduction}">暂无简介</p>
+                     <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
                      <a href="javascript:void(0);" th:if="${myself == 'no'}" id="follow"></a>
                   </div>
                </div>
