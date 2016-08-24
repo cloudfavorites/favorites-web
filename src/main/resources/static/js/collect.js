@@ -45,7 +45,7 @@ $(function(){
 		 $("#errorMsg").show();
 		 return;
 	 }
-	 if($("#logoUrl").val() ==""){
+	 if($("#clogoUrl").val() ==""){
 		 $("#errorMsg").text("图片链接不能为空");
 		 $("#errorMsg").show();
 		 return;
@@ -57,7 +57,8 @@ $(function(){
   	         data:$("#collect-form").serialize(),
   	         success: function(response) { 
   	        	 if(response.rspCode == '000000'){
-  	        		window.location="/";
+  					$('#modal-changeSharing').modal('hide');
+  					locationUrl($("#forward").val(),"home");
   	        	 }else{
   	        		$("#errorMsg").text(response.rspMsg);
  			 		$("#errorMsg").show();
@@ -82,6 +83,7 @@ function showAt(name){
 }
 
 function onCollect(id){
+	 $('#modal-remove').modal('show');
 	 $("#collectId").val(id);
 }
 
@@ -98,10 +100,8 @@ function delCollect(){
 				console.log(errorThrown);
 			},
 			success: function(response){
-				locationUrl("/standard/my","home");
-				loadFavorites();
-				$("#delCollect").attr("aria-hidden","true");
-				$("#delCollect").attr("data-dismiss","modal");
+				locationUrl($("#forward").val(),"home");
+				$('#modal-remove').modal('hide');
 			}
 		});
 }

@@ -51,7 +51,7 @@
                                                          </div>
                                                       </div>
                                                    </a>
-                                                   <a href="javascript:void(0);"  data-toggle="modal" data-target="#modal-remove" class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ');'">
+                                                   <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ');'">
                                                       <div class="media-box">
                                                          <div class="pull-left">
                                                             <em class="fa fa-trash fa-2x fa-fw text-danger"></em>
@@ -143,6 +143,7 @@
                </div>
             </div>
             <input type="hidden" name="collectId" id="collectId" />
+            <input type="hidden" name="forward" id="forward" th:value="'/standard/'+${type}" />
          </div>
       </section>
   </body>
