@@ -53,13 +53,11 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.favoritesId=?1 ")
 	Page<CollectView> findViewByFavoritesId(Long favoritesId,Pageable pageable);
 	
-	
 	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
-			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.type='public' ")
-	Page<CollectView> findAllView(Pageable pageable);
-	
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.type='public' and c.userId!=?1 ")
+	Page<CollectView> findExploreView(Long userId,Pageable pageable);
 	
 	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "

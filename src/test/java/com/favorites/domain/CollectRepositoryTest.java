@@ -41,7 +41,7 @@ public class CollectRepositoryTest {
 	
 	@Test
 	public void testFindAllView() throws Exception {
-	    Page<CollectView> views=collectRepository.findAllView(new PageRequest(0, 10, Direction.ASC, "title"));
+	    Page<CollectView> views=collectRepository.findExploreView(1l, new PageRequest(0, 10, Direction.ASC, "title"));
 	    for(CollectView view:views){
 	    	System.out.print("   collect title==" +view.getTitle());
 	    	System.out.print("   FavoriteName==" +view.getFavoriteName());

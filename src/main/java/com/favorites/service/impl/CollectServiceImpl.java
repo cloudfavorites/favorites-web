@@ -70,7 +70,7 @@ public class CollectServiceImpl implements CollectService {
 			List<Long> userIds=followRepository.findMyFollowIdByUserId(userId);;
 			views = collectRepository.findViewByUserIdAndFollows(userId, userIds, pageable);
 		} else if ("explore".equals(type)) {
-			views = collectRepository.findAllView(pageable);
+			views = collectRepository.findExploreView(userId,pageable);
 		} else if("others".equals(type)){
 			views = collectRepository.findViewByUserIdAndType(userId, pageable, "public");
 		}else {
@@ -134,6 +134,9 @@ public class CollectServiceImpl implements CollectService {
 	@Transactional
 	public void updateCollect(Collect newCollect) {
 		Collect collect=collectRepository.findOne(newCollect.getId());
+		if(collect.getFavoritesId()!=newCollect.getFavoritesId()){
+			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+		}
 		collect.setFavoritesId(newCollect.getFavoritesId());
 		collect.setNewFavorites(newCollect.getNewFavorites());
 		updatefavorites(collect);
@@ -207,7 +210,7 @@ public class CollectServiceImpl implements CollectService {
 				collect.setCreateTime(DateUtils.getCurrentTime());
 				collect.setLastModifyTime(DateUtils.getCurrentTime());
 				collectRepository.save(collect);
-				favoritesRepository.updateCountById(favoritesId, DateUtils.getCurrentTime());
+				favoritesRepository.increaseCountById(favoritesId, DateUtils.getCurrentTime());
 			} catch (Exception e) {
 				logger.error("导入存储异常：",e);
 			}
@@ -249,11 +252,11 @@ public class CollectServiceImpl implements CollectService {
 			if (null == favorites) {
 				favorites = favoritesService.saveFavorites(collect.getUserId(), 1l,collect.getNewFavorites());
 			} else {
-				favoritesRepository.updateCountById(favorites.getId(),DateUtils.getCurrentTime());
+				favoritesRepository.increaseCountById(favorites.getId(),DateUtils.getCurrentTime());
 			}
 			collect.setFavoritesId(favorites.getId());
 		} else {
-			favoritesRepository.updateCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
+			favoritesRepository.increaseCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
 		}
 	}
 	

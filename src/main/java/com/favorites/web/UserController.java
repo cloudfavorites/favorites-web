@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.Const;
-import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
@@ -28,7 +27,6 @@ import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
-import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
@@ -57,11 +55,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private FollowRepository followRepository;
 	@Autowired
-	private CollectService collectService;
-	@Autowired
 	private FavoritesRepository favoritesRepository;
-	
-	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseData login(User user) {

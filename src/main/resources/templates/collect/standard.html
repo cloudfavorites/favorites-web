@@ -32,7 +32,7 @@
                                  <div class="table-grid">
                                     <div class="col">
                                        <div class="pull-right dropdown dropdown-list">
-                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" >
+                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" th:if="${userId == collect.userId}" >
                                              <span class="fa fa-angle-down"></span>
                                           </a>
                                           <ul class="dropdown-menu animated bounceIn">
@@ -69,11 +69,11 @@
                                           </ul>
                                        </div>
                                        <div class="m0">
-                                          <a href="#" class="text-muted" th:text="${collect.userName}">favorites_name</a>
-                                          <a th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
+                                          <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '\',\'\');'" >user name</a>
+                                          <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
-                                          <a th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='public' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'public\');'">
+                                          <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='public' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'public\');'">
                                              <span class="fa fa-lock text-warning"></span>
                                           </a>
                                           <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前  </small>

@@ -26,15 +26,15 @@
                      <tbody>
                         <tr th:each="collect,collectStat : ${collects}">
                            <td>
-                              <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">Bootstrap中文网</a>
+                              <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
                            </td>
                            <td width="10%" class="text-center">
                               <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
                            <td width="15%" class="text-center">
                               <div>
-                                 <a href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ');'" > <i class="fa fa-pencil"></i>
+                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ');'" > <i class="fa fa-pencil"></i>
                                  </a>
-                                 <a href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ');'"> <i class="fa fa-trash text-danger"></i>
+                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ');'"> <i class="fa fa-trash text-danger"></i>
                                  </a>
                               </div>
                            </td>

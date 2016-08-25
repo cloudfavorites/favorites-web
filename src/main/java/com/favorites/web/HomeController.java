@@ -55,7 +55,8 @@ public class HomeController extends BaseController{
 			}
 		}
 		model.addAttribute("favorites", favorites);
-		logger.info("user info :"+getUser());
+		model.addAttribute("userId", getUserId());
+		logger.info("standard end :"+ getUserId());
 		return "collect/standard";
 	}
 	
@@ -77,7 +78,8 @@ public class HomeController extends BaseController{
 			}
 		}
 		model.addAttribute("favorites", favorites);
-		logger.info("user info :"+getUser());
+		model.addAttribute("userId", getUserId());
+		logger.info("simple end :"+ getUserId());
 		return "collect/simple";
 	}
 	

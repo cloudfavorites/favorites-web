@@ -45,6 +45,43 @@ public class CollectController extends BaseController{
 	@Autowired
 	private PraiseRepository praiseRepository;
 	
+	
+	/**
+	 * 文章收集
+	 * @param collect
+	 * @return
+	 */
+	@RequestMapping(value = "/collect", method = RequestMethod.POST)
+	public Response collect(Collect collect) {
+		logger.info("collect begin, param is " + collect);
+		try {
+			collect.setUserId(getUserId());
+			if(collectService.checkCollect(collect)){
+				if(collect.getId()==null){
+					collectService.saveCollect(collect);
+				}else{
+					collectService.updateCollect(collect);
+				}
+			}else{
+				return result(ExceptionMsg.CollectExist);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("collect failed, ", e);
+			return result(ExceptionMsg.FAILED);
+		}
+		return result();
+	}
+	
+	
+	/**
+	 * @author neo
+	 * @date 2016年8月25日
+	 * @param page
+	 * @param size
+	 * @param type
+	 * @return
+	 */
 	@RequestMapping(value="/standard/{type}")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "6") Integer size,@PathVariable("type") String type) {
@@ -55,6 +92,14 @@ public class CollectController extends BaseController{
 	}
 	
 	
+	/**
+	 * @author neo
+	 * @date 2016年8月25日
+	 * @param page
+	 * @param size
+	 * @param type
+	 * @return
+	 */
 	@RequestMapping(value="/simple/{type}")
 	public List<CollectSummary> simple(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
@@ -123,33 +168,6 @@ public class CollectController extends BaseController{
 	public Collect detail(@PathVariable("id") long id) {
 		Collect collect=collectRepository.findOne(id);
 		return collect;
-	}
-	
-	/**
-	 * 文章收集
-	 * @param collect
-	 * @return
-	 */
-	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response collect(Collect collect) {
-		logger.info("collect begin, param is " + collect);
-		try {
-			collect.setUserId(getUserId());
-			if(collectService.checkCollect(collect)){
-				if(collect.getId()==null){
-					collectService.saveCollect(collect);
-				}else{
-					collectService.updateCollect(collect);
-				}
-			}else{
-				return result(ExceptionMsg.CollectExist);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("collect failed, ", e);
-			return result(ExceptionMsg.FAILED);
-		}
-		return result();
 	}
 	
 	/**
