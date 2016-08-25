@@ -41,7 +41,7 @@ $(function(){
 		  $("#errorMsg").hide();
 	  	  $.ajax({
 	  	         type: "POST",
-	  	         url:"/user/collect",
+	  	         url:"/collect/collect",
 	  	         data:$("#collect-form").serialize(),
 	  	         success: function(response) { 
 	  	        	 if(response.rspCode == '000000'){

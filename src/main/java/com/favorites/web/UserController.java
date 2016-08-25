@@ -116,28 +116,6 @@ public class UserController extends BaseController {
 		return result();
 	}
 
-	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response collect(Collect collect) {
-		logger.info("collect begin, param is " + collect);
-		try {
-			collect.setUserId(getUserId());
-			if(collectService.checkCollect(collect)){
-				if(collect.getId()==null){
-					collectService.saveCollect(collect);
-				}else{
-					collectService.updateCollect(collect);
-				}
-			}else{
-				return result(ExceptionMsg.CollectExist);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("collect failed, ", e);
-			return result(ExceptionMsg.FAILED);
-		}
-		return result();
-	}
-
 	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
 	public List<Favorites> getFavorites() {
 		logger.info("getFavorites begin");

@@ -136,7 +136,11 @@ public class CollectController extends BaseController{
 		try {
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
-				collectService.saveCollect(collect);
+				if(collect.getId()==null){
+					collectService.saveCollect(collect);
+				}else{
+					collectService.updateCollect(collect);
+				}
 			}else{
 				return result(ExceptionMsg.CollectExist);
 			}
