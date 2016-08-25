@@ -20,6 +20,7 @@ import com.favorites.domain.CollectView;
 import com.favorites.domain.CommentRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.FollowRepository;
 import com.favorites.domain.Praise;
 import com.favorites.domain.PraiseRepository;
 import com.favorites.domain.User;
@@ -49,6 +50,8 @@ public class CollectServiceImpl implements CollectService {
 	private PraiseRepository praiseRepository;
 	@Autowired
 	private CommentRepository commentRepository;
+	@Autowired
+	private FollowRepository followRepository;
 
 	/**
 	 * 展示收藏列表
@@ -64,7 +67,8 @@ public class CollectServiceImpl implements CollectService {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = null;
 		if ("my".equals(type)) {
-			views = collectRepository.findViewByUserId(userId, pageable);
+			List<Long> userIds=followRepository.findMyFollowIdByUserId(userId);;
+			views = collectRepository.findViewByUserIdAndFollows(userId, userIds, pageable);
 		} else if ("explore".equals(type)) {
 			views = collectRepository.findAllView(pageable);
 		} else if("others".equals(type)){

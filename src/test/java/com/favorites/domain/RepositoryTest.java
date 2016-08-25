@@ -1,5 +1,7 @@
 package com.favorites.domain;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class RepositoryTest {
 	
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
+	private FollowRepository followRepository;
 
 	@Test
 	public void testPraise() throws Exception {
@@ -31,6 +36,16 @@ public class RepositoryTest {
 	public void testComment() throws Exception {
 		long count=commentRepository.countByCollectId(1l);
 		System.out.println("count===="+count);
+	    
+	}
+	
+	
+	@Test
+	public void testFollow() throws Exception {
+		List<Long> userIds=followRepository.findMyFollowIdByUserId(1l);
+		for(Long userId:userIds){
+			System.out.println("userId===="+userId);
+		}
 	    
 	}
 	

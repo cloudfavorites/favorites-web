@@ -99,7 +99,7 @@
                                  </div>
                                  <div class="m0">
                                     <span class="icon-folder mr-sm"></span>
-                                    <a href="#" class="normal-color-a ng-binding"  th:href="@{/favorite/{id}(id=${collect.favoriteId})}" th:text="${collect.favoriteName}" >未读列表</a>
+                                    <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
                                     <div class="pull-right hidden-xxs">
                                        <small>
                                           <a class="sharing-action-button">

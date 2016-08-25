@@ -35,8 +35,6 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Query("delete from Collect where favoritesId = ?1")
 	void deleteByFavoritesId(Long favoritesId);
 	
-
-	
 	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
@@ -59,8 +57,15 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
-			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id ")
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.type='public' ")
 	Page<CollectView> findAllView(Pageable pageable);
+	
+	
+	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
+			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and (c.userId=?1 or ( c.userId in ?2 and c.type='public' )) ")
+	Page<CollectView> findViewByUserIdAndFollows(Long userId,List<Long> userIds,Pageable pageable);
 	
 	
 }
