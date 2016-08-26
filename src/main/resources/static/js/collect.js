@@ -182,3 +182,119 @@ function changeLike(id){
 }
 
 
+function search(){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:"",
+			url: '/collect/delete/'+$("#collectId").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(response){
+				locationUrl($("#forward").val(),"home");
+				$('#modal-remove').modal('hide');
+			}
+		});
+}
+
+
+function switchComment(collectId){
+	 if($("#collapse"+collectId).hasClass('in')){
+		 $("#collapse"+collectId).removeClass('in');
+      }else{
+    	  showComment(collectId);
+      }
+}
+
+function showComment(collectId){
+	  $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'',
+			url: '/comment/list/'+collectId,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(comments){
+				initComment(comments,collectId);
+	    	    $("#collapse"+collectId).addClass('in');
+			}
+		});
+}
+
+function initComment(comments,collectId){
+	var comment='';
+	 $("#commentList"+collectId).html("");
+	for(var i=0;i<comments.length;i++){
+		var item ='<div class=\"media bb p\"><small class=\"pull-right text-muted\">'+comments[i].commentTime+'</small>';
+		item=item+'<div class=\"pull-left\"><img class=\"media-object img-circle thumb32\" src=\"'+comments[i].profilePicture+ '\" /></div> ';
+		item=item+'<div class=\"media-body\">  <span class=\"media-heading\">  <p class=\"m0\"> '
+		item=item+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('/user/" + comments[i].userId + "')\">"+comments[i].userName+"</a>";
+		item=item+'</p> <p class=\"m0 text-muted\">'+comments[i].content+'<small>';
+		if(comments[i].userId==$("#userId").val()){
+			item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+		}else{
+			item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+		}
+		item=item+'</small></p></span></div></div>';
+		comment=comment+item;
+	}
+	 $("#commentList"+collectId).append(comment);
+}
+
+
+function comment(collectId){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'collectId='+collectId+'&content='+$("#commentContent"+collectId).val(),
+			url: '/comment/add',
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(response){
+				var commentCount=parseInt($("#commentC"+collectId).val())+1;
+				$("#commentC"+collectId).val(commentCount);
+				$("#commentS"+collectId).html("评论("+commentCount+")");
+				$("#commentContent"+collectId).val('');
+				showComment(collectId);
+			}
+		});
+}
+
+
+function deleteComment(id,collectId){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'',
+			url: '/comment/delete/'+id,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(response){
+				var commentCount=parseInt($("#commentC"+collectId).val())-1;
+				$("#commentC"+collectId).val(commentCount);
+				$("#commentS"+collectId).html("评论("+commentCount+")");
+				showComment(collectId);
+			}
+		});
+}
+
+function replyComment(name,collectId){
+	var text = $("#commentContent"+collectId).val();
+	$("#commentContent"+collectId).val(text + "@" +name + " ").focus();
+}

@@ -66,4 +66,17 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	Page<CollectView> findViewByUserIdAndFollows(Long userId,List<Long> userIds,Pageable pageable);
 	
 	
+	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
+			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.userId=?1 and ( c.title like ?2 or c.description like ?2) ")
+	Page<CollectView> searchMyByKey(Long userId,String key,Pageable pageable);
+	
+	@Query("select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
+			+ "u.userName as userName,f.id as favoriteId,f.name as favoriteName "
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.type='public' and c.userId!=?1 and ( c.title like ?2 or c.description like ?2) ")
+	Page<CollectView> searchOtherByKey(Long userId, String key,Pageable pageable);
+	
+	
 }

@@ -130,4 +130,29 @@ public class HomeController extends BaseController{
 
 	
 	
+	/**
+	 * 搜索
+	 * @author neo
+	 * @date 2016年8月25日
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param key
+	 * @return
+	 */
+	@RequestMapping(value="/search/{key}")
+	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
+	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
+		model.addAttribute("myCollects", myCollects);
+		model.addAttribute("otherCollects", otherCollects);
+		model.addAttribute("userId", getUserId());
+		logger.info("search end :"+ getUserId());
+		return "collect/search";
+	}
+	
+	
 }

@@ -45,7 +45,6 @@ public class CollectController extends BaseController{
 	@Autowired
 	private PraiseRepository praiseRepository;
 	
-	
 	/**
 	 * 文章收集
 	 * @param collect
@@ -170,6 +169,7 @@ public class CollectController extends BaseController{
 		return collect;
 	}
 	
+
 	/**
 	 * 导入收藏夹
 	 * @param path
