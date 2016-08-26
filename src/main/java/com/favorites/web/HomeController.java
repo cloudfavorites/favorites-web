@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,6 +38,8 @@ public class HomeController extends BaseController{
 	private CollectRepository collectRepository;
 	@Autowired
 	private FollowRepository followRepository;
+	@Value("${dfs.url}")
+	private String dfsUrl;
 	
 	@RequestMapping(value="/standard/{type}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -94,6 +97,7 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "15") Integer size){
 		logger.info("userId:" + userId);
 		User user = userRepository.findOne(userId);
+		user.setProfilePicture(dfsUrl+user.getProfilePicture());
 		Long collectCount = 0l;
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);

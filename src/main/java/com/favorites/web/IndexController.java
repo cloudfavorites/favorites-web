@@ -114,5 +114,13 @@ public class IndexController extends BaseController{
 		return "newpassword";
 	}
 
+	@RequestMapping(value="/uploadHeadPortrait")
+	public String uploadHeadPortrait(){
+		return "user/uploadheadportrait";
+	}
+	@RequestMapping(value="/atMe")
+	public String atMe(){
+		return "notice/atme";
+	}
 	
 }
