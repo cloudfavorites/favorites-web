@@ -25,7 +25,7 @@ public class Comment extends Entitys implements Serializable {
 	@Column(nullable = false, length = 65535, columnDefinition = "Text")
 	private String content;
 	@Column(nullable = false)
-	private String commentUserId;
+	private String userId;
 	@Column(nullable = true)
 	private String replyUserId;
 	@Column(nullable = false)
@@ -59,12 +59,12 @@ public class Comment extends Entitys implements Serializable {
 		this.content = content;
 	}
 
-	public String getCommentUserId() {
-		return commentUserId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setCommentUserId(String commentUserId) {
-		this.commentUserId = commentUserId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getReplyUserId() {

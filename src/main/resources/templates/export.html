@@ -1,0 +1,72 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+<body>
+      <section>
+         <div class="content-wrapper">
+            <h3>导出收藏夹</h3>
+            <div class="row">
+               <div class="col-md-12">
+                  <form action="/collect/export" id="exportForm" method="post" onsubmit="return false">
+                     <legend>请选择要导出的收藏夹</legend>
+                     <div class="row">
+                        <div class="col-md-3">
+                           <div class="checkbox c-checkbox needsclick">
+                              <label class="needsclick">
+                                 <input type="checkbox" id="all" onclick="selectAll();" class="needsclick" value="" />
+                                 <span class="fa fa-check"></span>
+                                 <font>全选</font>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-md-3" th:each="favorites : ${favoritesList}" th:if="${favorites.count > 0}">
+                           <div class="checkbox c-checkbox needsclick">
+                              <label class="needsclick" >
+                                 <input type="checkbox" name="favoritesId"  class="needsclick" th:value="${favorites.id}" value="" />
+                                 <span class="fa fa-check"></span>
+                                	<font th:text="${favorites.name}">美食</font> 
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="text-center">
+                        <button id="exportBtn" class="btn btn-block btn-primary mt-lg">确认导出</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </section>
+</body>
+<script type='text/javascript' th:inline="javascript">
+ $(function(){
+	$("INPUT[name='favoritesId']").change(function(){
+	    if($("INPUT[name='favoritesId']").not("input:checked")){
+	        $('#all').prop('checked',false);
+	    }
+	    if($("input[name='favoritesId']:checked").length == $("input[name='favoritesId'][type='checkbox']").length){
+	    	$('#all').prop('checked',true);
+	    }
+	});
+	
+	$("#exportBtn").click(function(){
+		if($("input[name='favoritesId']:checked").length ==0){			
+			return;
+		}
+		$("#exportForm").removeAttr("onsubmit");
+		$("#exportForm").submit();
+		$("#exportForm").attr("onsubmit","return false");
+	});
+}); 
+function selectAll(){
+	if($("#all").prop("checked") == false){
+		$("INPUT[type='checkbox']").each( function() {
+			$(this).prop('checked',false);
+	    });
+	}else{
+		$("INPUT[type='checkbox']").each( function() {
+	        $(this).prop('checked',true);
+	    });
+	}
+}
+</script>
+</html>

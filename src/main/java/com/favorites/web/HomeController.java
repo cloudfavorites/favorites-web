@@ -43,7 +43,7 @@ public class HomeController extends BaseController{
 	
 	@RequestMapping(value="/standard/{type}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "6") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
@@ -58,14 +58,15 @@ public class HomeController extends BaseController{
 			}
 		}
 		model.addAttribute("favorites", favorites);
-		logger.info("user info :"+getUser());
+		model.addAttribute("userId", getUserId());
+		logger.info("standard end :"+ getUserId());
 		return "collect/standard";
 	}
 	
 	
 	@RequestMapping(value="/simple/{type}")
 	public String simple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "10") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
@@ -80,7 +81,8 @@ public class HomeController extends BaseController{
 			}
 		}
 		model.addAttribute("favorites", favorites);
-		logger.info("user info :"+getUser());
+		model.addAttribute("userId", getUserId());
+		logger.info("simple end :"+ getUserId());
 		return "collect/simple";
 	}
 	
@@ -111,13 +113,13 @@ public class HomeController extends BaseController{
 			model.addAttribute("myself","no");
 			collectCount = collectRepository.countByUserIdAndType(userId, "public");
 			collects =collectService.getCollects("others", userId, pageable);
-			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), String.valueOf(userId), "follow");
+			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, "follow");
 		}
 		Integer follow = followRepository.countByUserIdAndStatus(userId, "follow");
-		Integer followed = followRepository.countByFollowIdAndStatus(String.valueOf(userId), "follow");
+		Integer followed = followRepository.countByFollowIdAndStatus(userId, "follow");
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
 		List<String> followUser = followRepository.findFollowUserByUserId(userId);
-		List<String> followedUser = followRepository.findFollowedUserByFollowId(String.valueOf(userId));
+		List<String> followedUser = followRepository.findFollowedUserByFollowId(userId);
 		model.addAttribute("collectCount",collectCount);
 		model.addAttribute("follow",follow);
 		model.addAttribute("followed",followed);

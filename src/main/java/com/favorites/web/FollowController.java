@@ -25,12 +25,12 @@ public class FollowController extends BaseController{
 	public Response changeFollowStatus(String status,Long userId){
 		logger.info("status:" + status + "----userId:" + userId);
 		try {
-			Follow follow = followRepository.findByUserIdAndFollowId(getUserId(), String.valueOf(userId));
+			Follow follow = followRepository.findByUserIdAndFollowId(getUserId(), userId);
 			if(null != follow){
 				followRepository.updateStatusById(status, DateUtils.getCurrentTime(), follow.getId());
 			}else{
 				follow = new Follow();
-				follow.setFollowId(String.valueOf(userId));
+				follow.setFollowId(userId);
 				follow.setUserId(getUserId());
 				follow.setStatus(status);
 				follow.setCreateTime(DateUtils.getCurrentTime());

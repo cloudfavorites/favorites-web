@@ -118,9 +118,17 @@ public class IndexController extends BaseController{
 	public String uploadHeadPortrait(){
 		return "user/uploadheadportrait";
 	}
+	
 	@RequestMapping(value="/atMe")
 	public String atMe(){
 		return "notice/atme";
+	}
+	
+	@RequestMapping(value="/export")
+	public String export(Model model){
+		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
+		model.addAttribute("favoritesList",favoritesList);
+		return "export";
 	}
 	
 }

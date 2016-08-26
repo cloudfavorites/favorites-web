@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.favorites.comm.Const;
-import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
@@ -30,7 +29,6 @@ import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
-import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
@@ -63,8 +61,6 @@ public class UserController extends BaseController {
 	private ConfigRepository configRepository;
 	@Autowired
 	private FollowRepository followRepository;
-	@Autowired
-	private CollectService collectService;
 	@Autowired
 	private FavoritesRepository favoritesRepository;
 	
@@ -118,28 +114,6 @@ public class UserController extends BaseController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("create user failed, ", e);
-			return result(ExceptionMsg.FAILED);
-		}
-		return result();
-	}
-
-	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response collect(Collect collect) {
-		logger.info("collect begin, param is " + collect);
-		try {
-			collect.setUserId(getUserId());
-			if(collectService.checkCollect(collect)){
-				if(collect.getId()==null){
-					collectService.saveCollect(collect);
-				}else{
-					collectService.updateCollect(collect);
-				}
-			}else{
-				return result(ExceptionMsg.CollectExist);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("collect failed, ", e);
 			return result(ExceptionMsg.FAILED);
 		}
 		return result();

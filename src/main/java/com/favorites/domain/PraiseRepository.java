@@ -6,5 +6,5 @@ public interface PraiseRepository extends JpaRepository<Praise, Long> {
 
 	Long countByCollectId(Long collectId);
 	
-	Praise findByPraiseIdAndCollectId(Long userId,Long collectId); 
+	Praise findByUserIdAndCollectId(Long userId,Long collectId); 
 }

@@ -32,13 +32,13 @@
                                  <div class="table-grid">
                                     <div class="col">
                                        <div class="pull-right dropdown dropdown-list">
-                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" >
+                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" th:if="${userId == collect.userId}" >
                                              <span class="fa fa-angle-down"></span>
                                           </a>
                                           <ul class="dropdown-menu animated bounceIn">
                                              <li>
                                                 <div class="list-group">
-                                                   <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'modifyCollect(' + ${collect.id} + ');'" >
+                                                   <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'getCollect(' + ${collect.id} + ');'" >
                                                       <div class="media-box">
                                                          <div class="pull-left">
                                                             <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
@@ -69,11 +69,11 @@
                                           </ul>
                                        </div>
                                        <div class="m0">
-                                          <a href="#" class="text-muted" th:text="${collect.userName}">favorites_name</a>
-                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密" th:href="@{/login}"  th:if="${collect.type == 'public'}" >
+                                          <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '\',\'\');'" >user name</a>
+                                          <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
-                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开" th:href="@{/login}"  th:if="${collect.type == 'private'}" >
+                                          <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='public' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'public\');'">
                                              <span class="fa fa-lock text-warning"></span>
                                           </a>
                                           <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前  </small>
@@ -99,31 +99,32 @@
                                  </div>
                                  <div class="m0">
                                     <span class="icon-folder mr-sm"></span>
-                                    <a href="#" class="normal-color-a ng-binding"  th:href="@{/favorite/{id}(id=${collect.favoriteId})}" th:text="${collect.favoriteName}" >未读列表</a>
+                                    <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
                                     <div class="pull-right hidden-xxs">
                                        <small>
                                           <a class="sharing-action-button">
                                              <span class="fa fa-share-alt"></span>
                                              	分享
                                           </a>
-                                           <if th:unless="${collect.Praise}"> 
+                                           <if  th:id="'likel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"> 
 										     | 
 										  </if> 
-                                          <a class="sharing-action-button" th:unless="${collect.Praise}"  th:text="|点赞(${collect.praiseCount})|">
+                                          <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
                                              <span class="fa fa-thumbs-o-up"></span>
-                                             	点赞
+                                             <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
                                           </a>
-                                           <if th:if="${collect.Praise}"> 
+                                           <if th:id="'unlikel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''" > 
 										     | 
 										  </if> 
-                                          <a class="sharing-action-button" th:if="${collect.Praise}"  th:text="|取消点赞(${collect.praiseCount})|">
+                                          <a th:id="'unlike' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
                                              <span class="fa fa-thumbs-up"></span>
-                                          	      取消点赞
+                                          	 <show th:id="'unlikeS' + ${collect.id}" th:text="|取消点赞(${collect.praiseCount})|"></show>
                                           </a>
+                                          <input th:id="'praiseC' + ${collect.id}" type="hidden" name="praiseC" th:value="${collect.praiseCount}" />
                                           | 
-                                          <a class="sharing-action-button" th:text="|评论(${collect.commentCount})|">
+                                          <a class="sharing-action-button" >
                                              <span class="fa fa-comment-o"></span>
-                                            	 评论(0)
+                                             <show th:text="|评论(${collect.commentCount})|">	 评论(0)</show>
                                           </a>
 										  <if th:if="${type == 'explore'}"> 
 										     | 
