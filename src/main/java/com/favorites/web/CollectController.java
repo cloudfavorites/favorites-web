@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.CollectSummary;
+import com.favorites.domain.Favorites;
+import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.Praise;
 import com.favorites.domain.PraiseRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -45,6 +47,8 @@ public class CollectController extends BaseController{
 	private CollectService collectService;
 	@Autowired
 	private PraiseRepository praiseRepository;
+	@Resource
+	private FavoritesRepository favoritesRepository;
 	
 	/**
 	 * 文章收集
