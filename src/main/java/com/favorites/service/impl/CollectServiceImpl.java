@@ -67,8 +67,12 @@ public class CollectServiceImpl implements CollectService {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = null;
 		if ("my".equals(type)) {
-			List<Long> userIds=followRepository.findMyFollowIdByUserId(userId);;
-			views = collectRepository.findViewByUserIdAndFollows(userId, userIds, pageable);
+			List<Long> userIds=followRepository.findMyFollowIdByUserId(userId);
+			if(userIds==null || userIds.size()==0){
+				views = collectRepository.findViewByUserId(userId, pageable);
+			}else{
+				views = collectRepository.findViewByUserIdAndFollows(userId, userIds, pageable);
+			}
 		} else if ("explore".equals(type)) {
 			views = collectRepository.findExploreView(userId,pageable);
 		} else if("others".equals(type)){
