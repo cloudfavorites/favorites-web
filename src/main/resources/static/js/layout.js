@@ -17,7 +17,7 @@ $(function() {
 
 function loadConfig(){
 	$.ajax({
-		async: true,
+		async: false,
 		type: 'POST',
 		dataType: 'json',
 		url: '/user/getConfig',

@@ -88,7 +88,12 @@ public class HtmlUtil {
 		return result;
 	}
 	
-	public static Map<String, String> importHtml(InputStream in){
+	/**
+	 * 一层，只输出url及对应的title或描述
+	 * @param in
+	 * @return
+	 */
+	public static Map<String, String> parseHtmlOne(InputStream in){
 		Map<String, String> map = new HashMap<>();
 		try {
 			Document doc = Jsoup.parse(in, "UTF-8", "");
@@ -105,24 +110,132 @@ public class HtmlUtil {
 		return map;
 	}
 	
+	/**
+	 * 两层（文件夹<url+title或描述>）
+	 * @param in
+	 * @return
+	 */
+	public static Map<String, Map<String, String>> parseHtmlTwo(InputStream in){
+		Map<String, Map<String, String>> resultMap = new HashMap<String, Map<String, String>>();
+		try {
+			Document doc = Jsoup.parse(in, "UTF-8", "");  
+			Elements metasdts = doc.select("dt");
+			for(Element dt : metasdts){
+				String favoritesName = "";
+				Elements dtcs = dt.children();
+				Map<String, String> map = new HashMap<String, String>();
+				for(Element dt1 : dtcs){
+					if("h3".equalsIgnoreCase(dt1.nodeName())){
+						favoritesName = dt1.text();
+					}else if("dl".equalsIgnoreCase(dt1.nodeName())){
+						Elements dts = dt1.children();
+						for(Element dt11 : dts){
+							if("dt".equals(dt11.nodeName())){
+								if("a".equals(dt11.child(0).nodeName())){
+									String url = dt11.child(0).attr("href");
+						            if(url.startsWith("http")){
+						            	map.put(url, dt11.child(0).text());
+						            }
+								}
+							}
+						}
+					}
+				}
+				if(StringUtils.isNotBlank(favoritesName) && map.size() > 0){
+					resultMap.put(favoritesName, map);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("解析html文件异常：",e);
+		}
+		return resultMap;
+	}
+	
+	/**
+	 * 按照文档结构输出(TODO)
+	 */
+	public static void importHtmlMore(File in){
+		try {
+			Document doc = Jsoup.parse(in, "UTF-8", "");  
+			Elements bodys = doc.child(0).children();
+			Map<String, List<Map>> resultMap = new HashMap<>();
+			for(Element body : bodys){
+				if("body".equalsIgnoreCase(body.nodeName())){
+					Elements dls = body.children();
+					for(Element dl : dls){
+						if("dl".equalsIgnoreCase(dl.nodeName())){
+							resultMap = parseElements(dl,resultMap);
+							System.out.println("resultMap:" + resultMap);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("解析html文件异常：",e);
+		}
+		
+	}
+	
+	public static Map<String, List<Map>> parseElements(Element element,Map<String, List<Map>> resultMap){
+		Map<String, Map> favoritesMap = new HashMap<>();
+		Map<String, String> urlMap = new HashMap<>();
+		String favoritesName = "";
+		Elements dts = element.children();
+		for(Element dt : dts){
+			if("dt".equalsIgnoreCase(dt.nodeName())){
+				Elements dtas = dt.children();
+				for(Element a : dtas){
+					if("a".equalsIgnoreCase(a.nodeName())){
+						String url = a.attr("href");
+			            if(url.startsWith("http")){
+			            	urlMap.put(url, a.text());
+			            	favoritesName=a.parent().parent().parent().child(0).text();
+			            }
+					}else if("dl".equalsIgnoreCase(a.nodeName())){
+						resultMap =  parseElements(a,resultMap);
+					}
+				}
+				
+			}
+		}
+		if(StringUtils.isNotBlank(favoritesName)){
+			favoritesMap.put(favoritesName, urlMap);
+		}
+		List<Map> mapList = null;
+		Element parment = element.parent().parent().parent().child(0);
+		if("h3".equalsIgnoreCase(parment.nodeName())){
+			String name = parment.text();
+			if(resultMap.containsKey(name)){
+				mapList = resultMap.get(name);
+				mapList.add(favoritesMap);
+			}else{
+				mapList = new ArrayList<>();
+				mapList.add(favoritesMap);
+			}
+			resultMap.put(name, mapList);
+		}
+		return resultMap;
+	}
+	
 	public static StringBuilder exportHtml(String title,StringBuilder body){
 		StringBuilder sb = new StringBuilder();
-		sb.append("<html>");
-		sb.append("<head>");
-		sb.append("<title>"+title+"</title>"); 
-		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"); 
-		sb.append("</head>");
-		sb.append("<body><dl><dt><h3>"+title+"</h3></dt></dl>");
+		sb.append("<HTML>");
+		sb.append("<HEAD>");
+		sb.append("<TITLE>"+title+"</TITLE>"); 
+		sb.append("<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\" />"); 
+		sb.append("</HEAD>");
+		sb.append("<BODY><H1>"+title+"</H1>");
 		sb.append(body);
-		sb.append("</body>");
+		sb.append("</BODY>");
 		
 		return sb;
 	}
 	
 	public static void main(String[] args) {
 //		System.out.println(getCollectFromUrl("http://www.iteye.com/"));
-//		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_16_8_18.html");
-		System.out.println(getPageImg("https://github.com/knightliao/disconf/wiki"));
+//		System.out.println(getPageImg("https://github.com/knightliao/disconf/wiki"));
+		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_16_8_25.html");
+		importHtmlMore(file);
 	}
 
 }

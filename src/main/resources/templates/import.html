@@ -24,6 +24,13 @@
 			               </div>
 			            </div>
 			         </div>
+			         <div class="checkbox c-checkbox needsclick">
+                              <label class="needsclick">
+                                 <input type="checkbox" name="structure" class="needsclick" value="yes" />
+                                 <span class="fa fa-check"></span>
+                                 <font>按照目录结构导入收藏夹</font>
+                              </label>
+                           </div>
 			         <a href="javascript:void(0);" id="submitBtn" class="btn btn-primary btn-block">提交</a>
 			      </div>
 			      <input type="hidden" id="favoritesId" name="favoritesId" value="" />
@@ -47,33 +54,15 @@
 		  if($("#fileInputName").val()==""){
 			  return;
 		  }
-		  $.ajax({
-				async: false,
-				type: 'POST',
-				dataType: 'json',
-				data:'',
-				url: '/favorites/addImportFavorites',
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					console.log(XMLHttpRequest);
-					console.log(textStatus);
-					console.log(errorThrown);
-				},
-				success: function(response){
-					if(response.rspCode == '000000'){
-						$("#favoritesId").val(response.data);
-    	    	 	}
-				}
-			});
-		  if($("#favoritesId").val() != ""){
 			  $("#importHtmlForm").ajaxSubmit({  
 		            type: 'post',  
+		            async: true,
 		            url: '/collect/import',
 		            success: function(response){  
 		            }
 		        });
 			  toastr.success('正在导入到"导入自浏览器"收藏夹，请稍后查看', '操作成功');
 			  loadFavorites();
-		  }
 	  });
   });
  </script>

@@ -175,6 +175,11 @@ public class CollectServiceImpl implements CollectService {
 	 */
 	public void importHtml(Map<String, String> map,Long favoritesId,Long userId){
 		for(Map.Entry<String, String> entry : map.entrySet()){
+			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserId(favoritesId, entry.getKey(), userId);
+			if(null != list && list.size() > 0){
+				logger.info("收藏夹：" + favoritesId + "中已经存在：" + entry.getKey() + "这个文章，不在进行导入操作");
+				continue;
+			}
 			try {
 				Map<String, String> result = HtmlUtil.getCollectFromUrl(entry.getKey());
 				Collect collect = new Collect();
@@ -217,9 +222,9 @@ public class CollectServiceImpl implements CollectService {
 			List<Collect> collects = collectRepository.findByFavoritesId(favoritesId);
 			StringBuilder sbc = new StringBuilder();
 			for(Collect collect : collects){
-				sbc.append("<dt><a href=\""+collect.getUrl()+"\" target=\"_blank\">"+collect.getTitle()+"</a></dt>");
+				sbc.append("<DT><A HREF=\""+collect.getUrl()+"\" TARGET=\"_blank\">"+collect.getTitle()+"</A></DT>");
 			}
-			sb.append("<dl><dt><h3>"+favorites.getName()+"</h3></dt>"+sbc+"</dl>");
+			sb.append("<DL><P></P><DT><H3>"+favorites.getName()+"</H3><DL><P></P>"+sbc+"</DL></DT></DL>");
 			return sb;
 		} catch (Exception e) {
 			logger.error("异常：",e);
@@ -271,6 +276,4 @@ public class CollectServiceImpl implements CollectService {
 			}
 		}
 	}
-	
-	
 }

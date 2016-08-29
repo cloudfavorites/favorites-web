@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -149,19 +150,37 @@ public class CollectController extends BaseController{
 	 * @param path
 	 */
 	@RequestMapping("/import")
-	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,Long favoritesId){
-		logger.info("path:" + htmlFile.getOriginalFilename());
-		if(null == favoritesId){
-			logger.info("获取导入收藏夹ID失败："+ favoritesId);
-			return;
-		}
+	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure){
+		logger.info("path:" + htmlFile.getOriginalFilename() + "----structure:" + structure);
 		try {
-			Map<String, String> map = HtmlUtil.importHtml(htmlFile.getInputStream());
-			if(null == map || map.isEmpty()){
-				logger.info("未获取到url连接");
-				return ;
+			if(StringUtils.isNotBlank(structure)&& "yes".equals(structure)){
+				// 按照目录结构导入
+				Map<String, Map<String, String>> map = HtmlUtil.parseHtmlTwo(htmlFile.getInputStream());
+				if(null == map || map.isEmpty()){
+					logger.info("未获取到url连接");
+					return ;
+				}
+				for (Entry<String, Map<String, String>> entry : map.entrySet()) {  
+					  String favoritesName = entry.getKey();
+					  Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "导入自浏览器");
+						if(null == favorites){
+							favorites = favoritesService.saveFavorites(getUserId(), 0l, favoritesName);
+						}
+						collectService.importHtml(entry.getValue(), favorites.getId(), getUserId());
+				} 
+			}else{
+				Map<String, String> map = HtmlUtil.parseHtmlOne(htmlFile.getInputStream());
+				if(null == map || map.isEmpty()){
+					logger.info("未获取到url连接");
+					return ;
+				}
+				// 全部导入到<导入自浏览器>收藏夹
+				Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "导入自浏览器");
+				if(null == favorites){
+					favorites = favoritesService.saveFavorites(getUserId(), 0l, "导入自浏览器");
+				}
+				collectService.importHtml(map, favorites.getId(), getUserId());
 			}
-			collectService.importHtml(map, favoritesId, getUserId());
 		} catch (Exception e) {
 			logger.error("导入html异常:",e);
 		}
