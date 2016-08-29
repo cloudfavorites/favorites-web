@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * 评论
@@ -25,11 +26,17 @@ public class Comment extends Entitys implements Serializable {
 	@Column(nullable = false, length = 65535, columnDefinition = "Text")
 	private String content;
 	@Column(nullable = false)
-	private String commentUserId;
+	private Long userId;
 	@Column(nullable = true)
-	private String replyUserId;
+	private Long replyUserId;
 	@Column(nullable = false)
 	private Long createTime;
+	@Transient
+	private String commentTime;
+	@Transient
+	private String userName;
+	@Transient
+	private String profilePicture;
 
 	public Comment() {
 		super();
@@ -59,19 +66,19 @@ public class Comment extends Entitys implements Serializable {
 		this.content = content;
 	}
 
-	public String getCommentUserId() {
-		return commentUserId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setCommentUserId(String commentUserId) {
-		this.commentUserId = commentUserId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	public String getReplyUserId() {
+	public Long getReplyUserId() {
 		return replyUserId;
 	}
 
-	public void setReplyUserId(String replyUserId) {
+	public void setReplyUserId(Long replyUserId) {
 		this.replyUserId = replyUserId;
 	}
 
@@ -79,8 +86,32 @@ public class Comment extends Entitys implements Serializable {
 		return createTime;
 	}
 
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getCommentTime() {
+		return commentTime;
+	}
+
+	public void setCommentTime(String commentTime) {
+		this.commentTime = commentTime;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

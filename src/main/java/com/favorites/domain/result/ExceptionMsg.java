@@ -16,7 +16,11 @@ public enum ExceptionMsg {
     FavoritesNameIsNull("000200","收藏夹名称不能为空"),
     FavoritesNameUsed("000201","收藏夹名称已被创建"),
     
-    CollectExist("000300","该文章已被收藏")
+    CollectExist("000300","该文章已被收藏"),
+    
+    FileEmpty("000400","上传文件为空"),
+    LimitPictureSize("000401","图片大小必须小于2M"),
+    LimitPictureType("000402","图片格式必须为'jpg'、'png'、'jpge'、'gif'、'bmp'")
     ;
    private ExceptionMsg(String code, String msg) {
         this.code = code;

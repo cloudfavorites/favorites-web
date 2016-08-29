@@ -21,22 +21,15 @@ public class Praise extends Entitys implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@ManyToOne(optional = false)
-	private Collect collect;
 	@Column(nullable = false)
-	private Long praiseId;
+	private Long collectId;
+	@Column(nullable = false)
+	private Long userId;
 	@Column(nullable = false)
 	private Long createTime;
 
 	public Praise() {
 		super();
-	}
-	
-	public Praise(Collect collect, Long praiseId, Long createTime) {
-		super();
-		this.collect = collect;
-		this.praiseId = praiseId;
-		this.createTime = createTime;
 	}
 
 	public Long getId() {
@@ -47,16 +40,20 @@ public class Praise extends Entitys implements Serializable {
 		this.id = id;
 	}
 
-	public Collect getCollect() {
-		return collect;
+	public Long getCollectId() {
+		return collectId;
 	}
 
-	public Long getPraiseId() {
-		return praiseId;
+	public void setCollectId(Long collectId) {
+		this.collectId = collectId;
 	}
 
-	public void setPraiseId(Long praiseId) {
-		this.praiseId = praiseId;
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public Long getCreateTime() {

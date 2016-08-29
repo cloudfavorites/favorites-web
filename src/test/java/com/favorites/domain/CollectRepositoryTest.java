@@ -1,5 +1,8 @@
 package com.favorites.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,7 @@ public class CollectRepositoryTest {
 	
 	@Test
 	public void testFindAllView() throws Exception {
-	    Page<CollectView> views=collectRepository.findAllView(new PageRequest(0, 10, Direction.ASC, "title"));
+	    Page<CollectView> views=collectRepository.findExploreView(1l, new PageRequest(0, 10, Direction.ASC, "title"));
 	    for(CollectView view:views){
 	    	System.out.print("   collect title==" +view.getTitle());
 	    	System.out.print("   FavoriteName==" +view.getFavoriteName());
@@ -51,6 +54,20 @@ public class CollectRepositoryTest {
 	@Test
 	public void testFindViewByUserId() throws Exception {
 	    Page<CollectView> views=collectRepository.findViewByUserId(2l,new PageRequest(0, 10, Direction.ASC, "title"));
+	    for(CollectView view:views){
+	    	System.out.print("   collect title==" +view.getTitle());
+	    	System.out.print("   FavoriteName==" +view.getFavoriteName());
+	    	System.out.print("   UserName==" +view.getUserName());
+	    	System.out.println("   Url==" +view.getUrl());
+	    }
+	}
+	
+	@Test
+	public void testFindViewByUserIdAndFollows() throws Exception {
+		List<Long> userIds=new ArrayList<Long>();
+		userIds.add(2l);
+		userIds.add(3l);
+	    Page<CollectView> views=collectRepository.findViewByUserIdAndFollows(2l,userIds,new PageRequest(0, 10, Direction.ASC, "title"));
 	    for(CollectView view:views){
 	    	System.out.print("   collect title==" +view.getTitle());
 	    	System.out.print("   FavoriteName==" +view.getFavoriteName());

@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,10 +38,12 @@ public class HomeController extends BaseController{
 	private CollectRepository collectRepository;
 	@Autowired
 	private FollowRepository followRepository;
+	@Value("${dfs.url}")
+	private String dfsUrl;
 	
 	@RequestMapping(value="/standard/{type}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "6") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
@@ -55,14 +58,15 @@ public class HomeController extends BaseController{
 			}
 		}
 		model.addAttribute("favorites", favorites);
-		logger.info("user info :"+getUser());
+		model.addAttribute("userId", getUserId());
+		logger.info("standard end :"+ getUserId());
 		return "collect/standard";
 	}
 	
 	
 	@RequestMapping(value="/simple/{type}")
 	public String simple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "10") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
@@ -77,7 +81,8 @@ public class HomeController extends BaseController{
 			}
 		}
 		model.addAttribute("favorites", favorites);
-		logger.info("user info :"+getUser());
+		model.addAttribute("userId", getUserId());
+		logger.info("simple end :"+ getUserId());
 		return "collect/simple";
 	}
 	
@@ -94,6 +99,7 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "15") Integer size){
 		logger.info("userId:" + userId);
 		User user = userRepository.findOne(userId);
+		user.setProfilePicture(dfsUrl+user.getProfilePicture());
 		Long collectCount = 0l;
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
@@ -107,13 +113,13 @@ public class HomeController extends BaseController{
 			model.addAttribute("myself","no");
 			collectCount = collectRepository.countByUserIdAndType(userId, "public");
 			collects =collectService.getCollects("others", userId, pageable);
-			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), String.valueOf(userId), "follow");
+			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, "follow");
 		}
 		Integer follow = followRepository.countByUserIdAndStatus(userId, "follow");
-		Integer followed = followRepository.countByFollowIdAndStatus(String.valueOf(userId), "follow");
+		Integer followed = followRepository.countByFollowIdAndStatus(userId, "follow");
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
 		List<String> followUser = followRepository.findFollowUserByUserId(userId);
-		List<String> followedUser = followRepository.findFollowedUserByFollowId(String.valueOf(userId));
+		List<String> followedUser = followRepository.findFollowedUserByFollowId(userId);
 		model.addAttribute("collectCount",collectCount);
 		model.addAttribute("follow",follow);
 		model.addAttribute("followed",followed);
@@ -126,6 +132,31 @@ public class HomeController extends BaseController{
 		return "user";
 	}
 
+	
+	
+	/**
+	 * 搜索
+	 * @author neo
+	 * @date 2016年8月25日
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param key
+	 * @return
+	 */
+	@RequestMapping(value="/search/{key}")
+	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
+	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
+		model.addAttribute("myCollects", myCollects);
+		model.addAttribute("otherCollects", otherCollects);
+		model.addAttribute("userId", getUserId());
+		logger.info("search end :"+ getUserId());
+		return "collect/search";
+	}
 	
 	
 }

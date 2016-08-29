@@ -21,5 +21,9 @@ public interface CollectService {
 	public void importHtml(Map<String, String> map,Long favoritesId,Long userId);
 	
 	public StringBuilder exportToHtml(Long favoritesId);
+	
+	public List<CollectSummary> searchMy(Long userId,String key,Pageable pageable);
+	
+	public List<CollectSummary> searchOther(Long userId,String key,Pageable pageable);
 
 }

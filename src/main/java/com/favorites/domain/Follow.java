@@ -25,7 +25,7 @@ public class Follow extends Entitys implements Serializable {
 	@Column(nullable = false)
 	private Long userId;
 	@Column(nullable = false)
-	private String followId;
+	private Long followId;
 	@Column(nullable = false)
 	private String status;
 	@Column(nullable = false)
@@ -55,11 +55,11 @@ public class Follow extends Entitys implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getFollowId() {
+	public Long getFollowId() {
 		return followId;
 	}
 
-	public void setFollowId(String followId) {
+	public void setFollowId(Long followId) {
 		this.followId = followId;
 	}
 

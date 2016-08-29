@@ -289,10 +289,12 @@ function updatePwd() {
 				$("#updatePwdBtn").attr("aria-hidden","true");
 				$("#updatePwdBtn").attr("data-dismiss","modal");
 				$("#updatePwdForm")[0].reset();
+				toastr.success('密码修改成功！', '操作成功');
   	    	}else{
   	    		$("#passwordError").show();
   	    		$("#updatePwdBtn").removeAttr("aria-hidden");
 				$("#updatePwdBtn").removeAttr("data-dismiss");
+				toastr.error(response.rspMsg, '操作失败');
   	    	}
 		}
 	});
@@ -319,6 +321,9 @@ function updateIntroduction() {
 				$("#updateIntroductionForm")[0].reset();
 				$("#leftIntroduction").html(data.data);
 				$("#userIntroduction").html(data.data);
+				toastr.success('个人简介修改成功！', '操作成功');
+  	    	}else{
+  	    		toastr.error(response.rspMsg, '操作失败');
   	    	}
 		}
 	});
@@ -346,10 +351,12 @@ function updateNickname() {
 				$("#updateNicknameForm")[0].reset();
 				$("#leftUserName").html(data.data);
 				$("#userUserName").html(data.data);
+				toastr.success('昵称修改成功！', '操作成功');
   	    	}else{
   	    		$("#nicknameError").show();
   	    		$("#updateNicknameBtn").removeAttr("aria-hidden");
 				$("#updateNicknameBtn").removeAttr("data-dismiss");
+				toastr.error(response.rspMsg, '操作失败');
   	    	}
 		}
 	});

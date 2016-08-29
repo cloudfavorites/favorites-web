@@ -14,10 +14,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.favorites.comm.Const;
-import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
@@ -28,12 +29,12 @@ import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
-import com.favorites.service.CollectService;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.MD5Util;
 import com.favorites.utils.MessageUtil;
+import com.favorites.utils.FileUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -52,16 +53,16 @@ public class UserController extends BaseController {
 	private String mailSubject;
 	@Value("${mail.content.forgotpassword}")
 	private String mailContent;
+	@Value("${group_server}")
+	private String groupServer;
+	@Value("${dfs.url}")
+	private String dfsUrl;
 	@Autowired	
 	private ConfigRepository configRepository;
 	@Autowired
 	private FollowRepository followRepository;
 	@Autowired
-	private CollectService collectService;
-	@Autowired
 	private FavoritesRepository favoritesRepository;
-	
-	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseData login(User user) {
@@ -70,6 +71,9 @@ public class UserController extends BaseController {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
+			}
+			if(StringUtils.isNotBlank(loginUser.getProfilePicture())){
+				loginUser.setProfilePicture(dfsUrl+loginUser.getProfilePicture());
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			String preUrl = "/";
@@ -107,32 +111,13 @@ public class UserController extends BaseController {
 			Favorites favorites = favoritesService.saveFavorites(user.getId(),0l, "未读列表");
 			// 添加默认属性设置
 			configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));
+			if(StringUtils.isNotBlank(user.getProfilePicture())){
+				user.setProfilePicture(dfsUrl+user.getProfilePicture());
+			}		
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("create user failed, ", e);
-			return result(ExceptionMsg.FAILED);
-		}
-		return result();
-	}
-
-	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response collect(Collect collect) {
-		logger.info("collect begin, param is " + collect);
-		try {
-			collect.setUserId(getUserId());
-			if(collectService.checkCollect(collect)){
-				if(collect.getId()==null){
-					collectService.saveCollect(collect);
-				}else{
-					collectService.updateCollect(collect);
-				}
-			}else{
-				return result(ExceptionMsg.CollectExist);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("collect failed, ", e);
 			return result(ExceptionMsg.FAILED);
 		}
 		return result();
@@ -274,7 +259,7 @@ public class UserController extends BaseController {
 	public Response updatePassword(String oldPassword, String newPassword) {
 		logger.info("updatePassword begin, param is " + oldPassword + "," + newPassword);
 		try {
-			User user = (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
+			User user = getUser();
 			String password = user.getPassWord();
 			String newpwd = getPwd(newPassword);
 			if(password.equals(getPwd(oldPassword))){
@@ -300,20 +285,17 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/updateIntroduction", method = RequestMethod.POST)
 	public ResponseData updateIntroduction(String introduction) {
 		logger.info("updateIntroduction begin, param is " + introduction);
-		ResponseData responseData;
 		try {
-			User user = (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
+			User user = getUser();
 			userRepository.setIntroduction(introduction, user.getEmail());
 			user.setIntroduction(introduction);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
-			responseData = new ResponseData(introduction);
+			return new ResponseData(ExceptionMsg.SUCCESS, introduction);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("updateIntroduction failed, ", e);
-			responseData = new ResponseData(ExceptionMsg.FAILED);
-			return responseData;
+			return new ResponseData(ExceptionMsg.FAILED);
 		}
-		return responseData;
 	}
 	
 	/**
@@ -324,24 +306,56 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/updateUserName", method = RequestMethod.POST)
 	public ResponseData updateUserName(String userName) {
 		logger.info("updateUserName begin, param is " + userName);
-		ResponseData responseData;
 		try {
-			User user = (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
+			User user = getUser();
 			if(user.getUserName().equals(userName)){
-				responseData = new ResponseData(ExceptionMsg.UserNameUsed);
-				return responseData;
+				return new ResponseData(ExceptionMsg.UserNameUsed);
 			}
 			userRepository.setUserName(userName, user.getEmail());
 			user.setUserName(userName);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
-			responseData = new ResponseData(userName);
+			return new ResponseData(ExceptionMsg.SUCCESS, userName);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("updateUserName failed, ", e);
-			responseData = new ResponseData(ExceptionMsg.FAILED);
-			return responseData;
+			return new ResponseData(ExceptionMsg.FAILED);
 		}
-		return responseData;
+	}
+	
+	/**
+	 * 上传头像
+	 * @param file
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
+	public ResponseData uploadHeadPortrait(@RequestParam(required = true, value="file") MultipartFile file){
+		logger.info("uploadHeadPortrait begin");
+		if (!file.isEmpty()) {
+			try {				
+				//限制文件大小不大于2M
+				long fileSize = file.getSize();
+				if(fileSize>2*1000*1000){				
+					return new ResponseData(ExceptionMsg.LimitPictureSize);
+				}
+				String fileName = file.getOriginalFilename();
+				String type = FileUtil.getFileExtName(fileName);
+				//限制文件格式为jpg、png、jpeg、gif、bmp
+				if(!type.equals("jpg")&&!type.equals("png")&&!type.equals("jpeg")&&!type.equals("gif")&&!type.equals("bmp")){
+					return new ResponseData(ExceptionMsg.LimitPictureType);
+				}
+				String filePath = FileUtil.uploadFile(file, groupServer);
+				User user = getUser();
+				userRepository.setProfilePicture(filePath, user.getId());
+				user.setProfilePicture(dfsUrl+filePath);
+				getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+				return new ResponseData(ExceptionMsg.SUCCESS, dfsUrl+filePath);
+			} catch (Exception e) {
+				logger.error("upload head portrait failed, ", e);
+				return new ResponseData(ExceptionMsg.FAILED);
+			}
+		}else {
+			return new ResponseData(ExceptionMsg.FileEmpty);
+		}
 	}
 
 }

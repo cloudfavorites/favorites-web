@@ -1,14 +1,11 @@
 package com.favorites.domain;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -46,32 +43,10 @@ public class Collect  implements Serializable {
 	private String collectTime;
 	@Transient
 	private String newFavorites;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "collect")
-	private Set<Praise> praises;
 
 	public Collect() {
 		super();
 	}
-
-	
-	public Collect(Long userId, Long favoritesId, String url, String title, String description, String logoUrl,
-			String charset, String type, String remark, String isDelete, Long createTime, Long lastModifyTime) {
-		super();
-		this.userId = userId;
-		this.favoritesId = favoritesId;
-		this.url = url;
-		this.title = title;
-		this.description = description;
-		this.logoUrl = logoUrl;
-		this.charset = charset;
-		this.type = type;
-		this.remark = remark;
-		this.isDelete = isDelete;
-		this.createTime = createTime;
-		this.lastModifyTime = lastModifyTime;
-	}
-
 
 	public Long getId() {
 		return id;

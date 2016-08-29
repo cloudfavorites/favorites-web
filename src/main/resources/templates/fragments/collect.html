@@ -50,7 +50,7 @@
                   <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>
                </select>
                <p class="text-center">或者</p>
-               <input type="text" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
+               <input type="text" id="newFavorites" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
                <button id="ccollect" class="mt-lg btn btn-primary btn-block">提交</button>
                <input type="hidden" name="id" id="ccollectId" value=""/>
                </form>

@@ -34,6 +34,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User set userName=:userName where email=:email") 
     int setUserName(@Param("userName") String userName, @Param("email") String email);
+    
+    @Modifying(clearAutomatically=true)
+    @Transactional
+    @Query("update User set profilePicture=:profilePicture where id=:id") 
+    int setProfilePicture(@Param("profilePicture") String profilePicture, @Param("id") Long id);
 
 /*    @Query("from User u where u.name=:name")
     User findUser(@Param("name") String name);
