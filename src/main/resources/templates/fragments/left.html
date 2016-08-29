@@ -10,8 +10,8 @@
                      <div class="item user-block">
                         <div class="user-block-picture">
                            <div class="user-block-status">
-                              <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${user.id}+'\',\'\');'">
-                                 <img alt="" class="img-thumbnail img-circle"  th:src="${user.profilePicture}" id="leftProfilePicture"/></a>
+                              <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${user.id}+'/0\',\'\');'">
+                                 <img alt="" class="img-thumbnail img-circle"  th:src="${user.profilePicture == null?'img/favicon.png':user.profilePicture}" id="leftProfilePicture"/></a>
                               <div class="circle circle-success circle-lg"></div>
                            </div>
                         </div>

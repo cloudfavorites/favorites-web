@@ -6,8 +6,8 @@
             <div class="unwrap">
                <div class="bg-cover" style="background-image:url('img/profile-bg.jpg');">
                   <div class="p-xl text-center text-white">
-                     <a href="#">
-                        <img th:src="${user.profilePicture}" alt="" class="img-thumbnail img-circle thumb128"/></a>
+                     <a href="javascript:void(0);">
+                        <img th:src="${user.profilePicture == null ? 'img/favicon.png':dfsUrl+user.profilePicture}" alt="" class="img-thumbnail img-circle thumb128"/></a>
                      <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
                      <p th:if="${myself == 'yes'}" th:text="${user.email}">123456789@qq.com</p>
                      <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
@@ -50,7 +50,7 @@
                         </div>
                         <ul class="timeline-alt">
 	                     <li th:each="collect,collectStat : ${collects}" >
-	                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></a>
+	                        <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${user.profilePicture==null?'img/favicon.png':dfsUrl+user.profilePicture})} + ')'" ></a>
 	                        <div class="timeline-panel">
 	                           <div class="popover right">
 	                              <div class="arrow"></div>
@@ -64,7 +64,7 @@
 	                                          <ul class="dropdown-menu animated bounceIn">
 	                                             <li>
 	                                                <div class="list-group">
-	                                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-changeSharing" class="list-group-item">
+	                                                   <a href="javascript:void(0);" th:onclick="'getCollect(' + ${collect.id} + ');'" class="list-group-item">
 	                                                      <div class="media-box">
 	                                                         <div class="pull-left">
 	                                                            <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
@@ -77,7 +77,7 @@
 	                                                         </div>
 	                                                      </div>
 	                                                   </a>
-	                                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-remove" class="list-group-item">
+	                                                   <a href="javascript:void(0);" class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ');'">
 	                                                      <div class="media-box">
 	                                                         <div class="pull-left">
 	                                                            <em class="fa fa-trash fa-2x fa-fw text-danger"></em>
@@ -95,11 +95,11 @@
 	                                          </ul>
 	                                       </div>
 	                                       <div class="m0">
-	                                          <a href="#" class="text-muted" th:text="${user.userName}">favorites_name</a>
-	                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为私密" th:href="@{/login}"  th:if="${collect.type == 'public'}" >
+	                                          <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '\',\'\');'" >user name</a>
+	                                          <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
 	                                             <span class="fa fa-lock" style="color: #eee;"></span>
 	                                          </a>
-	                                          <a class="deco-none" data-toggle="tooltip" data-placement="top" title="设为公开" th:href="@{/login}"  th:if="${collect.type == 'private'}" >
+	                                          <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='public' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'public\');'">
 	                                             <span class="fa fa-lock text-warning"></span>
 	                                          </a>
 	                                          <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前  </small>
@@ -123,39 +123,45 @@
 	                                    </div>
 	                                 </div>
 	                                 <div class="m0">
-	                                    <span class="icon-folder mr-sm"></span>
-	                                    <a href="javascript:void(0);" th:onclick="'locationUrl(\'/standard/'+${collect.favoritesId}+'\',\''+${collect.favoritesId}+'\')'" class="normal-color-a ng-binding" th:if="${collect.favoriteName != '未读列表'}" th:text="${collect.favoriteName}">未读列表</a>
-	                                    <a href="javascript:void(0);" th:onclick="'locationUrl(\'/standard/'+${collect.favoritesId}+'\',\'unread\')'" class="normal-color-a ng-binding" th:if="${collect.favoriteName == '未读列表'}" th:text="${collect.favoriteName}">未读列表</a>
-	                                    <div class="pull-right hidden-xxs">
-	                                       <small>
-	                                          <a class="sharing-action-button">
-	                                             <span class="fa fa-share-alt"></span>
-	                                             	分享
-	                                          </a>
-	                                          |
-	                                          <a class="sharing-action-button">
-	                                             <span class="fa fa-thumbs-o-up"></span>
-	                                             	点赞(0)
-	                                          </a>
-	                                          |
-	                                          <a class="sharing-action-button">
-	                                             <span class="fa fa-thumbs-up"></span>
-	                                          	      取消点赞
-	                                          </a>
-	                                          |
-	                                          <a class="sharing-action-button">
-	                                             <span class="fa fa-comment-o"></span>
-	                                            	 评论(0)
-	                                          </a>
-	                                          
-	                                          <a class="sharing-action-button"  th:if="${type == 'explore'}">
-											    |
-	                                             <span class="fa fa-spoon"></span>
-	                                           	    收藏
-	                                          </a>
-	                                       </small>
-	                                    </div>
-	                                 </div>
+                                    <span class="icon-folder mr-sm"></span>
+                                    <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                                    <div class="pull-right hidden-xxs">
+                                       <small>
+                                          <a class="sharing-action-button">
+                                             <span class="fa fa-share-alt"></span>
+                                             	分享
+                                          </a>
+                                           <if  th:id="'likel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"> 
+										     | 
+										  </if> 
+                                          <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
+                                             <span class="fa fa-thumbs-o-up"></span>
+                                             <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
+                                          </a>
+                                           <if th:id="'unlikel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''" > 
+										     | 
+										  </if> 
+                                          <a th:id="'unlike' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
+                                             <span class="fa fa-thumbs-up"></span>
+                                          	 <show th:id="'unlikeS' + ${collect.id}" th:text="|取消点赞(${collect.praiseCount})|"></show>
+                                          </a>
+                                          <input th:id="'praiseC' + ${collect.id}" type="hidden" name="praiseC" th:value="${collect.praiseCount}" />
+                                          <input th:id="'commentC' + ${collect.id}" type="hidden" name="commentC" th:value="${collect.commentCount}" />
+                                          | 
+                                          <a  class="sharing-action-button btn-comment" href="javascript:void(0);" th:onclick="'switchComment(' + ${collect.id} + ');'" >
+                                             <span class="fa fa-comment-o"></span>
+                                             <show th:id="'commentS' + ${collect.id}" th:text="|评论(${collect.commentCount})|">	 评论(0)</show>
+                                          </a>
+										  <if th:if="${userId != collect.userId}" > 
+										     | 
+										  </if> 
+                                          <a class="sharing-action-button"  th:if="${userId != collect.userId}">
+                                             <span class="fa fa-spoon"></span>
+                                           	    收藏
+                                          </a>
+                                       </small>
+                                    </div>
+                                 </div>
 	                              </div>
 	                           </div>
 	                        </div>
@@ -181,9 +187,9 @@
 	                              <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
 	                           <td width="15%" class="text-center">
 	                              <div>
-	                                 <a href="#" class="mr"> <i class="fa fa-pencil"></i>
+	                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ');'" > <i class="fa fa-pencil"></i>
 	                                 </a>
-	                                 <a href="#" class="ml"> <i class="fa fa-trash text-danger"></i>
+	                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ');'"> <i class="fa fa-trash text-danger"></i>
 	                                 </a>
 	                              </div>
 	                           </td>
@@ -195,21 +201,23 @@
                         <div class="panel panel-default">
                            <div class="panel-heading text-center">TA的收藏夹</div>
                            <div class="list-group">
-                              <a href="javascript:void(0)" class="media p mt0 list-group-item active">
+                              <a href="javascript:void(0)" class="media p mt0 list-group-item active" th:onclick="'locationUrl(\'/user/'+${user.id}+'/0\',\'\');'">
                                  <span class="media-body">
                                     <span class="media-heading">
                                        <strong>全部收藏</strong>
-                                       <small th:text="${collectCount} + '个收藏'">4个收藏</small>
+                                       <small th:if="${myself == 'yes'}" th:text="${collectCount} + '个收藏'">4个收藏</small>
+                                       <small th:if="${myself == 'no'}" th:text="${collectCount} + '个公开收藏'">4个收藏</small>
                                     </span>
                                  </span>
                               </a>
                            </div>
                            <div class="list-group" th:each="favoriest : ${favoritesList}">
-                              <a href="#" class="media p mt0 list-group-item">
+                              <a id="userUnread" href="javascript:void(0)" class="media p mt0 list-group-item" th:onclick="'locationUrl(\'/user/'+${user.id}+'/'+${favoriest.id}+'\',\'userUnread\');'">
                                  <span class="media-body">
                                     <span class="media-heading">
                                        <strong th:text="${favoriest.name}">未读列表</strong>
-                                       <small th:text="${favoriest.count} + '个收藏'">4个收藏</small>
+                                       <small th:if="${myself == 'yes'}" th:text="${favoriest.count} + '个收藏'">4个收藏</small>
+                                       <small th:if="${myself == 'no'}" th:text="${favoriest.count} + '个公开收藏'">4个收藏</small>
                                     </span>
                                  </span>
                               </a>
@@ -218,9 +226,9 @@
                         <div class="panel panel-default">
                            <div class="panel-heading text-center">关注</div>
                            <div class="list-group ng-scope" th:each=" follow : ${followUser}">
-				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${follow[3]}+'\',\'\');'">
+				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${follow[3]}+'/0\',\'\');'">
 				                  <span class="pull-left">
-				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? follow[2]:'img/dummy.png'}" />
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? dfsUrl+follow[2]:'img/dummy.png'}" />
 				                  </span>
 				                  <span class="media-body">
 				                     <span class="media-heading">
@@ -234,9 +242,9 @@
                         <div class="panel panel-default">
                            <div class="panel-heading text-center">粉丝</div>
                            <div class="list-group ng-scope" th:each=" followed : ${followedUser}">
-				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${followed[3]}+'\',\'\');'">
+				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${followed[3]}+'/0\',\'\');'">
 				                  <span class="pull-left">
-				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? followed[2]:'img/dummy.png'}" />
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? dfsUrl+followed[2]:'img/dummy.png'}" />
 				                  </span>
 				                  <span class="media-body">
 				                     <span class="media-heading">
@@ -251,6 +259,9 @@
                   </div>
                </div>
             </div>
+            <input type="hidden" name="collectId" id="collectId" />
+            <input type="hidden" name="forward" id="forward" th:value="'/user/'+${user.id}+'/0'" />
+            <input type="hidden"  id="userId" th:value="${user.id}" />
          </div>
       </section>
 	</body>
@@ -270,10 +281,12 @@
 		$("#standardBtn").click(function(){
 			$("#standard").hide();
 			$("#simple").show();
+			$("#showModel").val("simple");
 		});
 		$("#simpleBtn").click(function(){
 			$("#standard").show();
 			$("#simple").hide();
+			$("#showModel").val("standard");
 		});
 	});
 	function changeFollow(status,userId){

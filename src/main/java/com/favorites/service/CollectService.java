@@ -10,7 +10,7 @@ import com.favorites.domain.CollectSummary;
 
 public interface CollectService {
 	
-	public List<CollectSummary>  getCollects(String type,Long userId,Pageable pageable);
+	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable,Long favoritesId);
 	
 	public void saveCollect(Collect collect);
 	
