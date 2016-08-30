@@ -74,6 +74,8 @@ public class UserController extends BaseController {
 			}
 			if(StringUtils.isNotBlank(loginUser.getProfilePicture())){
 				loginUser.setProfilePicture(dfsUrl+loginUser.getProfilePicture());
+			}else{
+				loginUser.setProfilePicture("/img/dummy.png");
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			String preUrl = "/";
@@ -113,6 +115,8 @@ public class UserController extends BaseController {
 			configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));
 			if(StringUtils.isNotBlank(user.getProfilePicture())){
 				user.setProfilePicture(dfsUrl+user.getProfilePicture());
+			}else{
+				user.setProfilePicture("/img/dummy.png");
 			}		
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 		} catch (Exception e) {
