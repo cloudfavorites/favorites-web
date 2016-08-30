@@ -47,7 +47,12 @@ $(function(){
 	  	        	 if(response.rspCode == '000000'){
 	  	        		loadFavorites();
 	  					$('#modal-changeSharing').modal('hide');
-	  					locationUrl($("#forward").val(),"home");
+	  					if($("#userCheck").val()=="usercontent"){
+	  						userLocationUrl($("#forward").val(),"userAll");
+	  						loadUserFavorites();
+	  					}else{
+	  						locationUrl($("#forward").val(),"home");
+	  					}
 	  	        	 }else{
 	  	        		$("#errorMsg").text(response.rspMsg);
 	 			 		$("#errorMsg").show();
@@ -71,9 +76,10 @@ function showAt(name){
 	$("#remark").val(text + "@" +name + " ").focus();
 }
 
-function onCollect(id){
+function onCollect(id,user){
 	 $('#modal-remove').modal('show');
 	 $("#collectId").val(id);
+	 $("#userCheck").val(user);
 }
 
 function delCollect(){
@@ -89,14 +95,20 @@ function delCollect(){
 				console.log(errorThrown);
 			},
 			success: function(response){
-				locationUrl($("#forward").val(),"home");
+				loadFavorites();
+				if("usercontent" == $("#userCheck").val()){
+					userLocationUrl($("#forward").val(),"usereAll");
+					loadUserFavorites();
+				}else{
+					locationUrl($("#forward").val(),"home");
+				}
 				$('#modal-remove').modal('hide');
 			}
 		});
 }
 
 
-function getCollect(id){
+function getCollect(id,user){
 	 $.ajax({
 			async: false,
 			type: 'POST',
@@ -116,6 +128,7 @@ function getCollect(id){
 				$('#modal-changeSharing').modal('show');
 				$("#favoritesSelect").val(collect.favoritesId);
 				$("#newFavorites").val("");
+				$("#userCheck").val(user);
 			}
 		});
 }

@@ -43,10 +43,10 @@ public class HomeController extends BaseController{
 	
 	@RequestMapping(value="/standard/{type}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
+	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
 		model.addAttribute("collects", collects);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
@@ -69,7 +69,7 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
+	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
 		model.addAttribute("collects", collects);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
@@ -94,16 +94,11 @@ public class HomeController extends BaseController{
 	 * @param size
 	 * @return
 	 */
-	@RequestMapping(value="/user/{userId}")
-	public String userPageShow(Model model,@PathVariable("userId") Long userId,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	@RequestMapping(value="/user/{userId}/{favoritesId}")
+	public String userPageShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size){
 		logger.info("userId:" + userId);
 		User user = userRepository.findOne(userId);
-		if(StringUtils.isNotBlank(user.getProfilePicture())){
-			user.setProfilePicture(dfsUrl+user.getProfilePicture());
-		}else{
-			user.setProfilePicture("/img/dummy.png");
-		}
 		Long collectCount = 0l;
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
@@ -112,11 +107,19 @@ public class HomeController extends BaseController{
 		if(getUserId().longValue() == userId.longValue()){
 			model.addAttribute("myself","yes");
 			collectCount = collectRepository.countByUserId(userId);
-			collects =collectService.getCollects("my", userId, pageable);
+			if(0 == favoritesId){
+				collects =collectService.getCollects("myself", userId, pageable,null);
+			}else{
+				collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
+			}
 		}else{
 			model.addAttribute("myself","no");
 			collectCount = collectRepository.countByUserIdAndType(userId, "public");
-			collects =collectService.getCollects("others", userId, pageable);
+			if(favoritesId == 0){
+				collects =collectService.getCollects("others", userId, pageable,null);
+			}else{
+				collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId);
+			}
 			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, "follow");
 		}
 		Integer follow = followRepository.countByUserIdAndStatus(userId, "follow");
@@ -133,9 +136,53 @@ public class HomeController extends BaseController{
 		model.addAttribute("followUser",followUser);
 		model.addAttribute("followedUser",followedUser);
 		model.addAttribute("isFollow",isFollow);
+		model.addAttribute("dfsUrl",dfsUrl);
 		return "user";
 	}
-
+	
+	
+		/**
+		 * 个人首页内容替换
+		 * @param model
+		 * @param userId
+		 * @param page
+		 * @param size
+		 * @return
+		 */
+		@RequestMapping(value="/usercontent/{userId}/{favoritesId}")
+		public String userContentShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
+		        @RequestParam(value = "size", defaultValue = "15") Integer size){
+			logger.info("userId:" + userId);
+			User user = userRepository.findOne(userId);
+			Long collectCount = 0l;
+			Sort sort = new Sort(Direction.DESC, "id");
+		    Pageable pageable = new PageRequest(page, size, sort);
+		    List<CollectSummary> collects = null;
+			if(getUserId().longValue() == userId.longValue()){
+				model.addAttribute("myself","yes");
+				collectCount = collectRepository.countByUserId(userId);
+				if(0 == favoritesId){
+					collects =collectService.getCollects("myself", userId, pageable,null);
+				}else{
+					collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
+				}
+			}else{
+				model.addAttribute("myself","no");
+				collectCount = collectRepository.countByUserIdAndType(userId, "public");
+				if(favoritesId == 0){
+					collects =collectService.getCollects("others", userId, pageable,null);
+				}else{
+					collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId);
+				}
+			}
+			List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
+			model.addAttribute("collectCount",collectCount);
+			model.addAttribute("user",user);
+			model.addAttribute("collects", collects);
+			model.addAttribute("favoritesList",favoritesList);
+			model.addAttribute("dfsUrl",dfsUrl);
+			return "fragments/usercontent";
+		}
 	
 	
 	/**

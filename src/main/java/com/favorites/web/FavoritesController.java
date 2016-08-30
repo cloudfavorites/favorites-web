@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -127,12 +128,16 @@ public class FavoritesController extends BaseController{
 	 * 获取收藏夹
 	 * @return
 	 */
-	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
-	public List<Favorites> getFavorites() {
+	@RequestMapping(value = "/getFavorites/{userId}", method = RequestMethod.POST)
+	public List<Favorites> getFavorites(@PathVariable("userId") Long userId) {
 		logger.info("getFavorites begin");
 		List<Favorites> favorites = null;
 		try {
-			favorites = favoritesRepository.findByUserIdOrderByIdDesc(getUserId());
+			Long id = getUserId();
+			if(null != userId && 0 != userId){
+				id = userId;
+			}
+			favorites = favoritesRepository.findByUserIdOrderByIdDesc(id);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);
