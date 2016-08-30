@@ -74,8 +74,6 @@ public class UserController extends BaseController {
 			}
 			if(StringUtils.isNotBlank(loginUser.getProfilePicture())){
 				loginUser.setProfilePicture(dfsUrl+loginUser.getProfilePicture());
-			}else{
-				loginUser.setProfilePicture("/img/dummy.png");
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			String preUrl = "/";
@@ -112,12 +110,7 @@ public class UserController extends BaseController {
 			// 添加默认收藏夹
 			Favorites favorites = favoritesService.saveFavorites(user.getId(),0l, "未读列表");
 			// 添加默认属性设置
-			configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));
-			if(StringUtils.isNotBlank(user.getProfilePicture())){
-				user.setProfilePicture(dfsUrl+user.getProfilePicture());
-			}else{
-				user.setProfilePicture("/img/dummy.png");
-			}		
+			configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));	
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 		} catch (Exception e) {
 			// TODO: handle exception
