@@ -393,7 +393,7 @@ function listStandardCollect(collects){
 		"                  </ul>"+
 		"               </div>"+
 		"               <div class=\"m0\">"+
-		"                  <a onclick=\"locationUrl(\'/user/"+collects[i].userId+"\',\'\');\" class=\"text-muted\" href=\"javascript:void(0);\">"+collects[i].userName+"</a>"+
+		"                  <a onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" class=\"text-muted\" href=\"javascript:void(0);\">"+collects[i].userName+"</a>"+
 		"                  ";
 		if($("#userId").val() == collects[i].userId){
 			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'private\');\" style=\"display:"+(collects[i].type=='private' ? 'none' : 'inline-block')+"\" id=\"private"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为私密\" class=\"deco-none\">"+
