@@ -88,7 +88,7 @@ public class CollectController extends BaseController{
 	 */
 	@RequestMapping(value="/standard/{type}")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "6") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);

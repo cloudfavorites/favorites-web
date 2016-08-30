@@ -6,6 +6,7 @@ var flag = 1;
 var gfavorites;
 var gfollows;
 var gconfig;
+var page=1;
 var standardStr = "standard";
 $(function() {
 	loadConfig();
@@ -168,6 +169,7 @@ function initUserFavorites(favorites){
 }
 
 function locationUrl(url,activeId){
+	page=1;
 	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
 		$("#"+mainActiveId).removeAttr("class");
 		$("#"+activeId).attr("class", "active");

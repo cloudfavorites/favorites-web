@@ -187,7 +187,7 @@ function changeLike(id){
 					$("#unlikel"+id).show();
 					var praiseCount=parseInt($("#praiseC"+id).val())+1;
 					$("#praiseC"+id).val(praiseCount);
-					$("#UNlikeS"+id).html("取消点赞("+praiseCount+")");
+					$("#unlikeS"+id).html("取消点赞("+praiseCount+")");
 
 				} 
 			}
@@ -311,3 +311,236 @@ function replyComment(name,collectId){
 	var text = $("#commentContent"+collectId).val();
 	$("#commentContent"+collectId).val(text + "@" +name + " ").focus();
 }
+
+
+function loadStandardMore(){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'page='+page,
+			url: '/collect/standard/'+$("#pageType").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(collects){
+				listStandardCollect(collects);
+				page++;
+			}
+		});
+}
+
+
+
+function listStandardCollect(collects){
+	if(collects.length==0){
+		$("#loadStandardNoMore").show();
+		$("#loadStandardMore").hide();
+	}
+	var collectStandardList='';
+	for(var i=0;i<collects.length;i++){
+		var item =
+		"<li>"+
+		"<a style=\"background-image:url("+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\""+collects[i].url+"\"></a>"+
+		"<div class=\"timeline-panel\">"+
+		"   <div class=\"popover right\">"+
+		"      <div class=\"arrow\"></div>"+
+		"      <div class=\"popover-content\">"+
+		"         <div class=\"table-grid\">"+
+		"            <div class=\"col\">"+
+		"               <div class=\"pull-right dropdown dropdown-list\">"+
+		"                  ";
+		if($("#userId").val() == collects[i].userId){
+			item=item+		"   <a href=\"#\" data-toggle=\"dropdown\" class=\"sharing-more-button\"  >"+
+			"                                             <span class=\"fa fa-angle-down\"></span>"+
+			"                                          </a>";
+		}
+		item=item+
+		"                  "+
+		"                  <ul class=\"dropdown-menu animated bounceIn\">"+
+		"                     <li>"+
+		"                        <div class=\"list-group\">"+
+		"                           <a onclick=\"getCollect("+collects[i].id+");\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
+		"                              <div class=\"media-box\">"+
+		"                                 <div class=\"pull-left\">"+
+		"                                    <em class=\"fa fa-pencil-square-o fa-2x fa-fw text-info\"></em>"+
+		"                                 </div>"+
+		"                                 <div class=\"media-box-body clearfix\">"+
+		"                                    <p class=\"m0\">修改收藏</p>"+
+		"                                    <p class=\"m0 text-muted\">"+
+		"                                       <small>修改收藏的各种属性</small>"+
+		"                                    </p>"+
+		"                                 </div>"+
+		"                              </div>"+
+		"                           </a>"+
+		"                           <a onclick=\"onCollect("+collects[i].id+");\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
+		"                              <div class=\"media-box\">"+
+		"                                 <div class=\"pull-left\">"+
+		"                                    <em class=\"fa fa-trash fa-2x fa-fw text-danger\"></em>"+
+		"                                 </div>"+
+		"                                 <div class=\"media-box-body clearfix\">"+
+		"                                    <p class=\"m0\">删除</p>"+
+		"                                    <p class=\"m0 text-muted\">"+
+		"                                       <small>该分享会永久删除</small>"+
+		"                                    </p>"+
+		"                                 </div>"+
+		"                              </div>"+
+		"                           </a>"+
+		"                        </div>"+
+		"                     </li>"+
+		"                  </ul>"+
+		"               </div>"+
+		"               <div class=\"m0\">"+
+		"                  <a onclick=\"locationUrl(\'/user/"+collects[i].userId+"\',\'\');\" class=\"text-muted\" href=\"javascript:void(0);\">"+collects[i].userName+"</a>"+
+		"                  ";
+		if($("#userId").val() == collects[i].userId){
+			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'private\');\" style=\"display:"+(collects[i].type=='private' ? 'none' : 'inline-block')+"\" id=\"private"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为私密\" class=\"deco-none\">"+
+			"                <span style=\"color: #eee;\" class=\"fa fa-lock\"></span>"+
+			"              </a>";
+			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'public\');\" style=\"display:"+(collects[i].type=='public' ? 'none' : 'inline-block')+"\" id=\"public"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为公开\" class=\"deco-none\">"+
+			"                <span class=\"fa fa-lock text-warning\"></span>"+
+			"              </a>";
+		}
+		item=item+
+ 
+		"                  "+
+		"                  <small class=\"ml-sm text-muted\">"+collects[i].collectTime+"</small>"+
+		"               </div>"+
+		"            </div>"+
+		"         </div>"+
+		"          <div class=\"m0\">"+replaceEmpty(collects[i].remark)+"</div>"+
+		"         <div class=\"media resource-card-thumbnail\">"+
+		"            <a href=\""+collects[i].url+"\" target=\"_blank\" class=\"pull-left\">"+
+		"               <div style=\"background-image:url("+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+")\" class=\"media-object resource-card-image\"></div>"+
+		"            </a>"+
+		"            <div class=\"media-body\">"+
+		"               <h4 class=\"visible-xs media-heading resource-card-title-xs\">"+
+		"                  <a href=\""+collects[i].url+"\" target=\"_blank\">"+collects[i].title+"</a>"+
+		"               </h4>"+
+		"               <h3 class=\"hidden-xs media-heading resource-card-title\">"+
+		"                  <a href=\""+collects[i].url+"\" target=\"_blank\">"+collects[i].title+"</a>"+
+		"               </h3>"+
+		"               <div class=\"hidden-xs resource-card-content\">"+
+		"                  <p>"+collects[i].description+"</p>"+
+		"               </div>"+
+		"            </div>"+
+		"         </div>"+
+		"         <div class=\"m0\">"+
+		"            <span class=\"icon-folder mr-sm\"></span>"+
+		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
+		"            <div class=\"pull-right hidden-xxs\">"+
+		"               <small>"+
+		"                  <a class=\"sharing-action-button\">"+
+		"                     <span class=\"fa fa-share-alt\"></span>"+
+		"                     	分享"+
+		"                  </a>"+
+		"                   <if style=\"display:"+(collects[i].Praise ? 'none' : 'inline-block')+"\" id=\"likel"+collects[i].id+"\"> "+
+		"				     | "+
+		"				  </if> "+
+		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button\">"+
+		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+
+		"                     <show id=\"likeS"+collects[i].id+"\">点赞("+collects[i].praiseCount+")</show>"+
+		"                  </a>"+
+		"                   <if style=\"display:"+(collects[i].Praise ? 'inline-block' : 'none')+"\" id=\"unlikel"+collects[i].id+"\"> "+
+		"				     | "+
+		"				  </if> "+
+		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'inline-block' : 'none')+"\" id=\"unlike"+collects[i].id+"\" class=\"sharing-action-button\">"+
+		"                     <span class=\"fa fa-thumbs-up\"></span>"+
+		"                  	 <show id=\"unlikeS"+collects[i].id+"\">取消点赞("+collects[i].praiseCount+")</show>"+
+		"                  </a>"+
+		"                  <input type=\"hidden\" value=\"1\" id=\"praiseC"+collects[i].id+"\" name=\"praiseC\">"+
+		"                  <input type=\"hidden\" value=\"6\" id=\"commentC"+collects[i].id+"\" name=\"commentC\">"+
+		"                  | "+
+		"                  <a onclick=\"switchComment("+collects[i].id+");\" href=\"javascript:void(0);\" class=\"sharing-action-button btn-comment\">"+
+		"                     <span class=\"fa fa-comment-o\"></span>"+
+		"                     <show id=\"commentS"+collects[i].id+"\">评论("+collects[i].commentCount+")</show>"+
+		"                  </a>"+
+		"				  <if> "+
+		"				     | "+
+		"				  </if> "+
+		"                  <a class=\"sharing-action-button\">"+
+		"                     <span class=\"fa fa-spoon\"></span>"+
+		"                   	    收藏"+
+		"                  </a>"+
+		"               </small>"+
+		"            </div>"+
+		"         </div>"+
+		"         <div id=\"collapse"+collects[i].id+"\" class=\"collapse\">"+
+		"            <comments id=\"commentList"+collects[i].id+"\"></comments>"+
+		"            <div id=\"comment"+collects[i].id+"\" class=\"media p0\">"+
+		"               <div class=\"media-body\">"+
+		"                  <form>"+
+		"                     <div class=\"input-group\">"+
+		"                        <input type=\"text\" id=\"commentContent"+collects[i].id+"\" class=\"form-control\" placeholder=\"输入评论...\">"+
+		"                        <span class=\"input-group-btn\">"+
+		"                           <button onclick=\"comment("+collects[i].id+");\" type=\"button\" class=\"btn btn-default\">发送</button>"+
+		"                        </span>"+
+		"                     </div>"+
+		"                  </form>"+
+		"               </div>"+
+		"            </div>"+
+		"         </div>"+
+		"      </div>"+
+		"   </div>"+
+		"</div>"+
+		"</li>";
+		collectStandardList=collectStandardList+item;
+	}
+	 $("#collectStandardList").append(collectStandardList);
+}
+
+
+function loadSimpleMore(){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'page='+page,
+			url: '/collect/simple/'+$("#pageType").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(collects){
+				listSimpleCollect(collects);
+				page++;
+			}
+		});
+}
+
+
+function listSimpleCollect(collects){
+	var collectSimpleList='';
+	if(collects.length==0){
+		$("#loadSimpleNoMore").show();
+		$("#loadSimpleMore").hide();
+	}
+	for(var i=0;i<collects.length;i++){
+		var item =
+			"<tr>"+
+			"    <td>"+
+			"      <a href=\""+collects[i].url+"\" style=\"font-size:16px;color:#656565;\" target=\"_blank\">"+collects[i].title+"</a>"+
+			"    </td>"+
+			"   <td width=\"10%\" class=\"text-center\">"+
+			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+
+			"   <td width=\"15%\" class=\"text-center\">"+
+			"    <div>"+
+			"    <a onclick=\"getCollect("+collects[i].id+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+			"    </a>"+
+			"    <a onclick=\"onCollect("+collects[i].id+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+			"    </a>"+
+			"    </div>"+
+			"   </td>"+
+			" </tr>";
+		collectSimpleList=collectSimpleList+item;
+	}
+	 $("#collectSimpleList").append(collectSimpleList);
+}
+
+
+
+
+
