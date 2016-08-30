@@ -2,7 +2,7 @@ package com.favorites.web;
 
 import java.util.List;
 
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -99,7 +99,11 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "15") Integer size){
 		logger.info("userId:" + userId);
 		User user = userRepository.findOne(userId);
-		user.setProfilePicture(dfsUrl+user.getProfilePicture());
+		if(StringUtils.isNotBlank(user.getProfilePicture())){
+			user.setProfilePicture(dfsUrl+user.getProfilePicture());
+		}else{
+			user.setProfilePicture("/img/dummy.png");
+		}
 		Long collectCount = 0l;
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
