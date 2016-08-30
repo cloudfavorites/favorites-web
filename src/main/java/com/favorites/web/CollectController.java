@@ -88,10 +88,10 @@ public class CollectController extends BaseController{
 	 */
 	@RequestMapping(value="/standard/{type}")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "6") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
+	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
 		return collects;
 	}
 	
@@ -109,7 +109,7 @@ public class CollectController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable);
+	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
 		return collects;
 	}
 	
@@ -157,7 +157,11 @@ public class CollectController extends BaseController{
 	 */
 	@RequestMapping(value="/delete/{id}")
 	public Response delete(@PathVariable("id") long id) {
+		Collect collect = collectRepository.findOne(id);
 		collectRepository.deleteById(id);
+		if(null != collect && null != collect.getFavoritesId()){
+			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+		}
 		return result();
 	}
 	
@@ -192,7 +196,7 @@ public class CollectController extends BaseController{
 				}
 				for (Entry<String, Map<String, String>> entry : map.entrySet()) {  
 					  String favoritesName = entry.getKey();
-					  Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "导入自浏览器");
+					  Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), favoritesName);
 						if(null == favorites){
 							favorites = favoritesService.saveFavorites(getUserId(), 0l, favoritesName);
 						}

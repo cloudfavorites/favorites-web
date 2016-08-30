@@ -23,7 +23,7 @@
                      </a>
                   </div>
                   <table class="table">
-                     <tbody>
+                     <tbody  id="collectSimpleList">
                         <tr th:each="collect,collectStat : ${collects}">
                            <td>
                               <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
@@ -32,19 +32,23 @@
                               <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
                            <td width="15%" class="text-center">
                               <div>
-                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ');'" > <i class="fa fa-pencil"></i>
+                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" > <i class="fa fa-pencil"></i>
                                  </a>
-                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ');'"> <i class="fa fa-trash text-danger"></i>
+                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'"> <i class="fa fa-trash text-danger"></i>
                                  </a>
                               </div>
                            </td>
                         </tr>
                      </tbody>
                   </table>
+                     <button id="loadSimpleNoMore" class="mt-lg btn btn-primary btn-block" style="display:none" >没有更多了</button>
+                     <button id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadSimpleMore();'">加载更多</button>
                </div>
             </div>
              <input type="hidden" name="collectId" id="collectId" />
             <input type="hidden" name="forward" id="forward" th:value="'/simple/'+${type}" />
+             <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
+            
          </div>
       </section>
   </body>

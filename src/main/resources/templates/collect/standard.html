@@ -22,7 +22,7 @@
                         <span class="icon-list"></span>
                      </a>
                   </div>
-                  <ul class="timeline-alt">
+                  <ul class="timeline-alt" id="collectStandardList">
                      <li th:each="collect,collectStat : ${collects}" >
                         <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></a>
                         <div class="timeline-panel">
@@ -38,7 +38,7 @@
                                           <ul class="dropdown-menu animated bounceIn">
                                              <li>
                                                 <div class="list-group">
-                                                   <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'getCollect(' + ${collect.id} + ');'" >
+                                                   <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
                                                       <div class="media-box">
                                                          <div class="pull-left">
                                                             <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
@@ -51,7 +51,7 @@
                                                          </div>
                                                       </div>
                                                    </a>
-                                                   <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ');'">
+                                                   <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'">
                                                       <div class="media-box">
                                                          <div class="pull-left">
                                                             <em class="fa fa-trash fa-2x fa-fw text-danger"></em>
@@ -157,10 +157,13 @@
                         </div>
                      </li>
                     </ul>
+                    <button id="loadStandardNoMore" class="mt-lg btn btn-primary btn-block" style="display:none" >没有更多了</button>
+                    <button id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button>
                </div>
             </div>
             <input type="hidden" name="collectId" id="collectId" />
             <input type="hidden" name="forward" id="forward" th:value="'/standard/'+${type}" />
+            <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
             <input type="hidden"  id="userId" th:value="${userId}" />
          </div>
       </section>
