@@ -102,18 +102,18 @@
                                     <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
                                     <div class="pull-right hidden-xxs">
                                        <small>
-                                          <a class="sharing-action-button">
+                                          <a class="sharing-action-button" style="display:none">
                                              <span class="fa fa-share-alt"></span>
                                              	分享
                                           </a>
-                                           <if  th:id="'likel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"> 
+                                           <if style="display:none"    > 
 										     | 
 										  </if> 
                                           <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
                                              <span class="fa fa-thumbs-o-up"></span>
                                              <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
                                           </a>
-                                           <if th:id="'unlikel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''" > 
+                                           <if style="display:none"  > 
 										     | 
 										  </if> 
                                           <a th:id="'unlike' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">

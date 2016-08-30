@@ -432,18 +432,18 @@ function listStandardCollect(collects){
 		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
 		"            <div class=\"pull-right hidden-xxs\">"+
 		"               <small>"+
-		"                  <a class=\"sharing-action-button\">"+
+		"                  <a style=\"display:none\" class=\"sharing-action-button\">"+
 		"                     <span class=\"fa fa-share-alt\"></span>"+
 		"                     	分享"+
 		"                  </a>"+
-		"                   <if style=\"display:"+(collects[i].Praise ? 'none' : 'inline-block')+"\" id=\"likel"+collects[i].id+"\"> "+
+		"                   <if  style=\"display:none\" > "+
 		"				     | "+
 		"				  </if> "+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button\">"+
 		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+
 		"                     <show id=\"likeS"+collects[i].id+"\">点赞("+collects[i].praiseCount+")</show>"+
 		"                  </a>"+
-		"                   <if style=\"display:"+(collects[i].Praise ? 'inline-block' : 'none')+"\" id=\"unlikel"+collects[i].id+"\"> "+
+		"                   <if  style=\"display:none\"> "+
 		"				     | "+
 		"				  </if> "+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'inline-block' : 'none')+"\" id=\"unlike"+collects[i].id+"\" class=\"sharing-action-button\">"+
@@ -456,14 +456,17 @@ function listStandardCollect(collects){
 		"                  <a onclick=\"switchComment("+collects[i].id+");\" href=\"javascript:void(0);\" class=\"sharing-action-button btn-comment\">"+
 		"                     <span class=\"fa fa-comment-o\"></span>"+
 		"                     <show id=\"commentS"+collects[i].id+"\">评论("+collects[i].commentCount+")</show>"+
-		"                  </a>"+
-		"				  <if> "+
-		"				     | "+
-		"				  </if> "+
-		"                  <a class=\"sharing-action-button\">"+
-		"                     <span class=\"fa fa-spoon\"></span>"+
-		"                   	    收藏"+
-		"                  </a>"+
+		"                  </a>";
+		if($("#userId").val() != collects[i].userId){
+			item=item+"	 <if> "+
+			"				     | "+
+			"				  </if> "+
+			"                  <a class=\"sharing-action-button\">"+
+			"                     <span class=\"fa fa-spoon\"></span>"+
+			"                   	    收藏"+
+			"                  </a>";
+		}
+			item=item+
 		"               </small>"+
 		"            </div>"+
 		"         </div>"+
