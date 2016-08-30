@@ -6,6 +6,7 @@ var flag = 1;
 var gfavorites;
 var gfollows;
 var gconfig;
+var standardStr = "standard";
 $(function() {
 	loadConfig();
 	loadFavorites();
@@ -49,7 +50,7 @@ function loadFavorites(){
 		async: false,
 		type: 'POST',
 		dataType: 'json',
-		url: '/favorites/getFavorites',
+		url: '/favorites/getFavorites/0',
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);
 			console.log(textStatus);
@@ -115,7 +116,9 @@ function initFavorites(favorites){
 		$("#layoutFavoritesName").append("<option value=\"" + id + "\">" + name + "</option>");
 		
 	}
-	$("#favoritesSelect").val(gconfig.defaultFavorties);
+	if(null != gconfig){
+		$("#favoritesSelect").val(gconfig.defaultFavorties);
+	}
 }
 
 function initConfigDatas(config){
@@ -133,6 +136,37 @@ function initFollows(follows){
 	$("#friends").append(friends);
 }
 
+function initUserFavorites(favorites){
+	$("DIV[name='userFavDiv']").remove();
+	$("#allFavorites").html("");
+	var totalCount = 0;
+	for(var i=0;i<favorites.length;i++){
+		totalCount = totalCount + favorites[i].count;
+		var favorieshtml = "<div name=\"userFavDiv\" class=\"list-group\">";
+		favorieshtml = favorieshtml + "<a id=\"user"+favorites[i].id+"\" href=\"javascript:void(0);\" class=\"media p mt0 list-group-item\" onclick=\"userLocationUrl('/usercontent/"+$("#userId").val()+"/"+favorites[i].id+"','user"+favorites[i].id+"');\">";
+		favorieshtml = favorieshtml + "<span class=\"media-body\">";
+		favorieshtml = favorieshtml + "<span class=\"media-heading\">";
+		favorieshtml = favorieshtml + " <strong>"+favorites[i].name+"</strong>";
+		if("yes" == $("#myself").val()){
+			favorieshtml = favorieshtml + "<small>"+favorites[i].count +"个收藏</small>";
+		}else{
+			favorieshtml = favorieshtml + "<small>"+favorites[i].count +"个公开收藏</small>";
+		}
+		favorieshtml = favorieshtml + "</span>";
+		favorieshtml = favorieshtml + "</span>";
+		favorieshtml = favorieshtml + "</a></div>";
+		$("#userFavorites").after(favorieshtml);
+	}
+	$("#totalCount").text(totalCount);
+	var allFavorites = "<strong>全部收藏</strong>";
+	if("yes" == $("#myself").val()){
+		allFavorites = allFavorites + "<small>"+totalCount+"个收藏</small>";
+	}else{
+		allFavorites = allFavorites + "<small>"+totalCount+"个公开收藏</small>";
+	}
+	$("#allFavorites").append(allFavorites);
+}
+
 function locationUrl(url,activeId){
 	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
 		$("#"+mainActiveId).removeAttr("class");
@@ -140,6 +174,16 @@ function locationUrl(url,activeId){
 		mainActiveId = activeId;
 	}
 	goUrl(url,null);
+}
+
+function userLocationUrl(url,activeId){
+	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
+		$("a.media.p.mt0.list-group-item.active").removeClass("active");
+		$("#"+mainActiveId).removeClass("active");
+		$("#"+activeId).attr("class", "media p mt0 list-group-item active");
+		mainActiveId = activeId;
+	}
+	userGoUrl(url,null);
 }
 
 var xmlhttp = new getXMLObject();
@@ -153,6 +197,19 @@ function goUrl(url,params) {
 		xmlhttp.send(params); 
 	}
 }
+
+var userXmlhttp = new getXMLObject();
+function userGoUrl(url,params) {
+	fixUrl(url,params);
+	if(userXmlhttp) {
+		//var params = "";
+		userXmlhttp.open("POST",url,true); 
+		userXmlhttp.onreadystatechange = userHandleServerResponse;
+		userXmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+		userXmlhttp.send(params); 
+	}
+}
+
 
 function fixUrl(url, params){
 	if(params != null){
@@ -209,6 +266,13 @@ function handleServerResponse() {
 	if (xmlhttp.readyState == 4) {
 		//document.getElementById("mainSection").innerHTML =xmlhttp.responseText;
 		$("#content").html(xmlhttp.responseText);
+	}
+}
+
+function userHandleServerResponse() {
+	if (userXmlhttp.readyState == 4) {		
+		//document.getElementById("mainSection").innerHTML =xmlhttp.responseText;
+		$("#usercontent").html(userXmlhttp.responseText);
 	}
 }
 

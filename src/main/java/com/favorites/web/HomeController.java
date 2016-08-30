@@ -108,7 +108,7 @@ public class HomeController extends BaseController{
 			model.addAttribute("myself","yes");
 			collectCount = collectRepository.countByUserId(userId);
 			if(0 == favoritesId){
-				collects =collectService.getCollects("my", userId, pageable,null);
+				collects =collectService.getCollects("myself", userId, pageable,null);
 			}else{
 				collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
 			}
@@ -139,7 +139,50 @@ public class HomeController extends BaseController{
 		model.addAttribute("dfsUrl",dfsUrl);
 		return "user";
 	}
-
+	
+	
+		/**
+		 * 个人首页内容替换
+		 * @param model
+		 * @param userId
+		 * @param page
+		 * @param size
+		 * @return
+		 */
+		@RequestMapping(value="/usercontent/{userId}/{favoritesId}")
+		public String userContentShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
+		        @RequestParam(value = "size", defaultValue = "15") Integer size){
+			logger.info("userId:" + userId);
+			User user = userRepository.findOne(userId);
+			Long collectCount = 0l;
+			Sort sort = new Sort(Direction.DESC, "id");
+		    Pageable pageable = new PageRequest(page, size, sort);
+		    List<CollectSummary> collects = null;
+			if(getUserId().longValue() == userId.longValue()){
+				model.addAttribute("myself","yes");
+				collectCount = collectRepository.countByUserId(userId);
+				if(0 == favoritesId){
+					collects =collectService.getCollects("myself", userId, pageable,null);
+				}else{
+					collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
+				}
+			}else{
+				model.addAttribute("myself","no");
+				collectCount = collectRepository.countByUserIdAndType(userId, "public");
+				if(favoritesId == 0){
+					collects =collectService.getCollects("others", userId, pageable,null);
+				}else{
+					collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId);
+				}
+			}
+			List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
+			model.addAttribute("collectCount",collectCount);
+			model.addAttribute("user",user);
+			model.addAttribute("collects", collects);
+			model.addAttribute("favoritesList",favoritesList);
+			model.addAttribute("dfsUrl",dfsUrl);
+			return "fragments/usercontent";
+		}
 	
 	
 	/**

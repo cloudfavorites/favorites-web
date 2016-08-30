@@ -73,6 +73,8 @@ public class CollectServiceImpl implements CollectService {
 			}else{
 				views = collectRepository.findViewByUserIdAndFollows(userId, userIds, pageable);
 			}
+		}else if("myself".equals(type)){
+			views = collectRepository.findViewByUserId(userId, pageable);
 		} else if ("explore".equals(type)) {
 			views = collectRepository.findExploreView(userId,pageable);
 		} else if("others".equals(type)){
