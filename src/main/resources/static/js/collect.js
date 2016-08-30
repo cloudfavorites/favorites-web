@@ -187,7 +187,7 @@ function changeLike(id){
 					$("#unlikel"+id).show();
 					var praiseCount=parseInt($("#praiseC"+id).val())+1;
 					$("#praiseC"+id).val(praiseCount);
-					$("#UNlikeS"+id).html("取消点赞("+praiseCount+")");
+					$("#unlikeS"+id).html("取消点赞("+praiseCount+")");
 
 				} 
 			}
