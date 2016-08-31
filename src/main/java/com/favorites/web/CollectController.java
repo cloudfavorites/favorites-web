@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -283,4 +284,35 @@ public class CollectController extends BaseController{
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value="/searchMy/{key}")
+	public List<CollectSummary> searchMy(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
+		model.addAttribute("myCollects", myCollects);
+		logger.info("searchMy end :");
+		return myCollects;
+	}
+	
+	
+	
+	@RequestMapping(value="/searchOther/{key}")
+	public List<CollectSummary> searchOther(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
+		logger.info("searchOther end :");
+		return otherCollects;
+	}
+	
+	
+	
+	
 }

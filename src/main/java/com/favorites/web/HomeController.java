@@ -1,5 +1,4 @@
 package com.favorites.web;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,6 +222,7 @@ public class HomeController extends BaseController{
 		
 		model.addAttribute("mysize", myCollects.size());
 		model.addAttribute("othersize", otherCollects.size());
+		model.addAttribute("key", key);
 
 		logger.info("search end :"+ getUserId());
 		return "collect/search";
