@@ -41,14 +41,14 @@
                         </tr>
                      </tbody>
                   </table>
-                     <button id="loadSimpleNoMore" class="mt-lg btn btn-primary btn-block" style="display:none" >没有更多了</button>
-                     <button id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadSimpleMore();'">加载更多</button>
+                     <button id="loadSimpleNoMore" class="mt-lg btn btn-warning btn-block" style="display:none" >没有更多了</button>
+                     <button th:if="${size == 20}"  id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadSimpleMore();'">加载更多</button>
                </div>
             </div>
              <input type="hidden" name="collectId" id="collectId" />
-            <input type="hidden" name="forward" id="forward" th:value="'/simple/'+${type}" />
+             <input type="hidden" name="forward" id="forward" th:value="'/simple/'+${type}" />
              <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
-            
+             <input type="hidden"  id="userId" th:value="${userId}" />
          </div>
       </section>
   </body>
