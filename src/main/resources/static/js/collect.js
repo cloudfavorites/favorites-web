@@ -259,10 +259,18 @@ function initComment(comments,collectId){
 		item=item+'<div class=\"media-body\">  <span class=\"media-heading\">  <p class=\"m0\"> '
 		item=item+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('/user/" + comments[i].userId + "')\">"+comments[i].userName+"</a>";
 		item=item+'</p> <p class=\"m0 text-muted\">'+comments[i].content+'<small>';
-		if(comments[i].userId==$("#userId").val()){
-			item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+		if($("#loginUser").length > 0){
+			if(comments[i].userId==$("#loginUser").val()){
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+			}else{
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+			}
 		}else{
-			item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+			if(comments[i].userId==$("#userId").val()){
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+			}else{
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+			}
 		}
 		item=item+'</small></p></span></div></div>';
 		comment=comment+item;
@@ -323,12 +331,12 @@ function replyComment(name,collectId){
 
 function loadStandardMore(){
 	var url='';
-	if("undefined" != $("#favoritesId").val()){
+	if($("#favoritesId").length > 0){
 		url = '/collect/standard/'+$("#pageType").val()+"/" + $("#favoritesId").val() ;
 	}else{
 		url = '/collect/standard/'+$("#pageType").val()+"/0";
 	}
-	if("undefined" != $("#userId").val()){
+	if($("#userId").length > 0){
 		url = url + "/" + $("#userId").val();
 	}else{
 		url = url + "/0";

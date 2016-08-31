@@ -196,6 +196,7 @@ public class HomeController extends BaseController{
 			model.addAttribute("collects", collects);
 			model.addAttribute("favoritesList",favoritesList);
 			model.addAttribute("favoritesId", favoritesId);
+			model.addAttribute("loginUser",getUser());
 			return "fragments/usercontent";
 		}
 	
