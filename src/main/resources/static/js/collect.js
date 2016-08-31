@@ -331,8 +331,8 @@ function replyComment(name,collectId){
 
 function loadStandardMore(){
 	var url='';
-	if($("#favoritesId").length > 0){
-		url = '/collect/standard/'+$("#pageType").val()+"/" + $("#favoritesId").val() ;
+	if($("#userFavoritesId").length > 0){
+		url = '/collect/standard/'+$("#pageType").val()+"/" + $("#userFavoritesId").val() ;
 	}else{
 		url = '/collect/standard/'+$("#pageType").val()+"/0";
 	}
@@ -591,12 +591,12 @@ function listStandardCollect(collects,listId,user){
 
 function loadSimpleMore(){
 	var url='';
-	if("undefined" != $("#favoritesId").val()){
-		url = '/collect/simple/'+$("#pageType").val()+"/" + $("#favoritesId").val();
+	if($("#userFavoritesId").length > 0){
+		url = '/collect/simple/'+$("#pageType").val()+"/" + $("#userFavoritesId").val();
 	}else{
 		url = '/collect/simple/'+$("#pageType").val()+"/0";
 	}
-	if("undefined" != $("#userId").val()){
+	if($("#userId").length > 0){
 		url = url + "/" + $("#userId").val();
 	}else{
 		url = url + "/0";
