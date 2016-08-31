@@ -5,7 +5,7 @@
          <div class="content-wrapper">
             <h3>搜索结果</h3>
             <div class="col-lg-12 col-md-12">
-               <ul class="timeline-alt">
+               <ul class="timeline-alt" id="myCollectList">
                     <li data-datetime="我的" class="timeline-separator"></li>
                     <li th:each="collect,collectStat : ${myCollects}" >
                      <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
@@ -146,7 +146,7 @@
 	                 <button th:if="${mysize == 20}"  id="loadMyMore" class="btn btn-success" th:onclick="'loadMyMore();'">加载更多</button>
                  </div>
 	             <br/><br/><br/>
-                 <ul class="timeline-alt">
+                 <ul class="timeline-alt" id="otherCollectList">
                   <li data-datetime="他人的" class="timeline-separator"></li>
                   <li th:each="collect,collectStat : ${otherCollects}" >
                     <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
@@ -284,11 +284,12 @@
                </ul>
               <div class="text-center">
                  <button id="loadOtherNoMore" class="btn btn" style="display:none" >没有更多了</button>
-                 <button th:if="${othersize == 20}"  id="loadStandardMore" class="btn btn-success" th:onclick="'loadOtherMore();'">加载更多</button>
+                 <button th:if="${othersize == 20}"  id="loadOtherMore" class="btn btn-success" th:onclick="'loadOtherMore();'">加载更多</button>
               </div>
               <br/><br/><br/>
             </div>
          </div>
+            <input type="hidden"  id="search-key" th:value="${key}" />
       </section>
   </body>
 </html>
