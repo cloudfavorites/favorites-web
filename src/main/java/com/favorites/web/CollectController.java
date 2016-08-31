@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -91,12 +92,26 @@ public class CollectController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/standard/{type}")
+	@RequestMapping(value="/standard/{type}/{favoritesId}/{userId}")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
+	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
+	    List<CollectSummary> collects = null;
+	    if("otherpublic".equalsIgnoreCase(type)){
+	    	if(null != favoritesId && 0 != favoritesId){
+	    		collects = collectService.getCollects(type, userId, pageable, favoritesId);
+	    	}else{
+	    		collects = collectService.getCollects("others", userId, pageable, null);
+	    	}
+	    }else{
+	    	if(null != favoritesId && 0 != favoritesId){
+		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null);
+		    }else{
+		    	collects=collectService.getCollects(type,getUserId(), pageable,null);
+		    }
+	    }
 		return collects;
 	}
 	
@@ -109,12 +124,26 @@ public class CollectController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/simple/{type}")
+	@RequestMapping(value="/simple/{type}/{favoritesId}/{userId}")
 	public List<CollectSummary> simple(@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
+	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
+	    List<CollectSummary> collects = null;
+	    if("otherpublic".equalsIgnoreCase(type)){
+	    	if(null != favoritesId && 0 != favoritesId){
+	    		collects = collectService.getCollects(type, userId, pageable, favoritesId);
+	    	}else{
+	    		collects = collectService.getCollects("others", userId, pageable, null);
+	    	}
+	    }else{
+	    	if(null != favoritesId && 0 != favoritesId){
+		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null);
+		    }else{
+		    	collects = collectService.getCollects(type,getUserId(), pageable,null);
+		    }
+	    }
 		return collects;
 	}
 	
@@ -255,4 +284,35 @@ public class CollectController extends BaseController{
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value="/searchMy/{key}")
+	public List<CollectSummary> searchMy(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
+		model.addAttribute("myCollects", myCollects);
+		logger.info("searchMy end :");
+		return myCollects;
+	}
+	
+	
+	
+	@RequestMapping(value="/searchOther/{key}")
+	public List<CollectSummary> searchOther(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
+		logger.info("searchOther end :");
+		return otherCollects;
+	}
+	
+	
+	
+	
 }

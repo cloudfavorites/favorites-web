@@ -1,5 +1,4 @@
 package com.favorites.web;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,22 +42,30 @@ public class HomeController extends BaseController{
 	@Value("${dfs.url}")
 	private String dfsUrl;
 	
-	@RequestMapping(value="/standard/{type}")
+	@RequestMapping(value="/standard/{type}/{userId}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
-		model.addAttribute("collects", collects);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type)){
 			try {
 				favorites = favoritesRepository.findOne(Long.parseLong(type));
+				favorites.setPublicCount(collectRepository.countByFavoritesIdAndType(favorites.getId(), "public"));
 			} catch (Exception e) {
 				logger.error("获取收藏夹异常：",e);
 			}
 		}
+		List<CollectSummary> collects = null;
+	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
+			User user = userRepository.findOne(userId);
+			model.addAttribute("otherPeople", user);
+			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId());
+		}else{
+			collects =collectService.getCollects(type,getUserId(), pageable,null);
+		}
+		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
 		model.addAttribute("size", collects.size());
@@ -67,22 +74,31 @@ public class HomeController extends BaseController{
 	}
 	
 	
-	@RequestMapping(value="/simple/{type}")
+	@RequestMapping(value="/simple/{type}/{userId}")
 	public String simple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type,
+	        @PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
-		model.addAttribute("collects", collects);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type)){
 			try {
 				favorites = favoritesRepository.findOne(Long.parseLong(type));
+				favorites.setPublicCount(collectRepository.countByFavoritesIdAndType(favorites.getId(), "public"));
 			} catch (Exception e) {
 				logger.error("获取收藏夹异常：",e);
 			}
 		}
+		List<CollectSummary> collects = null;
+	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
+			User user = userRepository.findOne(userId);
+			model.addAttribute("otherPeople", user);
+			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId());
+		}else{
+			collects =collectService.getCollects(type,getUserId(), pageable,null);
+		}
+		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
 		model.addAttribute("size", collects.size());
@@ -140,7 +156,6 @@ public class HomeController extends BaseController{
 		model.addAttribute("followUser",followUser);
 		model.addAttribute("followedUser",followedUser);
 		model.addAttribute("isFollow",isFollow);
-		model.addAttribute("dfsUrl",dfsUrl);
 		return "user";
 	}
 	
@@ -184,55 +199,59 @@ public class HomeController extends BaseController{
 			model.addAttribute("user",user);
 			model.addAttribute("collects", collects);
 			model.addAttribute("favoritesList",favoritesList);
-			model.addAttribute("dfsUrl",dfsUrl);
+			model.addAttribute("favoritesId", favoritesId);
+			model.addAttribute("loginUser",getUser());
 			return "fragments/usercontent";
 		}
 	
 	
-		/**
-		 * 搜索
-		 * @author neo
-		 * @date 2016年8月25日
-		 * @param model
-		 * @param page
-		 * @param size
-		 * @param key
-		 * @return
-		 */
-		@RequestMapping(value="/search/{key}")
-		public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-		        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("key") String key) {
-			Sort sort = new Sort(Direction.DESC, "id");
-		    Pageable pageable = new PageRequest(page, size, sort);
-		    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
-		    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
-			model.addAttribute("myCollects", myCollects);
-			model.addAttribute("otherCollects", otherCollects);
-			model.addAttribute("userId", getUserId());
-			logger.info("search end :"+ getUserId());
-			return "collect/search";
-		}
+	/**
+	 * 搜索
+	 * @author neo
+	 * @date 2016年8月25日
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param key
+	 * @return
+	 */
+	@RequestMapping(value="/search/{key}")
+	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
+	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
+		model.addAttribute("myCollects", myCollects);
+		model.addAttribute("otherCollects", otherCollects);
+		model.addAttribute("userId", getUserId());
+		
+		model.addAttribute("mysize", myCollects.size());
+		model.addAttribute("othersize", otherCollects.size());
+		model.addAttribute("key", key);
+
+		logger.info("search end :"+ getUserId());
+		return "collect/search";
+	}
 	
-		/**
-		 * 消息通知@我的
-		 * @param model
-		 * @param page
-		 * @param size
-		 * @param type
-		 * @return
-		 */
-		@RequestMapping(value="/notice/atMe/{type}")
-		public String atMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-		        @RequestParam(value = "size", defaultValue = "15") Integer size, @PathVariable("type") String type) {
-			Sort sort = new Sort(Direction.DESC, "id");
-		    Pageable pageable = new PageRequest(page, size, sort);
-		    List<CollectSummary> collects=noticeService.getAtMeCollects(type, getUserId(), pageable);
-			model.addAttribute("collects", collects);
-			model.addAttribute("dfsUrl",dfsUrl);
-			logger.info("at end :"+ getUserId());
-			return "notice/atme";
-		}
-	
-	
+	/**
+	 * 消息通知@我的
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value="/notice/atMe/{type}")
+	public String atMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "15") Integer size, @PathVariable("type") String type) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> collects=noticeService.getAtMeCollects(type, getUserId(), pageable);
+		model.addAttribute("collects", collects);
+		model.addAttribute("dfsUrl",dfsUrl);
+		logger.info("at end :"+ getUserId());
+		return "notice/atme";
+	}
 	
 }

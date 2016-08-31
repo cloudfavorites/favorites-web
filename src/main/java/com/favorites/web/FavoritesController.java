@@ -138,11 +138,16 @@ public class FavoritesController extends BaseController{
 				id = userId;
 			}
 			favorites = favoritesRepository.findByUserIdOrderByIdDesc(id);
+			if(userId != getUserId()){
+				for(Favorites favorites2 : favorites){
+					favorites2.setPublicCount(collectRepository.countByFavoritesIdAndType(favorites2.getId(), "public"));
+				}
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);
 		}
-		logger.info("getFavorites end favorites ==" + favorites);
+		logger.info("getFavorites end favorites ==" );
 		return favorites;
 	}
 

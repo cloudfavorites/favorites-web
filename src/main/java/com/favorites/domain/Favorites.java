@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 /**
  * 收藏夹
  * @author DingYS
@@ -28,6 +29,15 @@ public class Favorites extends Entitys implements Serializable {
 	private Long createTime;
 	@Column(nullable = false)
 	private Long lastModifyTime;
+	@Transient
+	private Long publicCount;
+	
+	public Long getPublicCount() {
+		return publicCount;
+	}
+	public void setPublicCount(Long publicCount) {
+		this.publicCount = publicCount;
+	}
 	public Long getId() {
 		return id;
 	}

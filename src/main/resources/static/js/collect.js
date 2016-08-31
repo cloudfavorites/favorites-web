@@ -19,14 +19,6 @@ $(function(){
 		}
 	});
 	
-    $('#atshow').bind('click', function(e) {  
-    	if(e.stopPropagation){ 
-            e.stopPropagation();
-    	}else{ 
-           e.cancelBubble = true;
-     	} 
-    }); 
-	
 	$("#ccollect").click(function(){
 		 if($("#ctitle").val()==""){
 			 $("#errorMsg").text("标题不能为空");
@@ -72,8 +64,9 @@ $(function(){
 
 
 function showAt(name){
-	var text = $("#remark").val();
-	$("#remark").val(text + "@" +name + " ").focus();
+	var text = $("#cremark").val();
+	$("#cremark").val(text + "@" +name + " ").focus();
+	$(".dropdown-menu").hide();
 }
 
 function onCollect(id,user){
@@ -97,7 +90,7 @@ function delCollect(){
 			success: function(response){
 				loadFavorites();
 				if("usercontent" == $("#userCheck").val()){
-					userLocationUrl($("#forward").val(),"usereAll");
+					userLocationUrl($("#forward").val(),"userAll");
 					loadUserFavorites();
 				}else{
 					locationUrl($("#forward").val(),"home");
@@ -126,10 +119,14 @@ function getCollect(id,user){
 				$("#cremark").val(collect.remark);
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
-				if($("#userId").val() == collect.userId){
-					$("#favoritesSelect").val(collect.favoritesId);
-				}else{
+				if("usercontent" == user){
 					$("#favoritesSelect").val(gconfig.defaultFavorties);
+				}else{
+					if($("#userId").val() == collect.userId){
+						$("#favoritesSelect").val(collect.favoritesId);
+					}else{					
+						$("#favoritesSelect").val(gconfig.defaultFavorties);
+					}
 				}
 				$("#newFavorites").val("");
 				$("#userCheck").val(user);
@@ -255,10 +252,18 @@ function initComment(comments,collectId){
 		item=item+'<div class=\"media-body\">  <span class=\"media-heading\">  <p class=\"m0\"> '
 		item=item+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('/user/" + comments[i].userId + "')\">"+comments[i].userName+"</a>";
 		item=item+'</p> <p class=\"m0 text-muted\">'+comments[i].content+'<small>';
-		if(comments[i].userId==$("#userId").val()){
-			item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+		if($("#loginUser").length > 0){
+			if(comments[i].userId==$("#loginUser").val()){
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+			}else{
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+			}
 		}else{
-			item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+			if(comments[i].userId==$("#userId").val()){
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
+			}else{
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+			}
 		}
 		item=item+'</small></p></span></div></div>';
 		comment=comment+item;
@@ -318,33 +323,112 @@ function replyComment(name,collectId){
 
 
 function loadStandardMore(){
+	var url='';
+	if($("#userFavoritesId").length > 0){
+		url = '/collect/standard/'+$("#pageType").val()+"/" + $("#userFavoritesId").val() ;
+	}else{
+		url = '/collect/standard/'+$("#pageType").val()+"/0";
+	}
+	if($("#userId").length > 0){
+		url = url + "/" + $("#userId").val();
+	}else{
+		url = url + "/0";
+	}
 	 $.ajax({
 			async: false,
 			type: 'POST',
 			dataType: 'json',
 			data:'page='+page,
-			url: '/collect/standard/'+$("#pageType").val(),
+			url: url,
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log(XMLHttpRequest);
 				console.log(textStatus);
 				console.log(errorThrown);
 			},
 			success: function(collects){
-				listStandardCollect(collects);
+				if(collects.length==0){
+					$("#loadStandardNoMore").show();
+					$("#loadStandardMore").hide();
+				}
+				if($("#userContent").val()== 'usercontent'){
+					listStandardCollect(collects,'collectStandardList','usercontent');
+				}else{
+					listStandardCollect(collects,'collectStandardList','');
+				}
 				page++;
 			}
 		});
 }
 
 
+function loadMyMore(){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'page='+page,
+			url: '/collect/searchMy/'+$("#search-key").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(collects){
+				if(collects.length==0){
+					$("#loadMyNoMore").show();
+					$("#loadMyMore").hide();
+				}
+				if($("#userContent").val()== 'usercontent'){
+					listStandardCollect(collects,'myCollectList','usercontent');
+				}else{
+					listStandardCollect(collects,'myCollectList','');
+				}
+				page++;
+			}
+		});
+}
 
-function listStandardCollect(collects){
-	if(collects.length==0){
-		$("#loadStandardNoMore").show();
-		$("#loadStandardMore").hide();
-	}
+
+function loadOtherMore(){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:'page='+page,
+			url: '/collect/searchOther/'+$("#search-key").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(collects){
+				if(collects.length==0){
+					$("#loadOtherNoMore").show();
+					$("#loadOtherMore").hide();
+				}
+				if($("#userContent").val()== 'usercontent'){
+					listStandardCollect(collects,'otherCollectList','usercontent');
+				}else{
+					listStandardCollect(collects,'otherCollectList','');
+				}
+				page++;
+			}
+		});
+}
+
+function listStandardCollect(collects,listId,user){
 	var collectStandardList='';
+	var collect = '';
 	for(var i=0;i<collects.length;i++){
+		if($("#userId").val() != collects[i].userId){
+			collect = "				  <if> "+
+			"				     | "+
+			"				  </if> "+
+			"                  <a class=\"sharing-action-button\">"+
+			"                     <span class=\"fa fa-spoon\"></span>"+
+			"                   	    收藏"+
+			"                  </a>";
+		}
 		var item =
 		"<li>"+
 		"<a style=\"background-image:url("+(collects[i].profilePicture=='' ? 'img/favicon.png' : collects[i].profilePicture )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\"javascript:void(0);\" onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" ></a>"+
@@ -366,7 +450,7 @@ function listStandardCollect(collects){
 		"                  <ul class=\"dropdown-menu animated bounceIn\">"+
 		"                     <li>"+
 		"                        <div class=\"list-group\">"+
-		"                           <a onclick=\"getCollect("+collects[i].id+");\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
+		"                           <a onclick=\"getCollect("+collects[i].id+",'"+user+"');\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
 		"                              <div class=\"media-box\">"+
 		"                                 <div class=\"pull-left\">"+
 		"                                    <em class=\"fa fa-pencil-square-o fa-2x fa-fw text-info\"></em>"+
@@ -379,7 +463,7 @@ function listStandardCollect(collects){
 		"                                 </div>"+
 		"                              </div>"+
 		"                           </a>"+
-		"                           <a onclick=\"onCollect("+collects[i].id+");\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
+		"                           <a onclick=\"onCollect("+collects[i].id+",'"+user+"');\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
 		"                              <div class=\"media-box\">"+
 		"                                 <div class=\"pull-left\">"+
 		"                                    <em class=\"fa fa-trash fa-2x fa-fw text-danger\"></em>"+
@@ -433,7 +517,7 @@ function listStandardCollect(collects){
 		"         </div>"+
 		"         <div class=\"m0\">"+
 		"            <span class=\"icon-folder mr-sm\"></span>"+
-		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
+		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"/"+collects[i].userId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
 		"            <div class=\"pull-right hidden-xxs\">"+
 		"               <small>"+
 		"                  <a style=\"display:none\" class=\"sharing-action-button\">"+
@@ -470,8 +554,7 @@ function listStandardCollect(collects){
 			"                   	    收藏"+
 			"                  </a>";
 		}
-			item=item+
-		"               </small>"+
+			item=item+		"               </small>"+
 		"            </div>"+
 		"         </div>"+
 		"         <div id=\"collapse"+collects[i].id+"\" class=\"collapse\">"+
@@ -495,31 +578,46 @@ function listStandardCollect(collects){
 		"</li>";
 		collectStandardList=collectStandardList+item;
 	}
-	 $("#collectStandardList").append(collectStandardList);
+	 $("#"+listId).append(collectStandardList);
 }
 
 
 function loadSimpleMore(){
+	var url='';
+	if($("#userFavoritesId").length > 0){
+		url = '/collect/simple/'+$("#pageType").val()+"/" + $("#userFavoritesId").val();
+	}else{
+		url = '/collect/simple/'+$("#pageType").val()+"/0";
+	}
+	if($("#userId").length > 0){
+		url = url + "/" + $("#userId").val();
+	}else{
+		url = url + "/0";
+	}
 	 $.ajax({
 			async: false,
 			type: 'POST',
 			dataType: 'json',
 			data:'page='+page,
-			url: '/collect/simple/'+$("#pageType").val(),
+			url: url,
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log(XMLHttpRequest);
 				console.log(textStatus);
 				console.log(errorThrown);
 			},
 			success: function(collects){
-				listSimpleCollect(collects);
+				if($("#userContent").val()== 'usercontent'){
+					listSimpleCollect(collects,'usercontent');
+				}else{
+					listSimpleCollect(collects,'');
+				}
 				page++;
 			}
 		});
 }
 
 
-function listSimpleCollect(collects){
+function listSimpleCollect(collects,user){
 	var collectSimpleList='';
 	if(collects.length==0){
 		$("#loadSimpleNoMore").show();
@@ -534,23 +632,20 @@ function listSimpleCollect(collects){
 			"   <td width=\"10%\" class=\"text-center\">"+
 			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+
 			"   <td width=\"15%\" class=\"text-center\">"+
-			"    <div>";
-			if($("#userId").val() == collects[i].userId){
+			"    <div>";			if($("#userId").val() == collects[i].userId){
 				item=item+
-                "    <a onclick=\"getCollect("+collects[i].id+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+                "    <a onclick=\"getCollect("+collects[i].id+","+user+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
 				"    </a>"+
-				"    <a onclick=\"onCollect("+collects[i].id+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+				"    <a onclick=\"onCollect("+collects[i].id+","+user+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
 				"    </a>";
 			}
-				item=item+
-			"    </div>"+
+				item=item+			"    </div>"+
 			"   </td>"+
 			" </tr>";
 		collectSimpleList=collectSimpleList+item;
 	}
 	 $("#collectSimpleList").append(collectSimpleList);
 }
-
 
 
 

@@ -106,14 +106,25 @@
                </li>
             </ul>
          </div>
-         <form class="navbar-form" action="search.html" role="search">
+         <form class="navbar-form"  role="search">
             <div class="form-group has-feedback">
-               <input type="text" class="form-control" placeholder="输入并且按回车确定..." />
+               <input id="searchKey" type="text" class="form-control" placeholder="输入并且按回车确定..." />
                <div class="fa fa-times form-control-feedback" data-search-dismiss=""></div>
             </div>
-            <button class="hidden btn btn-default" type="submit">提交</button>
+            <button  class="hidden btn btn-default" type="button" >提交</button>
          </form>
       </nav>
+     <script type='text/javascript'>
+        document.onkeydown = function(e){ 
+            if(!e) e = window.event;//火狐中是 window.event 
+            if((e.keyCode || e.which) == 13){ 
+	            var key=document.getElementById("searchKey").value;
+	   	    	 if(key!=''){
+	   	    	    locationUrl('/search/'+key,"");
+	   	    	 }
+            } 
+        } 
+    </script>
    </header>
 </body>
 </html>
