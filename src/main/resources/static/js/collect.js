@@ -595,4 +595,3 @@ function listSimpleCollect(collects,user){
 
 
 
-
