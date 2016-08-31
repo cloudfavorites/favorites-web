@@ -98,7 +98,7 @@ public class CollectServiceImpl implements CollectService {
 	@Override
 	public List<CollectSummary> searchMy(Long userId,String key,Pageable pageable) {
 		// TODO Auto-generated method stub
-		Page<CollectView> views = collectRepository.searchMyByKey(userId, key,pageable);
+		Page<CollectView> views = collectRepository.searchMyByKey(userId,"%"+key+"%",pageable);
 		return convertCollect(views);
 	}
 	
@@ -114,7 +114,7 @@ public class CollectServiceImpl implements CollectService {
 	@Override
 	public List<CollectSummary> searchOther(Long userId,String key,Pageable pageable) {
 		// TODO Auto-generated method stub
-		Page<CollectView> views = collectRepository.searchOtherByKey(userId, key, pageable);
+		Page<CollectView> views = collectRepository.searchOtherByKey(userId, "%"+key+"%", pageable);
 		return convertCollect(views);
 	}
 
@@ -345,7 +345,7 @@ public class CollectServiceImpl implements CollectService {
 				User user = userRepository.findByUserName(str);
 				if (null != user) {
 					// 保存消息通知
-					noticeService.saveNotice(String.valueOf(collect.getId()),"at", collect.getUserId(), null);
+					noticeService.saveNotice(String.valueOf(collect.getId()),"at", user.getId(), null);
 				} else {
 					logger.info("为找到匹配：" + str + "的用户.");
 				}

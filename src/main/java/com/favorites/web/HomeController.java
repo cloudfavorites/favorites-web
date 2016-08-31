@@ -198,7 +198,7 @@ public class HomeController extends BaseController{
 	 */
 	@RequestMapping(value="/search/{key}")
 	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("key") String key) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
@@ -206,6 +206,10 @@ public class HomeController extends BaseController{
 		model.addAttribute("myCollects", myCollects);
 		model.addAttribute("otherCollects", otherCollects);
 		model.addAttribute("userId", getUserId());
+		
+		model.addAttribute("mysize", myCollects.size());
+		model.addAttribute("othersize", otherCollects.size());
+
 		logger.info("search end :"+ getUserId());
 		return "collect/search";
 	}

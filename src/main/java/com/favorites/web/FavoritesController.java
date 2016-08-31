@@ -142,7 +142,7 @@ public class FavoritesController extends BaseController{
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);
 		}
-		logger.info("getFavorites end favorites ==" + favorites);
+		logger.info("getFavorites end favorites ==" );
 		return favorites;
 	}
 
