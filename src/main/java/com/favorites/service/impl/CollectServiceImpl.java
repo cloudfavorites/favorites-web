@@ -190,6 +190,32 @@ public class CollectServiceImpl implements CollectService {
 		noticeFriends(collect);
 	}
 	
+	
+	/**
+	 * 收藏别人的文章
+	 * @author neo
+	 * @date 2016年8月31日
+	 * @param collect
+	 * @param other
+	 */
+	@Transactional
+	public void otherCollect(Collect collect,Collect other) {
+		other.setFavoritesId(collect.getFavoritesId());
+		other.setNewFavorites(collect.getNewFavorites());
+		updatefavorites(other);
+		other.setTitle(collect.getTitle());
+		other.setDescription(collect.getDescription());
+		other.setLogoUrl(collect.getLogoUrl());
+		other.setRemark(collect.getRemark());
+		if (StringUtils.isBlank(collect.getType())) {
+			other.setType("public");
+		}
+		other.setLastModifyTime(DateUtils.getCurrentTime());
+		other.setId(null);
+		collectRepository.save(other);
+		noticeFriends(other);
+	}
+	
 	/**
 	 * 验证是否重复收藏
 	 * @param collect

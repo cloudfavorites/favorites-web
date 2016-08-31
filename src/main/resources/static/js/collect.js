@@ -126,7 +126,11 @@ function getCollect(id,user){
 				$("#cremark").val(collect.remark);
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
-				$("#favoritesSelect").val(collect.favoritesId);
+				if($("#userId").val() == collect.userId){
+					$("#favoritesSelect").val(collect.favoritesId);
+				}else{
+					$("#favoritesSelect").val(gconfig.defaultFavorties);
+				}
 				$("#newFavorites").val("");
 				$("#userCheck").val(user);
 			}
@@ -368,7 +372,7 @@ function listStandardCollect(collects,user){
 		}
 		var item =
 		"<li>"+
-		"<a style=\"background-image:url("+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\""+collects[i].url+"\"></a>"+
+		"<a style=\"background-image:url("+(collects[i].profilePicture=='' ? 'img/favicon.png' : collects[i].profilePicture )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\"javascript:void(0);\" onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" ></a>"+
 		"<div class=\"timeline-panel\">"+
 		"   <div class=\"popover right\">"+
 		"      <div class=\"arrow\"></div>"+
@@ -418,7 +422,7 @@ function listStandardCollect(collects,user){
 		"                  </ul>"+
 		"               </div>"+
 		"               <div class=\"m0\">"+
-		"                  <a onclick=\"locationUrl(\'/user/"+collects[i].userId+"\',\'\');\" class=\"text-muted\" href=\"javascript:void(0);\">"+collects[i].userName+"</a>"+
+		"                  <a onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" class=\"text-muted\" href=\"javascript:void(0);\">"+collects[i].userName+"</a>"+
 		"                  ";
 		if($("#userId").val() == collects[i].userId){
 			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'private\');\" style=\"display:"+(collects[i].type=='private' ? 'none' : 'inline-block')+"\" id=\"private"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为私密\" class=\"deco-none\">"+
@@ -457,18 +461,18 @@ function listStandardCollect(collects,user){
 		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"/"+collects[i].userId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
 		"            <div class=\"pull-right hidden-xxs\">"+
 		"               <small>"+
-		"                  <a class=\"sharing-action-button\">"+
+		"                  <a style=\"display:none\" class=\"sharing-action-button\">"+
 		"                     <span class=\"fa fa-share-alt\"></span>"+
 		"                     	分享"+
 		"                  </a>"+
-		"                   <if style=\"display:"+(collects[i].Praise ? 'none' : 'inline-block')+"\" id=\"likel"+collects[i].id+"\"> "+
+		"                   <if  style=\"display:none\" > "+
 		"				     | "+
 		"				  </if> "+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button\">"+
 		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+
 		"                     <show id=\"likeS"+collects[i].id+"\">点赞("+collects[i].praiseCount+")</show>"+
 		"                  </a>"+
-		"                   <if style=\"display:"+(collects[i].Praise ? 'inline-block' : 'none')+"\" id=\"unlikel"+collects[i].id+"\"> "+
+		"                   <if  style=\"display:none\"> "+
 		"				     | "+
 		"				  </if> "+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'inline-block' : 'none')+"\" id=\"unlike"+collects[i].id+"\" class=\"sharing-action-button\">"+
@@ -481,10 +485,17 @@ function listStandardCollect(collects,user){
 		"                  <a onclick=\"switchComment("+collects[i].id+");\" href=\"javascript:void(0);\" class=\"sharing-action-button btn-comment\">"+
 		"                     <span class=\"fa fa-comment-o\"></span>"+
 		"                     <show id=\"commentS"+collects[i].id+"\">评论("+collects[i].commentCount+")</show>"+
-		"                  </a>"+
-		collect +
-		
-		"               </small>"+
+		"                  </a>";
+		if($("#userId").val() != collects[i].userId){
+			item=item+"	 <if> "+
+			"				     | "+
+			"				  </if> "+
+			"                  <a class=\"sharing-action-button\">"+
+			"                     <span class=\"fa fa-spoon\"></span>"+
+			"                   	    收藏"+
+			"                  </a>";
+		}
+			item=item+		"               </small>"+
 		"            </div>"+
 		"         </div>"+
 		"         <div id=\"collapse"+collects[i].id+"\" class=\"collapse\">"+
@@ -562,12 +573,14 @@ function listSimpleCollect(collects,user){
 			"   <td width=\"10%\" class=\"text-center\">"+
 			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+
 			"   <td width=\"15%\" class=\"text-center\">"+
-			"    <div>"+
-			"    <a onclick=\"getCollect("+collects[i].id+","+user+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
-			"    </a>"+
-			"    <a onclick=\"onCollect("+collects[i].id+","+user+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
-			"    </a>"+
-			"    </div>"+
+			"    <div>";			if($("#userId").val() == collects[i].userId){
+				item=item+
+                "    <a onclick=\"getCollect("+collects[i].id+","+user+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+				"    </a>"+
+				"    <a onclick=\"onCollect("+collects[i].id+","+user+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+				"    </a>";
+			}
+				item=item+			"    </div>"+
 			"   </td>"+
 			" </tr>";
 		collectSimpleList=collectSimpleList+item;

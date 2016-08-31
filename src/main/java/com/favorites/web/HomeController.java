@@ -2,7 +2,6 @@ package com.favorites.web;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -38,8 +37,6 @@ public class HomeController extends BaseController{
 	private CollectRepository collectRepository;
 	@Autowired
 	private FollowRepository followRepository;
-	@Value("${dfs.url}")
-	private String dfsUrl;
 	
 	@RequestMapping(value="/standard/{type}/{userId}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -67,6 +64,7 @@ public class HomeController extends BaseController{
 		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
+		model.addAttribute("size", collects.size());
 		logger.info("standard end :"+ getUserId());
 		return "collect/standard";
 	}
@@ -99,6 +97,7 @@ public class HomeController extends BaseController{
 		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
+		model.addAttribute("size", collects.size());
 		logger.info("simple end :"+ getUserId());
 		return "collect/simple";
 	}
@@ -153,7 +152,6 @@ public class HomeController extends BaseController{
 		model.addAttribute("followUser",followUser);
 		model.addAttribute("followedUser",followedUser);
 		model.addAttribute("isFollow",isFollow);
-		model.addAttribute("dfsUrl",dfsUrl);
 		return "user";
 	}
 	
@@ -197,7 +195,6 @@ public class HomeController extends BaseController{
 			model.addAttribute("user",user);
 			model.addAttribute("collects", collects);
 			model.addAttribute("favoritesList",favoritesList);
-			model.addAttribute("dfsUrl",dfsUrl);
 			model.addAttribute("favoritesId", favoritesId);
 			return "fragments/usercontent";
 		}

@@ -72,9 +72,6 @@ public class UserController extends BaseController {
 			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
-			if(StringUtils.isNotBlank(loginUser.getProfilePicture())){
-				loginUser.setProfilePicture(dfsUrl+loginUser.getProfilePicture());
-			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			String preUrl = "/";
 			if(null != getSession().getAttribute(Const.LAST_REFERER)){
@@ -106,14 +103,12 @@ public class UserController extends BaseController {
 			user.setPassWord(getPwd(user.getPassWord()));
 			user.setCreateTime(DateUtils.getCurrentTime());
 			user.setLastModifyTime(DateUtils.getCurrentTime());
+			user.setProfilePicture("img/favicon.png");
 			userRepository.save(user);
 			// 添加默认收藏夹
 			Favorites favorites = favoritesService.saveFavorites(user.getId(),0l, "未读列表");
 			// 添加默认属性设置
-			configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));
-			if(StringUtils.isNotBlank(user.getProfilePicture())){
-				user.setProfilePicture(dfsUrl+user.getProfilePicture());
-			}		
+			configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));	
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 		} catch (Exception e) {
 			// TODO: handle exception
