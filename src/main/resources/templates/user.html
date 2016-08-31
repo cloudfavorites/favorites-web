@@ -7,7 +7,7 @@
                <div class="bg-cover" style="background-image:url('img/profile-bg.jpg');">
                   <div class="p-xl text-center text-white">
                      <a href="javascript:void(0);">
-                        <img th:src="${user.profilePicture == null ? 'img/favicon.png':dfsUrl+user.profilePicture}" alt="" class="img-thumbnail img-circle thumb128"/></a>
+                        <img th:src="${user.profilePicture == null ? 'img/favicon.png':user.profilePicture}" alt="" class="img-thumbnail img-circle thumb128"/></a>
                      <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
                      <p th:if="${myself == 'yes'}" th:text="${user.email}">123456789@qq.com</p>
                      <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
@@ -57,7 +57,7 @@
                            <div class="list-group ng-scope" th:each=" follow : ${followUser}">
 				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${follow[3]}+'/0\',\'\');'">
 				                  <span class="pull-left">
-				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? dfsUrl+follow[2]:'img/dummy.png'}" />
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? follow[2]:'img/dummy.png'}" />
 				                  </span>
 				                  <span class="media-body">
 				                     <span class="media-heading">
@@ -73,7 +73,7 @@
                            <div class="list-group ng-scope" th:each=" followed : ${followedUser}">
 				               <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${followed[3]}+'/0\',\'\');'">
 				                  <span class="pull-left">
-				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? dfsUrl+followed[2]:'img/dummy.png'}" />
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? followed[2]:'img/dummy.png'}" />
 				                  </span>
 				                  <span class="media-body">
 				                     <span class="media-heading">
@@ -119,6 +119,7 @@
 		});
 		userLocationUrl("/usercontent/"+user.id+"/0","userAll");
 		loadUserFavorites();
+		standardStr = "standard";
 	});
 	function changeFollow(status,userId){
 		$.ajax({

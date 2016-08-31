@@ -91,12 +91,26 @@ public class CollectController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/standard/{type}")
+	@RequestMapping(value="/standard/{type}/{favoritesId}/{userId}")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
+	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
+	    List<CollectSummary> collects = null;
+	    if("otherpublic".equalsIgnoreCase(type)){
+	    	if(null != favoritesId && 0 != favoritesId){
+	    		collects = collectService.getCollects(type, userId, pageable, favoritesId);
+	    	}else{
+	    		collects = collectService.getCollects("others", userId, pageable, null);
+	    	}
+	    }else{
+	    	if(null != favoritesId && 0 != favoritesId){
+		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null);
+		    }else{
+		    	collects=collectService.getCollects(type,getUserId(), pageable,null);
+		    }
+	    }
 		return collects;
 	}
 	
@@ -109,12 +123,26 @@ public class CollectController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/simple/{type}")
+	@RequestMapping(value="/simple/{type}/{favoritesId}/{userId}")
 	public List<CollectSummary> simple(@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
+	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
+	    List<CollectSummary> collects = null;
+	    if("otherpublic".equalsIgnoreCase(type)){
+	    	if(null != favoritesId && 0 != favoritesId){
+	    		collects = collectService.getCollects(type, userId, pageable, favoritesId);
+	    	}else{
+	    		collects = collectService.getCollects("others", userId, pageable, null);
+	    	}
+	    }else{
+	    	if(null != favoritesId && 0 != favoritesId){
+		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null);
+		    }else{
+		    	collects = collectService.getCollects(type,getUserId(), pageable,null);
+		    }
+	    }
 		return collects;
 	}
 	

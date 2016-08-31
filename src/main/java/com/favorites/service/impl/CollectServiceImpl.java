@@ -352,5 +352,4 @@ public class CollectServiceImpl implements CollectService {
 			}
 		}
 	}
-	
 }
