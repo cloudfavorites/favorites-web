@@ -3,6 +3,7 @@ package com.favorites.domain;
 public interface CollectView{
 	Long getId();
 	Long getUserId();
+	String getProfilePicture();
 	String getTitle();
 	String getType();
 	String getUrl();

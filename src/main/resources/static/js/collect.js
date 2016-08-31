@@ -126,7 +126,11 @@ function getCollect(id,user){
 				$("#cremark").val(collect.remark);
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
-				$("#favoritesSelect").val(collect.favoritesId);
+				if($("#userId").val() == collect.userId){
+					$("#favoritesSelect").val(collect.favoritesId);
+				}else{
+					$("#favoritesSelect").val(gconfig.defaultFavorties);
+				}
 				$("#newFavorites").val("");
 				$("#userCheck").val(user);
 			}
@@ -343,7 +347,7 @@ function listStandardCollect(collects){
 	for(var i=0;i<collects.length;i++){
 		var item =
 		"<li>"+
-		"<a style=\"background-image:url("+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\""+collects[i].url+"\"></a>"+
+		"<a style=\"background-image:url("+(collects[i].profilePicture=='' ? 'img/favicon.png' : collects[i].profilePicture )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\"javascript:void(0);\" onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" ></a>"+
 		"<div class=\"timeline-panel\">"+
 		"   <div class=\"popover right\">"+
 		"      <div class=\"arrow\"></div>"+
@@ -530,11 +534,15 @@ function listSimpleCollect(collects){
 			"   <td width=\"10%\" class=\"text-center\">"+
 			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+
 			"   <td width=\"15%\" class=\"text-center\">"+
-			"    <div>"+
-			"    <a onclick=\"getCollect("+collects[i].id+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
-			"    </a>"+
-			"    <a onclick=\"onCollect("+collects[i].id+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
-			"    </a>"+
+			"    <div>";
+			if($("#userId").val() == collects[i].userId){
+				item=item+
+                "    <a onclick=\"getCollect("+collects[i].id+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+				"    </a>"+
+				"    <a onclick=\"onCollect("+collects[i].id+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+				"    </a>";
+			}
+				item=item+
 			"    </div>"+
 			"   </td>"+
 			" </tr>";

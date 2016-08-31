@@ -25,5 +25,7 @@ public interface CollectService {
 	public List<CollectSummary> searchMy(Long userId,String key,Pageable pageable);
 	
 	public List<CollectSummary> searchOther(Long userId,String key,Pageable pageable);
+	
+	public void otherCollect(Collect collect,Collect other);
 
 }

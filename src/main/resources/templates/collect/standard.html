@@ -3,6 +3,9 @@
   <body>
       <section >
          <div class="content-wrapper">
+         	<div class="row unread-alert" th:if="${favorites.name != null and favorites.name =='未读列表'}">
+               <div class="col-xs-12">未读列表中的内容将从收集当日起20天后自动进入回收站，赶紧给收藏分类吧~</div>
+            </div>
          	<h3 th:if="${favorites.name != null and favorites.name !='未读列表'}">
              	 <span th:text="${favorites.name}"></span>
                <span class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
@@ -24,7 +27,7 @@
                   </div>
                   <ul class="timeline-alt" id="collectStandardList">
                      <li th:each="collect,collectStat : ${collects}" >
-                        <a href="${collect.url}" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></a>
+                        <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
                         <div class="timeline-panel">
                            <div class="popover right">
                               <div class="arrow"></div>
@@ -130,7 +133,7 @@
 										  <if th:if="${userId != collect.userId}" > 
 										     | 
 										  </if> 
-                                          <a class="sharing-action-button"  th:if="${userId != collect.userId}">
+                                          <a class="sharing-action-button"  th:if="${userId != collect.userId}"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
                                              <span class="fa fa-spoon"></span>
                                            	    收藏
                                           </a>
@@ -157,8 +160,8 @@
                         </div>
                      </li>
                     </ul>
-                    <button id="loadStandardNoMore" class="mt-lg btn btn-primary btn-block" style="display:none" >没有更多了</button>
-                    <button id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button>
+                    <button id="loadStandardNoMore" class="mt-lg btn btn-warning btn-block" style="display:none" >没有更多了</button>
+                    <button th:if="${size == 15}"  id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button>
                </div>
             </div>
             <input type="hidden" name="collectId" id="collectId" />
