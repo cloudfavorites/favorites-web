@@ -119,7 +119,7 @@
             if(!e) e = window.event;//火狐中是 window.event 
             if((e.keyCode || e.which) == 13){ 
 	            var key=document.getElementById("searchKey").value;
-	   	    	 if(key!=null){
+	   	    	 if(key!=''){
 	   	    	    locationUrl('/search/'+key,"");
 	   	    	 }
             } 
