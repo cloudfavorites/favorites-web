@@ -84,5 +84,5 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.type='public' and c.userId!=?1 and ( c.title like ?2 or c.description like ?2) ")
 	Page<CollectView> searchOtherByKey(Long userId, String key,Pageable pageable);
 	
-	
+	Long countByFavoritesIdAndType(Long favoritesId,String type);
 }

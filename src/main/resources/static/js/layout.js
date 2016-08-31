@@ -94,7 +94,7 @@ function initFavorites(favorites){
 		var id = favorites[i].id ;
 		var name = favorites[i].name;
 		var count = favorites[i].count;
-		var url ='/standard/'+ id;
+		var url ='/standard/'+ id + "/0";
 		if(name=="未读列表"){
 			var favorite="<a href=\"javascript:void(0);\" onclick=\"locationUrl('"+url+"','unread')\" title="+name+" >";
 			if(count > 0){
@@ -142,7 +142,9 @@ function initUserFavorites(favorites){
 	$("#allFavorites").html("");
 	var totalCount = 0;
 	for(var i=0;i<favorites.length;i++){
-		totalCount = totalCount + favorites[i].count;
+		if("no" == $("#myself").val() && favorites[i].name=="未读列表"){
+			continue;
+		}
 		var favorieshtml = "<div name=\"userFavDiv\" class=\"list-group\">";
 		favorieshtml = favorieshtml + "<a id=\"user"+favorites[i].id+"\" href=\"javascript:void(0);\" class=\"media p mt0 list-group-item\" onclick=\"userLocationUrl('/usercontent/"+$("#userId").val()+"/"+favorites[i].id+"','user"+favorites[i].id+"');\">";
 		favorieshtml = favorieshtml + "<span class=\"media-body\">";
@@ -150,8 +152,10 @@ function initUserFavorites(favorites){
 		favorieshtml = favorieshtml + " <strong>"+favorites[i].name+"</strong>";
 		if("yes" == $("#myself").val()){
 			favorieshtml = favorieshtml + "<small>"+favorites[i].count +"个收藏</small>";
+			totalCount = totalCount + favorites[i].count;
 		}else{
-			favorieshtml = favorieshtml + "<small>"+favorites[i].count +"个公开收藏</small>";
+			favorieshtml = favorieshtml + "<small>"+favorites[i].publicCount +"个公开收藏</small>";
+			totalCount = totalCount + favorites[i].publicCount;
 		}
 		favorieshtml = favorieshtml + "</span>";
 		favorieshtml = favorieshtml + "</span>";
@@ -185,6 +189,7 @@ function userLocationUrl(url,activeId){
 		$("#"+activeId).attr("class", "media p mt0 list-group-item active");
 		mainActiveId = activeId;
 	}
+	page = 1;
 	userGoUrl(url,null);
 }
 
@@ -302,7 +307,7 @@ function updateFavorites(){
 			success: function(response){
 				if(response.rspCode == '000000'){
 					 loadFavorites();
-					 locationUrl("/standard/" + $("#favoritesId").val(),$("#favoritesId").val());
+					 locationUrl("/standard/" + $("#favoritesId").val() + "/0",$("#favoritesId").val());
 					 $("#updateFavoritesBtn").attr("aria-hidden","true");
 					 $("#updateFavoritesBtn").attr("data-dismiss","modal");
   	    	 	}else{
@@ -327,7 +332,7 @@ function delFavorites(){
 			console.log(errorThrown);
 		},
 		success: function(response){
-			locationUrl("/standard/my","home");
+			locationUrl("/standard/my/0","home");
 			loadFavorites();
 			 $("#delFavoritesBtn").attr("aria-hidden","true");
 			 $("#delFavoritesBtn").attr("data-dismiss","modal");

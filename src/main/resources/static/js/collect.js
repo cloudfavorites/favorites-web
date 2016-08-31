@@ -97,7 +97,7 @@ function delCollect(){
 			success: function(response){
 				loadFavorites();
 				if("usercontent" == $("#userCheck").val()){
-					userLocationUrl($("#forward").val(),"usereAll");
+					userLocationUrl($("#forward").val(),"userAll");
 					loadUserFavorites();
 				}else{
 					locationUrl($("#forward").val(),"home");
@@ -314,19 +314,34 @@ function replyComment(name,collectId){
 
 
 function loadStandardMore(){
+	var url='';
+	if("undefined" != $("#favoritesId").val()){
+		url = '/collect/standard/'+$("#pageType").val()+"/" + $("#favoritesId").val() ;
+	}else{
+		url = '/collect/standard/'+$("#pageType").val()+"/0";
+	}
+	if("undefined" != $("#userId").val()){
+		url = url + "/" + $("#userId").val();
+	}else{
+		url = url + "/0";
+	}
 	 $.ajax({
 			async: false,
 			type: 'POST',
 			dataType: 'json',
 			data:'page='+page,
-			url: '/collect/standard/'+$("#pageType").val(),
+			url: url,
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log(XMLHttpRequest);
 				console.log(textStatus);
 				console.log(errorThrown);
 			},
 			success: function(collects){
-				listStandardCollect(collects);
+				if($("#userContent").val()== 'usercontent'){
+					listStandardCollect(collects,'usercontent');
+				}else{
+					listStandardCollect(collects,'');
+				}
 				page++;
 			}
 		});
@@ -334,13 +349,23 @@ function loadStandardMore(){
 
 
 
-function listStandardCollect(collects){
+function listStandardCollect(collects,user){
 	if(collects.length==0){
 		$("#loadStandardNoMore").show();
 		$("#loadStandardMore").hide();
 	}
 	var collectStandardList='';
+	var collect = '';
 	for(var i=0;i<collects.length;i++){
+		if($("#userId").val() != collects[i].userId){
+			collect = "				  <if> "+
+			"				     | "+
+			"				  </if> "+
+			"                  <a class=\"sharing-action-button\">"+
+			"                     <span class=\"fa fa-spoon\"></span>"+
+			"                   	    收藏"+
+			"                  </a>";
+		}
 		var item =
 		"<li>"+
 		"<a style=\"background-image:url("+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\""+collects[i].url+"\"></a>"+
@@ -362,7 +387,7 @@ function listStandardCollect(collects){
 		"                  <ul class=\"dropdown-menu animated bounceIn\">"+
 		"                     <li>"+
 		"                        <div class=\"list-group\">"+
-		"                           <a onclick=\"getCollect("+collects[i].id+");\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
+		"                           <a onclick=\"getCollect("+collects[i].id+",'"+user+"');\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
 		"                              <div class=\"media-box\">"+
 		"                                 <div class=\"pull-left\">"+
 		"                                    <em class=\"fa fa-pencil-square-o fa-2x fa-fw text-info\"></em>"+
@@ -375,7 +400,7 @@ function listStandardCollect(collects){
 		"                                 </div>"+
 		"                              </div>"+
 		"                           </a>"+
-		"                           <a onclick=\"onCollect("+collects[i].id+");\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
+		"                           <a onclick=\"onCollect("+collects[i].id+",'"+user+"');\" class=\"list-group-item\" href=\"javascript:void(0);\">"+
 		"                              <div class=\"media-box\">"+
 		"                                 <div class=\"pull-left\">"+
 		"                                    <em class=\"fa fa-trash fa-2x fa-fw text-danger\"></em>"+
@@ -429,7 +454,7 @@ function listStandardCollect(collects){
 		"         </div>"+
 		"         <div class=\"m0\">"+
 		"            <span class=\"icon-folder mr-sm\"></span>"+
-		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
+		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"/"+collects[i].userId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
 		"            <div class=\"pull-right hidden-xxs\">"+
 		"               <small>"+
 		"                  <a class=\"sharing-action-button\">"+
@@ -457,13 +482,8 @@ function listStandardCollect(collects){
 		"                     <span class=\"fa fa-comment-o\"></span>"+
 		"                     <show id=\"commentS"+collects[i].id+"\">评论("+collects[i].commentCount+")</show>"+
 		"                  </a>"+
-		"				  <if> "+
-		"				     | "+
-		"				  </if> "+
-		"                  <a class=\"sharing-action-button\">"+
-		"                     <span class=\"fa fa-spoon\"></span>"+
-		"                   	    收藏"+
-		"                  </a>"+
+		collect +
+		
 		"               </small>"+
 		"            </div>"+
 		"         </div>"+
@@ -493,26 +513,41 @@ function listStandardCollect(collects){
 
 
 function loadSimpleMore(){
+	var url='';
+	if("undefined" != $("#favoritesId").val()){
+		url = '/collect/simple/'+$("#pageType").val()+"/" + $("#favoritesId").val();
+	}else{
+		url = '/collect/simple/'+$("#pageType").val()+"/0";
+	}
+	if("undefined" != $("#userId").val()){
+		url = url + "/" + $("#userId").val();
+	}else{
+		url = url + "/0";
+	}
 	 $.ajax({
 			async: false,
 			type: 'POST',
 			dataType: 'json',
 			data:'page='+page,
-			url: '/collect/simple/'+$("#pageType").val(),
+			url: url,
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log(XMLHttpRequest);
 				console.log(textStatus);
 				console.log(errorThrown);
 			},
 			success: function(collects){
-				listSimpleCollect(collects);
+				if($("#userContent").val()== 'usercontent'){
+					listSimpleCollect(collects,'usercontent');
+				}else{
+					listSimpleCollect(collects,'');
+				}
 				page++;
 			}
 		});
 }
 
 
-function listSimpleCollect(collects){
+function listSimpleCollect(collects,user){
 	var collectSimpleList='';
 	if(collects.length==0){
 		$("#loadSimpleNoMore").show();
@@ -528,9 +563,9 @@ function listSimpleCollect(collects){
 			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+
 			"   <td width=\"15%\" class=\"text-center\">"+
 			"    <div>"+
-			"    <a onclick=\"getCollect("+collects[i].id+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+			"    <a onclick=\"getCollect("+collects[i].id+","+user+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
 			"    </a>"+
-			"    <a onclick=\"onCollect("+collects[i].id+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+			"    <a onclick=\"onCollect("+collects[i].id+","+user+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
 			"    </a>"+
 			"    </div>"+
 			"   </td>"+

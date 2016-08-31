@@ -15,10 +15,10 @@
             <div class="row" id="standard">
                <div class="col-lg-12 col-md-12 mt">
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-                     <a class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '\',\'\');'">
+                     <a class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/0\',\'\');'">
                         <span class="icon-layers"></span>
                      </a>
- 	                 <a class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '\',\'\');'" >
+ 	                 <a class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/0\',\'\');'" >
                         <span class="icon-list"></span>
                      </a>
                   </div>
@@ -99,7 +99,7 @@
                                  </div>
                                  <div class="m0">
                                     <span class="icon-folder mr-sm"></span>
-                                    <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                                    <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/0\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
                                     <div class="pull-right hidden-xxs">
                                        <small>
                                           <a class="sharing-action-button">
@@ -144,7 +144,7 @@
                </div>
             </div>
             <input type="hidden" name="collectId" id="collectId" />
-            <input type="hidden" name="forward" id="forward" th:value="'/standard/'+${type}" />
+            <input type="hidden" name="forward" id="forward" th:value="'/standard/'+${type}+'/0'" />
          </div>
       </section>
   </body>

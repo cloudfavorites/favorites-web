@@ -41,22 +41,30 @@ public class HomeController extends BaseController{
 	@Value("${dfs.url}")
 	private String dfsUrl;
 	
-	@RequestMapping(value="/standard/{type}")
+	@RequestMapping(value="/standard/{type}/{userId}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
-		model.addAttribute("collects", collects);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type)){
 			try {
 				favorites = favoritesRepository.findOne(Long.parseLong(type));
+				favorites.setPublicCount(collectRepository.countByFavoritesIdAndType(favorites.getId(), "public"));
 			} catch (Exception e) {
 				logger.error("获取收藏夹异常：",e);
 			}
 		}
+		List<CollectSummary> collects = null;
+	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
+			User user = userRepository.findOne(userId);
+			model.addAttribute("otherPeople", user);
+			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId());
+		}else{
+			collects =collectService.getCollects(type,getUserId(), pageable,null);
+		}
+		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
 		logger.info("standard end :"+ getUserId());
@@ -64,22 +72,31 @@ public class HomeController extends BaseController{
 	}
 	
 	
-	@RequestMapping(value="/simple/{type}")
+	@RequestMapping(value="/simple/{type}/{userId}")
 	public String simple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type,
+	        @PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=collectService.getCollects(type,getUserId(), pageable,null);
-		model.addAttribute("collects", collects);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type)){
 			try {
 				favorites = favoritesRepository.findOne(Long.parseLong(type));
+				favorites.setPublicCount(collectRepository.countByFavoritesIdAndType(favorites.getId(), "public"));
 			} catch (Exception e) {
 				logger.error("获取收藏夹异常：",e);
 			}
 		}
+		List<CollectSummary> collects = null;
+	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
+			User user = userRepository.findOne(userId);
+			model.addAttribute("otherPeople", user);
+			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId());
+		}else{
+			collects =collectService.getCollects(type,getUserId(), pageable,null);
+		}
+		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
 		logger.info("simple end :"+ getUserId());
@@ -181,6 +198,7 @@ public class HomeController extends BaseController{
 			model.addAttribute("collects", collects);
 			model.addAttribute("favoritesList",favoritesList);
 			model.addAttribute("dfsUrl",dfsUrl);
+			model.addAttribute("favoritesId", favoritesId);
 			return "fragments/usercontent";
 		}
 	

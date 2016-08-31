@@ -4,10 +4,12 @@
       <section >
          <div class="content-wrapper">
             <h3 th:if="${favorites.name != null and favorites.name !='未读列表'}">
-             	 <span th:text="${favorites.name}"></span>
-               <span class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
-               <span data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
-               <div class="pull-right">
+             	 <span th:if="${otherPeople != null}" th:text="${otherPeople.userName +'的收藏夹: ' + favorites.name}"></span>
+             	 <span th:if="${otherPeople == null}" th:text="${favorites.name}"></span>
+               <span th:if="${otherPeople == null}" class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
+               <span th:if="${otherPeople != null}" class="title-small ml-sm mr-sm" th:text="'('+${favorites.publicCount}+')'">(8)</span>
+               <span th:if="${otherPeople == null}" data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
+               <div class="pull-right" th:if="${otherPeople == null}">
                   <span class="title-small icon-folder-alt mr-sm"></span>
                   <span data-toggle="modal" data-target="#modal-removeFav" class="title-small clickable">删除</span>
                </div>
@@ -15,10 +17,16 @@
             <div class="row" id="simple">
                <div class="col-lg-12 col-md-12 mt">
                	   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-                     <a class="btn btn-xs btn-default"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '\',\'\');'">
+                     <a th:if="${otherPeople == null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/0\',\'\');'">
                         <span class="icon-layers"></span>
                      </a>
- 	                 <a class="btn btn-xs btn-default active" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '\',\'\');'" >
+                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'">
+                        <span class="icon-layers"></span>
+                     </a>
+ 	                 <a th:if="${otherPeople == null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/0\',\'\');'" >
+                        <span class="icon-list"></span>
+                     </a>
+                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'" >
                         <span class="icon-list"></span>
                      </a>
                   </div>
