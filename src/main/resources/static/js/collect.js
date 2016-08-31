@@ -126,10 +126,14 @@ function getCollect(id,user){
 				$("#cremark").val(collect.remark);
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
-				if($("#userId").val() == collect.userId){
-					$("#favoritesSelect").val(collect.favoritesId);
-				}else{
+				if("usercontent" == user){
 					$("#favoritesSelect").val(gconfig.defaultFavorties);
+				}else{
+					if($("#userId").val() == collect.userId){
+						$("#favoritesSelect").val(collect.favoritesId);
+					}else{					
+						$("#favoritesSelect").val(gconfig.defaultFavorties);
+					}
 				}
 				$("#newFavorites").val("");
 				$("#userCheck").val(user);
