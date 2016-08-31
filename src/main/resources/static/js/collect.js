@@ -19,14 +19,6 @@ $(function(){
 		}
 	});
 	
-    $('#atshow').bind('click', function(e) {  
-    	if(e.stopPropagation){ 
-            e.stopPropagation();
-    	}else{ 
-           e.cancelBubble = true;
-     	} 
-    }); 
-	
 	$("#ccollect").click(function(){
 		 if($("#ctitle").val()==""){
 			 $("#errorMsg").text("标题不能为空");
@@ -72,8 +64,9 @@ $(function(){
 
 
 function showAt(name){
-	var text = $("#remark").val();
-	$("#remark").val(text + "@" +name + " ").focus();
+	var text = $("#cremark").val();
+	$("#cremark").val(text + "@" +name + " ").focus();
+	$(".dropdown-menu").hide();
 }
 
 function onCollect(id,user){
