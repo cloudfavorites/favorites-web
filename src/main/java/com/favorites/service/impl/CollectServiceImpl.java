@@ -319,7 +319,7 @@ public class CollectServiceImpl implements CollectService {
 				User user = userRepository.findByUserName(str);
 				if (null != user) {
 					// 保存消息通知
-					noticeService.saveNotice(String.valueOf(collect.getId()),"at", collect.getUserId(), null);
+					noticeService.saveNotice(String.valueOf(collect.getId()),"at", user.getId(), null);
 				} else {
 					logger.info("为找到匹配：" + str + "的用户.");
 				}
