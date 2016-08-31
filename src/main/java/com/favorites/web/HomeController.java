@@ -22,6 +22,7 @@ import com.favorites.domain.FollowRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.service.CollectService;
+import com.favorites.service.NoticeService;
 
 @Controller
 @RequestMapping("/")
@@ -37,6 +38,8 @@ public class HomeController extends BaseController{
 	private CollectRepository collectRepository;
 	@Autowired
 	private FollowRepository followRepository;
+	@Autowired
+	private NoticeService noticeService;
 	@Value("${dfs.url}")
 	private String dfsUrl;
 	
@@ -186,29 +189,50 @@ public class HomeController extends BaseController{
 		}
 	
 	
-	/**
-	 * 搜索
-	 * @author neo
-	 * @date 2016年8月25日
-	 * @param model
-	 * @param page
-	 * @param size
-	 * @param key
-	 * @return
-	 */
-	@RequestMapping(value="/search/{key}")
-	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("key") String key) {
-		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
-	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
-		model.addAttribute("myCollects", myCollects);
-		model.addAttribute("otherCollects", otherCollects);
-		model.addAttribute("userId", getUserId());
-		logger.info("search end :"+ getUserId());
-		return "collect/search";
-	}
+		/**
+		 * 搜索
+		 * @author neo
+		 * @date 2016年8月25日
+		 * @param model
+		 * @param page
+		 * @param size
+		 * @param key
+		 * @return
+		 */
+		@RequestMapping(value="/search/{key}")
+		public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+		        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("key") String key) {
+			Sort sort = new Sort(Direction.DESC, "id");
+		    Pageable pageable = new PageRequest(page, size, sort);
+		    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
+		    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
+			model.addAttribute("myCollects", myCollects);
+			model.addAttribute("otherCollects", otherCollects);
+			model.addAttribute("userId", getUserId());
+			logger.info("search end :"+ getUserId());
+			return "collect/search";
+		}
+	
+		/**
+		 * 消息通知@我的
+		 * @param model
+		 * @param page
+		 * @param size
+		 * @param type
+		 * @return
+		 */
+		@RequestMapping(value="/notice/atMe/{type}")
+		public String atMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+		        @RequestParam(value = "size", defaultValue = "15") Integer size, @PathVariable("type") String type) {
+			Sort sort = new Sort(Direction.DESC, "id");
+		    Pageable pageable = new PageRequest(page, size, sort);
+		    List<CollectSummary> collects=noticeService.getAtMeCollects(type, getUserId(), pageable);
+			model.addAttribute("collects", collects);
+			model.addAttribute("dfsUrl",dfsUrl);
+			logger.info("at end :"+ getUserId());
+			return "notice/atme";
+		}
+	
 	
 	
 }

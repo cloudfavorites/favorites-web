@@ -7,24 +7,20 @@
             <div class="row">
                <div class="col-lg-9 col-md-9 mt">
                   <ul class="timeline">
-                     <li>
+                     <li th:each="collect,collectStat : ${collects}" >
                         <div class="timeline-panel">
                            <div class="popover right">
                               <div class="popover-content">
                                  <div class="table-grid table-grid-align-middle mb">
                                     <div class="col col-xxs">
-                                       <a href="#">
-                                          <img src="img/dummy.png" alt="" class="media-object img-circle thumb48"/>
+                                       <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
+                                          <img th:src="${collect.profilePicture == null?'img/favicon.png':dfsUrl+collect.profilePicture}" alt="" class="media-object img-circle thumb48"/>
                                        </a>
                                     </div>
                                     <div class="col">
                                        <p class="m0">
-                                          <a href="#" class="text-muted">
-                                             <strong>Smilence</strong>
-                                          </a>
-                                          <small class="ml">
-                                             <span>19小时前</span>
-                                             at了你
+                                          <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" >user name</a>
+                                          <small class="ml" th:text="${collect.collectTime}">
                                           </small>
                                        </p>
                                     </div>
@@ -32,68 +28,24 @@
                                        <div class="btn btn-default">回复</div>
                                     </div>
                                  </div>
-                                 <p>@菲林  好东西要分享</p>
+                                 <div class="m0" th:text="${collect.remark}"></div>
                                  <div class="media resource-card-thumbnail">
-                                    <a href="#" class="pull-left" target="_blank">
-                                       <div class="media-object resource-card-image" style="background-image:url('http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png');"></div>
-                                    </a>
+                                    <a th:href="@{${collect.url}}" class="pull-left" target="_blank">
+                                       <div class="media-object resource-card-image" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+                                    </a>                                   
                                     <div class="media-body">
                                        <h4 class="visible-xs media-heading resource-card-title-xs">
-                                          <a href="#" target="_blank">MyBatis Generator generatorConfig.xml配置详解 - Franci</a>
+                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
                                        </h4>
                                        <h3 class="hidden-xs media-heading resource-card-title">
-                                          <a href="#" target="_blank">MyBatis Generator generatorConfig.xml配置详解 - Franci</a>
+                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
                                        </h3>
                                        <div class="hidden-xs" style="max-height:42px;overflow:hidden;">
-                                          <p>转自:http://www.i170.com/user/gatekeeper  1xx = 通知性应</p>
+                                          <p th:text="${collect.description}">description</p>
                                        </div>
                                     </div>
                                  </div>
-                                 <div class="collapse">
-                                    <div class="media">
-                                       <div class="media-body">
-                                          <form>
-                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="输入回复..."/>
-                                                <span class="input-group-btn">
-                                                   <button type="submit" class="btn btn-default">发送</button>
-                                                </span>
-                                             </div>
-                                          </form>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="timeline-panel">
-                           <div class="popover right">
-                              <div class="popover-content">
-                                 <div class="table-grid table-grid-align-middle mb">
-                                    <div class="col col-xxs">
-                                       <a href="#">
-                                          <img src="img/dummy.png" alt="" class="media-object img-circle thumb48"/>
-                                       </a>
-                                    </div>
-                                    <div class="col">
-                                       <p class="m0">
-                                          <a href="#" class="text-muted">
-                                             <strong>Smilence</strong>
-                                          </a>
-                                          <small class="ml">
-                                             <span>19小时前</span>
-                                             at了你
-                                          </small>
-                                       </p>
-                                    </div>
-                                    <div class="col text-right">
-                                       <div class="btn btn-default">回复</div>
-                                    </div>
-                                 </div>
-                                 <p>@菲林  好东西要分享</p>
-                                 <h3>该分享已被删除</h3>
+                                 <div th:if="${collect.url == null}"><h3>该分享已被删除</h3></div>
                                  <div class="collapse">
                                     <div class="media">
                                        <div class="media-body">

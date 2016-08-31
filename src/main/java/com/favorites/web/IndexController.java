@@ -18,6 +18,7 @@ import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.FollowRepository;
+import com.favorites.domain.NoticeRepository;
 import com.favorites.service.CollectService;
 import com.favorites.utils.HtmlUtil;
 
@@ -35,6 +36,8 @@ public class IndexController extends BaseController{
 	private CollectRepository collectRepository;
 	@Resource
 	private CollectService collectService;
+	@Autowired
+	private NoticeRepository noticeRepository;
 	
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
@@ -49,6 +52,7 @@ public class IndexController extends BaseController{
 		model.addAttribute("size",size);
 		model.addAttribute("followList",followList);
 		model.addAttribute("user",getUser());
+		model.addAttribute("newAtMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "at", "unread"));
 		logger.info("collect size="+size+" userID="+getUserId());
 		return "home";
 	}
@@ -117,11 +121,6 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/uploadHeadPortrait")
 	public String uploadHeadPortrait(){
 		return "user/uploadheadportrait";
-	}
-	
-	@RequestMapping(value="/atMe")
-	public String atMe(){
-		return "notice/atme";
 	}
 	
 	@RequestMapping(value="/export")

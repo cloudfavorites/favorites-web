@@ -33,7 +33,7 @@
                   <ul class="dropdown-menu animated flipInX">
                      <li>
                         <div class="list-group">
-                           <a class="list-group-item" href="javascript:void(0);" onclick="locationUrl('/atMe','atMe')">
+                           <a id="atme" class="list-group-item" href="javascript:void(0);" onclick="atMeOnclick()">
                               <div class="media-box">
                                  <div class="pull-left">
                                     <em class="fa fa-at fa-2x text-info"></em>
@@ -41,7 +41,7 @@
                                  <div class="media-box-body clearfix">
                                     <p class="m0">@我的</p>
                                     <p class="m0 text-muted">
-                                       <small>0 条新消息</small>
+                                       <small id="atmenewnotice" th:text="${newAtMeCount}+' 条新消息'"></small>
                                     </p>
                                  </div>
                               </div>

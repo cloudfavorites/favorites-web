@@ -427,3 +427,22 @@ function updateNickname() {
 		}
 	});
    }
+
+function atMeOnclick() {
+	var url = '/notice/updateAtMeNoticeReaded';
+	$.ajax({
+		async: false,
+		url : url,
+		data : '',
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(data, textStatus) {
+			if(data.rspCode == '000000'){
+				$("#atmenewnotice").html("0  条新消息");
+  	    	}
+		}
+	});
+	locationUrl('/notice/atMe/at','at');
+}
