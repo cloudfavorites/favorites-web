@@ -49,12 +49,14 @@
                                  <div class="collapse">
                                     <div class="media">
                                        <div class="media-body">
-                                          <form>
-                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="输入回复..."/>
-                                                <span class="input-group-btn">
-                                                   <button type="submit" class="btn btn-default">发送</button>
-                                                </span>
+                                          <form id="form" data-parsley-validate="true" onsubmit="return false">
+                                             <div class="input-group">                                            	
+	                                                <input name="content" type="text" class="form-control" placeholder="输入回复..." required="required"/>
+	                                                <input name="replyUserId" type="hidden" th:value="${collect.userId}"/>
+	                                                <input name="collectId" type="hidden" th:value="${collect.id}"/>
+	                                                <span class="input-group-btn">
+	                                                   <button id="sendReply" type="submit" class="btn btn-default">发送</button>
+	                                                </span>
                                              </div>
                                           </form>
                                        </div>
@@ -73,34 +75,37 @@
 </body>
  <script type='text/javascript'>
  $(function(){
-	 toastr.options = {
-	            'closeButton': true,
-	            'positionClass': 'toast-top-center',
-	            'timeOut': '5000',
-	         };
-	 $("#addFavorites").click(function(){
+	 $(".timeline li").each(function(){
+         var _this = $(this);
+         _this.find(".table-grid .btn").click(function(){
+            if(_this.find(".collapse").hasClass('in')){
+               _this.find(".collapse").removeClass('in')
+            }else{
+               _this.find(".collapse").addClass('in')
+            }
+         });
+      });
+	 $("#sendReply").click(function(){
+		 var _this = $(this).parent().parent().parent().parent().parent().parent();
 		 var ok = $('#form').parsley().isValid({force: true});
 		 if(ok){
-			 $.ajax({
-					async: false,
-					type: 'POST',
-					dataType: 'json',
-					data:'name=' + $("#name").val(),
-					url: '/favorites/add',
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						console.log(XMLHttpRequest);
-						console.log(textStatus);
-						console.log(errorThrown);
-					},
-					success: function(response){
-						if(response.rspCode == '000000'){
-							 loadFavorites();
-							 toastr.success('收藏夹创建成功！', '操作成功');
-          	    	 	}else{
-          	    			toastr.error(response.rspMsg, '操作失败');
-          	    	 }
-					}
-				});
+			var url = '/notice/reply';
+			$.ajax({
+				url : url,
+				data : $("#form").serialize(),
+				type : 'POST',
+				dataType : "json",
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+				},
+				success : function(data, textStatus) {
+					if(data.rspCode == '000000'){
+						toastr.success('已回复！', '操作成功');
+						if( _this.hasClass('in')){
+							_this.removeClass('in');
+						}
+					}					
+				}
+			});
 		 }
 	 });
  });
