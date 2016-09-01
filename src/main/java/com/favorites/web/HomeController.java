@@ -242,16 +242,56 @@ public class HomeController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/notice/atMe/{type}")
+	@RequestMapping(value="/notice/atMe")
 	public String atMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-	        @RequestParam(value = "size", defaultValue = "15") Integer size, @PathVariable("type") String type) {
+	        @RequestParam(value = "size", defaultValue = "15") Integer size) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=noticeService.getAtMeCollects(type, getUserId(), pageable);
+	    List<CollectSummary> collects=noticeService.getNoticeCollects("at", getUserId(), pageable);
 		model.addAttribute("collects", collects);
 		model.addAttribute("dfsUrl",dfsUrl);
 		logger.info("at end :"+ getUserId());
 		return "notice/atme";
+	}
+	
+	/**
+	 * 消息通知评论我的
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value="/notice/commentMe")
+	public String commentMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "15") Integer size) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> collects=noticeService.getNoticeCollects("comment", getUserId(), pageable);
+		model.addAttribute("collects", collects);
+		model.addAttribute("dfsUrl",dfsUrl);
+		logger.info("at end :"+ getUserId());
+		return "notice/commentme";
+	}
+	
+	/**
+	 * 消息通知赞我的
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value="/notice/praiseMe")
+	public String praiseMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	        @RequestParam(value = "size", defaultValue = "15") Integer size) {
+		Sort sort = new Sort(Direction.DESC, "id");
+	    Pageable pageable = new PageRequest(page, size, sort);
+	    List<CollectSummary> collects=noticeService.getNoticeCollects("praise", getUserId(), pageable);
+		model.addAttribute("collects", collects);
+		model.addAttribute("dfsUrl",dfsUrl);
+		logger.info("at end :"+ getUserId());
+		return "notice/praiseme";
 	}
 	
 }

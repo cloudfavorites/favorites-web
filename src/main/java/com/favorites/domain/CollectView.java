@@ -14,4 +14,5 @@ public interface CollectView{
 	String getUserName();
 	Long getFavoriteId();
 	String getFavoriteName();
+	String getOperId();
 }

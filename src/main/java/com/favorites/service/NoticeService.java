@@ -10,6 +10,6 @@ public interface NoticeService {
 	
 	public void saveNotice(String collectId,String type,Long userId,String operId);
 	
-	public List<CollectSummary> getAtMeCollects(String type, Long userId, Pageable pageable);
+	public List<CollectSummary> getNoticeCollects(String type, Long userId, Pageable pageable);
 
 }

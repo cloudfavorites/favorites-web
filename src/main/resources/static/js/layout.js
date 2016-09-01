@@ -434,20 +434,58 @@ function updateNickname() {
    }
 
 function atMeOnclick() {
-	var url = '/notice/updateAtMeNoticeReaded';
+	var url = '/notice/updateNoticeReaded';
 	$.ajax({
 		async: false,
 		url : url,
-		data : '',
+		data : 'type=at',
 		type : 'POST',
 		dataType : "json",
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		},
 		success : function(data, textStatus) {
 			if(data.rspCode == '000000'){
-				$("#atmenewnotice").html("0  条新消息");
+				$("#atMeNewNotice").html("0  条新消息");
   	    	}
 		}
 	});
-	locationUrl('/notice/atMe/at','at');
+	locationUrl('/notice/atMe','atMe');
+}
+
+function commentMeOnclick() {
+	var url = '/notice/updateNoticeReaded';
+	$.ajax({
+		async: false,
+		url : url,
+		data : 'type=comment',
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(data, textStatus) {
+			if(data.rspCode == '000000'){
+				$("#commentMeNewNotice").html("0  条新评论");
+  	    	}
+		}
+	});
+	locationUrl('/notice/commentMe','commentMe');
+}
+
+function praiseMeOnclick() {
+	var url = '/notice/updateNoticeReaded';
+	$.ajax({
+		async: false,
+		url : url,
+		data : 'type=praise',
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(data, textStatus) {
+			if(data.rspCode == '000000'){
+				$("#praiseMeNewNotice").html("0  个新的赞");
+  	    	}
+		}
+	});
+	locationUrl('/notice/praiseMe','praiseMe');
 }
