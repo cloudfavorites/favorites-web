@@ -29,6 +29,7 @@
                <li class="dropdown dropdown-list">
                   <a title="消息通知" data-toggle="dropdown" href="#">
                      <em class="icon-bell"></em>
+                     <div class="label label-danger" th:if="${newAtMeCount!=0 or newCommentMeCount!=0 or newPraiseMeCount!=0}" th:text="${newAtMeCount}+${newCommentMeCount}+${newPraiseMeCount}"></div>
                   </a>
                   <ul class="dropdown-menu animated flipInX">
                      <li>

@@ -446,6 +446,12 @@ function atMeOnclick() {
 		},
 		success : function(data, textStatus) {
 			if(data.rspCode == '000000'){
+				var temp = $(".label.label-danger").html()-data.data;
+				if(temp==0){
+					$(".label.label-danger").hide();
+				}else{
+					$(".label.label-danger").html(temp);
+				}
 				$("#atMeNewNotice").html("0  条新消息");
   	    	}
 		}
@@ -465,6 +471,12 @@ function commentMeOnclick() {
 		},
 		success : function(data, textStatus) {
 			if(data.rspCode == '000000'){
+				var temp = $(".label.label-danger").html()-data.data;
+				if(temp==0){
+					$(".label.label-danger").hide();
+				}else{
+					$(".label.label-danger").html(temp);
+				}
 				$("#commentMeNewNotice").html("0  条新评论");
   	    	}
 		}
@@ -484,6 +496,12 @@ function praiseMeOnclick() {
 		},
 		success : function(data, textStatus) {
 			if(data.rspCode == '000000'){
+				var temp = $(".label.label-danger").html()-data.data;
+				if(temp==0){
+					$(".label.label-danger").hide();
+				}else{
+					$(".label.label-danger").html(temp);
+				}
 				$("#praiseMeNewNotice").html("0  个新的赞");
   	    	}
 		}

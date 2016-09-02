@@ -22,7 +22,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query("update Notice n set n.readed = ?1 where n.userId = ?2 and n.type = ?3")
+	@Query("update Notice n set n.readed = ?1 where n.userId = ?2 and n.type = ?3 and n.readed='unread'")
 	int updateReadedByUserId(String readed, long userId, String type);
 
 }

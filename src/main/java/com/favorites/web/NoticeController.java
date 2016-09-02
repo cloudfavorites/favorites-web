@@ -11,6 +11,7 @@ import com.favorites.domain.Notice;
 import com.favorites.domain.NoticeRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
+import com.favorites.domain.result.ResponseData;
 import com.favorites.utils.DateUtils;
 
 /**
@@ -36,16 +37,16 @@ public class NoticeController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "/updateNoticeReaded", method = RequestMethod.POST)
-	public Response updateAtMeNoticeReaded(String type) {
+	public ResponseData updateAtMeNoticeReaded(String type) {
 		logger.info("updateNoticeReaded begin");
 		try {
-			noticeRepository.updateReadedByUserId("read", getUserId(), type);
+			int counts = noticeRepository.updateReadedByUserId("read", getUserId(), type);
+			return new ResponseData(ExceptionMsg.SUCCESS, counts);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("updateNoticeReaded failed, ", e);
-			return result(ExceptionMsg.FAILED);
+			return new ResponseData(ExceptionMsg.FAILED);
 		}
-		return result();
 	}
 	
 	/**
