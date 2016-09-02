@@ -42,8 +42,8 @@ public class CommentController extends BaseController{
 				} else {
 					logger.info("为找到匹配：" + atUsers.get(0) + "的用户.");
 				}
+				comment.setContent(comment.getContent().substring(comment.getContent().indexOf("@" + atUsers.get(0) + " ")+atUsers.get(0).length()+1,comment.getContent().length()));
 			}
-			comment.setContent(comment.getContent().substring(0,comment.getContent().indexOf("@")));
 		}
 		comment.setUserId(getUserId());
 		comment.setCreateTime(DateUtils.getCurrentTime());
@@ -94,5 +94,5 @@ public class CommentController extends BaseController{
 		}
 		return comments;
 	}
-
+	
 }
