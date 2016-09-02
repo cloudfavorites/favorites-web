@@ -12,7 +12,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
 	public String baseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
-			+ "u.userName as userName,u.profilePicture as profilePicture "
+			+ "u.userName as userName,u.profilePicture as profilePicture,n.operId as operId "
 			+ "from Notice n,Collect c,User u WHERE n.collectId=c.id and c.userId=u.id";
 	
 	@Query(baseSql+ " and n.userId=?1 and n.type=?2")
@@ -22,7 +22,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query("update Notice n set n.readed = ?1 where n.userId = ?2")
-	int updateReadedByUserId(String readed, long userId);
+	@Query("update Notice n set n.readed = ?1 where n.userId = ?2 and n.type = ?3")
+	int updateReadedByUserId(String readed, long userId, String type);
 
 }

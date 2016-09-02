@@ -35,14 +35,14 @@ public class NoticeController extends BaseController{
 	 * 更新消息为已读
 	 * @return
 	 */
-	@RequestMapping(value = "/updateAtMeNoticeReaded", method = RequestMethod.POST)
-	public Response updateAtMeNoticeReaded() {
-		logger.info("updateAtMeNoticeReaded begin");
+	@RequestMapping(value = "/updateNoticeReaded", method = RequestMethod.POST)
+	public Response updateAtMeNoticeReaded(String type) {
+		logger.info("updateNoticeReaded begin");
 		try {
-			noticeRepository.updateReadedByUserId("read", getUserId());
+			noticeRepository.updateReadedByUserId("read", getUserId(), type);
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error("updateUserName failed, ", e);
+			logger.error("updateNoticeReaded failed, ", e);
 			return result(ExceptionMsg.FAILED);
 		}
 		return result();
