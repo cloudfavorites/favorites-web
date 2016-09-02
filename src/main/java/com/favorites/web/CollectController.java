@@ -34,6 +34,7 @@ import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
+import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
 
@@ -50,6 +51,8 @@ public class CollectController extends BaseController{
 	private PraiseRepository praiseRepository;
 	@Resource
 	private FavoritesRepository favoritesRepository;
+	@Resource
+	private NoticeService noticeService;
 	
 	/**
 	 * 文章收集
@@ -175,6 +178,11 @@ public class CollectController extends BaseController{
 			newPraise.setCollectId(id);
 			newPraise.setCreateTime(DateUtils.getCurrentTime());
 			praiseRepository.save(newPraise);
+			// 保存消息通知
+			Collect collect = collectRepository.findOne(id);
+			if(null != collect){
+				noticeService.saveNotice(String.valueOf(id), "praise", collect.getUserId(), String.valueOf(newPraise.getId()));
+			}
 		}else{
 			praiseRepository.delete(praise.getId());
 		}
