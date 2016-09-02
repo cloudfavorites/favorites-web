@@ -10,6 +10,8 @@ public interface ConfigRepository extends JpaRepository<Config, Long> {
 
 	Config findByUserId(Long userId);
 	
+	Config findByUserIdAndDefaultFavorties(Long userId,String defaultFavorites);
+	
 	@Transactional
 	@Modifying
 	@Query("update Config set defaultCollectType=?2,lastModifyTime =?3 where id = ?1")

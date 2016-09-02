@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.favorites.domain.CollectSummary;
 import com.favorites.domain.CollectView;
+import com.favorites.domain.CommentRepository;
+import com.favorites.domain.CommentView;
 import com.favorites.domain.Notice;
 import com.favorites.domain.NoticeRepository;
+import com.favorites.domain.PraiseRepository;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 
@@ -21,6 +24,10 @@ public class NoticeServiceImpl implements NoticeService{
 	
 	@Autowired
 	private NoticeRepository noticeRepository;
+	@Autowired
+	private CommentRepository commentRepository;
+	@Autowired
+	private PraiseRepository praiseRepository;
 	
 	/**
 	 * 保存消息通知
@@ -43,23 +50,38 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	/**
-	 * 展示消息通知@我的
+	 * 展示消息通知
 	 * @param type
 	 * @param userId
 	 * @param pageable
 	 */
 	@Override
-	public List<CollectSummary> getAtMeCollects(String type, Long userId, Pageable pageable) {
+	public List<CollectSummary> getNoticeCollects(String type, Long userId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = noticeRepository.findViewByUserIdAndType(userId, type, pageable);
-		return convertCollect(views);
+		return convertCollect(views, type);
 	}
 
-	private List<CollectSummary> convertCollect(Page<CollectView> views) {
+	private List<CollectSummary> convertCollect(Page<CollectView> views, String type) {
 		List<CollectSummary> summarys=new ArrayList<CollectSummary>();
 		for (CollectView view : views) {
 			CollectSummary summary=new CollectSummary(view);
-			summary.setCollectTime(DateUtils.getTimeFormatText(view.getLastModifyTime())+" at了你");
+			if("at".equals(type)){
+				summary.setCollectTime(DateUtils.getTimeFormatText(view.getLastModifyTime())+" at了你");
+			}else if("comment".equals(type)){
+				CommentView comment = commentRepository.findReplyUser(Long.valueOf(view.getOperId()));
+				summary.setUserId(comment.getUserId());
+				summary.setUserName(comment.getUserName());
+				summary.setProfilePicture(comment.getProfilePicture());
+				summary.setRemark(comment.getContent());
+				summary.setCollectTime(DateUtils.getTimeFormatText(comment.getCreateTime())+" 评论了你的收藏");
+			}else if("praise".equals(type)){
+				CommentView comment = praiseRepository.findPraiseUser(Long.valueOf(view.getOperId()));
+				summary.setUserId(comment.getUserId());
+				summary.setUserName(comment.getUserName());
+				summary.setProfilePicture(comment.getProfilePicture());
+				summary.setCollectTime(DateUtils.getTimeFormatText(comment.getCreateTime())+" 赞了你的收藏");
+			}		
 			summarys.add(summary);
 		}
 		return summarys;

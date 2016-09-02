@@ -3,7 +3,7 @@
 <body>
       <section>
          <div class="content-wrapper">
-            <h3>At我的</h3>
+            <h3>赞我的</h3>
             <div class="row">
                <div class="col-lg-9 col-md-9 mt">
                   <ul class="timeline">
@@ -28,7 +28,6 @@
                                        <div class="btn btn-default">回复</div>
                                     </div>
                                  </div>
-                                 <div class="m0" th:text="${collect.remark}"></div>
                                  <div class="media resource-card-thumbnail">
                                     <a th:href="@{${collect.url}}" class="pull-left" target="_blank">
                                        <div class="media-object resource-card-image" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
@@ -79,9 +78,9 @@
          var _this = $(this);
          _this.find(".table-grid .btn").click(function(){
             if(_this.find(".collapse").hasClass('in')){
-               _this.find(".collapse").removeClass('in')
+               _this.find(".collapse").removeClass('in');
             }else{
-               _this.find(".collapse").addClass('in')
+               _this.find(".collapse").addClass('in');
                var rep = "回复@"+_this.find(".m0 .text-muted").html()+"：";
                _this.find(".form-control").val(rep);
             }

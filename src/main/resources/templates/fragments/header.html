@@ -33,7 +33,7 @@
                   <ul class="dropdown-menu animated flipInX">
                      <li>
                         <div class="list-group">
-                           <a id="atme" class="list-group-item" href="javascript:void(0);" onclick="atMeOnclick()">
+                           <a class="list-group-item" href="javascript:void(0);" onclick="atMeOnclick()">
                               <div class="media-box">
                                  <div class="pull-left">
                                     <em class="fa fa-at fa-2x text-info"></em>
@@ -41,12 +41,12 @@
                                  <div class="media-box-body clearfix">
                                     <p class="m0">@我的</p>
                                     <p class="m0 text-muted">
-                                       <small id="atmenewnotice" th:text="${newAtMeCount}+' 条新消息'"></small>
+                                       <small id="atMeNewNotice" th:text="${newAtMeCount}+' 条新消息'"></small>
                                     </p>
                                  </div>
                               </div>
                            </a>
-                           <a class="list-group-item" href="#">
+                            <a class="list-group-item" href="javascript:void(0);" onclick="commentMeOnclick()">
                               <div class="media-box">
                                  <div class="pull-left">
                                     <em class="fa fa-comment fa-2x text-warning"></em>
@@ -54,12 +54,12 @@
                                  <div class="media-box-body clearfix">
                                     <p class="m0">评论我的</p>
                                     <p class="m0 text-muted">
-                                       <small>0 条新评论</small>
+                                       <small id="commentMeNewNotice" th:text="${newCommentMeCount}+' 条新评论'"></small>
                                     </p>
                                  </div>
                               </div>
                            </a>
-                           <a class="list-group-item" href="#">
+                            <a class="list-group-item" href="javascript:void(0);" onclick="praiseMeOnclick()">
                               <div class="media-box">
                                  <div class="pull-left">
                                     <em class="fa fa-thumbs-up fa-2x text-success"></em>
@@ -67,13 +67,13 @@
                                  <div class="media-box-body clearfix">
                                     <p class="m0">赞我的</p>
                                     <p class="m0 text-muted">
-                                       <small>0 个新的赞</small>
+                                       <small id="praiseMeNewNotice" th:text="${newPraiseMeCount}+' 个新的赞'"></small>
                                     </p>
                                  </div>
                               </div>
                            </a>
-                           <a class="list-group-item" href="#">
-                              <div class="media-box">
+                           <!--
+                           <a class="list-group-item" href="#">                              <div class="media-box">
                                  <div class="pull-left">
                                     <em class="fa fa-bell fa-2x text-danger"></em>
                                  </div>
@@ -84,18 +84,18 @@
                                     </p>
                                  </div>
                               </div>
-                           </a>
+                           </a> -->
                         </div>
                      </li>
                   </ul>
                </li>
-               <li>
+               <!-- <li>
                   <a title="浏览记录" href="#">
                      <em class="icon-clock"></em>
                   </a>
-               </li>
+               </li> -->
                <li>
-                  <a title="回收站" href="#">
+                  <a title="回收站" href="javascript:void(0);" onclick="locationUrl('/standard/garbage/0');">
                      <em class="icon-trash"></em>
                   </a>
                </li>

@@ -4,20 +4,21 @@
       <section >
          <div class="content-wrapper">
          	<div class="row unread-alert" th:if="${favorites.name != null and favorites.name =='未读列表'}">
-               <div class="col-xs-12">未读列表中的内容将从收集当日起20天后自动进入回收站，赶紧给收藏分类吧~</div>
+               <div class="col-xs-12">未读列表中的内容将从收集当日起30天后自动进入回收站，赶紧给收藏分类吧~</div>
             </div>
-         	<h3 th:if="${favorites.name != null and favorites.name !='未读列表'}">
-             	 <span th:if="${otherPeople != null}" th:text="${otherPeople.userName +'的收藏夹: ' + favorites.name}"></span>
-             	 <span th:if="${otherPeople == null}" th:text="${favorites.name}"></span>
-               <span th:if="${otherPeople == null}" class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
+         	<h3 th:if="${(favorites.name != null and favorites.name !='未读列表')or (type == 'garbage')} ">
+               <span th:if="${otherPeople != null}" th:text="${otherPeople.userName +'的收藏夹: ' + favorites.name}"></span>
+               <span th:if="${otherPeople == null and type != 'garbage'}" th:text="${favorites.name}"></span>
+               <span th:if="${otherPeople == null and type != 'garbage'}" class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
                <span th:if="${otherPeople != null}" class="title-small ml-sm mr-sm" th:text="'('+${favorites.publicCount}+')'">(8)</span>
-               <span th:if="${otherPeople == null}" data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
-               <div class="pull-right" th:if="${otherPeople == null}">
+               <span th:if="${type == 'garbage'}" th:text="回收站"></span>
+               <span th:if="${otherPeople == null and type != 'garbage'}" data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
+               <div class="pull-right" th:if="${otherPeople == null and type != 'garbage'}">
                   <span class="title-small icon-folder-alt mr-sm"></span>
                   <span data-toggle="modal" data-target="#modal-removeFav" class="title-small clickable">删除</span>
                </div>
             </h3>
-            <div class="row" id="standard">
+            <div class="row" id="standard" th:if="${collects.size() > 0}">
                <div class="col-lg-12 col-md-12 mt">
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
                      <a th:if="${otherPeople == null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/0\',\'\');'">

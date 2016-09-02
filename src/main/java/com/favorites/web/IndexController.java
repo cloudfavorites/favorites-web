@@ -43,7 +43,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String index(Model model) {
 		//return "forward:/standard/my"; 
-		long size= collectRepository.countByUserId(getUserId());
+		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),"no");
 		Config config = configRepository.findByUserId(getUserId());
 		Favorites favorites = favoritesRepository.findOne(Long.parseLong(config.getDefaultFavorties()));
 		List<String> followList = followRepository.findByUserId(getUserId());
@@ -53,6 +53,8 @@ public class IndexController extends BaseController{
 		model.addAttribute("followList",followList);
 		model.addAttribute("user",getUser());
 		model.addAttribute("newAtMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "at", "unread"));
+		model.addAttribute("newCommentMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "comment", "unread"));
+		model.addAttribute("newPraiseMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "praise", "unread"));
 		logger.info("collect size="+size+" userID="+getUserId());
 		return "home";
 	}
