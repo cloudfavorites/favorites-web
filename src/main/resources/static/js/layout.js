@@ -334,8 +334,9 @@ function delFavorites(){
 		success: function(response){
 			locationUrl("/standard/my/0","home");
 			loadFavorites();
-			 $("#delFavoritesBtn").attr("aria-hidden","true");
-			 $("#delFavoritesBtn").attr("data-dismiss","modal");
+			loadConfig();
+			$("#delFavoritesBtn").attr("aria-hidden","true");
+			$("#delFavoritesBtn").attr("data-dismiss","modal");
 		}
 	});
 }

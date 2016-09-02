@@ -42,6 +42,8 @@ $(function(){
 	  					if($("#userCheck").val()=="usercontent"){
 	  						userLocationUrl($("#forward").val(),"userAll");
 	  						loadUserFavorites();
+	  					}else if($("#pageType").val()=="garbage"){
+	  						locationUrl($("#forward").val(),"");
 	  					}else{
 	  						locationUrl($("#forward").val(),"home");
 	  					}

@@ -43,7 +43,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String index(Model model) {
 		//return "forward:/standard/my"; 
-		long size= collectRepository.countByUserId(getUserId());
+		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),"no");
 		Config config = configRepository.findByUserId(getUserId());
 		Favorites favorites = favoritesRepository.findOne(Long.parseLong(config.getDefaultFavorties()));
 		List<String> followList = followRepository.findByUserId(getUserId());
