@@ -50,7 +50,7 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	/**
-	 * 展示消息通知@我的
+	 * 展示消息通知
 	 * @param type
 	 * @param userId
 	 * @param pageable
@@ -76,8 +76,11 @@ public class NoticeServiceImpl implements NoticeService{
 				summary.setRemark(comment.getContent());
 				summary.setCollectTime(DateUtils.getTimeFormatText(comment.getCreateTime())+" 评论了你的收藏");
 			}else if("praise".equals(type)){
-				summary.setCollectTime(DateUtils.getTimeFormatText(view.getLastModifyTime())+" 赞了你的收藏");
-				
+				CommentView comment = praiseRepository.findPraiseUser(Long.valueOf(view.getOperId()));
+				summary.setUserId(comment.getUserId());
+				summary.setUserName(comment.getUserName());
+				summary.setProfilePicture(comment.getProfilePicture());
+				summary.setCollectTime(DateUtils.getTimeFormatText(comment.getCreateTime())+" 赞了你的收藏");
 			}		
 			summarys.add(summary);
 		}

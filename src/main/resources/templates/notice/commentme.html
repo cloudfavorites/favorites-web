@@ -82,6 +82,8 @@
                _this.find(".collapse").removeClass('in')
             }else{
                _this.find(".collapse").addClass('in')
+               var rep = "回复@"+_this.find(".m0 .text-muted").html()+"：";
+               _this.find(".form-control").val(rep);
             }
          });
       });

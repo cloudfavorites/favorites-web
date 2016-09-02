@@ -55,7 +55,7 @@
 	                                                <input name="replyUserId" type="hidden" th:value="${collect.userId}"/>
 	                                                <input name="collectId" type="hidden" th:value="${collect.id}"/>
 	                                                <span class="input-group-btn">
-	                                                   <button id="sendReply" type="submit" class="btn btn-default">发送</button>
+	                                                   <button id="sendReply" type="submit" class="btn btn-default send">发送</button>
 	                                                </span>
                                              </div>
                                           </form>
@@ -82,17 +82,20 @@
                _this.find(".collapse").removeClass('in')
             }else{
                _this.find(".collapse").addClass('in')
+               var rep = "回复@"+_this.find(".m0 .text-muted").html()+"：";
+               _this.find(".form-control").val(rep);
             }
          });
       });
-	 $("#sendReply").click(function(){
+	 $(".btn.btn-default.send").click(function(){
 		 var _this = $(this).parent().parent().parent().parent().parent().parent();
-		 var ok = $('#form').parsley().isValid({force: true});
+		 var _form = $(this).parent().parent().parent();
+		 var ok = _form.parsley().isValid({force: true});
 		 if(ok){
 			var url = '/notice/reply';
 			$.ajax({
 				url : url,
-				data : $("#form").serialize(),
+				data : _form.serialize(),
 				type : 'POST',
 				dataType : "json",
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -100,6 +103,7 @@
 				success : function(data, textStatus) {
 					if(data.rspCode == '000000'){
 						toastr.success('已回复！', '操作成功');
+						_form[0].reset(); 
 						if( _this.hasClass('in')){
 							_this.removeClass('in');
 						}
