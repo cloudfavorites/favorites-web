@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.domain.CollectRepository;
+import com.favorites.domain.Config;
+import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -30,6 +32,8 @@ public class FavoritesController extends BaseController{
 	private FavoritesService favoritesService;
 	@Autowired
 	private CollectRepository collectRepository;
+	@Autowired
+	private ConfigRepository configRespository;
 	
 	/**
 	 * 添加
@@ -118,6 +122,14 @@ public class FavoritesController extends BaseController{
 			favoritesRepository.delete(id);
 			// 删除该收藏夹下文章
 			collectRepository.deleteByFavoritesId(id);
+			Config config = configRespository.findByUserIdAndDefaultFavorties(getUserId(),String.valueOf(id));
+			if(null != config){
+				// 默认收藏夹被删除，设置“未读列表”为默认收藏夹
+				Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "未读列表");
+				if(null != favorites){
+					configRespository.updateFavoritesById(config.getId(), String.valueOf(favorites.getId()), DateUtils.getCurrentTime());
+				}
+			}
 		} catch (Exception e) {
 			logger.error("删除异常：",e);
 		}
