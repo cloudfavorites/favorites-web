@@ -193,7 +193,7 @@ public class CollectController extends BaseController{
 	public Response delete(@PathVariable("id") long id) {
 		Collect collect = collectRepository.findOne(id);
 		collectRepository.deleteById(id);
-		if(null != collect && null != collect.getFavoritesId()){
+		if(null != collect && null != collect.getFavoritesId() && !"yes".equals(collect.getIsDelete())){
 			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 		}
 		return result();

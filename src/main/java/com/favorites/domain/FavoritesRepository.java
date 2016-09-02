@@ -32,4 +32,6 @@ public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
 	@Transactional
 	@Query("update Favorites set name=:name ,lastModifyTime=:lastModifyTime where id=:id")
 	void updateNameById(@Param("id") Long id,@Param("lastModifyTime") Long lastModifyTime,@Param("name") String name);
+	@Query("select id from Favorites where name=?1")
+	List<Long> findIdByName(String name);
 }

@@ -15,22 +15,27 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	public String baseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,u.profilePicture as profilePicture,f.id as favoriteId,f.name as favoriteName "
-			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id";
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.isDelete='no'";
 	
-	Long countByUserId(Long userId);
+	public String isDeleteBaseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
+			+ "u.userName as userName,u.profilePicture as profilePicture,f.id as favoriteId,f.name as favoriteName "
+			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.isDelete='yes'";
 	
-	Long countByUserIdAndType(Long userId,String type);
+	Long countByUserIdAndIsDelete(Long userId,String isDelete);
+	
+	Long countByUserIdAndTypeAndIsDelete(Long userId,String type,String isDelete);
 	
 	Collect findByIdAndUserId(Long id,Long userId);
 	 
 	@Transactional
     Long deleteById(Long id);
 	
-	Page<Collect> findByFavoritesId(Long favoritesId,Pageable pageable);
+	Page<Collect> findByFavoritesIdAndIsDelete(Long favoritesId,Pageable pageable,String isDelete);
 	
-	List<Collect> findByFavoritesId(Long favoritesId);
+	List<Collect> findByFavoritesIdAndIsDelete(Long favoritesId,String isDelete);
 	
-	List<Collect> findByFavoritesIdAndUrlAndUserId(Long favoritesId,String url,Long userId);
+	List<Collect> findByFavoritesIdAndUrlAndUserIdAndIsDelete(Long favoritesId,String url,Long userId,String isDelete);
 	
 	@Transactional
 	@Modifying
@@ -44,6 +49,9 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	
 	@Query(baseSql+ " and c.userId=?1 ")
 	Page<CollectView> findViewByUserId(Long userId,Pageable pageable);
+	
+	@Query(isDeleteBaseSql+ " and c.userId=?1 ")
+	Page<CollectView> findViewByUserIdAndIsDelete(Long userId,Pageable pageable);
 	
 	@Query(baseSql+ " and c.userId=?1 and c.type=?2")
 	Page<CollectView> findViewByUserIdAndType(Long userId,Pageable pageable,String type);
@@ -67,5 +75,12 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Query(baseSql+ " and c.type='public' and c.userId!=?1 and ( c.title like ?2 or c.description like ?2) ")
 	Page<CollectView> searchOtherByKey(Long userId, String key,Pageable pageable);
 	
-	Long countByFavoritesIdAndType(Long favoritesId,String type);
+	Long countByFavoritesIdAndTypeAndIsDelete(Long favoritesId,String type,String isDelete);
+	
+	List<Collect> findByCreateTimeLessThanAndIsDeleteAndFavoritesIdIn(Long createTime,String isDelete,List<Long> favoritesIds);
+	
+	@Transactional
+	@Modifying
+	@Query("update Collect c set c.isDelete = ?1,c.lastModifyTime = ?2 where c.id = ?3")
+	int modifyIsDeleteById(String isDelete,Long lastModifyTime,Long id);
 }
