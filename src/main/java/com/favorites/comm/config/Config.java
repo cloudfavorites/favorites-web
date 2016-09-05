@@ -7,10 +7,18 @@ import org.springframework.stereotype.Component;
 public class Config{
 	
 	@Value("${favorites.file.save.path}")
+	public static String basePath;
+	@Value("${favorites.file.save.path}")
 	private String savePath;
 	@Value("${favorites.file.access.url}")
 	private String accessUrl;
 	
+	public static String getBasePath() {
+		return basePath;
+	}
+	public static void setBasePath(String basePath) {
+		Config.basePath = basePath;
+	}
 	public String getSavePath() {
 		return savePath;
 	}
