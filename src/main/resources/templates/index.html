@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+   <meta name="description" content="Bootstrap Admin App + jQuery" />
+   <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin" />
+   <title>Favorites</title>
+   <link rel="stylesheet" href="/vendor/fontawesome/css/font-awesome.min.css" />
+   <link rel="stylesheet" href="/vendor/simple-line-icons/css/simple-line-icons.css" />
+   <link rel="stylesheet" href="/vendor/animate.css/animate.min.css" />
+   <link rel="stylesheet" href="/vendor/magnific-popup/magnific-popup.css" />
+   <link rel="stylesheet" href="/media/css/bootstrap.css" />
+   <link rel="stylesheet" href="/css/index.css" />
+</head>
+<body>
+   <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+         <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-target="#bs-navbar-collapse" data-toggle="collapse">
+               <span class="sr-only">切换导航</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+            </button>
+            <a href="/index" class="navbar-brand">
+               <img src="img/logo-block.png" />
+            </a>
+         </div>
+         <div id="bs-navbar-collapse" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <!--  <li>
+                  <a href="#">随便看看</a>
+               </li> -->
+               <li>
+                  <a href="/login">登陆</a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </nav>
+   <div class="container-fluid">
+      <div class="row banner">
+         <div class="media hidden-xs center-block">
+            <div class="media-left">
+               <img src="https://spoon-static.b0.upaiyun.com/images/landing/devices.png" alt="" class="media-object" /></div>
+            <div class="media-body">
+               <p class="title">构建强大知识库</p>
+               <p class="title" style="margin-left:175px;">秀出你所长</p>
+               <p class="detail">方便地整理汇总散落各处的知识。适用于iPhone、Android和PC端，让你随时随地地记录与分享。</p>
+               <a href="/register" class="btn btn-default ms-button">&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;</a>
+               <!-- <a href="#mobile" class="btn btn-default pull-right ms-button">下载App</a> -->
+            </div>
+         </div>
+         <div class="visible-xs text-center">
+            <h1 style="margin-top:120px;">构建强大知识库</h1>
+            <h1 style="margin-bottom:80px;">秀出你所长</h1>
+            <a href="/register" class="btn btn-default xs-button" style="margin-bottom:40px;">&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;</a>
+            <br />
+            <a href="#mobile" class="btn btn-default xs-button">下载App</a>
+         </div>
+      </div>
+      <div class="row features">
+         <div class="col-sm-2"></div>
+         <div class="col-sm-2">
+            <img src="https://spoon-static.b0.upaiyun.com/images/landing/fast.png" alt="" class="center-block" />
+            <p class="title text-center">超便捷</p>
+            <p class="description text-center">强大便捷的收藏工具让你能够快速的收藏喜爱的内容</p>
+         </div>
+         <div class="col-sm-1"></div>
+         <div class="col-sm-2">
+            <img src="https://spoon-static.b0.upaiyun.com/images/landing/multi_devices.png" alt="" class="center-block" />
+            <p class="title text-center">多设备</p>
+            <p class="description text-center">支持iPhone、Android和PC。让你无论在什么设备都能访问自己的资料库</p>
+         </div>
+         <div class="col-sm-1"></div>
+         <div class="col-sm-2">
+            <img src="https://spoon-static.b0.upaiyun.com/images/landing/safe.png" alt="" class="center-block" />
+            <p class="title text-center">更安全</p>
+            <p class="description text-center">每天备份用户数据，保证用户数据不丢失</p>
+         </div>
+         <div class="col-sm-2"></div>
+      </div>
+      <div class="row social">
+         <img src="https://spoon-static.b0.upaiyun.com/images/landing/social.png" alt="" class="img-responsive" /></div>
+      <!-- <div class="row">
+         <a id="video" class="target-fix" name="video"></a>
+         <img src="https://spoon-static.b0.upaiyun.com/images/landing/video.png" alt="" class="img-responsive video-link" href="https://spoon-static.b0.upaiyun.com/introduction_video.mp4" /></div> -->
+      <div class="row mobiles">
+         <div class="col-lg-2 col-md-2">
+            <a id="mobile" class="target-fix" name="mobile"></a>
+         </div>
+         <!-- <div class="col-lg-4 col-md-4 text-center">
+            <a href="https://itunes.apple.com/cn/app/shao-zi/id925577809?l=zh&amp;ls=1&amp;mt=8" target="_blank">
+               <img src="https://spoon-static.b0.upaiyun.com/app/img/ios_qrcode.png" alt="" class="qrcode" /></a>
+            <p class="qrcode-text">
+               <a href="https://itunes.apple.com/cn/app/shao-zi/id925577809?l=zh&amp;ls=1&amp;mt=8" target="_blank">
+                  <img src="https://spoon-static.b0.upaiyun.com/app/img/ios_download_icon.png" alt="" /></a>
+            </p>
+         </div>
+         <div class="col-lg-4 col-md-4 text-center">
+            <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.mirroon.spoon" target="_blank">
+               <img src="https://spoon-static.b0.upaiyun.com/app/img/android_qrcode.png?v=201509011200" alt="" class="qrcode" /></a>
+            <p class="qrcode-text">
+               <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.mirroon.spoon" target="_blank">
+                  <img src="https://spoon-static.b0.upaiyun.com/app/img/android_download_icon.png" alt="" /></a>
+            </p>
+         </div> -->
+         <div class="col-lg-2 col-md-2"></div>
+      </div>
+   </div>
+   <hr />
+   <footer>
+	    <span>&copy; 2016 - Favorites</span>
+	    <span class="pull-right">
+	                  云收藏 | 让收藏更简单
+	    </span>
+	 </footer>
+   <script src="../vendor/jquery/dist/jquery.js"></script>
+   <script src="../vendor/bootstrap/dist/js/bootstrap.js"></script>
+   <script src="../vendor/magnific-popup/magnific-popup.min.js"></script>
+   <script type="text/javascript">
+   $(document).ready(function () {
+     $('.video-link').magnificPopup({type: 'iframe'});
+   });
+   </script>
+</body>
+</html>

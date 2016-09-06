@@ -39,9 +39,13 @@ public class IndexController extends BaseController{
 	@Autowired
 	private NoticeRepository noticeRepository;
 	
+	@RequestMapping(value="/index",method=RequestMethod.GET)
+	public String index(){
+		return "index";
+	}
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
-	public String index(Model model) {
+	public String home(Model model) {
 		//return "forward:/standard/my"; 
 		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),"no");
 		Config config = configRepository.findByUserId(getUserId());
@@ -107,7 +111,7 @@ public class IndexController extends BaseController{
 	public String logout() {
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LAST_REFERER);
-		return "login";
+		return "index";
 	}
 
 	@RequestMapping(value="/forgotPassword",method=RequestMethod.GET)

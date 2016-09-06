@@ -28,7 +28,7 @@ public class SecurityFilter implements Filter {
 		GreenUrlSet.add(Const.BASE_PATH + "/");
 		GreenUrlSet.add(Const.BASE_PATH + "/login");
 		GreenUrlSet.add(Const.BASE_PATH + "/register");
-		GreenUrlSet.add(Const.BASE_PATH + "/index.html");
+		GreenUrlSet.add(Const.BASE_PATH + "/index");
 		GreenUrlSet.add(Const.BASE_PATH + "/forgotPassword");
 		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
 	}
@@ -59,7 +59,7 @@ public class SecurityFilter implements Filter {
 				}
 	        	request.getSession().setAttribute(Const.LAST_REFERER, referer);
 	        	logger.debug("security filter, deney, " + request.getRequestURI());
-				String html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
+				String html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
 				html = html.replace("_BP_", Const.BASE_PATH);
 				sresponse.getWriter().write(html);
 	        }
@@ -104,7 +104,7 @@ public class SecurityFilter implements Filter {
     private boolean containsKey(String url) {
         if (url.contains("/media/")
                 || url.contains("/login")||url.contains("/user/login")
-                || url.contains("/register")||url.contains("/user/regist")
+                || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
                 || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
                 || url.contains("/newPassword")||url.contains("/user/setNewPassword")) {
             return true;
