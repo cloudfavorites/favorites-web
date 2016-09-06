@@ -39,8 +39,6 @@ public class HomeController extends BaseController{
 	private FollowRepository followRepository;
 	@Autowired
 	private NoticeService noticeService;
-	@Value("${dfs.url}")
-	private String dfsUrl;
 	
 	@RequestMapping(value="/standard/{type}/{userId}")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -249,7 +247,6 @@ public class HomeController extends BaseController{
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=noticeService.getNoticeCollects("at", getUserId(), pageable);
 		model.addAttribute("collects", collects);
-		model.addAttribute("dfsUrl",dfsUrl);
 		logger.info("at end :"+ getUserId());
 		return "notice/atme";
 	}
@@ -269,7 +266,6 @@ public class HomeController extends BaseController{
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=noticeService.getNoticeCollects("comment", getUserId(), pageable);
 		model.addAttribute("collects", collects);
-		model.addAttribute("dfsUrl",dfsUrl);
 		logger.info("at end :"+ getUserId());
 		return "notice/commentme";
 	}
@@ -289,7 +285,6 @@ public class HomeController extends BaseController{
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects=noticeService.getNoticeCollects("praise", getUserId(), pageable);
 		model.addAttribute("collects", collects);
-		model.addAttribute("dfsUrl",dfsUrl);
 		logger.info("at end :"+ getUserId());
 		return "notice/praiseme";
 	}

@@ -14,7 +14,7 @@
                                  <div class="table-grid table-grid-align-middle mb">
                                     <div class="col col-xxs">
                                        <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
-                                          <img th:src="${collect.profilePicture == null?'img/favicon.png':dfsUrl+collect.profilePicture}" alt="" class="media-object img-circle thumb48"/>
+                                          <img th:src="${collect.profilePicture == null?'img/favicon.png':collect.profilePicture}" alt="" class="media-object img-circle thumb48"/>
                                        </a>
                                     </div>
                                     <div class="col">

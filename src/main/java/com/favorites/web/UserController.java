@@ -53,10 +53,10 @@ public class UserController extends BaseController {
 	private String mailSubject;
 	@Value("${mail.content.forgotpassword}")
 	private String mailContent;
-	@Value("${group_server}")
-	private String groupServer;
-	@Value("${dfs.url}")
-	private String dfsUrl;
+	@Value("${static.url}")
+	private String staticUrl;
+	@Value("${file.profilepictures.url}")
+	private String fileProfilepicturesUrl;
 	@Autowired	
 	private ConfigRepository configRepository;
 	@Autowired
@@ -338,12 +338,14 @@ public class UserController extends BaseController {
 				if(!type.equals("jpg")&&!type.equals("png")&&!type.equals("jpeg")&&!type.equals("gif")&&!type.equals("bmp")){
 					return new ResponseData(ExceptionMsg.LimitPictureType);
 				}
-				String filePath = FileUtil.uploadFile(file, groupServer);
+				String path = staticUrl+fileProfilepicturesUrl+file.getOriginalFilename();
+				FileUtil.uploadFile(file.getBytes(), path);
+				String filePath = fileProfilepicturesUrl+file.getOriginalFilename();
 				User user = getUser();
 				userRepository.setProfilePicture(filePath, user.getId());
-				user.setProfilePicture(dfsUrl+filePath);
+				user.setProfilePicture(filePath);
 				getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
-				return new ResponseData(ExceptionMsg.SUCCESS, dfsUrl+filePath);
+				return new ResponseData(ExceptionMsg.SUCCESS, filePath);
 			} catch (Exception e) {
 				logger.error("upload head portrait failed, ", e);
 				return new ResponseData(ExceptionMsg.FAILED);
