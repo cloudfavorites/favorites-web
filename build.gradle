@@ -43,7 +43,6 @@ dependencies {
     compile("org.webjars:vue:1.0.24")
     compile 'org.webjars.bower:vue-resource:0.7.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
-    compile files('lib/fastdfs_client-1.25.jar')
 }
 
 bootRun {
