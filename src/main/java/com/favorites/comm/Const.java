@@ -1,10 +1,13 @@
 package com.favorites.comm;
 
-import com.favorites.comm.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Const {
 	
-	public static String BASE_PATH=Config.basePath;
+	public static String BASE_PATH;
 	
 	public static String LOGIN_SESSION_KEY = "Favorites_user";
 	
@@ -19,7 +22,10 @@ public class Const {
 	public static String LAST_REFERER = "LAST_REFERER";
 
 	
-	
+	  @Autowired(required = true)
+	  public void setBasePath(@Value("${favorites.base.path}")String basePath) {
+		  Const.BASE_PATH = basePath;
+	  }
 	
 	
 }

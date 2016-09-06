@@ -20,6 +20,8 @@ war {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories { 
     mavenCentral()
@@ -43,8 +45,13 @@ dependencies {
     compile("org.webjars:vue:1.0.24")
     compile 'org.webjars.bower:vue-resource:0.7.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 bootRun {
     addResources = true
+}
+
+springBoot {
+  mainClass = "com.favorites.Application"
 }

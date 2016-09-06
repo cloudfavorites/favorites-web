@@ -19,6 +19,17 @@ $(function(){
 		}
 	});
 	
+	$(document).bind('click', function() {  
+	    	$("#atFriend").hide();
+	});  
+	    $('#atshow').bind('click', function(e) {  
+	    	if(e.stopPropagation){ 
+	            e.stopPropagation();
+	    	}else{ 
+	           e.cancelBubble = true;
+	     	} 
+	    }); 
+	
 	$("#ccollect").click(function(){
 		 if($("#ctitle").val()==""){
 			 $("#errorMsg").text("标题不能为空");
