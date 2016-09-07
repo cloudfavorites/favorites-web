@@ -151,7 +151,7 @@ function initUserFavorites(favorites){
 		favorieshtml = favorieshtml + "<span class=\"media-body\">";
 		favorieshtml = favorieshtml + "<span class=\"media-heading\">";
 		favorieshtml = favorieshtml + " <strong>"+favorites[i].name+"</strong>";
-		if("yes" == $("#myself").val()){
+		if("YES" == $("#myself").val()){
 			favorieshtml = favorieshtml + "<small>"+favorites[i].count +"个收藏</small>";
 			totalCount = totalCount + favorites[i].count;
 		}else{
@@ -165,7 +165,7 @@ function initUserFavorites(favorites){
 	}
 	$("#totalCount").text(totalCount);
 	var allFavorites = "<strong>全部收藏</strong>";
-	if("yes" == $("#myself").val()){
+	if("YES" == $("#myself").val()){
 		allFavorites = allFavorites + "<small>"+totalCount+"个收藏</small>";
 	}else{
 		allFavorites = allFavorites + "<small>"+totalCount+"个公开收藏</small>";
