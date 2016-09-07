@@ -90,6 +90,7 @@ function loadFollows(){
 }
 
 function initFavorites(favorites){
+	$("#favoritesSelect").empty();  
 	for(var i=0;i<favorites.length;i++){
 		var id = favorites[i].id ;
 		var name = favorites[i].name;

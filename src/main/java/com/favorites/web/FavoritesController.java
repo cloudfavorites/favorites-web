@@ -150,7 +150,7 @@ public class FavoritesController extends BaseController{
 				id = userId;
 			}
 			favorites = favoritesRepository.findByUserIdOrderByIdDesc(id);
-			if(userId != getUserId()){
+			if(!getUserId().equals(userId)){
 				for(Favorites favorites2 : favorites){
 					favorites2.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites2.getId(), "public","no"));
 				}

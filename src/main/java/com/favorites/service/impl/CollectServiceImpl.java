@@ -174,7 +174,7 @@ public class CollectServiceImpl implements CollectService {
 	@Transactional
 	public void updateCollect(Collect newCollect) {
 		Collect collect=collectRepository.findOne(newCollect.getId());
-		if(collect.getFavoritesId()!=newCollect.getFavoritesId() && !"yes".equals(collect.getIsDelete())){
+		if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !"yes".equals(collect.getIsDelete())){
 			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 		}
 		if("yes".equals(collect.getIsDelete())){
