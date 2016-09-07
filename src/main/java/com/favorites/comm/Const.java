@@ -23,7 +23,7 @@ public class Const {
 
 	
 	  @Autowired(required = true)
-	  public static void setBasePath(@Value("${favorites.base.path}")String basePath) {
+	  public void setBasePath(@Value("${favorites.base.path}")String basePath) {
 		  Const.BASE_PATH = basePath;
 	  }
 	
