@@ -307,6 +307,7 @@ function updateFavorites(){
 			},
 			success: function(response){
 				if(response.rspCode == '000000'){
+					 $("input[name='favoritesName']").val("");
 					 loadFavorites();
 					 locationUrl("/standard/" + $("#favoritesId").val() + "/0",$("#favoritesId").val());
 					 $("#updateFavoritesBtn").attr("aria-hidden","true");

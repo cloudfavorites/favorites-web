@@ -86,12 +86,12 @@ public class IndexController extends BaseController{
 	
 	@RequestMapping(value="/import")
 	public String importm() {
-		return "import";
+		return "favorites/import";
 	}
 	
 	@RequestMapping(value="/newFavorites")
 	public String newFavorites(){
-		return "newfavorites";
+		return "favorites/newfavorites";
 	}
 	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
@@ -134,7 +134,7 @@ public class IndexController extends BaseController{
 	public String export(Model model){
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
 		model.addAttribute("favoritesList",favoritesList);
-		return "export";
+		return "favorites/export";
 	}
 	
 }
