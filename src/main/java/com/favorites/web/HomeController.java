@@ -19,6 +19,8 @@ import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.FollowRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.service.CollectService;
 import com.favorites.service.NoticeService;
 
@@ -49,7 +51,7 @@ public class HomeController extends BaseController{
 		if(!"my".equals(type)&&!"explore".equals(type) && !"garbage".equals(type)){
 			try {
 				favorites = favoritesRepository.findOne(Long.parseLong(type));
-				favorites.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites.getId(), "public","no"));
+				favorites.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites.getId(), CollectType.PUBLIC,IsDelete.NO));
 			} catch (Exception e) {
 				logger.error("获取收藏夹异常：",e);
 			}
@@ -82,7 +84,7 @@ public class HomeController extends BaseController{
 		if(!"my".equals(type)&&!"explore".equals(type) && !"garbage".equals(type)){
 			try {
 				favorites = favoritesRepository.findOne(Long.parseLong(type));
-				favorites.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites.getId(), "public","no"));
+				favorites.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites.getId(), CollectType.PUBLIC, IsDelete.NO));
 			} catch (Exception e) {
 				logger.error("获取收藏夹异常：",e);
 			}
@@ -123,7 +125,7 @@ public class HomeController extends BaseController{
 	    Integer isFollow = 0;
 		if(getUserId().longValue() == userId.longValue()){
 			model.addAttribute("myself","yes");
-			collectCount = collectRepository.countByUserIdAndIsDelete(userId,"no");
+			collectCount = collectRepository.countByUserIdAndIsDelete(userId,IsDelete.NO);
 			if(0 == favoritesId){
 				collects =collectService.getCollects("myself", userId, pageable,null);
 			}else{
@@ -131,7 +133,7 @@ public class HomeController extends BaseController{
 			}
 		}else{
 			model.addAttribute("myself","no");
-			collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, "public","no");
+			collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
 			if(favoritesId == 0){
 				collects =collectService.getCollects("others", userId, pageable,null);
 			}else{
@@ -176,7 +178,7 @@ public class HomeController extends BaseController{
 		    List<CollectSummary> collects = null;
 			if(getUserId().longValue() == userId.longValue()){
 				model.addAttribute("myself","yes");
-				collectCount = collectRepository.countByUserIdAndIsDelete(userId,"no");
+				collectCount = collectRepository.countByUserIdAndIsDelete(userId, IsDelete.NO);
 				if(0 == favoritesId){
 					collects =collectService.getCollects("myself", userId, pageable,null);
 				}else{
@@ -184,7 +186,7 @@ public class HomeController extends BaseController{
 				}
 			}else{
 				model.addAttribute("myself","no");
-				collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, "public","no");
+				collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
 				if(favoritesId == 0){
 					collects =collectService.getCollects("others", userId, pageable,null);
 				}else{

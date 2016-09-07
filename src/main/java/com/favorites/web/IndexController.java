@@ -19,6 +19,7 @@ import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.FollowRepository;
 import com.favorites.domain.NoticeRepository;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.service.CollectService;
 import com.favorites.utils.HtmlUtil;
 
@@ -47,7 +48,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String home(Model model) {
 		//return "forward:/standard/my"; 
-		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),"no");
+		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),IsDelete.NO);
 		Config config = configRepository.findByUserId(getUserId());
 		Favorites favorites = favoritesRepository.findOne(Long.parseLong(config.getDefaultFavorties()));
 		List<String> followList = followRepository.findByUserId(getUserId());

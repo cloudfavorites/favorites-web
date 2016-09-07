@@ -63,7 +63,7 @@
                      </ul>
                   </div>
                   <label style="font-weight:normal;margin-bottom:0;">
-                     <input id="type" type="checkbox" name="type" class="mb" value="private" /> 私密收藏</label>
+                  <input id="type" type="checkbox" name="type" class="mb" value="PRIVITE" /> 私密收藏</label>
                <p class="pt-lg text-center">选择一个收藏夹</p>
                <select  name="favoritesId" id="favoritesId" class="mb form-control">
                   <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>

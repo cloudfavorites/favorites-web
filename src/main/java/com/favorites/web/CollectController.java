@@ -30,6 +30,7 @@ import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.Praise;
 import com.favorites.domain.PraiseRepository;
+import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.service.CollectService;
@@ -157,8 +158,8 @@ public class CollectController extends BaseController{
 	 * @param type
 	 */
 	@RequestMapping(value="/changePrivacy/{id}/{type}")
-	public Response changePrivacy(@PathVariable("id") long id,@PathVariable("type") String type) {
-		collectRepository.modifyById(type, id);
+	public Response changePrivacy(@PathVariable("id") long id,@PathVariable("type") CollectType type) {
+		collectRepository.modifyByIdAndUserId(type, id, getUserId());
 		return result();
 	}
 	
@@ -200,10 +201,13 @@ public class CollectController extends BaseController{
 	@RequestMapping(value="/delete/{id}")
 	public Response delete(@PathVariable("id") long id) {
 		Collect collect = collectRepository.findOne(id);
-		collectRepository.deleteById(id);
-		if(null != collect && null != collect.getFavoritesId() && !"yes".equals(collect.getIsDelete())){
-			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+		if(collect.getUserId().equals(getUserId())){
+			collectRepository.deleteById(id);
+			if(null != collect && null != collect.getFavoritesId() && !"yes".equals(collect.getIsDelete())){
+				favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+			}
 		}
+	
 		return result();
 	}
 	

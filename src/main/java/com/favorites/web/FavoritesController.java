@@ -16,6 +16,8 @@ import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
@@ -152,7 +154,7 @@ public class FavoritesController extends BaseController{
 			favorites = favoritesRepository.findByUserIdOrderByIdDesc(id);
 			if(!getUserId().equals(userId)){
 				for(Favorites favorites2 : favorites){
-					favorites2.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites2.getId(), "public","no"));
+					favorites2.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites2.getId(), CollectType.PUBLIC,IsDelete.NO));
 				}
 			}
 		} catch (Exception e) {

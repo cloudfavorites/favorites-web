@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.utils.DateUtils;
 @Component
 public class ScheduledTasks {
@@ -30,11 +31,11 @@ public class ScheduledTasks {
     public void autoRecovery() {
 		Long date = new Date().getTime() - 20*24*60*60*1000;
 		List<Long> favoritesId = favoritesRespository.findIdByName("未读列表");
-		List<Collect> collectList = collectRespository.findByCreateTimeLessThanAndIsDeleteAndFavoritesIdIn(date, "no",favoritesId);
+		List<Collect> collectList = collectRespository.findByCreateTimeLessThanAndIsDeleteAndFavoritesIdIn(date, IsDelete.NO,favoritesId);
 		for(Collect collect : collectList){
 			try {
 				logger.info("文章id:" + collect.getId());
-				collectRespository.modifyIsDeleteById("yes", DateUtils.getCurrentTime(), collect.getId());
+				collectRespository.modifyIsDeleteById(IsDelete.YES, DateUtils.getCurrentTime(), collect.getId());
 				favoritesRespository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 			} catch (Exception e) {
 				logger.error("回收站定时任务异常：",e);

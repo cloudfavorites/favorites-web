@@ -25,6 +25,8 @@ import com.favorites.domain.Praise;
 import com.favorites.domain.PraiseRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
 import com.favorites.service.NoticeService;
@@ -78,9 +80,9 @@ public class CollectServiceImpl implements CollectService {
 		} else if ("explore".equals(type)) {
 			views = collectRepository.findExploreView(userId,pageable);
 		} else if("others".equals(type)){
-			views = collectRepository.findViewByUserIdAndType(userId, pageable, "public");
+			views = collectRepository.findViewByUserIdAndType(userId, pageable, CollectType.PUBLIC);
 		} else if("otherpublic".equals(type)){
-			views = collectRepository.findViewByUserIdAndTypeAndFavoritesId(userId, pageable, "public", favoritesId);
+			views = collectRepository.findViewByUserIdAndTypeAndFavoritesId(userId, pageable, CollectType.PUBLIC, favoritesId);
 		} else if("garbage".equals(type)){
 			views = collectRepository.findViewByUserIdAndIsDelete(userId, pageable);
 		}else {
@@ -154,9 +156,9 @@ public class CollectServiceImpl implements CollectService {
 		updatefavorites(collect,false);
 		collect.setCreateTime(DateUtils.getCurrentTime());
 		collect.setLastModifyTime(DateUtils.getCurrentTime());
-		collect.setIsDelete("no");
-		if (StringUtils.isBlank(collect.getType())) {
-			collect.setType("public");
+		collect.setIsDelete(IsDelete.NO);
+		if (collect.getType()==null) {
+			collect.setType(CollectType.PUBLIC);
 		}
 		if(StringUtils.isBlank(collect.getDescription())){
 			collect.setDescription(collect.getTitle());
@@ -174,11 +176,11 @@ public class CollectServiceImpl implements CollectService {
 	@Transactional
 	public void updateCollect(Collect newCollect) {
 		Collect collect=collectRepository.findOne(newCollect.getId());
-		if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !"yes".equals(collect.getIsDelete())){
+		if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !IsDelete.YES.equals(collect.getIsDelete())){
 			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 		}
-		if("yes".equals(collect.getIsDelete())){
-			collect.setIsDelete("no");
+		if(IsDelete.YES.equals(collect.getIsDelete())){
+			collect.setIsDelete(IsDelete.NO);
 		}
 		collect.setNewFavorites(newCollect.getNewFavorites());
 		updatefavorites(collect,true);
@@ -186,8 +188,8 @@ public class CollectServiceImpl implements CollectService {
 		collect.setDescription(newCollect.getDescription());
 		collect.setLogoUrl(newCollect.getLogoUrl());
 		collect.setRemark(newCollect.getRemark());
-		if (StringUtils.isBlank(newCollect.getType())) {
-			collect.setType("public");
+		if (newCollect.getType()==null) {
+			collect.setType(CollectType.PUBLIC);
 		}
 		collect.setLastModifyTime(DateUtils.getCurrentTime());
 		collectRepository.save(collect);
@@ -211,8 +213,8 @@ public class CollectServiceImpl implements CollectService {
 		other.setDescription(collect.getDescription());
 		other.setLogoUrl(collect.getLogoUrl());
 		other.setRemark(collect.getRemark());
-		if (StringUtils.isBlank(collect.getType())) {
-			other.setType("public");
+		if (collect.getType()==null) {
+			other.setType(CollectType.PUBLIC);
 		}
 		other.setLastModifyTime(DateUtils.getCurrentTime());
 		other.setId(null);
@@ -233,7 +235,7 @@ public class CollectServiceImpl implements CollectService {
 			if(null == favorites){
 				return true;
 			}else{
-				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favorites.getId(), collect.getUrl(), collect.getUserId(),"no");
+				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favorites.getId(), collect.getUrl(), collect.getUserId(), IsDelete.NO);
 				if(null != list && list.size() > 0){
 					return false;
 				}else{
@@ -241,7 +243,7 @@ public class CollectServiceImpl implements CollectService {
 				}
 			}
 		}else{
-			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),"no");
+			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);
 			if(null != list && list.size() > 0){
 				return false;
 			}else{
@@ -255,7 +257,7 @@ public class CollectServiceImpl implements CollectService {
 	 */
 	public void importHtml(Map<String, String> map,Long favoritesId,Long userId){
 		for(Map.Entry<String, String> entry : map.entrySet()){
-			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favoritesId, entry.getKey(), userId,"no");
+			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favoritesId, entry.getKey(), userId,IsDelete.NO);
 			if(null != list && list.size() > 0){
 				logger.info("收藏夹：" + favoritesId + "中已经存在：" + entry.getKey() + "这个文章，不在进行导入操作");
 				continue;
@@ -275,9 +277,9 @@ public class CollectServiceImpl implements CollectService {
 					collect.setDescription(result.get("description"));
 				}
 				collect.setFavoritesId(favoritesId);
-				collect.setIsDelete("no");
+				collect.setIsDelete(IsDelete.NO);
 				collect.setLogoUrl(result.get("logoUrl"));
-				collect.setType("private");
+				collect.setType(CollectType.PRIVITE);
 				collect.setUrl(entry.getKey());
 				collect.setUserId(userId);
 				collect.setCreateTime(DateUtils.getCurrentTime());
@@ -299,7 +301,7 @@ public class CollectServiceImpl implements CollectService {
 		try {
 			Favorites favorites = favoritesRepository.findOne(favoritesId);
 			StringBuilder sb = new StringBuilder();
-			List<Collect> collects = collectRepository.findByFavoritesIdAndIsDelete(favoritesId,"no");
+			List<Collect> collects = collectRepository.findByFavoritesIdAndIsDelete(favoritesId,IsDelete.NO);
 			StringBuilder sbc = new StringBuilder();
 			for(Collect collect : collects){
 				sbc.append("<DT><A HREF=\""+collect.getUrl()+"\" TARGET=\"_blank\">"+collect.getTitle()+"</A></DT>");
