@@ -437,7 +437,7 @@ function listStandardCollect(collects,listId,user){
 			collect = "				  <if> "+
 			"				     | "+
 			"				  </if> "+
-			"                  <a class=\"sharing-action-button\">"+
+			"                  <a class=\"sharing-action-button\" onclick=\"getCollect("+collects[i].id+")\">"+
 			"                     <span class=\"fa fa-spoon\"></span>"+
 			"                   	    收藏"+
 			"                  </a>";
@@ -562,7 +562,7 @@ function listStandardCollect(collects,listId,user){
 			item=item+"	 <if> "+
 			"				     | "+
 			"				  </if> "+
-			"                  <a class=\"sharing-action-button\">"+
+			"                  <a class=\"sharing-action-button\" onclick=\"getCollect("+collects[i].id+")\">"+
 			"                     <span class=\"fa fa-spoon\"></span>"+
 			"                   	    收藏"+
 			"                  </a>";
