@@ -161,7 +161,7 @@ function changePrivacy(id,type){
 				console.log(errorThrown);
 			},
 			success: function(collect){
-				if(type=='public'){
+				if(type=='PUBLIC'){
 					$("#public"+id).hide();
 					$("#private"+id).show();
 				}else{
