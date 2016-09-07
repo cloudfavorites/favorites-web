@@ -151,7 +151,7 @@ public class CollectServiceImpl implements CollectService {
 	 */
 	@Transactional
 	public void saveCollect(Collect collect) {
-		updatefavorites(collect);
+		updatefavorites(collect,false);
 		collect.setCreateTime(DateUtils.getCurrentTime());
 		collect.setLastModifyTime(DateUtils.getCurrentTime());
 		collect.setIsDelete("no");
@@ -180,9 +180,8 @@ public class CollectServiceImpl implements CollectService {
 		if("yes".equals(collect.getIsDelete())){
 			collect.setIsDelete("no");
 		}
-		collect.setFavoritesId(newCollect.getFavoritesId());
 		collect.setNewFavorites(newCollect.getNewFavorites());
-		updatefavorites(collect);
+		updatefavorites(collect,true);
 		collect.setTitle(newCollect.getTitle());
 		collect.setDescription(newCollect.getDescription());
 		collect.setLogoUrl(newCollect.getLogoUrl());
@@ -207,7 +206,7 @@ public class CollectServiceImpl implements CollectService {
 	public void otherCollect(Collect collect,Collect other) {
 		other.setFavoritesId(collect.getFavoritesId());
 		other.setNewFavorites(collect.getNewFavorites());
-		updatefavorites(other);
+		updatefavorites(other,false);
 		other.setTitle(collect.getTitle());
 		other.setDescription(collect.getDescription());
 		other.setLogoUrl(collect.getLogoUrl());
@@ -320,16 +319,19 @@ public class CollectServiceImpl implements CollectService {
 	 * @date 2016年8月24日
 	 * @param collect
 	 */
-	private void  updatefavorites(Collect collect){
+	private void  updatefavorites(Collect collect,boolean isUpdate){
 		if (StringUtils.isNotBlank(collect.getNewFavorites())) {
 			Favorites favorites = favoritesRepository.findByUserIdAndName(collect.getUserId(), collect.getNewFavorites());
 			if (null == favorites) {
 				favorites = favoritesService.saveFavorites(collect.getUserId(), 1l,collect.getNewFavorites());
+				if(isUpdate){
+					favoritesRepository.reduceCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
+				}
 			} else {
 				favoritesRepository.increaseCountById(favorites.getId(),DateUtils.getCurrentTime());
 			}
 			collect.setFavoritesId(favorites.getId());
-		} else {
+		} else if(!isUpdate) {
 			favoritesRepository.increaseCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
 		}
 	}
