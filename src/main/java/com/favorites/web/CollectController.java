@@ -31,6 +31,7 @@ import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.Praise;
 import com.favorites.domain.PraiseRepository;
 import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.service.CollectService;
@@ -203,7 +204,7 @@ public class CollectController extends BaseController{
 		Collect collect = collectRepository.findOne(id);
 		if(collect.getUserId().equals(getUserId())){
 			collectRepository.deleteById(id);
-			if(null != collect && null != collect.getFavoritesId() && !"yes".equals(collect.getIsDelete())){
+			if(null != collect && null != collect.getFavoritesId() && !IsDelete.YES.equals(collect.getIsDelete())){
 				favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 			}
 		}
@@ -233,7 +234,7 @@ public class CollectController extends BaseController{
 	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure){
 		logger.info("path:" + htmlFile.getOriginalFilename() + "----structure:" + structure);
 		try {
-			if(StringUtils.isNotBlank(structure)&& "yes".equals(structure)){
+			if(StringUtils.isNotBlank(structure)&& IsDelete.YES.equals(structure)){
 				// 按照目录结构导入
 				Map<String, Map<String, String>> map = HtmlUtil.parseHtmlTwo(htmlFile.getInputStream());
 				if(null == map || map.isEmpty()){

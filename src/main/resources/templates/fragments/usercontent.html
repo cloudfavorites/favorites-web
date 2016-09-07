@@ -21,7 +21,7 @@
 	          <div class="popover-content">
 	             <div class="table-grid">
 	                <div class="col">
-	                   <div class="pull-right dropdown dropdown-list" th:if="${myself=='yes'}">
+	                   <div class="pull-right dropdown dropdown-list" th:if="${myself=='YES'}">
 	                      <a href="#" data-toggle="dropdown" class="sharing-more-button" >
 	                         <span class="fa fa-angle-down"></span>
 	                      </a>
@@ -60,7 +60,7 @@
 	                   </div>
 	                   <div class="m0">
 	                      <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '\',\'\');'" >user name</a>
-	                      <a th:if="${myself=='yes'}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
+	                      <a th:if="${myself=='YES'}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
 	                         <span class="fa fa-lock" style="color: #eee;"></span>
 	                               </a>
 	                               <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='public' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'public\');'">
@@ -168,9 +168,9 @@
 		             <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
 		          <td width="15%" class="text-center">
 		             <div>
-		                <a th:if="${myself=='yes'}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ',\'usercontent\');'" > <i class="fa fa-pencil"></i>
+		                <a th:if="${myself=='YES'}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ',\'usercontent\');'" > <i class="fa fa-pencil"></i>
 		                </a>
-		                <a th:if="${myself=='yes'}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ',\'usercontent\');'"> <i class="fa fa-trash text-danger"></i>
+		                <a th:if="${myself=='YES'}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ',\'usercontent\');'"> <i class="fa fa-trash text-danger"></i>
 		                </a>
 		             </div>
 		          </td>
@@ -181,8 +181,8 @@
      <button th:if="${collects.size() == 15}" id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadSimpleMore();'">加载更多</button>
 	 <input type="hidden" name="forward" id="forward" th:value="'/usercontent/'+${user.id}+'/0'" />
 	 <input type="hidden" id="userId" th:value="${user.id}"/>
-	 <input type="hidden" th:if="${myself=='yes'}" name="pageType" id="pageType" value="myself" />
-	 <input type="hidden" th:if="${myself=='no'}" name="pageType" id="pageType" value="otherpublic" />
+	 <input type="hidden" th:if="${myself=='YES'}" name="pageType" id="pageType" value="myself" />
+	 <input type="hidden" th:if="${myself=='NO'}" name="pageType" id="pageType" value="otherpublic" />
 	 <input type="hidden" id="userContent" value="usercontent"/>
 	 <input type="hidden" id="userFavoritesId" th:value="${favoritesId}"/>
 	 <input type="hidden" id="loginUser" th:value="${loginUser.id}"/>

@@ -124,7 +124,7 @@ public class HomeController extends BaseController{
 	    List<CollectSummary> collects = null;
 	    Integer isFollow = 0;
 		if(getUserId().longValue() == userId.longValue()){
-			model.addAttribute("myself","yes");
+			model.addAttribute("myself",IsDelete.YES.toString());
 			collectCount = collectRepository.countByUserIdAndIsDelete(userId,IsDelete.NO);
 			if(0 == favoritesId){
 				collects =collectService.getCollects("myself", userId, pageable,null);
@@ -177,7 +177,7 @@ public class HomeController extends BaseController{
 		    Pageable pageable = new PageRequest(page, size, sort);
 		    List<CollectSummary> collects = null;
 			if(getUserId().longValue() == userId.longValue()){
-				model.addAttribute("myself","yes");
+				model.addAttribute("myself",IsDelete.YES.toString());
 				collectCount = collectRepository.countByUserIdAndIsDelete(userId, IsDelete.NO);
 				if(0 == favoritesId){
 					collects =collectService.getCollects("myself", userId, pageable,null);
