@@ -90,6 +90,7 @@ function loadFollows(){
 }
 
 function initFavorites(favorites){
+	$("#favoritesSelect").empty();  
 	for(var i=0;i<favorites.length;i++){
 		var id = favorites[i].id ;
 		var name = favorites[i].name;
@@ -150,7 +151,7 @@ function initUserFavorites(favorites){
 		favorieshtml = favorieshtml + "<span class=\"media-body\">";
 		favorieshtml = favorieshtml + "<span class=\"media-heading\">";
 		favorieshtml = favorieshtml + " <strong>"+favorites[i].name+"</strong>";
-		if("yes" == $("#myself").val()){
+		if("YES" == $("#myself").val()){
 			favorieshtml = favorieshtml + "<small>"+favorites[i].count +"个收藏</small>";
 			totalCount = totalCount + favorites[i].count;
 		}else{
@@ -164,7 +165,7 @@ function initUserFavorites(favorites){
 	}
 	$("#totalCount").text(totalCount);
 	var allFavorites = "<strong>全部收藏</strong>";
-	if("yes" == $("#myself").val()){
+	if("YES" == $("#myself").val()){
 		allFavorites = allFavorites + "<small>"+totalCount+"个收藏</small>";
 	}else{
 		allFavorites = allFavorites + "<small>"+totalCount+"个公开收藏</small>";
@@ -306,6 +307,7 @@ function updateFavorites(){
 			},
 			success: function(response){
 				if(response.rspCode == '000000'){
+					 $("input[name='favoritesName']").val("");
 					 loadFavorites();
 					 locationUrl("/standard/" + $("#favoritesId").val() + "/0",$("#favoritesId").val());
 					 $("#updateFavoritesBtn").attr("aria-hidden","true");

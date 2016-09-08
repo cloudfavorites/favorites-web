@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.favorites.comm.Const;
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Config;
@@ -19,6 +20,7 @@ import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.FollowRepository;
 import com.favorites.domain.NoticeRepository;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.service.CollectService;
 import com.favorites.utils.HtmlUtil;
 
@@ -40,14 +42,16 @@ public class IndexController extends BaseController{
 	private NoticeRepository noticeRepository;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
+	@LoggerManage(description="首页")
 	public String index(){
 		return "index";
 	}
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
+	@LoggerManage(description="登陆后首页")
 	public String home(Model model) {
 		//return "forward:/standard/my"; 
-		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),"no");
+		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),IsDelete.NO);
 		Config config = configRepository.findByUserId(getUserId());
 		Favorites favorites = favoritesRepository.findOne(Long.parseLong(config.getDefaultFavorties()));
 		List<String> followList = followRepository.findByUserId(getUserId());
@@ -64,36 +68,43 @@ public class IndexController extends BaseController{
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)
+	@LoggerManage(description="登陆页面")
 	public String login() {
 		return "login";
 	}
 	
 	@RequestMapping(value="/register",method=RequestMethod.GET)
+	@LoggerManage(description="注册页面")
 	public String regist() {
 		return "register";
 	}
 	
 	@RequestMapping(value="/tool")
+	@LoggerManage(description="工具页面")
 	public String tool() {
 		return "tool";
 	}
 	
 	@RequestMapping(value="/mobile")
+	@LoggerManage(description="移动客户端页面")
 	public String mobile() {
 		return "mobile";
 	}
 	
 	@RequestMapping(value="/import")
+	@LoggerManage(description="收藏夹导入页面")
 	public String importm() {
-		return "import";
+		return "favorites/import";
 	}
 	
 	@RequestMapping(value="/newFavorites")
+	@LoggerManage(description="新建收藏夹页面")
 	public String newFavorites(){
-		return "newfavorites";
+		return "favorites/newfavorites";
 	}
 	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
+	@LoggerManage(description="收藏页面")
 	public String collect(Model model,Collect collect) {
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
 		Config config = configRepository.findByUserId(getUserId());
@@ -108,6 +119,7 @@ public class IndexController extends BaseController{
 	}
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
+	@LoggerManage(description="登出")
 	public String logout() {
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LAST_REFERER);
@@ -115,6 +127,7 @@ public class IndexController extends BaseController{
 	}
 
 	@RequestMapping(value="/forgotPassword",method=RequestMethod.GET)
+	@LoggerManage(description="忘记密码页面")
 	public String forgotPassword() {
 		return "forgotpassword";
 	}
@@ -130,10 +143,11 @@ public class IndexController extends BaseController{
 	}
 	
 	@RequestMapping(value="/export")
+	@LoggerManage(description="收藏夹导出页面")
 	public String export(Model model){
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
 		model.addAttribute("favoritesList",favoritesList);
-		return "export";
+		return "favorites/export";
 	}
 	
 }

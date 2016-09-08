@@ -67,6 +67,75 @@
          </div>
       </div>
    </div>
+   
+   <div id="modal-changeFavName" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改收藏夹名</h4>
+            </div>
+            <form id="updateFavoritesForm" data-parsley-validate="true" onsubmit="return false">
+            <div class="modal-body">
+            	<div id="updateErrorMsg" class="alert alert-danger text-center" style="display:none;"></div>
+               <div class="form-group has-feedback">
+                  <input type="text" name="favoritesName" placeholder="新收藏夹名" class="form-control" data-parsley-error-message="请输入新收藏夹名" required="required"/>
+                  <span class="fa fa-folder form-control-feedback text-muted"></span>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button id="updateFavoritesBtn" onclick="updateFavorites()" class="btn btn-block btn-primary mt-lg">确定</button>
+            </div>
+            <input type="hidden" name="favoritesId" id="favoritesId" />
+            </form>
+         </div>
+      </div>
+   </div>
+   <div id="modal-removeFav" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">删除收藏夹名</h4>
+            </div>
+            <div class="modal-body">
+               <p>删除收藏夹将删除该收藏下所有收藏，且无法找回，是否继续？</p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn">取消</button>
+               <button id="delFavoritesBtn" onclick="delFavorites()" type="button" class="btn btn-danger">删除收藏夹</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-defaultFav" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">选择默认收藏夹</h4>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <select name="layoutFavoritesName" id="layoutFavoritesName" class="form-control">
+                     <option value="未读列表">未读列表</option>
+                  </select>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id="updateFavoritestBtn" onclick="changeConfig('defaultFavorites')" class="btn btn-primary">确定</button>
+               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <input type="hidden" id="layoutConfigId" name="layoutConfigId"/>
   </div> 
 </body>
 </html>

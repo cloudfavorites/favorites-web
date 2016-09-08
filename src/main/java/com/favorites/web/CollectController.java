@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.CollectSummary;
@@ -30,6 +31,8 @@ import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.Praise;
 import com.favorites.domain.PraiseRepository;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.service.CollectService;
@@ -60,8 +63,8 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "/collect", method = RequestMethod.POST)
-	public Response collect(Collect collect) {
-		logger.info("collect begin, param is " + collect);
+	@LoggerManage(description="文章收集")
+	public Response collect(Collect collect) {		
 		try {
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
@@ -69,9 +72,7 @@ public class CollectController extends BaseController{
 				if(collect.getId()==null){
 					collectService.saveCollect(collect);
 				}else if(exist==null){//收藏别人的文章
-					Collect other=collectRepository.findOne(collect.getId());
-					other.setUserId(getUserId());
-					collectService.otherCollect(collect,other);
+					collectService.otherCollect(collect);
 				}else{
 					collectService.updateCollect(collect);
 				}
@@ -96,6 +97,7 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/standard/{type}/{favoritesId}/{userId}")
+	@LoggerManage(description="文章列表standard")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
 	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
@@ -128,6 +130,7 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/simple/{type}/{favoritesId}/{userId}")
+	@LoggerManage(description="文章列表simple")
 	public List<CollectSummary> simple(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
 	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
@@ -157,8 +160,8 @@ public class CollectController extends BaseController{
 	 * @param type
 	 */
 	@RequestMapping(value="/changePrivacy/{id}/{type}")
-	public Response changePrivacy(@PathVariable("id") long id,@PathVariable("type") String type) {
-		collectRepository.modifyById(type, id);
+	public Response changePrivacy(@PathVariable("id") long id,@PathVariable("type") CollectType type) {
+		collectRepository.modifyByIdAndUserId(type, id, getUserId());
 		return result();
 	}
 	
@@ -200,10 +203,13 @@ public class CollectController extends BaseController{
 	@RequestMapping(value="/delete/{id}")
 	public Response delete(@PathVariable("id") long id) {
 		Collect collect = collectRepository.findOne(id);
-		collectRepository.deleteById(id);
-		if(null != collect && null != collect.getFavoritesId() && !"yes".equals(collect.getIsDelete())){
-			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+		if(collect.getUserId().equals(getUserId())){
+			collectRepository.deleteById(id);
+			if(null != collect && null != collect.getFavoritesId() && !IsDelete.YES.equals(collect.getIsDelete())){
+				favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+			}
 		}
+	
 		return result();
 	}
 	
@@ -226,10 +232,10 @@ public class CollectController extends BaseController{
 	 * @param path
 	 */
 	@RequestMapping("/import")
-	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure){
-		logger.info("path:" + htmlFile.getOriginalFilename() + "----structure:" + structure);
+	@LoggerManage(description="导入收藏夹操作")
+	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure,String type){
 		try {
-			if(StringUtils.isNotBlank(structure)&& "yes".equals(structure)){
+			if(StringUtils.isNotBlank(structure)&& IsDelete.YES.toString().equals(structure)){
 				// 按照目录结构导入
 				Map<String, Map<String, String>> map = HtmlUtil.parseHtmlTwo(htmlFile.getInputStream());
 				if(null == map || map.isEmpty()){
@@ -242,7 +248,7 @@ public class CollectController extends BaseController{
 						if(null == favorites){
 							favorites = favoritesService.saveFavorites(getUserId(), 0l, favoritesName);
 						}
-						collectService.importHtml(entry.getValue(), favorites.getId(), getUserId());
+						collectService.importHtml(entry.getValue(), favorites.getId(), getUserId(),type);
 				} 
 			}else{
 				Map<String, String> map = HtmlUtil.parseHtmlOne(htmlFile.getInputStream());
@@ -255,7 +261,7 @@ public class CollectController extends BaseController{
 				if(null == favorites){
 					favorites = favoritesService.saveFavorites(getUserId(), 0l, "导入自浏览器");
 				}
-				collectService.importHtml(map, favorites.getId(), getUserId());
+				collectService.importHtml(map, favorites.getId(), getUserId(),type);
 			}
 		} catch (Exception e) {
 			logger.error("导入html异常:",e);
@@ -268,8 +274,8 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/export")
+	@LoggerManage(description="导出收藏夹操作")
 	public void export(String favoritesId,HttpServletResponse response){
-		logger.info("favoritesId:" + favoritesId);
 		if(StringUtils.isNotBlank(favoritesId)){
 			try {
 				String[] ids = favoritesId.split(",");

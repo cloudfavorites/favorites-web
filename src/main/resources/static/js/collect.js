@@ -143,6 +143,7 @@ function getCollect(id,user){
 				}
 				$("#newFavorites").val("");
 				$("#userCheck").val(user);
+				loadFollows();
 			}
 		});
 }
@@ -161,7 +162,7 @@ function changePrivacy(id,type){
 				console.log(errorThrown);
 			},
 			success: function(collect){
-				if(type=='public'){
+				if(type=='PUBLIC'){
 					$("#public"+id).hide();
 					$("#private"+id).show();
 				}else{
@@ -437,7 +438,7 @@ function listStandardCollect(collects,listId,user){
 			collect = "				  <if> "+
 			"				     | "+
 			"				  </if> "+
-			"                  <a class=\"sharing-action-button\">"+
+			"                  <a class=\"sharing-action-button\" onclick=\"getCollect("+collects[i].id+")\">"+
 			"                     <span class=\"fa fa-spoon\"></span>"+
 			"                   	    收藏"+
 			"                  </a>";
@@ -562,7 +563,7 @@ function listStandardCollect(collects,listId,user){
 			item=item+"	 <if> "+
 			"				     | "+
 			"				  </if> "+
-			"                  <a class=\"sharing-action-button\">"+
+			"                  <a class=\"sharing-action-button\" onclick=\"getCollect("+collects[i].id+")\">"+
 			"                     <span class=\"fa fa-spoon\"></span>"+
 			"                   	    收藏"+
 			"                  </a>";

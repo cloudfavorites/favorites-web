@@ -4,9 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 
 @Entity
 public class Collect  implements Serializable {
@@ -29,12 +34,14 @@ public class Collect  implements Serializable {
 	private String logoUrl;
 	@Column(nullable = true)
 	private String charset;
+	@Enumerated(EnumType.STRING) 
 	@Column(nullable = true)
-	private String type;
+	private CollectType type;
 	@Column(nullable = true)
 	private String remark;
 	@Column(nullable = false)
-	private String isDelete;
+	@Enumerated(EnumType.STRING) 
+	private IsDelete isDelete;
 	@Column(nullable = false)
 	private Long createTime;
 	@Column(nullable = false)
@@ -112,11 +119,11 @@ public class Collect  implements Serializable {
 		this.charset = charset;
 	}
 
-	public String getType() {
+	public CollectType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(CollectType type) {
 		this.type = type;
 	}
 
@@ -128,11 +135,11 @@ public class Collect  implements Serializable {
 		this.remark = remark;
 	}
 
-	public String getIsDelete() {
+	public IsDelete getIsDelete() {
 		return isDelete;
 	}
 
-	public void setIsDelete(String isDelete) {
+	public void setIsDelete(IsDelete isDelete) {
 		this.isDelete = isDelete;
 	}
 
@@ -167,5 +174,7 @@ public class Collect  implements Serializable {
 	public void setNewFavorites(String newFavorites) {
 		this.newFavorites = newFavorites;
 	}
+
+
 
 }

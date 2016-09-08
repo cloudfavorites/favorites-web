@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.FavoritesRepository;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
@@ -41,6 +44,7 @@ public class FavoritesController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
+	@LoggerManage(description="新建收藏夹")
 	public Response addFavorites(String name){
 		if(StringUtils.isNotBlank(name)){
 			Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), name);
@@ -67,6 +71,7 @@ public class FavoritesController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/addImportFavorites",method=RequestMethod.POST)
+	@LoggerManage(description="创建导入收藏夹")
 	public ResponseData addImportFavorites(){
 		Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "导入自浏览器");
 		if(null == favorites){
@@ -86,8 +91,8 @@ public class FavoritesController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/update",method=RequestMethod.POST)
+	@LoggerManage(description="修改收藏夹")
 	public Response updateFavorites(String favoritesName,Long favoritesId){
-		logger.info("param favoritesName:" + favoritesName + "----favoritesId:" + favoritesId);
 		if(StringUtils.isNotBlank(favoritesName)&& null != favoritesId){
 			Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), favoritesName);
 			if(null != favorites){
@@ -113,8 +118,8 @@ public class FavoritesController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/del",method=RequestMethod.POST)
+	@LoggerManage(description="删除收藏夹")
 	public Response delFavorites(Long id){
-		logger.info("param id:" + id);
 		if(null == id){
 			return result(ExceptionMsg.FAILED);
 		}
@@ -141,8 +146,8 @@ public class FavoritesController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "/getFavorites/{userId}", method = RequestMethod.POST)
+	@LoggerManage(description="获取收藏夹")
 	public List<Favorites> getFavorites(@PathVariable("userId") Long userId) {
-		logger.info("getFavorites begin");
 		List<Favorites> favorites = null;
 		try {
 			Long id = getUserId();
@@ -150,9 +155,9 @@ public class FavoritesController extends BaseController{
 				id = userId;
 			}
 			favorites = favoritesRepository.findByUserIdOrderByIdDesc(id);
-			if(userId != getUserId()){
+			if(!getUserId().equals(userId)){
 				for(Favorites favorites2 : favorites){
-					favorites2.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites2.getId(), "public","no"));
+					favorites2.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(favorites2.getId(), CollectType.PUBLIC,IsDelete.NO));
 				}
 			}
 		} catch (Exception e) {

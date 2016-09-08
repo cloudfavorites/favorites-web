@@ -6,6 +6,24 @@
          	<div class="row unread-alert" th:if="${favorites.name != null and favorites.name =='未读列表'}">
                <div class="col-xs-12">未读列表中的内容将从收集当日起30天后自动进入回收站，赶紧给收藏分类吧~</div>
             </div>
+            <div class="row" th:if="${favorites.name != null and favorites.name =='首页'}" >
+               <div class="col-xs-12 text-center">
+                  <h2 class="text-thin">未读列表是空的</h2>
+                  <p>您的收藏都整洁有序，恭喜您！</p>
+                  <p>(在未读列表中的收藏，20天后自动进入右上角的回收站)</p>
+               </div>
+            </div>
+            
+             <div class="row" th:if="${size == 0 and favorites.name =='首页'}" >
+               <div class="col-xs-12 text-center">
+                  <h2 class="text-thin">您和您的好友，暂未收藏</h2>
+                  <p>第一次使用，需要安装网页收集工具</p>
+                  <p>点击下面按钮，进行安装。</p>
+                  <p>  
+                    <button class="mt-lg btn btn-primary btn" onclick="locationUrl('/tool','tool')">去安装</button>
+                 </p>
+               </div>
+            </div>
          	<h3 th:if="${(favorites.name != null and favorites.name !='未读列表')or (type == 'garbage')} ">
                <span th:if="${otherPeople != null}" th:text="${otherPeople.userName +'的收藏夹: ' + favorites.name}"></span>
                <span th:if="${otherPeople == null and type != 'garbage'}" th:text="${favorites.name}"></span>
@@ -82,10 +100,10 @@
                                        </div>
                                        <div class="m0">
                                           <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" >user name</a>
-                                          <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='private' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'private\');'">
+                                          <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PRIVATE' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PRIVATE\');'">
                                              <span class="fa fa-lock" style="color: #eee;"></span>
                                           </a>
-                                          <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='public' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'public\');'">
+                                          <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PUBLIC' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PUBLIC\');'">
                                              <span class="fa fa-lock text-warning"></span>
                                           </a>
                                           <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前  </small>

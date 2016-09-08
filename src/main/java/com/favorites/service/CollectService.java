@@ -18,7 +18,7 @@ public interface CollectService {
 	
 	public boolean checkCollect(Collect collect);
 	
-	public void importHtml(Map<String, String> map,Long favoritesId,Long userId);
+	public void importHtml(Map<String, String> map,Long favoritesId,Long userId,String type);
 	
 	public StringBuilder exportToHtml(Long favoritesId);
 	
@@ -26,6 +26,6 @@ public interface CollectService {
 	
 	public List<CollectSummary> searchOther(Long userId,String key,Pageable pageable);
 	
-	public void otherCollect(Collect collect,Collect other);
+	public void otherCollect(Collect collect);
 
 }

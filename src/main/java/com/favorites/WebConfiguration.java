@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.favorites.comm.filter.SecurityFilter;
 
 @Configuration
-public class WebConfiguration {
+public class WebConfiguration  {
 	
     @Bean
     public FilterRegistrationBean filterRegistration() {
