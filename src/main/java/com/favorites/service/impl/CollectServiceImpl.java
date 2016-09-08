@@ -153,16 +153,18 @@ public class CollectServiceImpl implements CollectService {
 	 */
 	@Transactional
 	public void saveCollect(Collect collect) {
-		updatefavorites(collect,false);
-		collect.setCreateTime(DateUtils.getCurrentTime());
-		collect.setLastModifyTime(DateUtils.getCurrentTime());
-		collect.setIsDelete(IsDelete.NO);
+		if(StringUtils.isNotBlank(collect.getNewFavorites())){
+			collect.setFavoritesId(createfavorites(collect.getNewFavorites(), collect.getUserId()));
+		}
 		if (collect.getType()==null) {
 			collect.setType(CollectType.PUBLIC);
 		}
 		if(StringUtils.isBlank(collect.getDescription())){
 			collect.setDescription(collect.getTitle());
 		}
+		collect.setIsDelete(IsDelete.NO);
+		collect.setCreateTime(DateUtils.getCurrentTime());
+		collect.setLastModifyTime(DateUtils.getCurrentTime());
 		collectRepository.save(collect);
 		noticeFriends(collect);
 	}
@@ -176,21 +178,23 @@ public class CollectServiceImpl implements CollectService {
 	@Transactional
 	public void updateCollect(Collect newCollect) {
 		Collect collect=collectRepository.findOne(newCollect.getId());
-		if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !IsDelete.YES.equals(collect.getIsDelete())){
+		if(StringUtils.isNotBlank(newCollect.getNewFavorites())){
+			collect.setFavoritesId(createfavorites(newCollect.getNewFavorites(), collect.getUserId()));
+		}else if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !IsDelete.YES.equals(collect.getIsDelete())){
 			favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+			favoritesRepository.increaseCountById(newCollect.getFavoritesId(), DateUtils.getCurrentTime());
+			collect.setFavoritesId(newCollect.getFavoritesId());
 		}
 		if(IsDelete.YES.equals(collect.getIsDelete())){
 			collect.setIsDelete(IsDelete.NO);
 		}
-		collect.setNewFavorites(newCollect.getNewFavorites());
-		updatefavorites(collect,true);
+		if (newCollect.getType()==null) {
+			collect.setType(CollectType.PUBLIC);
+		}
 		collect.setTitle(newCollect.getTitle());
 		collect.setDescription(newCollect.getDescription());
 		collect.setLogoUrl(newCollect.getLogoUrl());
 		collect.setRemark(newCollect.getRemark());
-		if (newCollect.getType()==null) {
-			collect.setType(CollectType.PUBLIC);
-		}
 		collect.setLastModifyTime(DateUtils.getCurrentTime());
 		collectRepository.save(collect);
 		noticeFriends(collect);
@@ -205,21 +209,26 @@ public class CollectServiceImpl implements CollectService {
 	 * @param other
 	 */
 	@Transactional
-	public void otherCollect(Collect collect,Collect other) {
-		other.setFavoritesId(collect.getFavoritesId());
-		other.setNewFavorites(collect.getNewFavorites());
-		updatefavorites(other,false);
-		other.setTitle(collect.getTitle());
-		other.setDescription(collect.getDescription());
-		other.setLogoUrl(collect.getLogoUrl());
-		other.setRemark(collect.getRemark());
-		if (collect.getType()==null) {
-			other.setType(CollectType.PUBLIC);
+	public void otherCollect(Collect collect) {
+		Collect other=collectRepository.findOne(collect.getId());
+		if(StringUtils.isNotBlank(collect.getNewFavorites())){
+			collect.setFavoritesId(createfavorites(collect.getNewFavorites(), collect.getUserId()));
+		}else{
+			favoritesRepository.increaseCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 		}
-		other.setLastModifyTime(DateUtils.getCurrentTime());
-		other.setId(null);
-		collectRepository.save(other);
-		noticeFriends(other);
+		collect.setId(null);
+		collect.setIsDelete(IsDelete.NO);
+		if (collect.getType()==null) {
+			collect.setType(CollectType.PUBLIC);
+		}
+		if(StringUtils.isBlank(collect.getDescription())){
+			collect.setDescription(collect.getTitle());
+		}
+		collect.setUrl(other.getUrl());
+		collect.setLastModifyTime(DateUtils.getCurrentTime());
+		collect.setCreateTime(DateUtils.getCurrentTime());
+		collectRepository.save(collect);
+		noticeFriends(collect);
 	}
 	
 	/**
@@ -320,26 +329,21 @@ public class CollectServiceImpl implements CollectService {
 
 	
 	/**
-	 * 更新收藏夹
 	 * @author neo
-	 * @date 2016年8月24日
-	 * @param collect
+	 * @date 2016年9月8日
+	 * @param fname
+	 * @param userId
+	 * @return
 	 */
-	private void  updatefavorites(Collect collect,boolean isUpdate){
-		if (StringUtils.isNotBlank(collect.getNewFavorites())) {
-			Favorites favorites = favoritesRepository.findByUserIdAndName(collect.getUserId(), collect.getNewFavorites());
-			if (null == favorites) {
-				favorites = favoritesService.saveFavorites(collect.getUserId(), 1l,collect.getNewFavorites());
-				if(isUpdate){
-					favoritesRepository.reduceCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
-				}
-			} else {
-				favoritesRepository.increaseCountById(favorites.getId(),DateUtils.getCurrentTime());
-			}
-			collect.setFavoritesId(favorites.getId());
-		} else if(!isUpdate) {
-			favoritesRepository.increaseCountById(collect.getFavoritesId(),DateUtils.getCurrentTime());
+	private Long  createfavorites(String fname,Long userId){
+		Favorites favorites = favoritesRepository.findByUserIdAndName(userId, fname);
+		if (null == favorites) {
+			favorites = favoritesService.saveFavorites(userId, 1l,fname);
+		} else {
+			favoritesRepository.increaseCountById(favorites.getId(),DateUtils.getCurrentTime());
 		}
+		return favorites.getId();
+	
 	}
 	
 	

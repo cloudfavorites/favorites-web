@@ -72,9 +72,7 @@ public class CollectController extends BaseController{
 				if(collect.getId()==null){
 					collectService.saveCollect(collect);
 				}else if(exist==null){//收藏别人的文章
-					Collect other=collectRepository.findOne(collect.getId());
-					other.setUserId(getUserId());
-					collectService.otherCollect(collect,other);
+					collectService.otherCollect(collect);
 				}else{
 					collectService.updateCollect(collect);
 				}
