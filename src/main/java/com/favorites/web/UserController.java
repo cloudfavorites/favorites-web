@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.favorites.comm.Const;
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Config;
 import com.favorites.domain.ConfigRepository;
 import com.favorites.domain.Favorites;
@@ -65,8 +66,8 @@ public class UserController extends BaseController {
 	private FavoritesRepository favoritesRepository;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@LoggerManage(description="登陆")
 	public ResponseData login(User user) {
-		logger.info("login begin, param is " + user);
 		try {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
@@ -89,8 +90,8 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
+	@LoggerManage(description="注册")
 	public Response create(User user) {
-		logger.info("create user begin, param is " + user);
 		try {
 			User registUser = userRepository.findByEmail(user.getEmail());
 			if (null != registUser) {
@@ -119,8 +120,8 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
+	@LoggerManage(description="获取收藏夹")
 	public List<Favorites> getFavorites() {
-		logger.info("getFavorites begin");
 		List<Favorites> favorites = null;
 		try {
 			favorites = favoritesRepository.findByUserId(getUserId());
@@ -128,7 +129,6 @@ public class UserController extends BaseController {
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);
 		}
-		logger.info("getFavorites end favorites ==" + favorites);
 		return favorites;
 	}
 	
@@ -137,6 +137,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getConfig", method = RequestMethod.POST)
+	@LoggerManage(description="获取属性设置")
 	public Config getConfig(){
 		Config config = new Config();
 		try {
@@ -154,8 +155,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateConfig", method = RequestMethod.POST)
+	@LoggerManage(description="属性修改")
 	public Response updateConfig(Long id, String type,String defaultFavorites){
-		logger.info("param,id:" + id + "----type:" + type + "-----defaultFavorites:" + defaultFavorites);
 		if(null  != id && StringUtils.isNotBlank(type)){
 			try {
 				configService.updateConfig(id, type,defaultFavorites);
@@ -167,6 +168,7 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value="/getFollows")
+	@LoggerManage(description="获取关注列表")
 	public List<String> getFollows() {
 		List<String> followList = followRepository.findByUserId(getUserId());
 		return followList;
@@ -178,8 +180,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/sendForgotPasswordEmail", method = RequestMethod.POST)
+	@LoggerManage(description="发送忘记密码邮件")
 	public Response sendForgotPasswordEmail(String email) {
-		logger.info("sendForgotPasswordEmail begin, param is " + email);
 		try {
 			User registUser = userRepository.findByEmail(email);
 			if (null == registUser) {
@@ -222,8 +224,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/setNewPassword", method = RequestMethod.POST)
+	@LoggerManage(description="设置新密码")
 	public Response setNewPassword(String newpwd, String email, String sid) {
-		logger.info("setNewPassword begin, param is " + email);
 		try {
 			User user = userRepository.findByEmail(email);
 			Timestamp outDate = Timestamp.valueOf(user.getOutDate());
@@ -251,8 +253,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+	@LoggerManage(description="修改密码")
 	public Response updatePassword(String oldPassword, String newPassword) {
-		logger.info("updatePassword begin, param is " + oldPassword + "," + newPassword);
 		try {
 			User user = getUser();
 			String password = user.getPassWord();
@@ -278,8 +280,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateIntroduction", method = RequestMethod.POST)
+	@LoggerManage(description="修改个人简介")
 	public ResponseData updateIntroduction(String introduction) {
-		logger.info("updateIntroduction begin, param is " + introduction);
 		try {
 			User user = getUser();
 			userRepository.setIntroduction(introduction, user.getEmail());
@@ -299,8 +301,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateUserName", method = RequestMethod.POST)
+	@LoggerManage(description="修改昵称")
 	public ResponseData updateUserName(String userName) {
-		logger.info("updateUserName begin, param is " + userName);
 		try {
 			User user = getUser();
 			if(user.getUserName().equals(userName)){
@@ -323,8 +325,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
+	@LoggerManage(description="上传头像")
 	public ResponseData uploadHeadPortrait(@RequestParam(required = true, value="file") MultipartFile file){
-		logger.info("uploadHeadPortrait begin");
 		if (!file.isEmpty()) {
 			try {				
 				//限制文件大小不大于2M

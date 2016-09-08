@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Follow;
 import com.favorites.domain.FollowRepository;
 import com.favorites.domain.result.ExceptionMsg;
@@ -22,8 +23,8 @@ public class FollowController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/changeFollowStatus")
+	@LoggerManage(description="关注&取关")
 	public Response changeFollowStatus(String status,Long userId){
-		logger.info("status:" + status + "----userId:" + userId);
 		try {
 			Follow follow = followRepository.findByUserIdAndFollowId(getUserId(), userId);
 			if(null != follow){

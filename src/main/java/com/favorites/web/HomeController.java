@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.CollectSummary;
 import com.favorites.domain.Favorites;
@@ -42,6 +43,7 @@ public class HomeController extends BaseController{
 	private NoticeService noticeService;
 	
 	@RequestMapping(value="/standard/{type}/{userId}")
+	@LoggerManage(description="文章列表standard")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,@PathVariable("userId") Long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
@@ -74,6 +76,7 @@ public class HomeController extends BaseController{
 	
 	
 	@RequestMapping(value="/simple/{type}/{userId}")
+	@LoggerManage(description="文章列表simple")
 	public String simple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type,
 	        @PathVariable("userId") Long userId) {
@@ -114,9 +117,9 @@ public class HomeController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/user/{userId}/{favoritesId}")
+	@LoggerManage(description="个人首页")
 	public String userPageShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size){
-		logger.info("userId:" + userId);
 		User user = userRepository.findOne(userId);
 		Long collectCount = 0l;
 		Sort sort = new Sort(Direction.DESC, "id");
@@ -168,9 +171,9 @@ public class HomeController extends BaseController{
 		 * @return
 		 */
 		@RequestMapping(value="/usercontent/{userId}/{favoritesId}")
+		@LoggerManage(description="个人首页内容替换")
 		public String userContentShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
 		        @RequestParam(value = "size", defaultValue = "15") Integer size){
-			logger.info("userId:" + userId);
 			User user = userRepository.findOne(userId);
 			Long collectCount = 0l;
 			Sort sort = new Sort(Direction.DESC, "id");
@@ -215,6 +218,7 @@ public class HomeController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/search/{key}")
+	@LoggerManage(description="搜索")
 	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
 		Sort sort = new Sort(Direction.DESC, "id");
