@@ -231,8 +231,8 @@ public class CollectController extends BaseController{
 	 * @param path
 	 */
 	@RequestMapping("/import")
-	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure){
-		logger.info("path:" + htmlFile.getOriginalFilename() + "----structure:" + structure);
+	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure,String type){
+		logger.info("path:" + htmlFile.getOriginalFilename() + "----structure:" + structure +"-------type:" + type);
 		try {
 			if(StringUtils.isNotBlank(structure)&& IsDelete.YES.equals(structure)){
 				// 按照目录结构导入
@@ -247,7 +247,7 @@ public class CollectController extends BaseController{
 						if(null == favorites){
 							favorites = favoritesService.saveFavorites(getUserId(), 0l, favoritesName);
 						}
-						collectService.importHtml(entry.getValue(), favorites.getId(), getUserId());
+						collectService.importHtml(entry.getValue(), favorites.getId(), getUserId(),type);
 				} 
 			}else{
 				Map<String, String> map = HtmlUtil.parseHtmlOne(htmlFile.getInputStream());
@@ -260,7 +260,7 @@ public class CollectController extends BaseController{
 				if(null == favorites){
 					favorites = favoritesService.saveFavorites(getUserId(), 0l, "导入自浏览器");
 				}
-				collectService.importHtml(map, favorites.getId(), getUserId());
+				collectService.importHtml(map, favorites.getId(), getUserId(),type);
 			}
 		} catch (Exception e) {
 			logger.error("导入html异常:",e);

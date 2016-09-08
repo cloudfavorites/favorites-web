@@ -2,5 +2,5 @@ package com.favorites.domain.enums;
 
 public enum CollectType {
 
-	PUBLIC, PRIVITE
+	PUBLIC, PRIVATE
 }

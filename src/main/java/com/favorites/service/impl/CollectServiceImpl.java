@@ -255,7 +255,7 @@ public class CollectServiceImpl implements CollectService {
 	/**
 	 * 导入收藏文章
 	 */
-	public void importHtml(Map<String, String> map,Long favoritesId,Long userId){
+	public void importHtml(Map<String, String> map,Long favoritesId,Long userId,String type){
 		for(Map.Entry<String, String> entry : map.entrySet()){
 			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favoritesId, entry.getKey(), userId,IsDelete.NO);
 			if(null != list && list.size() > 0){
@@ -279,7 +279,11 @@ public class CollectServiceImpl implements CollectService {
 				collect.setFavoritesId(favoritesId);
 				collect.setIsDelete(IsDelete.NO);
 				collect.setLogoUrl(result.get("logoUrl"));
-				collect.setType(CollectType.PRIVITE);
+				if(CollectType.PRIVATE.toString().equals(type)){
+					collect.setType(CollectType.PRIVATE);
+				}else{
+					collect.setType(CollectType.PUBLIC);
+				}
 				collect.setUrl(entry.getKey());
 				collect.setUserId(userId);
 				collect.setCreateTime(DateUtils.getCurrentTime());
