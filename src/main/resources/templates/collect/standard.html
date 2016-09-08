@@ -14,7 +14,7 @@
                </div>
             </div>
             
-             <div class="row" th:if="${size == 0}" >
+             <div class="row" th:if="${size == 0 and favorites.name =='首页'}" >
                <div class="col-xs-12 text-center">
                   <h2 class="text-thin">您和您的好友，暂未收藏</h2>
                   <p>第一次使用，需要安装网页收集工具</p>
