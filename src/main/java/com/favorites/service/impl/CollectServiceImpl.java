@@ -88,7 +88,7 @@ public class CollectServiceImpl implements CollectService {
 		}else {
 			views = collectRepository.findViewByFavoritesId(Long.parseLong(type), pageable);
 		}
-		return convertCollect(views);
+		return convertCollect(views,userId);
 	}
 
 	
@@ -103,7 +103,7 @@ public class CollectServiceImpl implements CollectService {
 	public List<CollectSummary> searchMy(Long userId,String key,Pageable pageable) {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = collectRepository.searchMyByKey(userId,"%"+key+"%",pageable);
-		return convertCollect(views);
+		return convertCollect(views,userId);
 	}
 	
 	
@@ -119,7 +119,7 @@ public class CollectServiceImpl implements CollectService {
 	public List<CollectSummary> searchOther(Long userId,String key,Pageable pageable) {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = collectRepository.searchOtherByKey(userId, "%"+key+"%", pageable);
-		return convertCollect(views);
+		return convertCollect(views,userId);
 	}
 
 	/**
@@ -128,13 +128,13 @@ public class CollectServiceImpl implements CollectService {
 	 * @param collects
 	 * @return
 	 */
-	private List<CollectSummary> convertCollect(Page<CollectView> views) {
+	private List<CollectSummary> convertCollect(Page<CollectView> views,Long userId) {
 		List<CollectSummary> summarys=new ArrayList<CollectSummary>();
 		for (CollectView view : views) {
 			CollectSummary summary=new CollectSummary(view);
 			summary.setPraiseCount(praiseRepository.countByCollectId(view.getId()));
 			summary.setCommentCount(commentRepository.countByCollectId(view.getId()));
-			Praise praise=praiseRepository.findByUserIdAndCollectId(view.getUserId(), view.getId());
+			Praise praise=praiseRepository.findByUserIdAndCollectId(userId, view.getId());
 			if(praise!=null){
 				summary.setPraise(true);
 			}else{

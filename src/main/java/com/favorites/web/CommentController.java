@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +53,11 @@ public class CommentController extends BaseController{
 				} else {
 					logger.info("为找到匹配：" + atUsers.get(0) + "的用户.");
 				}
-				comment.setContent(comment.getContent().substring(comment.getContent().indexOf("@" + atUsers.get(0) + " ")+atUsers.get(0).length()+1,comment.getContent().length()));
+				String content=comment.getContent().substring(0,comment.getContent().indexOf("@"));
+				if(StringUtils.isBlank(content)){
+					content=comment.getContent().substring(comment.getContent().indexOf("@")+user.getUserName().length()+1,comment.getContent().length());
+				}
+				comment.setContent(content);
 			}
 		}
 		comment.setUserId(getUserId());
