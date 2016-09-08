@@ -237,7 +237,7 @@ public class CollectController extends BaseController{
 	@LoggerManage(description="导入收藏夹操作")
 	public void importCollect(@RequestParam("htmlFile") MultipartFile htmlFile,String structure,String type){
 		try {
-			if(StringUtils.isNotBlank(structure)&& IsDelete.YES.equals(structure)){
+			if(StringUtils.isNotBlank(structure)&& IsDelete.YES.toString().equals(structure)){
 				// 按照目录结构导入
 				Map<String, Map<String, String>> map = HtmlUtil.parseHtmlTwo(htmlFile.getInputStream());
 				if(null == map || map.isEmpty()){
