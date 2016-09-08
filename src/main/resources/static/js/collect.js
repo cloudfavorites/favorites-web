@@ -498,10 +498,10 @@ function listStandardCollect(collects,listId,user){
 		"                  <a onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" class=\"text-muted\" href=\"javascript:void(0);\">"+collects[i].userName+"</a>"+
 		"                  ";
 		if($("#userId").val() == collects[i].userId){
-			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'private\');\" style=\"display:"+(collects[i].type=='private' ? 'none' : 'inline-block')+"\" id=\"private"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为私密\" class=\"deco-none\">"+
+			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'PRIVATE\');\" style=\"display:"+(collects[i].type=='PRIVATE' ? 'none' : 'inline-block')+"\" id=\"private"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为私密\" class=\"deco-none\">"+
 			"                <span style=\"color: #eee;\" class=\"fa fa-lock\"></span>"+
 			"              </a>";
-			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'public\');\" style=\"display:"+(collects[i].type=='public' ? 'none' : 'inline-block')+"\" id=\"public"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为公开\" class=\"deco-none\">"+
+			item=item+" <a onclick=\"changePrivacy("+collects[i].id+",\'PUBLIC\');\" style=\"display:"+(collects[i].type=='PUBLIC' ? 'none' : 'inline-block')+"\" id=\"public"+collects[i].id+"\" href=\"javascript:void(0);\" title=\"设为公开\" class=\"deco-none\">"+
 			"                <span class=\"fa fa-lock text-warning\"></span>"+
 			"              </a>";
 		}
