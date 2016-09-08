@@ -1,6 +1,5 @@
 package com.favorites.utils;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -33,15 +32,20 @@ public class FileUtil {
 	
 	/**
 	 * 上传文件
-	 * @param file
-	 * @param path 路径+文件名
+	 * @param fileBytes
+	 * @param filePath
+	 * @param fileName
 	 * @throws Exception
 	 */
-	public static void uploadFile(byte[] file, String path) throws Exception {
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(path)));
-		out.write(file);
-		out.flush();
-		out.close();	
+	public static void uploadFile(byte[] fileBytes, String filePath, String fileName) throws Exception {	
+		File targetFile = new File(filePath);  
+        if(!targetFile.exists()){    
+            targetFile.mkdirs();    
+        }       
+        FileOutputStream out = new FileOutputStream(filePath+fileName);
+        out.write(fileBytes);
+        out.flush();
+        out.close();
 	}
 
 }

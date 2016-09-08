@@ -35,6 +35,9 @@ import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.MD5Util;
 import com.favorites.utils.MessageUtil;
+
+import sun.misc.BASE64Decoder;
+
 import com.favorites.utils.FileUtil;
 
 @RestController
@@ -326,34 +329,28 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
 	@LoggerManage(description="上传头像")
-	public ResponseData uploadHeadPortrait(@RequestParam(required = true, value="file") MultipartFile file){
-		if (!file.isEmpty()) {
-			try {				
-				//限制文件大小不大于2M
-				long fileSize = file.getSize();
-				if(fileSize>2*1000*1000){				
-					return new ResponseData(ExceptionMsg.LimitPictureSize);
-				}
-				String fileName = file.getOriginalFilename();
-				String type = FileUtil.getFileExtName(fileName);
-				//限制文件格式为jpg、png、jpeg、gif、bmp
-				if(!type.equals("jpg")&&!type.equals("png")&&!type.equals("jpeg")&&!type.equals("gif")&&!type.equals("bmp")){
-					return new ResponseData(ExceptionMsg.LimitPictureType);
-				}
-				String path = staticUrl+fileProfilepicturesUrl+file.getOriginalFilename();
-				FileUtil.uploadFile(file.getBytes(), path);
-				String filePath = fileProfilepicturesUrl+file.getOriginalFilename();
-				User user = getUser();
-				userRepository.setProfilePicture(filePath, user.getId());
-				user.setProfilePicture(filePath);
-				getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
-				return new ResponseData(ExceptionMsg.SUCCESS, filePath);
-			} catch (Exception e) {
-				logger.error("upload head portrait failed, ", e);
-				return new ResponseData(ExceptionMsg.FAILED);
-			}
-		}else {
-			return new ResponseData(ExceptionMsg.FileEmpty);
+	public ResponseData uploadHeadPortrait(String dataUrl){
+		try { 
+			String filePath=staticUrl+fileProfilepicturesUrl;
+			String fileName=UUID.randomUUID().toString()+".png";
+			String savePath = fileProfilepicturesUrl+fileName;
+	        String image = dataUrl;      
+	        String header ="data:image";
+	        String[] imageArr=image.split(",");  
+	        if(imageArr[0].contains(header)){  
+		        image=imageArr[1]; 
+		        BASE64Decoder decoder = new BASE64Decoder();  
+                byte[] decodedBytes = decoder.decodeBuffer(image);  
+                FileUtil.uploadFile(decodedBytes, filePath, fileName);
+                User user = getUser();
+    			userRepository.setProfilePicture(savePath, user.getId());
+    			user.setProfilePicture(savePath);
+    			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user); 			
+	        }
+	        return new ResponseData(ExceptionMsg.SUCCESS, savePath);		
+		} catch (Exception e) {
+			logger.error("upload head portrait failed, ", e);
+			return new ResponseData(ExceptionMsg.FAILED);
 		}
 	}
 
