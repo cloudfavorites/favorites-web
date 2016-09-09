@@ -201,15 +201,14 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/delete/{id}")
-	public Response delete(@PathVariable("id") long id) {
+	public Response delete(@PathVariable("id") Long id) {
 		Collect collect = collectRepository.findOne(id);
-		if(collect.getUserId().equals(getUserId())){
-			collectRepository.deleteById(id);
-			if(null != collect && null != collect.getFavoritesId() && !IsDelete.YES.equals(collect.getIsDelete())){
+		if(null != collect && getUserId().equals(collect.getUserId())){
+		  collectRepository.deleteById(id);
+			if(null != collect.getFavoritesId() && !IsDelete.YES.equals(collect.getIsDelete())){
 				favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 			}
 		}
-	
 		return result();
 	}
 	
