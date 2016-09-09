@@ -50,7 +50,6 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	@LoggerManage(description="登陆后首页")
 	public String home(Model model) {
-		//return "forward:/standard/my"; 
 		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),IsDelete.NO);
 		Config config = configRepository.findByUserId(getUserId());
 		Favorites favorites = favoritesRepository.findOne(Long.parseLong(config.getDefaultFavorties()));
@@ -81,7 +80,11 @@ public class IndexController extends BaseController{
 	
 	@RequestMapping(value="/tool")
 	@LoggerManage(description="工具页面")
-	public String tool() {
+	public String tool(Model model) {
+	  String path="javascript:(function()%7Bvar%20description;var%20desString=%22%22;var%20metas=document.getElementsByTagName('meta');for(var%20x=0,y=metas.length;x%3Cy;x++)%7Bif(metas%5Bx%5D.name.toLowerCase()==%22description%22)%7Bdescription=metas%5Bx%5D;%7D%7Dif(description)%7BdesString=%22&amp;description=%22+encodeURIComponent(description.content);%7Dvar%20win=window.open(%22"
+              	+Const.BASE_PATH
+              	+"collect?from=webtool&url=%22+encodeURIComponent(document.URL)+desString+%22&title=%22+encodeURIComponent(document.title)+%22&charset=%22+document.charset,'_blank');win.focus();%7D)();";
+	  model.addAttribute("path",path);
 		return "tool";
 	}
 	
