@@ -155,9 +155,13 @@ public class CollectServiceImpl implements CollectService {
 	public void saveCollect(Collect collect) {
 		if(StringUtils.isNotBlank(collect.getNewFavorites())){
 			collect.setFavoritesId(createfavorites(collect.getNewFavorites(), collect.getUserId()));
+		}else{
+			favoritesRepository.increaseCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
 		}
 		if (collect.getType()==null) {
 			collect.setType(CollectType.PUBLIC);
+		}else{
+			collect.setType(CollectType.PRIVATE);
 		}
 		if(StringUtils.isBlank(collect.getDescription())){
 			collect.setDescription(collect.getTitle());
@@ -185,11 +189,13 @@ public class CollectServiceImpl implements CollectService {
 			favoritesRepository.increaseCountById(newCollect.getFavoritesId(), DateUtils.getCurrentTime());
 			collect.setFavoritesId(newCollect.getFavoritesId());
 		}
-		if(IsDelete.YES.equals(collect.getIsDelete())){
+		if(IsDelete.YES.toString().equals(collect.getIsDelete())){
 			collect.setIsDelete(IsDelete.NO);
 		}
 		if (newCollect.getType()==null) {
 			collect.setType(CollectType.PUBLIC);
+		}else{
+			collect.setType(CollectType.PRIVATE);
 		}
 		collect.setTitle(newCollect.getTitle());
 		collect.setDescription(newCollect.getDescription());
@@ -220,6 +226,8 @@ public class CollectServiceImpl implements CollectService {
 		collect.setIsDelete(IsDelete.NO);
 		if (collect.getType()==null) {
 			collect.setType(CollectType.PUBLIC);
+		}else{
+			collect.setType(CollectType.PRIVATE);
 		}
 		if(StringUtils.isBlank(collect.getDescription())){
 			collect.setDescription(collect.getTitle());
