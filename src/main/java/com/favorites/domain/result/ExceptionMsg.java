@@ -8,7 +8,7 @@ public enum ExceptionMsg {
     
     LoginNameOrPassWordError("000100", "用户名或者密码错误！"),
     EmailUsed("000101","该邮箱已被注册"),
-    UserNameUsed("000102","该登陆名称已存在"),
+    UserNameUsed("000102","该登录名称已存在"),
     EmailNotRegister("000103","该邮箱地址未注册"), 
     LinkOutdated("000104","该链接已过期，请重新请求"),
     PassWordError("000105","密码输入错误"),
