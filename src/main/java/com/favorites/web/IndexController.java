@@ -62,7 +62,7 @@ public class IndexController extends BaseController{
 		model.addAttribute("user",getUser());
 		model.addAttribute("newAtMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "at", "unread"));
 		model.addAttribute("newCommentMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "comment", "unread"));
-		model.addAttribute("newPraiseMeCount",noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "praise", "unread"));
+		model.addAttribute("newPraiseMeCount",noticeRepository.countPraiseByUserIdAndReaded(getUserId(), "unread"));
 		logger.info("collect size="+size+" userID="+getUserId());
 		return "home";
 	}

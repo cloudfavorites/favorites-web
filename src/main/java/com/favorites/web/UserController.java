@@ -309,6 +309,9 @@ public class UserController extends BaseController {
 			if(user.getUserName().equals(userName)){
 				return new ResponseData(ExceptionMsg.UserNameUsed);
 			}
+			if(userName.length()>12){
+				return new ResponseData(ExceptionMsg.UserNameLengthError);
+			}
 			userRepository.setUserName(userName, user.getEmail());
 			user.setUserName(userName);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);

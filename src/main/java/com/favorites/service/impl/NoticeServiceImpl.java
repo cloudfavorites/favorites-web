@@ -77,6 +77,9 @@ public class NoticeServiceImpl implements NoticeService{
 				summary.setCollectTime(DateUtils.getTimeFormatText(comment.getCreateTime())+" 评论了你的收藏");
 			}else if("praise".equals(type)){
 				CommentView comment = praiseRepository.findPraiseUser(Long.valueOf(view.getOperId()));
+				if(comment == null){
+					continue;
+				}
 				summary.setUserId(comment.getUserId());
 				summary.setUserName(comment.getUserName());
 				summary.setProfilePicture(comment.getProfilePicture());
