@@ -366,9 +366,9 @@ function updatePwd() {
 				toastr.success('密码修改成功！', '操作成功');
   	    	}else{
   	    		$("#passwordError").show();
+  	    		$("#passwordError").html(data.rspMsg);
   	    		$("#updatePwdBtn").removeAttr("aria-hidden");
 				$("#updatePwdBtn").removeAttr("data-dismiss");
-				toastr.error(response.rspMsg, '操作失败');
   	    	}
 		}
 	});
@@ -393,11 +393,15 @@ function updateIntroduction() {
 				$("#updateIntroductionBtn").attr("aria-hidden","true");
 				$("#updateIntroductionBtn").attr("data-dismiss","modal");
 				$("#updateIntroductionForm")[0].reset();
-				$("#leftIntroduction").html(data.data);
+				if(data.data.length>10){
+					$("#leftIntroduction").html(data.data.substring(0,10)+'...');
+				}else{
+					$("#leftIntroduction").html(data.data);
+				}
 				$("#userIntroduction").html(data.data);
 				toastr.success('个人简介修改成功！', '操作成功');
   	    	}else{
-  	    		toastr.error(response.rspMsg, '操作失败');
+  	    		toastr.error(data.rspMsg, '操作失败');
   	    	}
 		}
 	});
@@ -423,14 +427,18 @@ function updateNickname() {
 				$("#updateNicknameBtn").attr("aria-hidden","true");
 				$("#updateNicknameBtn").attr("data-dismiss","modal");
 				$("#updateNicknameForm")[0].reset();
-				$("#leftUserName").html(data.data);
+				if(data.data.length>10){
+					$("#leftUserName").html("欢迎  "+data.data.substring(0,10)+'...');
+				}else{
+					$("#leftUserName").html("欢迎  "+data.data);
+				}
 				$("#userUserName").html(data.data);
 				toastr.success('昵称修改成功！', '操作成功');
   	    	}else{
   	    		$("#nicknameError").show();
+  	    		$("#nicknameError").html(data.rspMsg);
   	    		$("#updateNicknameBtn").removeAttr("aria-hidden");
 				$("#updateNicknameBtn").removeAttr("data-dismiss");
-				toastr.error(response.rspMsg, '操作失败');
   	    	}
 		}
 	});
