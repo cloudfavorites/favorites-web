@@ -190,6 +190,8 @@ public class CollectServiceImpl implements CollectService {
 		}
 		if (newCollect.getType()==null) {
 			collect.setType(CollectType.PUBLIC);
+		}else{
+		  collect.setType(CollectType.PRIVATE);
 		}
 		collect.setTitle(newCollect.getTitle());
 		collect.setDescription(newCollect.getDescription());
