@@ -10452,3 +10452,7 @@ body,
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.sidebar-subnav .text-muted{ color:#9c9c9c;}
+.sidebar .nav > li.active .text-muted{ color:#fff;}
+.btn-primary{ border-color: #18bc9c; background-color: #18bc9c;}
+.btn-primary:hover{ border-color: #0fb391; background-color: #0fb391;}

@@ -8,4 +8,5 @@
 *.log
 *.iml
 *.class
+.checkstyle
 /.ide
