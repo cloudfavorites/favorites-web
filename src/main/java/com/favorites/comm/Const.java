@@ -11,7 +11,7 @@ public class Const {
 	
 	public static String LOGIN_SESSION_KEY = "Favorites_user";
 	
-	public static String PASSWORD_KEY = "MHDFxccsdfD23XD";
+	public static String PASSWORD_KEY = "@#$%^&*()OPG#$%^&*(HG";
 	
 	public static String default_logo=BASE_PATH+"/img/logo.jpg";
 	
