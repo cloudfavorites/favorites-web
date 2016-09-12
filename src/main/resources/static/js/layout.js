@@ -9,8 +9,8 @@ var gconfig;
 var page=1;
 var standardStr = "standard";
 $(function() {
-	loadConfig();
 	loadFavorites();
+	loadConfig();
 	loadFollows();
 	$("#passwordError").hide();
 	$("#nicknameError").hide();

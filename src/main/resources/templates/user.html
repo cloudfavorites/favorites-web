@@ -62,7 +62,7 @@
 				                  <span class="media-body">
 				                     <span class="media-heading">
 				                        <strong class="ng-binding" th:text="${follow[0]}">粉丝1</strong>
-				                        <small class="text-muted ng-binding" th:text="${follow[1] !=null?follow[1]:'暂无简介'}">暂无简介</small>
+				                        <small class="text-muted ng-binding" th:text="${follow[1] == null ? '暂无简介' : follow[1].length() gt 10 ? follow[1].substring(0,10)+'...' : follow[1]}">暂无简介</small>
 				                     </span>
 				                  </span>
 				               </a>
@@ -78,7 +78,7 @@
 				                  <span class="media-body">
 				                     <span class="media-heading">
 				                        <strong class="ng-binding" th:text="${followed[0]}">粉丝1</strong>
-				                        <small class="text-muted ng-binding" th:text="${followed[1] !=null?followed[1]:'暂无简介'}">暂无简介</small>
+				                        <small class="text-muted ng-binding" th:text="${followed[1] == null ? '暂无简介' : followed[1].length() gt 10 ? followed[1].substring(0,10)+'...' : followed[1]}">暂无简介</small>
 				                     </span>
 				                  </span>
 				               </a>

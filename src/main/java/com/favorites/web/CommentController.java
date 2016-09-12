@@ -117,6 +117,10 @@ public class CommentController extends BaseController{
 			comment.setCommentTime(DateUtils.getTimeFormatText(comment.getCreateTime()));
 			comment.setUserName(user.getUserName());
 			comment.setProfilePicture(user.getProfilePicture());
+			if(comment.getReplyUserId()!=null){
+		     User replyUser = userRepository.findOne(comment.getReplyUserId());
+		     comment.setReplyUserName(replyUser.getUserName());
+			}
 		}
 		return comments;
 	}

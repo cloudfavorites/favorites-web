@@ -71,7 +71,9 @@ public class UserController extends BaseController {
 	public ResponseData login(User user) {
 		try {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
-			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
+			if (loginUser == null ) {
+				return new ResponseData(ExceptionMsg.LoginNameNotExists);
+			}else if(!loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
@@ -193,7 +195,6 @@ public class UserController extends BaseController {
             long date = outDate.getTime() / 1000 * 1000;
             userRepository.setOutDateAndValidataCode(outDate+"", secretKey, email);
             String key =email + "$" + date + "$" + secretKey;
-            System.out.println(" key>>>"+key);
             String digitalSignature = MD5Util.encrypt(key);// 数字签名
             String path = this.getRequest().getContextPath();
             String basePath = this.getRequest().getScheme() + "://"

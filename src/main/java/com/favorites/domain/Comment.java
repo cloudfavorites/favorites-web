@@ -36,6 +36,8 @@ public class Comment extends Entitys implements Serializable {
 	@Transient
 	private String userName;
 	@Transient
+	private String replyUserName;
+	@Transient
 	private String profilePicture;
 
 	public Comment() {
@@ -113,5 +115,13 @@ public class Comment extends Entitys implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+  public String getReplyUserName() {
+    return replyUserName;
+  }
+
+  public void setReplyUserName(String replyUserName) {
+    this.replyUserName = replyUserName;
+  }
 
 }
