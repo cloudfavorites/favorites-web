@@ -266,8 +266,14 @@ function initComment(comments,collectId){
 		var item ='<div class=\"media bb p\"><small class=\"pull-right text-muted\">'+comments[i].commentTime+'</small>';
 		item=item+'<div class=\"pull-left\"><img class=\"media-object img-circle thumb32\" src=\"'+comments[i].profilePicture+ '\" /></div> ';
 		item=item+'<div class=\"media-body\">  <span class=\"media-heading\">  <p class=\"m0\"> '
-		item=item+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('/user/" + comments[i].userId + "')\">"+comments[i].userName+"</a>";
-		item=item+'</p> <p class=\"m0 text-muted\">'+comments[i].content+'<small>';
+		item=item+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('/user/" + comments[i].userId + "/0')\">"+comments[i].userName+"</a>";
+		item=item+'</p> <p class=\"m0 text-muted\">';
+		if(!isEmpty(comments[i].replyUserName)){
+			item=item+'回复@'+comments[i].replyUserName+':'+comments[i].content+'<small>';
+		}else{
+			item=item+comments[i].content+'<small>';
+		}
+		
 		if($("#loginUser").length > 0){
 			if(comments[i].userId==$("#loginUser").val()){
 				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
