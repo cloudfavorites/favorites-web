@@ -55,8 +55,10 @@ $(function(){
 	  						loadUserFavorites();
 	  					}else if($("#pageType").val()=="garbage"){
 	  						locationUrl($("#forward").val(),"");
-	  					}else{
+	  					}else if($("#forward").val().lenght > 0){
 	  						locationUrl($("#forward").val(),"home");
+	  					}else{
+	  						locationUrl("/standard/my/0","home");
 	  					}
 	  	        	 }else{
 	  	        		$("#errorMsg").text(response.rspMsg);

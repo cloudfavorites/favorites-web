@@ -6,15 +6,15 @@
          	<div class="row unread-alert" th:if="${favorites.name != null and favorites.name =='未读列表'}">
                <div class="col-xs-12">未读列表中的内容将从收集当日起30天后自动进入回收站，赶紧给收藏分类吧~</div>
             </div>
-            <div class="row" th:if="${favorites.name != null and favorites.name =='首页'}" >
+            <div class="row" th:if="${favorites.name != null and favorites.name =='未读列表'}" >
                <div class="col-xs-12 text-center">
                   <h2 class="text-thin">未读列表是空的</h2>
                   <p>您的收藏都整洁有序，恭喜您！</p>
-                  <p>(在未读列表中的收藏，20天后自动进入右上角的回收站)</p>
+                  <p>(在未读列表中的收藏，30天后自动进入右上角的回收站)</p>
                </div>
             </div>
             
-             <div class="row" th:if="${size == 0 and favorites.name =='首页'}" >
+             <div class="row" th:if="${size == 0  and favorites.name !='未读列表'  }" >
                <div class="col-xs-12 text-center">
                   <h2 class="text-thin">您和您的好友，暂未收藏</h2>
                   <p>第一次使用，需要安装网页收集工具</p>
@@ -24,7 +24,7 @@
                  </p>
                </div>
             </div>
-         	<h3 th:if="${(favorites.name != null and favorites.name !='未读列表')or (type == 'garbage')} ">
+         	<h3 th:if="${(favorites.name != null and favorites.name !='未读列表' and size != 0) or (type == 'garbage')} ">
                <span th:if="${otherPeople != null}" th:text="${otherPeople.userName +'的收藏夹: ' + favorites.name}"></span>
                <span th:if="${otherPeople == null and type != 'garbage'}" th:text="${favorites.name}"></span>
                <span th:if="${otherPeople == null and type != 'garbage'}" class="title-small ml-sm mr-sm" th:text="'('+${favorites.count}+')'">(8)</span>
