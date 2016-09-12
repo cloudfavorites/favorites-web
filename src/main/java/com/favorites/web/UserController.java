@@ -178,7 +178,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * 发送忘记密码邮件
+	 * 忘记密码-发送重置邮件
 	 * @param email
 	 * @return
 	 */
@@ -219,7 +219,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * 设置新密码
+	 * 忘记密码-设置新密码
 	 * @param newpwd
 	 * @param email
 	 * @param sid
