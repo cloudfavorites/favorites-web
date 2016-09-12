@@ -101,7 +101,7 @@ public class CollectController extends BaseController{
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
 	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
-		Sort sort = new Sort(Direction.DESC, "id");
+		  Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects = null;
 	    if("otherpublic".equalsIgnoreCase(type)){
@@ -186,7 +186,7 @@ public class CollectController extends BaseController{
 			if(null != collect){
 				noticeService.saveNotice(String.valueOf(id), "praise", collect.getUserId(), String.valueOf(newPraise.getId()));
 			}
-		}else{
+		}else if(praise.getUserId().equals(getUserId())){
 			praiseRepository.delete(praise.getId());
 		}
 		return result();
