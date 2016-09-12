@@ -135,7 +135,7 @@ public class HomeController extends BaseController{
 				collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
 			}
 		}else{
-			model.addAttribute("myself","no");
+			model.addAttribute("myself",IsDelete.NO.toString());
 			collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
 			if(favoritesId == 0){
 				collects =collectService.getCollects("others", userId, pageable,null);
@@ -188,7 +188,7 @@ public class HomeController extends BaseController{
 					collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
 				}
 			}else{
-				model.addAttribute("myself","no");
+				model.addAttribute("myself",IsDelete.NO.toString());
 				collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
 				if(favoritesId == 0){
 					collects =collectService.getCollects("others", userId, pageable,null);
