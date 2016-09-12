@@ -306,14 +306,17 @@ public class UserController extends BaseController {
 	@LoggerManage(description="修改昵称")
 	public ResponseData updateUserName(String userName) {
 		try {
+			User loginUser = getUser();
+			if(userName.equals(loginUser.getUserName())){
+				return new ResponseData(ExceptionMsg.UserNameSame);
+			}
 			User user = userRepository.findByUserName(userName);
 			if(null != user && user.getUserName().equals(userName)){
 				return new ResponseData(ExceptionMsg.UserNameUsed);
 			}
 			if(userName.length()>12){
-				return new ResponseData(ExceptionMsg.UserNameLengthError);
+				return new ResponseData(ExceptionMsg.UserNameLengthLimit);
 			}
-			User loginUser = getUser();
 			userRepository.setUserName(userName, loginUser.getEmail());
 			loginUser.setUserName(userName);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);

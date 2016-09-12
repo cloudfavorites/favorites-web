@@ -12,8 +12,9 @@ public enum ExceptionMsg {
     EmailNotRegister("000103","该邮箱地址未注册"), 
     LinkOutdated("000104","该链接已过期，请重新请求"),
     PassWordError("000105","密码输入错误"),
-    UserNameLengthError("000106","昵称长度错误，请控制在12个字以内"),
+    UserNameLengthLimit("000106","用户名长度超限"),
     LoginNameNotExists("000107","该用户未注册"),
+    UserNameSame("000108","新用户名与原用户名一致"),
 
     FavoritesNameIsNull("000200","收藏夹名称不能为空"),
     FavoritesNameUsed("000201","收藏夹名称已被创建"),
