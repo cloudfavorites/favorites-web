@@ -71,7 +71,9 @@ public class UserController extends BaseController {
 	public ResponseData login(User user) {
 		try {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
-			if (loginUser == null || !loginUser.getPassWord().equals(getPwd(user.getPassWord()))) {
+			if (loginUser == null ) {
+				return new ResponseData(ExceptionMsg.LoginNameNotExists);
+			}else if(!loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
