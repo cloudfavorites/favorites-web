@@ -132,12 +132,12 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/forgotPassword",method=RequestMethod.GET)
 	@LoggerManage(description="忘记密码页面")
 	public String forgotPassword() {
-		return "forgotpassword";
+		return "user/forgotpassword";
 	}
 	
 	@RequestMapping(value="/newPassword",method=RequestMethod.GET)
 	public String newPassword(String email) {
-		return "newpassword";
+		return "user/newpassword";
 	}
 
 	@RequestMapping(value="/uploadHeadPortrait")
