@@ -193,7 +193,6 @@ public class UserController extends BaseController {
             long date = outDate.getTime() / 1000 * 1000;
             userRepository.setOutDateAndValidataCode(outDate+"", secretKey, email);
             String key =email + "$" + date + "$" + secretKey;
-            System.out.println(" key>>>"+key);
             String digitalSignature = MD5Util.encrypt(key);// 数字签名
             String path = this.getRequest().getContextPath();
             String basePath = this.getRequest().getScheme() + "://"
