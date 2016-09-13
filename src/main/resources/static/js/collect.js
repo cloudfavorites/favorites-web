@@ -134,6 +134,20 @@ function getCollect(id,user){
 				$("#cremark").val(collect.remark);
 				$("#ccollectId").val(collect.id);
 				$('#modal-changeSharing').modal('show');
+				if("private" == gconfig.defaultCollectType){
+					$("#type").prop('checked',true);
+				}else{
+					$("#type").prop('checked',false);
+				}
+				if("simple"==gconfig.defaultModel){
+					$("#show2").show();
+					$("#model1").hide();
+					$("#model2").show();
+				}else{
+					$("#show2").hide();
+					$("#model2").hide();
+					$("#model1").show();
+				}
 				if("usercontent" == user){
 					$("#favoritesSelect").val(gconfig.defaultFavorties);
 				}else{
