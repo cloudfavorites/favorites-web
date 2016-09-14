@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.FavoritesRepository;
@@ -27,8 +28,9 @@ public class ScheduledTasks {
 	/**
 	 * 回收站定时
 	 */
-	//@Scheduled(cron="22 2 2 * * ?")
+//	@Scheduled(cron="22 2 2 * * ?")
 	@Scheduled(cron="22 */3 * * * ?")
+	@LoggerManage(description="回收站定时")
     public void autoRecovery() {
 		//Long date = new Date().getTime() - 20*24*60*60*1000;
 		Long date = new Date().getTime() - 3*60*1000;

@@ -178,7 +178,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * 发送忘记密码邮件
+	 * 忘记密码-发送重置邮件
 	 * @param email
 	 * @return
 	 */
@@ -219,7 +219,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * 设置新密码
+	 * 忘记密码-设置新密码
 	 * @param newpwd
 	 * @param email
 	 * @param sid
@@ -306,16 +306,20 @@ public class UserController extends BaseController {
 	@LoggerManage(description="修改昵称")
 	public ResponseData updateUserName(String userName) {
 		try {
-			User user = getUser();
-			if(user.getUserName().equals(userName)){
+			User loginUser = getUser();
+			if(userName.equals(loginUser.getUserName())){
+				return new ResponseData(ExceptionMsg.UserNameSame);
+			}
+			User user = userRepository.findByUserName(userName);
+			if(null != user && user.getUserName().equals(userName)){
 				return new ResponseData(ExceptionMsg.UserNameUsed);
 			}
 			if(userName.length()>12){
-				return new ResponseData(ExceptionMsg.UserNameLengthError);
+				return new ResponseData(ExceptionMsg.UserNameLengthLimit);
 			}
-			userRepository.setUserName(userName, user.getEmail());
-			user.setUserName(userName);
-			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+			userRepository.setUserName(userName, loginUser.getEmail());
+			loginUser.setUserName(userName);
+			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			return new ResponseData(ExceptionMsg.SUCCESS, userName);
 		} catch (Exception e) {
 			// TODO: handle exception
