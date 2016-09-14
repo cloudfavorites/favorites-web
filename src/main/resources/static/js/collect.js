@@ -147,9 +147,13 @@ function getCollect(id,user){
 					$("#show2").hide();
 					$("#model2").hide();
 					$("#model1").show();
-				}
+				}				
 				if("usercontent" == user){
-					$("#favoritesSelect").val(gconfig.defaultFavorties);
+					if($("#userId").val() == $("#loginUser").val()){
+						$("#favoritesSelect").val(collect.favoritesId);
+					}else{
+						$("#favoritesSelect").val(gconfig.defaultFavorties);
+					}
 				}else{
 					if($("#userId").val() == collect.userId){
 						$("#favoritesSelect").val(collect.favoritesId);
