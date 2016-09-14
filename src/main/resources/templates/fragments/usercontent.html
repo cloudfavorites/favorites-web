@@ -116,7 +116,7 @@
 	                                 <span class="fa fa-comment-o"></span>
 	                                 <show th:id="'commentS' + ${collect.id}" th:text="|评论(${collect.commentCount})|">	 评论(0)</show>
 	                              </a>
-	<if th:if="${myself== 'no'}" > 
+	<if th:if="${myself== 'NO'}" > 
 	   | 
 	</if> 
 	                              <a class="sharing-action-button"  th:if="${myself== 'NO'}" th:onclick="'getCollect(' + ${collect.id} + ',\'usercontent\');'">
