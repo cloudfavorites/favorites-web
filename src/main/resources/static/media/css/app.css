@@ -10456,3 +10456,8 @@ body,
 .sidebar .nav > li.active .text-muted{ color:#fff;}
 .btn-primary{ border-color: #18bc9c; background-color: #18bc9c;}
 .btn-primary:hover{ border-color: #0fb391; background-color: #0fb391;}
+.shaozi-mobile-qrcode{
+	width: 140px;
+	height: 150px;
+	padding-top: 10px;
+}
