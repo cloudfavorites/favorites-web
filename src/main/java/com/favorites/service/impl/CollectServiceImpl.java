@@ -191,8 +191,10 @@ public class CollectServiceImpl implements CollectService {
 		}
 		if(IsDelete.YES.equals(collect.getIsDelete())){
 			collect.setIsDelete(IsDelete.NO);
-			favoritesRepository.increaseCountById(newCollect.getFavoritesId(), DateUtils.getCurrentTime());
-			collect.setFavoritesId(newCollect.getFavoritesId());
+			if(StringUtils.isBlank(newCollect.getNewFavorites())){
+				favoritesRepository.increaseCountById(newCollect.getFavoritesId(), DateUtils.getCurrentTime());
+				collect.setFavoritesId(newCollect.getFavoritesId());
+			}
 		}
 		if (newCollect.getType()==null) {
 			collect.setType(CollectType.PUBLIC);
