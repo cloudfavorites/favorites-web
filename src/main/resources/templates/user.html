@@ -11,7 +11,7 @@
                      <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
                      <p th:if="${myself == 'YES'}" th:text="${user.email}">123456789@qq.com</p>
                      <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
-                     <a href="javascript:void(0);" th:if="${myself == 'no'}" id="follow"></a>
+                     <a href="javascript:void(0);" th:if="${myself == 'NO'}" id="follow"></a>
                   </div>
                </div>
                <div class="text-center bg-gray-dark p-lg mb">
@@ -20,7 +20,7 @@
                         <h3 class="m0" th:text="${collectCount}" id="totalCount">4</h3>
                         <p class="m0">
                            <span th:if="${myself == 'YES'}">收藏</span>
-                           <span th:if="${myself == 'no'}">公开收藏</span>
+                           <span th:if="${myself == 'NO'}">公开收藏</span>
                         </p>
                      </div>
                      <div class="col-xs-4 br">
