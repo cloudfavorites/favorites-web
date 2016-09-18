@@ -107,11 +107,11 @@
 	            <div class="modal-body">
 	               <div class="alert alert-danger text-center" id="passwordError">密码输入错误</div>
 	               <div class="form-group has-feedback">
-	                  <input id="oldPassword" name="oldPassword" type="password" placeholder="旧密码" class="form-control" required="required" data-parsley-error-message="请输入旧密码"/>
+	                  <input id="oldPassword" name="oldPassword" type="password" placeholder="旧密码" class="form-control" v-model="password" required="required" data-parsley-required-message="请输入旧密码"/>
 	                  <span class="fa fa-lock form-control-feedback text-muted"></span>
 	               </div>
 	               <div class="form-group has-feedback">
-	                  <input id="newPassword" name="newPassword" type="password" placeholder="新密码" class="form-control" required="required" data-parsley-error-message="请输入新密码"/>
+	                  <input id="newPassword" name="newPassword" type="password" placeholder="新密码" class="form-control" v-model="password" required="required" data-parsley-required-message="请输入新密码" pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)(?![^0-9a-zA-Z]+$)\S{6,20}$/" data-parsley-pattern-message="请输入6-20位字母数字组合"/>
 	                  <span class="fa fa-lock form-control-feedback text-muted"></span>
 	               </div>
 	            </div>
