@@ -28,12 +28,10 @@ public class ScheduledTasks {
 	/**
 	 * 回收站定时
 	 */
-//	@Scheduled(cron="22 2 2 * * ?")
-	@Scheduled(cron="22 */3 * * * ?")
+	@Scheduled(cron="22 2 2 * * ?")
 	@LoggerManage(description="回收站定时")
     public void autoRecovery() {
-		//Long date = new Date().getTime() - 20*24*60*60*1000;
-		Long date = new Date().getTime() - 3*60*1000;
+		Long date = new Date().getTime() - 30*24*60*60*1000;
 		List<Long> favoritesId = favoritesRespository.findIdByName("未读列表");
 		List<Collect> collectList = collectRespository.findByCreateTimeLessThanAndIsDeleteAndFavoritesIdIn(date, IsDelete.NO,favoritesId);
 		for(Collect collect : collectList){
