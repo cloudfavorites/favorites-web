@@ -59,7 +59,7 @@
 	                      </ul>
 	                   </div>
 	                   <div class="m0">
-	                      <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '\',\'\');'" >user name</a>
+	                      <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" >user name</a>
 	                      <a th:if="${myself=='YES'}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PRIVATE' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PRIVATE\');'">
 	                         <span class="fa fa-lock" style="color: #eee;"></span>
 	                               </a>
