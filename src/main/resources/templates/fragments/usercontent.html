@@ -70,6 +70,7 @@
 	                            </div>
 	                         </div>
 	                      </div>
+	                      <div class="m0" th:text="${collect.remark}"></div>
 	                      <div class="media resource-card-thumbnail">
 	                         <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
 	                            <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
