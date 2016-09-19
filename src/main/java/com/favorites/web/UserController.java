@@ -334,8 +334,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
-	@LoggerManage(description="上传头像")
 	public ResponseData uploadHeadPortrait(String dataUrl){
+		logger.info("执行 上传头像 开始");
 		try { 
 			String filePath=staticUrl+fileProfilepicturesUrl;
 			String fileName=UUID.randomUUID().toString()+".png";
@@ -353,7 +353,9 @@ public class UserController extends BaseController {
     			user.setProfilePicture(savePath);
     			getSession().setAttribute(Const.LOGIN_SESSION_KEY, user); 			
 	        }
-	        return new ResponseData(ExceptionMsg.SUCCESS, savePath);		
+	        logger.info("头像地址：" + savePath);
+	        logger.info("执行 上传头像 结束");
+	        return new ResponseData(ExceptionMsg.SUCCESS, savePath);	
 		} catch (Exception e) {
 			logger.error("upload head portrait failed, ", e);
 			return new ResponseData(ExceptionMsg.FAILED);
