@@ -94,15 +94,18 @@ public class FavoritesController extends BaseController{
 	@LoggerManage(description="修改收藏夹")
 	public Response updateFavorites(String favoritesName,Long favoritesId){
 		if(StringUtils.isNotBlank(favoritesName)&& null != favoritesId){
-			Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), favoritesName);
-			if(null != favorites){
-				logger.info("收藏夹名称已被创建");
-				return result(ExceptionMsg.FavoritesNameUsed);
-			}else{
-				try {
-					favoritesRepository.updateNameById(favoritesId, DateUtils.getCurrentTime(), favoritesName);
-				} catch (Exception e) {
-					logger.error("修改收藏夹名称异常：",e);
+			Favorites fav = favoritesRepository.findOne(favoritesId);
+			if(null != fav && getUserId().longValue() == fav.getUserId().longValue()){
+				Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), favoritesName);
+				if(null != favorites){
+					logger.info("收藏夹名称已被创建");
+					return result(ExceptionMsg.FavoritesNameUsed);
+				}else{
+					try {
+						favoritesRepository.updateNameById(favoritesId, DateUtils.getCurrentTime(), favoritesName);
+					} catch (Exception e) {
+						logger.error("修改收藏夹名称异常：",e);
+					}
 				}
 			}
 		}else{
@@ -124,17 +127,21 @@ public class FavoritesController extends BaseController{
 			return result(ExceptionMsg.FAILED);
 		}
 		try {
-			favoritesRepository.delete(id);
-			// 删除该收藏夹下文章
-			collectRepository.deleteByFavoritesId(id);
-			Config config = configRespository.findByUserIdAndDefaultFavorties(getUserId(),String.valueOf(id));
-			if(null != config){
-				// 默认收藏夹被删除，设置“未读列表”为默认收藏夹
-				Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "未读列表");
-				if(null != favorites){
-					configRespository.updateFavoritesById(config.getId(), String.valueOf(favorites.getId()), DateUtils.getCurrentTime());
+			Favorites fav = favoritesRepository.findOne(id);
+			if(null != fav && getUserId().longValue() == fav.getUserId().longValue()){
+				favoritesRepository.delete(id);
+				// 删除该收藏夹下文章
+				collectRepository.deleteByFavoritesId(id);
+				Config config = configRespository.findByUserIdAndDefaultFavorties(getUserId(),String.valueOf(id));
+				if(null != config){
+					// 默认收藏夹被删除，设置“未读列表”为默认收藏夹
+					Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "未读列表");
+					if(null != favorites){
+						configRespository.updateFavoritesById(config.getId(), String.valueOf(favorites.getId()), DateUtils.getCurrentTime());
+					}
 				}
 			}
+			
 		} catch (Exception e) {
 			logger.error("删除异常：",e);
 		}
