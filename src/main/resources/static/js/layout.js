@@ -506,7 +506,7 @@ function praiseMeOnclick() {
 		},
 		success : function(data, textStatus) {
 			if(data.rspCode == '000000'){
-				var temp = $(".label.label-danger").html()-data.data;
+				var temp = $(".label.label-danger").html()-$("#newPraiseMeCounts").val();
 				if(temp==0){
 					$(".label.label-danger").hide();
 				}else{
