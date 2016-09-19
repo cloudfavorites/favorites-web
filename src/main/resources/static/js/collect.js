@@ -140,13 +140,15 @@ function getCollect(id,user){
 					$("#type").prop('checked',false);
 				}
 				if("simple"==gconfig.defaultModel){
-					$("#show2").show();
-					$("#model1").hide();
-					$("#model2").show();
-				}else{
 					$("#show2").hide();
-					$("#model2").hide();
-					$("#model1").show();
+		   			$("#show1").show();
+		   			$("#model2").hide();
+		   			$("#model1").show();
+				}else{
+					$("#show1").hide();
+		   			$("#show2").show();
+		   			$("#model1").hide();
+		   			$("#model2").show();
 				}				
 				if("usercontent" == user){
 					if($("#userId").val() == $("#loginUser").val()){
