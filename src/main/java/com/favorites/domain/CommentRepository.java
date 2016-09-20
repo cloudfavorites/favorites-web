@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-  public String findReplyUserSql="select u.id as userId,u.userName as userName,u.profilePicture as profilePicture,c.content as content,c.createTime as createTime "
+  public String findReplyUserSql="select u.id as userId,u.userName as userName,u.profilePicture as profilePicture,c.content as content,c.createTime as createTime,c.replyUserId as replyUserId "
       + "from Comment c,User u WHERE c.userId=u.id";
   
 	Long countByCollectId(Long collectId);
@@ -16,7 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 	List<Comment> findByCollectIdOrderByIdDesc(Long collectId);
 	
 	@Transactional
-  Long deleteById(Long id);
+	Long deleteById(Long id);
 
 	
 	@Query(findReplyUserSql+ " and c.id=?1")

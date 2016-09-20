@@ -82,8 +82,8 @@
                _this.find(".collapse").removeClass('in')
             }else{
                _this.find(".collapse").addClass('in')
-               var rep = "回复@"+_this.find(".m0 .text-muted").html()+"：";
-               _this.find(".form-control").val(rep);
+               var rep = "@"+_this.find(".m0 .text-muted").html()+" ";
+               _this.find(".form-control").focus().val(rep);
             }
          });
       });
@@ -92,7 +92,7 @@
 		 var _form = $(this).parent().parent().parent();
 		 var ok = _form.parsley().isValid({force: true});
 		 if(ok){
-			var url = '/notice/reply';
+			var url = '/comment/add';
 			$.ajax({
 				url : url,
 				data : _form.serialize(),

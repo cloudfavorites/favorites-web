@@ -71,7 +71,7 @@ public class NoticeController extends BaseController{
 			noticeRepository.save(notice);
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error("updateUserName failed, ", e);
+			logger.error("reply failed, ", e);
 			return result(ExceptionMsg.FAILED);
 		}
 		return result();

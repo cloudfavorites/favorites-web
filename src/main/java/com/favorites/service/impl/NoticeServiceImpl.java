@@ -16,6 +16,8 @@ import com.favorites.domain.CommentView;
 import com.favorites.domain.Notice;
 import com.favorites.domain.NoticeRepository;
 import com.favorites.domain.PraiseRepository;
+import com.favorites.domain.User;
+import com.favorites.domain.UserRepository;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 
@@ -28,6 +30,8 @@ public class NoticeServiceImpl implements NoticeService{
 	private CommentRepository commentRepository;
 	@Autowired
 	private PraiseRepository praiseRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	/**
 	 * 保存消息通知
@@ -73,7 +77,12 @@ public class NoticeServiceImpl implements NoticeService{
 				summary.setUserId(comment.getUserId());
 				summary.setUserName(comment.getUserName());
 				summary.setProfilePicture(comment.getProfilePicture());
-				summary.setRemark(comment.getContent());
+				if(comment.getReplyUserId() != null && comment.getReplyUserId() != 0L){
+					User replyUser = userRepository.findOne(comment.getReplyUserId());
+				    summary.setRemark("回复@"+replyUser.getUserName()+": "+comment.getContent());
+				}else{
+					summary.setRemark(comment.getContent());
+				}
 				summary.setCollectTime(DateUtils.getTimeFormatText(comment.getCreateTime()));
 			}else if("praise".equals(type)){
 				CommentView comment = praiseRepository.findPraiseUser(Long.valueOf(view.getOperId()));

@@ -80,7 +80,7 @@ $(function(){
 
 function showAt(name){
 	var text = $("#cremark").val();
-	$("#cremark").val(text + "@" +name + " ").focus();
+	$("#cremark").focus().val(text + "@" +name + " ");
 	$(".dropdown-menu").hide();
 }
 
@@ -360,7 +360,7 @@ function deleteComment(id,collectId){
 
 function replyComment(name,collectId){
 	var text = $("#commentContent"+collectId).val();
-	$("#commentContent"+collectId).val(text + "@" +name + " ").focus();
+	$("#commentContent"+collectId).focus().val(text + "@" +name + " ");
 }
 
 
