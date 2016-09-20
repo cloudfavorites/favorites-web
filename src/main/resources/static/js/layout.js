@@ -383,7 +383,7 @@ function updateIntroduction() {
 	$.ajax({
 		async: false,
 		url : url,
-		data : 'introduction='+$("#introduction").val(),
+		data : {'introduction':$("#introduction").val()},
 		type : 'POST',
 		dataType : "json",
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
