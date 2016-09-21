@@ -74,6 +74,9 @@ public class NoticeServiceImpl implements NoticeService{
 				summary.setCollectTime(DateUtils.getTimeFormatText(view.getLastModifyTime())+" at了你");
 			}else if("comment".equals(type)){
 				CommentView comment = commentRepository.findReplyUser(Long.valueOf(view.getOperId()));
+				if(comment == null){
+					continue;
+				}
 				summary.setUserId(comment.getUserId());
 				summary.setUserName(comment.getUserName());
 				summary.setProfilePicture(comment.getProfilePicture());
