@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.favorites.domain.enums.FollowStatus;
 
 
 /**
@@ -27,7 +31,8 @@ public class Follow extends Entitys implements Serializable {
 	@Column(nullable = false)
 	private Long followId;
 	@Column(nullable = false)
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private FollowStatus status;
 	@Column(nullable = false)
 	private Long createTime;
 	@Column(nullable = false)
@@ -71,11 +76,11 @@ public class Follow extends Entitys implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public String getStatus() {
+	public FollowStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(FollowStatus status) {
 		this.status = status;
 	}
 

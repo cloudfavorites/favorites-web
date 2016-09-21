@@ -21,6 +21,7 @@ import com.favorites.domain.FollowRepository;
 import com.favorites.domain.User;
 import com.favorites.domain.UserRepository;
 import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.service.CollectService;
 import com.favorites.service.NoticeService;
@@ -142,10 +143,10 @@ public class HomeController extends BaseController{
 			}else{
 				collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId);
 			}
-			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, "follow");
+			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, FollowStatus.FOLLOW);
 		}
-		Integer follow = followRepository.countByUserIdAndStatus(userId, "follow");
-		Integer followed = followRepository.countByFollowIdAndStatus(userId, "follow");
+		Integer follow = followRepository.countByUserIdAndStatus(userId, FollowStatus.FOLLOW);
+		Integer followed = followRepository.countByFollowIdAndStatus(userId, FollowStatus.FOLLOW);
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
 		List<String> followUser = followRepository.findFollowUserByUserId(userId);
 		List<String> followedUser = followRepository.findFollowedUserByFollowId(userId);
