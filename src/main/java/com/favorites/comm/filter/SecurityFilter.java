@@ -1,21 +1,14 @@
 package com.favorites.comm.filter;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
+import com.favorites.comm.Const;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.favorites.comm.Const;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SecurityFilter implements Filter {
 
@@ -59,7 +52,12 @@ public class SecurityFilter implements Filter {
 				}
 	        	request.getSession().setAttribute(Const.LAST_REFERER, referer);
 	        	logger.debug("security filter, deney, " + request.getRequestURI());
-				String html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
+				String html = "";
+				if(0 > referer.indexOf("/collect?")){
+					html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
+				}else{
+					html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
+				}
 				html = html.replace("_BP_", Const.BASE_PATH);
 				sresponse.getWriter().write(html);
 	        }

@@ -200,8 +200,12 @@
    	  	        	 if(response.rspCode == '000000'){
    	  	        		window.location="/";
    	  	        	 }else{
-   	  	        		$("#errorMsg").text(response.rspMsg);
-   	 			 		$("#errorMsg").show();
+                         if(response.hasOwnProperty("rspCode")){
+                             $("#errorMsg").text(response.rspMsg);
+                             $("#errorMsg").show();
+                         }else{
+                             window.location="/login";
+                         }
    	  	        	 }
    	  	         },
    	  	         error: function (jqXHR, textStatus, errorThrown) {
