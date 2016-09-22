@@ -26,7 +26,7 @@
                <div id="show1">
                <div class="media mb">
                   <a id="logoA" href="javascript:void(0);" target="_blank" class="pull-left">
-                     <div class="media-object resource-card-image-small" th:style="|background-image:url('${logoUrl}');|"></div>
+                      <div class="media-object resource-card-image-small-loading" style="background-image:url('/img/loading.gif')"></div>
                   </a>
                   <div class="media-body">
                      <h4 class="media-heading resource-card-title-small form-control-static" id="titleShow"></h4>
@@ -122,6 +122,24 @@
    		$("#logoA").attr("href",decodeURIComponent(request.url));
    		$("#description").val(replaceEmpty(decodeURI(request.description)));
    		$("#charset").val(request.charset);
+        $.ajax({
+            type: "POST",
+            url:"/collect/getCollectLogoUrl",
+            data:{'url':$("#url").val()},
+            success: function(response) {
+                $("#logoUrl").val(response);
+                $("#logoA div").attr("class","media-object resource-card-image-small");
+                $("#logoA div").attr("style","background-image:url('"+response+"');");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                console.log(jqXHR.status);
+                console.log(jqXHR.readyState);
+                console.log(jqXHR.statusText);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
    		if("private"== config.defaultCollectType){
    			$("#type").attr("checked","checked");
    		}
@@ -172,11 +190,6 @@
    			 $("#errorMsg").text("标题不能为空");
    			 $("#errorMsg").show();
    			 return;
-   		 }
-   		 if($("#logoUrl").val() ==""){
-   			 $("#errorMsg").text("图片链接不能为空");
- 			 $("#errorMsg").show();
- 			 return;
    		 }
    		  $("#errorMsg").hide();
    	  	  $.ajax({

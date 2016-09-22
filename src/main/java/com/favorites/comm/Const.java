@@ -13,7 +13,7 @@ public class Const {
 	
 	public static String PASSWORD_KEY = "@#$%^&*()OPG#$%^&*(HG";
 	
-	public static String default_logo=BASE_PATH+"/img/logo.jpg";
+	public static String default_logo="img/logo.jpg";
 	
 	public static String userAgent="Mozilla";
 	

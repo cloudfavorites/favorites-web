@@ -1,36 +1,8 @@
 package com.favorites.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
+import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
-import com.favorites.domain.Collect;
-import com.favorites.domain.CollectRepository;
-import com.favorites.domain.CollectSummary;
-import com.favorites.domain.Favorites;
-import com.favorites.domain.FavoritesRepository;
-import com.favorites.domain.Praise;
-import com.favorites.domain.PraiseRepository;
+import com.favorites.domain.*;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.result.ExceptionMsg;
@@ -40,6 +12,23 @@ import com.favorites.service.FavoritesService;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @RestController
 @RequestMapping("/collect")
@@ -66,6 +55,9 @@ public class CollectController extends BaseController{
 	@LoggerManage(description="文章收集")
 	public Response collect(Collect collect) {		
 		try {
+			if(StringUtils.isBlank(collect.getLogoUrl())){
+				collect.setLogoUrl(HtmlUtil.getImge(collect.getUrl()));
+			}
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
 				Collect exist=collectRepository.findByIdAndUserId(collect.getId(), collect.getUserId());
@@ -86,7 +78,21 @@ public class CollectController extends BaseController{
 		}
 		return result();
 	}
-	
+
+	@RequestMapping(value="/getCollectLogoUrl",method=RequestMethod.POST)
+	@LoggerManage(description="获取收藏页面的LogoUrl")
+	public String getCollectLogoUrl(String url){
+		if(StringUtils.isNotBlank(url)){
+			String logoUrl = HtmlUtil.getImge(url);
+			if(StringUtils.isNotBlank(logoUrl)){
+				return logoUrl;
+			}else{
+				return Const.default_logo;
+			}
+		}else{
+			return Const.default_logo;
+		}
+	}
 	
 	/**
 	 * @author neo
@@ -228,7 +234,7 @@ public class CollectController extends BaseController{
 
 	/**
 	 * 导入收藏夹
-	 * @param path
+	 *
 	 */
 	@RequestMapping("/import")
 	@LoggerManage(description="导入收藏夹操作")
@@ -269,7 +275,7 @@ public class CollectController extends BaseController{
 	
 	/**
 	 * 导出收藏夹
-	 * @param name
+	 * @param favoritesId
 	 * @return
 	 */
 	@RequestMapping("/export")

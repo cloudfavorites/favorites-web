@@ -10461,3 +10461,11 @@ body,
 	height: 150px;
 	padding-top: 10px;
 }
+
+.resource-card-image-small-loading {
+    width: 84px;
+    height: 60px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: auto 100%;
+}
