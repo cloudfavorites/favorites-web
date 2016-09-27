@@ -132,7 +132,9 @@ function getCollect(id,user){
 				$("#ctitle").val(collect.title);
 				$("#clogoUrl").val(collect.logoUrl);
 				$("#cremark").val(collect.remark);
+				$("#cdescription").val(collect.description);
 				$("#ccollectId").val(collect.id);
+				$("#curl").val(collect.url);
 				$('#modal-changeSharing').modal('show');
 				if("private" == gconfig.defaultCollectType){
 					$("#type").prop('checked',true);
