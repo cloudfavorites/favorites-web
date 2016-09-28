@@ -305,6 +305,7 @@ public class CollectServiceImpl implements CollectService {
 				}else{
 					collect.setDescription(result.get("description"));
 				}
+				collect.setRemark(entry.getValue());
 				collect.setFavoritesId(favoritesId);
 				collect.setIsDelete(IsDelete.NO);
 				collect.setLogoUrl(result.get("logoUrl"));
