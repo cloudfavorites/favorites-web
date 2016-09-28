@@ -204,6 +204,7 @@
                          if(response.hasOwnProperty("rspCode")){
                              $("#errorMsg").text(response.rspMsg);
                              $("#errorMsg").show();
+                             $("#collect").removeAttr("disabled");
                          }else{
                              window.location="/login";
                          }
