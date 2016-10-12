@@ -63,9 +63,9 @@ public class HomeController extends BaseController{
 	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
 			User user = userRepository.findOne(userId);
 			model.addAttribute("otherPeople", user);
-			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId());
+			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId(),null);
 		}else{
-			collects =collectService.getCollects(type,getUserId(), pageable,null);
+			collects =collectService.getCollects(type,getUserId(), pageable,null,null);
 		}
 		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
@@ -97,9 +97,9 @@ public class HomeController extends BaseController{
 	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
 			User user = userRepository.findOne(userId);
 			model.addAttribute("otherPeople", user);
-			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId());
+			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId(),null);
 		}else{
-			collects =collectService.getCollects(type,getUserId(), pageable,null);
+			collects =collectService.getCollects(type,getUserId(), pageable,null,null);
 		}
 		model.addAttribute("collects", collects);
 		model.addAttribute("favorites", favorites);
@@ -131,17 +131,17 @@ public class HomeController extends BaseController{
 			model.addAttribute("myself",IsDelete.YES.toString());
 			collectCount = collectRepository.countByUserIdAndIsDelete(userId,IsDelete.NO);
 			if(0 == favoritesId){
-				collects =collectService.getCollects("myself", userId, pageable,null);
+				collects =collectService.getCollects("myself", userId, pageable,null,null);
 			}else{
-				collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
+				collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l,null);
 			}
 		}else{
 			model.addAttribute("myself",IsDelete.NO.toString());
 			collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
 			if(favoritesId == 0){
-				collects =collectService.getCollects("others", userId, pageable,null);
+				collects =collectService.getCollects("others", userId, pageable,null,getUserId());
 			}else{
-				collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId);
+				collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId,getUserId());
 			}
 			isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, FollowStatus.FOLLOW);
 		}
@@ -184,17 +184,17 @@ public class HomeController extends BaseController{
 				model.addAttribute("myself",IsDelete.YES.toString());
 				collectCount = collectRepository.countByUserIdAndIsDelete(userId, IsDelete.NO);
 				if(0 == favoritesId){
-					collects =collectService.getCollects("myself", userId, pageable,null);
+					collects =collectService.getCollects("myself", userId, pageable,null,null);
 				}else{
-					collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l);
+					collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l,null);
 				}
 			}else{
 				model.addAttribute("myself",IsDelete.NO.toString());
 				collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
 				if(favoritesId == 0){
-					collects =collectService.getCollects("others", userId, pageable,null);
+					collects =collectService.getCollects("others", userId, pageable,null,getUserId());
 				}else{
-					collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId);
+					collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId,getUserId());
 				}
 			}
 			List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);

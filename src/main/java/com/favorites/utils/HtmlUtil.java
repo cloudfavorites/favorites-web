@@ -247,7 +247,7 @@ public class HtmlUtil {
 	public static void main(String[] args) {
 //		System.out.println(getCollectFromUrl("http://www.iteye.com/"));
 //		System.out.println(getPageImg("https://github.com/knightliao/disconf/wiki"));
-		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_16_8_25.html");
+		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_2016_9_28_chrome.html");
 		importHtmlMore(file);
 	}
 
