@@ -65,7 +65,7 @@ public class CollectServiceImpl implements CollectService {
 	 * @return
 	 */
 	@Override
-	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable,Long favoritesId) {
+	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable,Long favoritesId,Long specUserId) {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = null;
 		if ("my".equals(type)) {
@@ -81,8 +81,14 @@ public class CollectServiceImpl implements CollectService {
 			views = collectRepository.findExploreView(userId,pageable);
 		} else if("others".equals(type)){
 			views = collectRepository.findViewByUserIdAndType(userId, pageable, CollectType.PUBLIC);
+			if(null != specUserId){
+				userId = specUserId;
+			}
 		} else if("otherpublic".equals(type)){
 			views = collectRepository.findViewByUserIdAndTypeAndFavoritesId(userId, pageable, CollectType.PUBLIC, favoritesId);
+			if(null != specUserId){
+				userId = specUserId;
+			}
 		} else if("garbage".equals(type)){
 			views = collectRepository.findViewByUserIdAndIsDelete(userId, pageable);
 		}else {

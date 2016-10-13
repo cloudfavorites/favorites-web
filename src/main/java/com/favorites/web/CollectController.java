@@ -112,15 +112,15 @@ public class CollectController extends BaseController{
 	    List<CollectSummary> collects = null;
 	    if("otherpublic".equalsIgnoreCase(type)){
 	    	if(null != favoritesId && 0 != favoritesId){
-	    		collects = collectService.getCollects(type, userId, pageable, favoritesId);
+	    		collects = collectService.getCollects(type, userId, pageable, favoritesId,getUserId());
 	    	}else{
-	    		collects = collectService.getCollects("others", userId, pageable, null);
+	    		collects = collectService.getCollects("others", userId, pageable, null,getUserId());
 	    	}
 	    }else{
 	    	if(null != favoritesId && 0 != favoritesId){
-		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null);
+		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null,null);
 		    }else{
-		    	collects=collectService.getCollects(type,getUserId(), pageable,null);
+		    	collects=collectService.getCollects(type,getUserId(), pageable,null,null);
 		    }
 	    }
 		return collects;
@@ -145,15 +145,15 @@ public class CollectController extends BaseController{
 	    List<CollectSummary> collects = null;
 	    if("otherpublic".equalsIgnoreCase(type)){
 	    	if(null != favoritesId && 0 != favoritesId){
-	    		collects = collectService.getCollects(type, userId, pageable, favoritesId);
+	    		collects = collectService.getCollects(type, userId, pageable, favoritesId,getUserId());
 	    	}else{
-	    		collects = collectService.getCollects("others", userId, pageable, null);
+	    		collects = collectService.getCollects("others", userId, pageable, null,getUserId());
 	    	}
 	    }else{
 	    	if(null != favoritesId && 0 != favoritesId){
-		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null);
+		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null,null);
 		    }else{
-		    	collects = collectService.getCollects(type,getUserId(), pageable,null);
+		    	collects = collectService.getCollects(type,getUserId(), pageable,null,null);
 		    }
 	    }
 		return collects;
