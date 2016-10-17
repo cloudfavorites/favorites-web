@@ -65,7 +65,7 @@ public class CollectServiceImpl implements CollectService {
 	 * @return
 	 */
 	@Override
-	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable,Long favoritesId) {
+	public List<CollectSummary> getCollects(String type, Long userId, Pageable pageable,Long favoritesId,Long specUserId) {
 		// TODO Auto-generated method stub
 		Page<CollectView> views = null;
 		if ("my".equals(type)) {
@@ -81,8 +81,14 @@ public class CollectServiceImpl implements CollectService {
 			views = collectRepository.findExploreView(userId,pageable);
 		} else if("others".equals(type)){
 			views = collectRepository.findViewByUserIdAndType(userId, pageable, CollectType.PUBLIC);
+			if(null != specUserId){
+				userId = specUserId;
+			}
 		} else if("otherpublic".equals(type)){
 			views = collectRepository.findViewByUserIdAndTypeAndFavoritesId(userId, pageable, CollectType.PUBLIC, favoritesId);
+			if(null != specUserId){
+				userId = specUserId;
+			}
 		} else if("garbage".equals(type)){
 			views = collectRepository.findViewByUserIdAndIsDelete(userId, pageable);
 		}else {
@@ -263,11 +269,25 @@ public class CollectServiceImpl implements CollectService {
 				}
 			}
 		}else{
-			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);
-			if(null != list && list.size() > 0){
-				return false;
+			if(collect.getId() != null){
+				Collect c = collectRepository.findOne(collect.getId());
+				if(c.getFavoritesId().longValue() == collect.getFavoritesId().longValue()){
+					return true;
+				}else{
+					List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);
+					if(null != list && list.size() > 0){
+						return false;
+					}else{
+						return true;
+					}
+				}
 			}else{
-				return true;
+				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);
+				if(null != list && list.size() > 0){
+					return false;
+				}else{
+					return true;
+				}
 			}
 		}
 	}
@@ -277,11 +297,6 @@ public class CollectServiceImpl implements CollectService {
 	 */
 	public void importHtml(Map<String, String> map,Long favoritesId,Long userId,String type){
 		for(Map.Entry<String, String> entry : map.entrySet()){
-			List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favoritesId, entry.getKey(), userId,IsDelete.NO);
-			if(null != list && list.size() > 0){
-				logger.info("收藏夹：" + favoritesId + "中已经存在：" + entry.getKey() + "这个文章，不在进行导入操作");
-				continue;
-			}
 			try {
 				Map<String, String> result = HtmlUtil.getCollectFromUrl(entry.getKey());
 				Collect collect = new Collect();
@@ -296,6 +311,7 @@ public class CollectServiceImpl implements CollectService {
 				}else{
 					collect.setDescription(result.get("description"));
 				}
+				collect.setRemark(entry.getValue());
 				collect.setFavoritesId(favoritesId);
 				collect.setIsDelete(IsDelete.NO);
 				collect.setLogoUrl(result.get("logoUrl"));
@@ -308,6 +324,11 @@ public class CollectServiceImpl implements CollectService {
 				collect.setUserId(userId);
 				collect.setCreateTime(DateUtils.getCurrentTime());
 				collect.setLastModifyTime(DateUtils.getCurrentTime());
+				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favoritesId, entry.getKey(), userId,IsDelete.NO);
+				if(null != list && list.size() > 0){
+					logger.info("收藏夹：" + favoritesId + "中已经存在：" + entry.getKey() + "这个文章，不在进行导入操作");
+					continue;
+				}
 				collectRepository.save(collect);
 				favoritesRepository.increaseCountById(favoritesId, DateUtils.getCurrentTime());
 			} catch (Exception e) {

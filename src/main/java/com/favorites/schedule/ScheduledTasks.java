@@ -1,20 +1,20 @@
 package com.favorites.schedule;
 
 
-import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.CollectRepository;
 import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.utils.DateUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 @Component
 public class ScheduledTasks {
 	
@@ -31,7 +31,10 @@ public class ScheduledTasks {
 	@Scheduled(cron="22 2 2 * * ?")
 	@LoggerManage(description="回收站定时")
     public void autoRecovery() {
-		Long date = new Date().getTime() - 30*24*60*60*1000;
+		Calendar ca = Calendar.getInstance();
+		ca.setTime(new Date());
+		ca.add(Calendar.DAY_OF_YEAR,-30);
+		Long date = ca.getTime().getTime();
 		List<Long> favoritesId = favoritesRespository.findIdByName("未读列表");
 		List<Collect> collectList = collectRespository.findByCreateTimeLessThanAndIsDeleteAndFavoritesIdIn(date, IsDelete.NO,favoritesId);
 		for(Collect collect : collectList){

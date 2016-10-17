@@ -36,11 +36,6 @@ $(function(){
 			 $("#errorMsg").show();
 			 return;
 		 }
-		 if($("#clogoUrl").val() ==""){
-			 $("#errorMsg").text("图片链接不能为空");
-			 $("#errorMsg").show();
-			 return;
-		 }
 		  $("#errorMsg").hide();
 	  	  $.ajax({
 	  	         type: "POST",
@@ -132,7 +127,9 @@ function getCollect(id,user){
 				$("#ctitle").val(collect.title);
 				$("#clogoUrl").val(collect.logoUrl);
 				$("#cremark").val(collect.remark);
+				$("#cdescription").val(collect.description);
 				$("#ccollectId").val(collect.id);
+				$("#curl").val(collect.url);
 				$('#modal-changeSharing').modal('show');
 				if("private" == gconfig.defaultCollectType){
 					$("#type").prop('checked',true);
@@ -580,8 +577,8 @@ function listStandardCollect(collects,listId,user){
 		"                     <span class=\"fa fa-thumbs-up\"></span>"+
 		"                  	 <show id=\"unlikeS"+collects[i].id+"\">取消点赞("+collects[i].praiseCount+")</show>"+
 		"                  </a>"+
-		"                  <input type=\"hidden\" value=\"1\" id=\"praiseC"+collects[i].id+"\" name=\"praiseC\">"+
-		"                  <input type=\"hidden\" value=\"6\" id=\"commentC"+collects[i].id+"\" name=\"commentC\">"+
+		"                  <input type=\"hidden\" value=\""+collects[i].praiseCount+"\" id=\"praiseC"+collects[i].id+"\" name=\"praiseC\">"+
+		"                  <input type=\"hidden\" value=\""+collects[i].commentCount+"\" id=\"commentC"+collects[i].id+"\" name=\"commentC\">"+
 		"                  | "+
 		"                  <a onclick=\"switchComment("+collects[i].id+");\" href=\"javascript:void(0);\" class=\"sharing-action-button btn-comment\">"+
 		"                     <span class=\"fa fa-comment-o\"></span>"+

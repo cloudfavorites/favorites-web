@@ -10,10 +10,9 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HtmlUtil {
 	
@@ -70,6 +69,13 @@ public class HtmlUtil {
 				result.put("title", title);
 			}
 			String charset = doc.charset().name();
+			if(StringUtils.isBlank(charset)){
+				Elements eles = doc.select("meta[http-equiv=Content-Type]");
+				Iterator<Element> itor = eles.iterator();
+				while (itor.hasNext()){
+					charset = matchCharset(itor.next().toString().toUpperCase());
+				}
+			}
 			if(StringUtils.isNoneBlank(charset)){
 				result.put("charset", charset);
 			}
@@ -229,11 +235,19 @@ public class HtmlUtil {
 		
 		return sb;
 	}
+
+	public static String matchCharset(String content) {
+		Pattern p = Pattern.compile("(?<=charset=)(.+)(?=\")");
+		Matcher m = p.matcher(content);
+		if (m.find())
+			return m.group();
+		return null;
+	}
 	
 	public static void main(String[] args) {
 //		System.out.println(getCollectFromUrl("http://www.iteye.com/"));
 //		System.out.println(getPageImg("https://github.com/knightliao/disconf/wiki"));
-		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_16_8_25.html");
+		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_2016_9_28_chrome.html");
 		importHtmlMore(file);
 	}
 
