@@ -55,6 +55,8 @@ public class UserController extends BaseController {
 	private String mailSubject;
 	@Value("${mail.content.forgotpassword}")
 	private String mailContent;
+	@Value("${forgotpassword.url}")
+	private String forgotpasswordUrl;
 	@Value("${static.url}")
 	private String staticUrl;
 	@Value("${file.profilepictures.url}")
@@ -196,11 +198,8 @@ public class UserController extends BaseController {
             userRepository.setOutDateAndValidataCode(outDate+"", secretKey, email);
             String key =email + "$" + date + "$" + secretKey;
             String digitalSignature = MD5Util.encrypt(key);// 数字签名
-            String path = this.getRequest().getContextPath();
-            String basePath = this.getRequest().getScheme() + "://"
-                    + this.getRequest().getServerName() + ":"
-                    + this.getRequest().getServerPort() + path + "/";
-            String resetPassHref = basePath + "newPassword?sid="
+//            String basePath = this.getRequest().getScheme() + "://" + this.getRequest().getServerName() + ":" + this.getRequest().getServerPort() + this.getRequest().getContextPath() + "/newPassword";
+            String resetPassHref = forgotpasswordUrl + "?sid="
                     + digitalSignature +"&email="+email;
             String emailContent = MessageUtil.getMessage(mailContent, resetPassHref);					
 	        MimeMessage mimeMessage = mailSender.createMimeMessage();	        
