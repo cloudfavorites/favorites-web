@@ -687,5 +687,47 @@ function listSimpleCollect(collects,user){
 }
 
 
+$(function() {
+	var loadingFlag = true;
 
+	$(window).scroll(function() {
+		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+			if ($('#standard').length >= 1 && $('#simple').length >= 1) {
+				if ($('#standard').is(':visible')) {
+					if ($('#loadStandardNoMore').is(':hidden')) {
+						if (loadingFlag) {
+							loadingFlag = false;
+							loadStandardMore();
+							loadingFlag = true;
+						}
+					}
+				} else if ($('#simple').is(':visible')) {
+					if ($('#loadSimpleNoMore').is(':hidden')) {
+						if (loadingFlag) {
+							loadingFlag = false;
+							loadSimpleMore();
+							loadingFlag = true;
+						}
+					}
+				}
+			} else if ($('#standard').length >= 1) {
+				if ($('#loadStandardNoMore').is(':hidden')) {
+					if (loadingFlag) {
+						loadingFlag = false;
+						loadStandardMore();
+						loadingFlag = true;
+					}
+				}
+			} else if ($('#simple').length >= 1) {
+				if ($('#loadSimpleNoMore').is(':hidden')) {
+					if (loadingFlag) {
+						loadingFlag = false;
+						loadSimpleMore();
+						loadingFlag = true;
+					}
+				}
+			}
+		}
+	});
+});
 

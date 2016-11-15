@@ -148,7 +148,7 @@
 	          </li>
 	        	</ul>
 	        	<button id="loadStandardNoMore" class="mt-lg btn btn-warning btn-block" style="display:none" >没有更多了</button>
-             	<button th:if="${collects.size() == 15}" id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button>
+             	<!-- <button th:if="${collects.size() == 15}" id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button> -->
 	         </div>
 	<div class="col-lg-9 col-md-9 mt" id="simple"  style="display:none;">
 	    <div class="btn-group btn-xs mb pull-right" th:if="${collects.size() > 0}" style="margin-top: -25px;">
@@ -179,7 +179,7 @@
 		    </tbody>
 	 	</table>
 	 <button id="loadSimpleNoMore" class="mt-lg btn btn-warning btn-block" style="display:none" >没有更多了</button>
-     <button th:if="${collects.size() == 15}" id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadSimpleMore();'">加载更多</button>
+     <!-- <button th:if="${collects.size() == 15}" id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadSimpleMore();'">加载更多</button> -->
 	 <input type="hidden" name="forward" id="forward" th:value="'/usercontent/'+${user.id}+'/0'" />
 	 <input type="hidden" id="userId" th:value="${user.id}"/>
 	 <input type="hidden" th:if="${myself=='YES'}" name="pageType" id="pageType" value="myself" />
