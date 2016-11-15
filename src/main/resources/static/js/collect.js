@@ -673,9 +673,9 @@ function listSimpleCollect(collects,user){
 			"   <td width=\"15%\" class=\"text-center\">"+
 			"    <div>";			if($("#userId").val() == collects[i].userId){
 				item=item+
-                "    <a onclick=\"getCollect("+collects[i].id+","+user+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+                "    <a onclick=\"getCollect("+collects[i].id+",'"+user+"');\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
 				"    </a>"+
-				"    <a onclick=\"onCollect("+collects[i].id+","+user+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+				"    <a onclick=\"onCollect("+collects[i].id+",'"+user+"');\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
 				"    </a>";
 			}
 				item=item+			"    </div>"+
