@@ -1,4 +1,4 @@
-package com.favorites.domain;
+package com.favorites.repository;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.favorites.domain.Follow;
 import com.favorites.domain.enums.FollowStatus;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {

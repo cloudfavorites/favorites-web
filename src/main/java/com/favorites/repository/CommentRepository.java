@@ -1,10 +1,13 @@
-package com.favorites.domain;
+package com.favorites.repository;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.favorites.domain.Comment;
+import com.favorites.domain.view.CommentView;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 

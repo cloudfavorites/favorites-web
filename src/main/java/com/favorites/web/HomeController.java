@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.favorites.comm.aop.LoggerManage;
-import com.favorites.domain.CollectRepository;
-import com.favorites.domain.CollectSummary;
 import com.favorites.domain.Favorites;
-import com.favorites.domain.FavoritesRepository;
-import com.favorites.domain.FollowRepository;
 import com.favorites.domain.User;
-import com.favorites.domain.UserRepository;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.enums.IsDelete;
+import com.favorites.domain.view.CollectSummary;
+import com.favorites.repository.CollectRepository;
+import com.favorites.repository.FavoritesRepository;
+import com.favorites.repository.FollowRepository;
+import com.favorites.repository.UserRepository;
 import com.favorites.service.CollectService;
 import com.favorites.service.NoticeService;
 

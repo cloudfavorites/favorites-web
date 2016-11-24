@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.favorites.domain.Favorites;
-import com.favorites.domain.FavoritesRepository;
+import com.favorites.repository.FavoritesRepository;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
 

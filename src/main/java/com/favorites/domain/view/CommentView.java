@@ -1,4 +1,4 @@
-package com.favorites.domain;
+package com.favorites.domain.view;
 /**
 *@InterfaceName: CommentView
 *@Description: 

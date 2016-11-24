@@ -1,4 +1,4 @@
-package com.favorites.domain;
+package com.favorites.repository;
 
 import javax.transaction.Transactional;
 
@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import com.favorites.domain.Notice;
+import com.favorites.domain.view.CollectView;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 

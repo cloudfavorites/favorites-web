@@ -12,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.favorites.domain.view.CollectView;
+import com.favorites.repository.CollectRepository;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

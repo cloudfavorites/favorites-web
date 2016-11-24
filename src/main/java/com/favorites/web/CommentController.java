@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.domain.Collect;
-import com.favorites.domain.CollectRepository;
 import com.favorites.domain.Comment;
-import com.favorites.domain.CommentRepository;
 import com.favorites.domain.User;
-import com.favorites.domain.UserRepository;
 import com.favorites.domain.result.Response;
+import com.favorites.repository.CollectRepository;
+import com.favorites.repository.CommentRepository;
+import com.favorites.repository.UserRepository;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.StringUtil;

@@ -1,4 +1,4 @@
-package com.favorites.domain;
+package com.favorites.repository;
 
 import javax.transaction.Transactional;
 
@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import com.favorites.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

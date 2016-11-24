@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.favorites.domain.CollectSummary;
+import com.favorites.domain.view.CollectSummary;
 
 public interface NoticeService {
 	

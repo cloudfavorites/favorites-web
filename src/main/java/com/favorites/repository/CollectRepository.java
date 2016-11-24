@@ -1,4 +1,4 @@
-package com.favorites.domain;
+package com.favorites.repository;
 
 import java.util.List;
 
@@ -10,8 +10,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.favorites.domain.Collect;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
+import com.favorites.domain.view.CollectView;
 
 public interface CollectRepository extends JpaRepository<Collect, Long> {
 	

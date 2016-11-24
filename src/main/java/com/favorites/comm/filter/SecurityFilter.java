@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class SecurityFilter implements Filter {
 
-    protected Logger logger = Logger.getLogger(this.getClass());
+  protected Logger logger = Logger.getLogger(this.getClass());
 	private static Set<String> GreenUrlSet = new HashSet<String>();
 
 	@Override

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.favorites.domain.Config;
-import com.favorites.domain.ConfigRepository;
+import com.favorites.repository.ConfigRepository;
 import com.favorites.service.ConfigService;
 import com.favorites.utils.DateUtils;
 

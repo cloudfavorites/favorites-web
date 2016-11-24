@@ -1,6 +1,9 @@
-package com.favorites.domain;
+package com.favorites.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.favorites.domain.Praise;
+import com.favorites.domain.view.CommentView;
 
 public interface PraiseRepository extends JpaRepository<Praise, Long> {
 

@@ -3,9 +3,9 @@ package com.favorites.schedule;
 
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
-import com.favorites.domain.CollectRepository;
-import com.favorites.domain.FavoritesRepository;
 import com.favorites.domain.enums.IsDelete;
+import com.favorites.repository.CollectRepository;
+import com.favorites.repository.FavoritesRepository;
 import com.favorites.utils.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

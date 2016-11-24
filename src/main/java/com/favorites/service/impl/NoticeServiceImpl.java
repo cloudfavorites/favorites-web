@@ -9,15 +9,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.favorites.domain.CollectSummary;
-import com.favorites.domain.CollectView;
-import com.favorites.domain.CommentRepository;
-import com.favorites.domain.CommentView;
 import com.favorites.domain.Notice;
-import com.favorites.domain.NoticeRepository;
-import com.favorites.domain.PraiseRepository;
 import com.favorites.domain.User;
-import com.favorites.domain.UserRepository;
+import com.favorites.domain.view.CollectSummary;
+import com.favorites.domain.view.CollectView;
+import com.favorites.domain.view.CommentView;
+import com.favorites.repository.CommentRepository;
+import com.favorites.repository.NoticeRepository;
+import com.favorites.repository.PraiseRepository;
+import com.favorites.repository.UserRepository;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 

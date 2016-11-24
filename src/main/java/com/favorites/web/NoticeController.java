@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.domain.Comment;
-import com.favorites.domain.CommentRepository;
 import com.favorites.domain.Notice;
-import com.favorites.domain.NoticeRepository;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
 import com.favorites.domain.result.ResponseData;
+import com.favorites.repository.CommentRepository;
+import com.favorites.repository.NoticeRepository;
 import com.favorites.utils.DateUtils;
 
 /**

@@ -1,4 +1,4 @@
-package com.favorites.domain;
+package com.favorites.domain.view;
 
 public interface CollectView{
 	Long getId();

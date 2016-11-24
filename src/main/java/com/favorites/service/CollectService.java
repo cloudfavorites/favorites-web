@@ -1,7 +1,8 @@
 package com.favorites.service;
 
 import com.favorites.domain.Collect;
-import com.favorites.domain.CollectSummary;
+import com.favorites.domain.view.CollectSummary;
+
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Follow;
-import com.favorites.domain.FollowRepository;
 import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.result.ExceptionMsg;
 import com.favorites.domain.result.Response;
+import com.favorites.repository.FollowRepository;
 import com.favorites.utils.DateUtils;
 
 @RestController
