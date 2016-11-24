@@ -20,7 +20,7 @@
                   <p>第一次使用，需要安装网页收集工具</p>
                   <p>点击下面按钮，进行安装。</p>
                   <p>  
-                    <button class="mt-lg btn btn-primary btn" onclick="locationUrl('/tool','tool')">去安装</button>
+                    <button class="mt-lg btn btn-primary btn" onClick="locationUrl('/tool','tool')">去安装</button>
                  </p>
                </div>
             </div>
@@ -202,7 +202,7 @@
                      </li>
                     </ul>
                     <button id="loadStandardNoMore" class="mt-lg btn btn-warning btn-block" style="display:none" >没有更多了</button>
-                    <button th:if="${size == 15}"  id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button>
+                    <!-- <button th:if="${size == 15}"  id="loadStandardMore" class="mt-lg btn btn-primary btn-block" th:onclick="'loadStandardMore();'">加载更多</button> -->
                </div>
             </div>
             <input type="hidden" name="collectId" id="collectId" />

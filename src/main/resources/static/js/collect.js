@@ -673,9 +673,9 @@ function listSimpleCollect(collects,user){
 			"   <td width=\"15%\" class=\"text-center\">"+
 			"    <div>";			if($("#userId").val() == collects[i].userId){
 				item=item+
-                "    <a onclick=\"getCollect("+collects[i].id+","+user+");\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
+                "    <a onclick=\"getCollect("+collects[i].id+",'"+user+"');\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
 				"    </a>"+
-				"    <a onclick=\"onCollect("+collects[i].id+","+user+");\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
+				"    <a onclick=\"onCollect("+collects[i].id+",'"+user+"');\" class=\"ml\" href=\"javascript:void(0);\"> <i class=\"fa fa-trash text-danger\"></i>"+
 				"    </a>";
 			}
 				item=item+			"    </div>"+
@@ -687,5 +687,47 @@ function listSimpleCollect(collects,user){
 }
 
 
+$(function() {
+	var loadingFlag = true;
 
+	$(window).scroll(function() {
+		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+			if ($('#standard').length >= 1 && $('#simple').length >= 1) {
+				if ($('#standard').is(':visible')) {
+					if ($('#loadStandardNoMore').is(':hidden')) {
+						if (loadingFlag) {
+							loadingFlag = false;
+							loadStandardMore();
+							loadingFlag = true;
+						}
+					}
+				} else if ($('#simple').is(':visible')) {
+					if ($('#loadSimpleNoMore').is(':hidden')) {
+						if (loadingFlag) {
+							loadingFlag = false;
+							loadSimpleMore();
+							loadingFlag = true;
+						}
+					}
+				}
+			} else if ($('#standard').length >= 1) {
+				if ($('#loadStandardNoMore').is(':hidden')) {
+					if (loadingFlag) {
+						loadingFlag = false;
+						loadStandardMore();
+						loadingFlag = true;
+					}
+				}
+			} else if ($('#simple').length >= 1) {
+				if ($('#loadSimpleNoMore').is(':hidden')) {
+					if (loadingFlag) {
+						loadingFlag = false;
+						loadSimpleMore();
+						loadingFlag = true;
+					}
+				}
+			}
+		}
+	});
+});
 
