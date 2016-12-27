@@ -4,13 +4,13 @@ $(function(){
 		$("#model1").hide();
 		$("#model2").show();
 	});
-	
+
 	$("#changeModel2").click(function(){
 		$("#show2").hide();
 		$("#model2").hide();
 		$("#model1").show();
 	});
-	
+
 	$("#atshow").click(function(){
 		if(gfollows.length > 0 && $("#atFriend").is(":hidden")){
 			$("#atFriend").show();
@@ -18,18 +18,18 @@ $(function(){
 			$("#atFriend").hide();
 		}
 	});
-	
-	$(document).bind('click', function() {  
+
+	$(document).bind('click', function() {
 	    	$("#atFriend").hide();
-	});  
-	    $('#atshow').bind('click', function(e) {  
-	    	if(e.stopPropagation){ 
+	});
+	    $('#atshow').bind('click', function(e) {
+	    	if(e.stopPropagation){
 	            e.stopPropagation();
-	    	}else{ 
+	    	}else{
 	           e.cancelBubble = true;
-	     	} 
-	    }); 
-	
+	     	}
+	    });
+
 	$("#ccollect").click(function(){
 		 if($("#ctitle").val()==""){
 			 $("#errorMsg").text("标题不能为空");
@@ -41,7 +41,7 @@ $(function(){
 	  	         type: "POST",
 	  	         url:"/collect/collect",
 	  	         data:$("#collect-form").serialize(),
-	  	         success: function(response) { 
+	  	         success: function(response) {
 	  	        	 if(response.rspCode == '000000'){
 	  	        		loadFavorites();
 	  					$('#modal-changeSharing').modal('hide');
@@ -146,7 +146,7 @@ function getCollect(id,user){
 		   			$("#show2").show();
 		   			$("#model1").hide();
 		   			$("#model2").show();
-				}				
+				}
 				if("usercontent" == user){
 					if($("#userId").val() == $("#loginUser").val()){
 						$("#favoritesSelect").val(collect.favoritesId);
@@ -156,7 +156,7 @@ function getCollect(id,user){
 				}else{
 					if($("#userId").val() == collect.userId){
 						$("#favoritesSelect").val(collect.favoritesId);
-					}else{					
+					}else{
 						$("#favoritesSelect").val(gconfig.defaultFavorties);
 					}
 				}
@@ -206,7 +206,7 @@ function changeLike(id){
 				console.log(errorThrown);
 			},
 			success: function(like){
-				if($("#like"+id).is(":hidden")){ 
+				if($("#like"+id).is(":hidden")){
 					$("#like"+id).show();
 					var praiseCount=parseInt($("#praiseC"+id).val())-1;
 					$("#praiseC"+id).val(praiseCount);
@@ -223,7 +223,7 @@ function changeLike(id){
 					$("#praiseC"+id).val(praiseCount);
 					$("#unlikeS"+id).html("取消点赞("+praiseCount+")");
 
-				} 
+				}
 			}
 		});
 }
@@ -290,7 +290,7 @@ function initComment(comments,collectId){
 		}else{
 			item=item+comments[i].content+'<small>';
 		}
-		
+
 		if($("#loginUser").length > 0){
 			if(comments[i].userId==$("#loginUser").val()){
 				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
@@ -386,8 +386,9 @@ function loadStandardMore(){
 			},
 			success: function(collects){
 				if(collects.length==0){
-					$("#loadStandardNoMore").show();
-					$("#loadStandardMore").hide();
+					/*$("#loadStandardNoMore").show();*/
+					/*$("#loadStandardMore").hide();*/
+					$("#loadStandardMore").text('没有更多了');
 				}
 				if($("#userContent").val()== 'usercontent'){
 					listStandardCollect(collects,'collectStandardList','usercontent');
@@ -401,6 +402,9 @@ function loadStandardMore(){
 
 
 function loadMyMore(){
+	$('#loadMyMore').hide();
+	$('#loadingMy').show();
+	var moreMy = true;
 	 $.ajax({
 			async: false,
 			type: 'POST',
@@ -414,8 +418,9 @@ function loadMyMore(){
 			},
 			success: function(collects){
 				if(collects.length==0){
-					$("#loadMyNoMore").show();
-					$("#loadMyMore").hide();
+					/*$("#loadMyNoMore").show();
+					$("#loadMyMore").hide();*/
+					moreMy = false;
 				}
 				if($("#userContent").val()== 'usercontent'){
 					listStandardCollect(collects,'myCollectList','usercontent');
@@ -425,10 +430,20 @@ function loadMyMore(){
 				page++;
 			}
 		});
+	$('#loadingMy').hide();
+	if(moreMy){
+		$('#loadMyMore').show();
+	}else{
+		$("#loadMyMore").hide();
+		$("#loadMyNoMore").show();
+	}
 }
 
 
 function loadOtherMore(){
+	$('#loadOtherMore').hide();
+	$('#loadingOther').show();
+	var moreOther = true;
 	 $.ajax({
 			async: false,
 			type: 'POST',
@@ -442,8 +457,9 @@ function loadOtherMore(){
 			},
 			success: function(collects){
 				if(collects.length==0){
-					$("#loadOtherNoMore").show();
-					$("#loadOtherMore").hide();
+					/*$("#loadOtherNoMore").show();
+					$("#loadOtherMore").hide();*/
+					moreOther = false;
 				}
 				if($("#userContent").val()== 'usercontent'){
 					listStandardCollect(collects,'otherCollectList','usercontent');
@@ -453,6 +469,13 @@ function loadOtherMore(){
 				page++;
 			}
 		});
+	$('#loadingOther').hide();
+	if(moreOther){
+		$('#loadOtherMore').show();
+	}else{
+		$("#loadOtherMore").hide();
+		$("#loadOtherNoMore").show();
+	}
 }
 
 function listStandardCollect(collects,listId,user){
@@ -530,10 +553,14 @@ function listStandardCollect(collects,listId,user){
 			"                <span class=\"fa fa-lock text-warning\"></span>"+
 			"              </a>";
 		}
+		if($("#pageType").val() != 'explore'){
+			item=item+
+			"                  "+
+			"                  <small class=\"ml-sm text-muted\">"+collects[i].collectTime+"</small>"
+		}
 		item=item+
- 
-		"                  "+
-		"                  <small class=\"ml-sm text-muted\">"+collects[i].collectTime+"</small>"+
+		/*"                  "+
+		"                  <small class=\"ml-sm text-muted\">"+collects[i].collectTime+"</small>"+*/
 		"               </div>"+
 		"            </div>"+
 		"         </div>"+
@@ -659,8 +686,9 @@ function loadSimpleMore(){
 function listSimpleCollect(collects,user){
 	var collectSimpleList='';
 	if(collects.length==0){
-		$("#loadSimpleNoMore").show();
-		$("#loadSimpleMore").hide();
+		/*$("#loadSimpleNoMore").show();*/
+		/*$("#loadSimpleMore").hide();*/
+		$("#loadSimpleMore").text('没有更多了');
 	}
 	for(var i=0;i<collects.length;i++){
 		var item =
@@ -686,7 +714,6 @@ function listSimpleCollect(collects,user){
 	 $("#collectSimpleList").append(collectSimpleList);
 }
 
-
 $(function() {
 	var loadingFlag = true;
 
@@ -694,35 +721,43 @@ $(function() {
 		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 			if ($('#standard').length >= 1 && $('#simple').length >= 1) {
 				if ($('#standard').is(':visible')) {
-					if ($('#loadStandardNoMore').is(':hidden')) {
+					if ($('#loadStandardMore').text() == '加载更多') {
 						if (loadingFlag) {
 							loadingFlag = false;
+							$('#loadingStandard').show();
 							loadStandardMore();
+							$('#loadingStandard').hide();
 							loadingFlag = true;
 						}
 					}
 				} else if ($('#simple').is(':visible')) {
-					if ($('#loadSimpleNoMore').is(':hidden')) {
+					if ($('#loadSimpleMore').text() == '加载更多') {
 						if (loadingFlag) {
 							loadingFlag = false;
+							$('#loadingSimple').show();
 							loadSimpleMore();
+							$('#loadingSimple').hide();
 							loadingFlag = true;
 						}
 					}
 				}
-			} else if ($('#standard').length >= 1) {
-				if ($('#loadStandardNoMore').is(':hidden')) {
+			} else if ($('#standard').length >= 1 && $('#simple').length == 0) {
+				if ($('#loadStandardMore').text() == '加载更多') {
 					if (loadingFlag) {
 						loadingFlag = false;
+						$('#loadingStandard').show();
 						loadStandardMore();
+						$('#loadingStandard').hide();
 						loadingFlag = true;
 					}
 				}
-			} else if ($('#simple').length >= 1) {
-				if ($('#loadSimpleNoMore').is(':hidden')) {
+			} else if ($('#standard').length == 0 && $('#simple').length >= 1) {
+				if ($('#loadSimpleMore').text() == '加载更多') {
 					if (loadingFlag) {
 						loadingFlag = false;
+						$('#loadingSimple').show();
 						loadSimpleMore();
+						$('#loadingSimple').hide();
 						loadingFlag = true;
 					}
 				}
