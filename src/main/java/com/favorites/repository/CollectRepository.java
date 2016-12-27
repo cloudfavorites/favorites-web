@@ -18,7 +18,7 @@ import com.favorites.domain.view.CollectView;
 public interface CollectRepository extends JpaRepository<Collect, Long> {
 	
 	public String baseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
-			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
+			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime,c.createTime as createTime, "
 			+ "u.userName as userName,u.profilePicture as profilePicture,f.id as favoriteId,f.name as favoriteName "
 			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.isDelete='NO'";
 	

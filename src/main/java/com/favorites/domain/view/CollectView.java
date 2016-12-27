@@ -11,6 +11,7 @@ public interface CollectView{
 	String getRemark();
 	String getDescription();
 	Long getLastModifyTime();
+	Long getCreateTime();
 	String getUserName();
 	Long getFavoriteId();
 	String getFavoriteName();

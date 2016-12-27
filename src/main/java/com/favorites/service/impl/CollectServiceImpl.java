@@ -146,7 +146,7 @@ public class CollectServiceImpl implements CollectService {
 			}else{
 				summary.setPraise(false);
 			}
-			summary.setCollectTime(DateUtils.getTimeFormatText(view.getLastModifyTime()));
+			summary.setCollectTime(DateUtils.getTimeFormatText(view.getCreateTime()));
 			summarys.add(summary);
 		}
 		return summarys;

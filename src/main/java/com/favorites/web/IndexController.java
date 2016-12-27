@@ -2,13 +2,12 @@ package com.favorites.web;
 
 import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
-import com.favorites.domain.*;
+import com.favorites.domain.Collect;
+import com.favorites.domain.Config;
+import com.favorites.domain.Favorites;
+import com.favorites.domain.User;
 import com.favorites.domain.enums.IsDelete;
-import com.favorites.repository.CollectRepository;
-import com.favorites.repository.ConfigRepository;
-import com.favorites.repository.FavoritesRepository;
-import com.favorites.repository.FollowRepository;
-import com.favorites.repository.NoticeRepository;
+import com.favorites.repository.*;
 import com.favorites.service.CollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -116,9 +117,13 @@ public class IndexController extends BaseController{
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	@LoggerManage(description="登出")
-	public String logout() {
+	public String logout(HttpServletResponse response) {
+		User user = (User)getSession().getAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LAST_REFERER);
+		Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, user.getId().toString());
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
 		return "index";
 	}
 

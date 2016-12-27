@@ -60,7 +60,7 @@ public class HomeController extends BaseController{
 			}
 		}
 		List<CollectSummary> collects = null;
-	  if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
+	    if(null != userId && 0 != userId && userId.longValue() != getUserId().longValue()){
 			User user = userRepository.findOne(userId);
 			model.addAttribute("otherPeople", user);
 			collects =collectService.getCollects("otherpublic",userId, pageable,favorites.getId(),null);

@@ -1,21 +1,5 @@
 package com.favorites.web;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.mail.internet.MimeMessage;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Config;
@@ -31,12 +15,26 @@ import com.favorites.repository.UserRepository;
 import com.favorites.service.ConfigService;
 import com.favorites.service.FavoritesService;
 import com.favorites.utils.DateUtils;
+import com.favorites.utils.FileUtil;
 import com.favorites.utils.MD5Util;
 import com.favorites.utils.MessageUtil;
-
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import sun.misc.BASE64Decoder;
 
-import com.favorites.utils.FileUtil;
+import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -70,7 +68,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@LoggerManage(description="登陆")
-	public ResponseData login(User user) {
+	public ResponseData login(User user,HttpServletResponse response) {
 		try {
 			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
 			if (loginUser == null ) {
@@ -78,6 +76,10 @@ public class UserController extends BaseController {
 			}else if(!loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
+			Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, loginUser.getId().toString());
+			cookie.setMaxAge(Const.COOKIE_TIMEOUT);
+			cookie.setPath("/");
+			response.addCookie(cookie);
 			getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
 			String preUrl = "/";
 			if(null != getSession().getAttribute(Const.LAST_REFERER)){
