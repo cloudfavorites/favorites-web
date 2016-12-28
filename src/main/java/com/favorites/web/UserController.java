@@ -76,7 +76,7 @@ public class UserController extends BaseController {
 			}else if(!loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
 				return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
 			}
-			Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, loginUser.getId().toString());
+			Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, cookieSign(loginUser.getId().toString()));
 			cookie.setMaxAge(Const.COOKIE_TIMEOUT);
 			cookie.setPath("/");
 			response.addCookie(cookie);

@@ -3,6 +3,7 @@ package com.favorites.comm.filter;
 import com.favorites.comm.Const;
 import com.favorites.domain.User;
 import com.favorites.repository.UserRepository;
+import com.favorites.utils.Des3EncryptionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.BeanFactory;
@@ -43,44 +44,60 @@ public class SecurityFilter implements Filter {
 		String uri = request.getRequestURI();
 		if (request.getSession().getAttribute(Const.LOGIN_SESSION_KEY) == null) {
 			Cookie[] cookies = request.getCookies();
-			 if (cookies!=null) {
-				for (int i = 0; i < cookies.length; i++) {
-					 Cookie cookie = cookies[i];
-					 if (cookie.getName().equals(Const.LOGIN_SESSION_KEY)) {
-						 Long userId = Long.parseLong(cookie.getValue());
-						 if (userRepository == null) {
-							 BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-							 userRepository = (UserRepository) factory.getBean("userRepository");
-						 }
-						 User user = userRepository.findOne(userId);
-						 logger.info("userId :" + user.getId());
-						 request.getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
-						 String html = "<script type=\"text/javascript\">window.location.href=\"_BP_\"</script>";
-						 html = html.replace("_BP_", Const.BASE_PATH);
-						 sresponse.getWriter().write(html);
-					 }
-				}
-			 }else{
-				 logger.info("cookie is null");
-			 }
 		    if (containsSuffix(uri) || GreenUrlSet.contains(uri) || containsKey(uri)) {
 	            logger.debug("don't check  url , " + request.getRequestURI());
 	            filterChain.doFilter(srequest, sresponse);
 	            return;
-	        }else{
+	        }else if (cookies!=null) {
+				boolean falg = true;
+				for (int i = 0; i < cookies.length; i++) {
+					Cookie cookie = cookies[i];
+					if (cookie.getName().equals(Const.LOGIN_SESSION_KEY)) {
+						falg = false;
+						String value = getUserId(cookie.getValue());
+						Long userId = 0l;
+						if (userRepository == null) {
+							BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+							userRepository = (UserRepository) factory.getBean("userRepository");
+						}
+						if(StringUtils.isNotBlank(value)){
+							userId = Long.parseLong(value);
+						}
+						User user = userRepository.findOne(userId);
+						String html = "";
+						if(null == user){
+							html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
+						}else{
+							logger.info("userId :" + user.getId());
+							request.getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+							String referer = this.getRef(request);
+							if(referer.indexOf("/collect?") >= 0){
+								filterChain.doFilter(srequest, sresponse);
+								return;
+							}else{
+								html = "<script type=\"text/javascript\">window.location.href=\"_BP_\"</script>";
+							}
+						}
+						html = html.replace("_BP_", Const.BASE_PATH);
+						sresponse.getWriter().write(html);
+					}
+				}
+				if(falg){
+					//跳转到登陆页面
+					String referer = this.getRef(request);
+					logger.debug("security filter, deney, " + request.getRequestURI());
+					String html = "";
+					if(0 > referer.indexOf("/collect?")){
+						html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
+					}else{
+						html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
+					}
+					html = html.replace("_BP_", Const.BASE_PATH);
+					sresponse.getWriter().write(html);
+				}
+			}else{
 	        	//跳转到登陆页面
-	        	String referer = "";
-				String param = this.codeToString(request.getQueryString());
-				if(StringUtils.isNotBlank(request.getContextPath())){
-					referer = referer + request.getContextPath();
-				}
-	        	if(StringUtils.isNotBlank(request.getServletPath())){
-					referer = referer + request.getServletPath();
-				}
-				if(StringUtils.isNotBlank(param)){
-					referer = referer + "?" + param;
-				}
-	        	request.getSession().setAttribute(Const.LAST_REFERER, referer);
+	        	String referer = this.getRef(request);
 	        	logger.debug("security filter, deney, " + request.getRequestURI());
 				String html = "";
 				if(0 > referer.indexOf("/collect?")){
@@ -141,6 +158,7 @@ public class SecurityFilter implements Filter {
         }
     }
 
+
 	
 	@Override
 	public void destroy() {
@@ -156,5 +174,32 @@ public class SecurityFilter implements Filter {
         } catch (Exception e) {
             return strString;
         }
-    } 
+    }
+
+    public String getRef(HttpServletRequest request){
+		String referer = "";
+		String param = this.codeToString(request.getQueryString());
+		if(StringUtils.isNotBlank(request.getContextPath())){
+			referer = referer + request.getContextPath();
+		}
+		if(StringUtils.isNotBlank(request.getServletPath())){
+			referer = referer + request.getServletPath();
+		}
+		if(StringUtils.isNotBlank(param)){
+			referer = referer + "?" + param;
+		}
+		request.getSession().setAttribute(Const.LAST_REFERER, referer);
+		return referer;
+	}
+
+    public String getUserId(String value){
+		try {
+			String userId = Des3EncryptionUtil.decode(Const.DES3_KEY,value);
+			userId = userId.substring(0,userId.indexOf(Const.PASSWORD_KEY));
+			return userId;
+		}catch (Exception e){
+			logger.error("解析cookie异常：",e);
+		}
+		return null;
+	}
 }

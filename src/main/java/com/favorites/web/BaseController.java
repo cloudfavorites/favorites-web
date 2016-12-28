@@ -1,19 +1,19 @@
 package com.favorites.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.favorites.comm.Const;
+import com.favorites.domain.User;
+import com.favorites.domain.result.ExceptionMsg;
+import com.favorites.domain.result.Response;
+import com.favorites.utils.Des3EncryptionUtil;
+import com.favorites.utils.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.favorites.comm.Const;
-import com.favorites.domain.User;
-import com.favorites.domain.result.ExceptionMsg;
-import com.favorites.domain.result.Response;
-import com.favorites.utils.MD5Util;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class BaseController {
@@ -74,5 +74,16 @@ public class BaseController {
 			logger.error("密码加密异常：",e);
 		}
     	return null;
+    }
+
+    protected String cookieSign(String value){
+        try{
+            value = value + Const.PASSWORD_KEY;
+            String sign = Des3EncryptionUtil.encode(Const.DES3_KEY,value);
+            return sign;
+        }catch (Exception e){
+            logger.error("cookie签名异常：",e);
+        }
+        return null;
     }
 }
