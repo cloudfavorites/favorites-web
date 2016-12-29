@@ -86,7 +86,7 @@ public class HtmlUtil {
 		                result.put("description", content);
 		            }  
 		        }
-			 	result.put("logoUrl", getImge(url));
+			 	//result.put("logoUrl", getImge(url));
 		} catch (Exception e) {
 			logger.error("文章解析出错：",e);
 		} 

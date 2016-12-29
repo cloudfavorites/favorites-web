@@ -1,5 +1,6 @@
 package com.favorites.web;
 
+import com.favorites.cache.CacheService;
 import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.*;
@@ -49,6 +50,8 @@ public class CollectController extends BaseController{
 	private FavoritesRepository favoritesRepository;
 	@Resource
 	private NoticeService noticeService;
+	@Autowired
+	private CacheService cacheService;
 	
 	/**
 	 * 文章收集
@@ -60,7 +63,7 @@ public class CollectController extends BaseController{
 	public Response collect(Collect collect) {		
 		try {
 			if(StringUtils.isBlank(collect.getLogoUrl())){
-				collect.setLogoUrl(HtmlUtil.getImge(collect.getUrl()));
+				collect.setLogoUrl(cacheService.getMap(collect.getUrl()));
 			}
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
@@ -87,7 +90,7 @@ public class CollectController extends BaseController{
 	@LoggerManage(description="获取收藏页面的LogoUrl")
 	public String getCollectLogoUrl(String url){
 		if(StringUtils.isNotBlank(url)){
-			String logoUrl = HtmlUtil.getImge(url);
+			String logoUrl = cacheService.getMap(url);
 			if(StringUtils.isNotBlank(logoUrl)){
 				return logoUrl;
 			}else{

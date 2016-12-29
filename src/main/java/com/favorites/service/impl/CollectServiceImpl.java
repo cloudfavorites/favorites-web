@@ -1,11 +1,10 @@
 package com.favorites.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.favorites.cache.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ import com.favorites.utils.HtmlUtil;
 import com.favorites.utils.StringUtil;
 
 @Service("collectService")
-public class CollectServiceImpl implements CollectService {
+public class CollectServiceImpl extends CacheService implements CollectService {
 	protected Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
@@ -314,7 +313,7 @@ public class CollectServiceImpl implements CollectService {
 				collect.setRemark(entry.getValue());
 				collect.setFavoritesId(favoritesId);
 				collect.setIsDelete(IsDelete.NO);
-				collect.setLogoUrl(result.get("logoUrl"));
+				collect.setLogoUrl(getMap(entry.getKey()));
 				if(CollectType.PRIVATE.toString().equals(type)){
 					collect.setType(CollectType.PRIVATE);
 				}else{
@@ -401,4 +400,6 @@ public class CollectServiceImpl implements CollectService {
 			}
 		}
 	}
+
+
 }
