@@ -53,7 +53,10 @@ public class SecurityFilter implements Filter {
 				for (int i = 0; i < cookies.length; i++) {
 					Cookie cookie = cookies[i];
 					if (cookie.getName().equals(Const.LOGIN_SESSION_KEY)) {
-						falg = false;
+						if(cookie.getMaxAge() > 0){
+							falg = false;
+							break;
+						}
 						String value = getUserId(cookie.getValue());
 						Long userId = 0l;
 						if (userRepository == null) {

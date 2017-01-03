@@ -5,7 +5,6 @@ import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.Favorites;
-import com.favorites.domain.User;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.repository.*;
 import com.favorites.service.CollectService;
@@ -118,11 +117,11 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	@LoggerManage(description="登出")
 	public String logout(HttpServletResponse response) {
-		User user = (User)getSession().getAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LAST_REFERER);
-		Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, user.getId().toString());
+		Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, "");
 		cookie.setMaxAge(0);
+		cookie.setPath("/");
 		response.addCookie(cookie);
 		return "index";
 	}
