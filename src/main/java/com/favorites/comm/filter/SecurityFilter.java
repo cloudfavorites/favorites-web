@@ -49,12 +49,13 @@ public class SecurityFilter implements Filter {
 	            filterChain.doFilter(srequest, sresponse);
 	            return;
 	        }else if (cookies!=null) {
-				boolean falg = true;
+				boolean flag = true;
 				for (int i = 0; i < cookies.length; i++) {
 					Cookie cookie = cookies[i];
 					if (cookie.getName().equals(Const.LOGIN_SESSION_KEY)) {
-						if(cookie.getMaxAge() > 0){
-							falg = false;
+						if(StringUtils.isNotBlank(cookie.getValue())){
+							flag = false;
+						}else{
 							break;
 						}
 						String value = getUserId(cookie.getValue());
@@ -85,7 +86,7 @@ public class SecurityFilter implements Filter {
 						sresponse.getWriter().write(html);
 					}
 				}
-				if(falg){
+				if(flag){
 					//跳转到登陆页面
 					String referer = this.getRef(request);
 					logger.debug("security filter, deney, " + request.getRequestURI());
