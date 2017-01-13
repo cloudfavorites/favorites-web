@@ -1,22 +1,14 @@
 package com.favorites.web;
 
-import com.favorites.cache.CacheService;
-import com.favorites.comm.Const;
-import com.favorites.comm.aop.LoggerManage;
-import com.favorites.domain.*;
-import com.favorites.domain.enums.CollectType;
-import com.favorites.domain.enums.IsDelete;
-import com.favorites.domain.result.ExceptionMsg;
-import com.favorites.domain.result.Response;
-import com.favorites.domain.view.CollectSummary;
-import com.favorites.repository.CollectRepository;
-import com.favorites.repository.FavoritesRepository;
-import com.favorites.repository.PraiseRepository;
-import com.favorites.service.CollectService;
-import com.favorites.service.FavoritesService;
-import com.favorites.service.NoticeService;
-import com.favorites.utils.DateUtils;
-import com.favorites.utils.HtmlUtil;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,16 +16,30 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import com.favorites.cache.CacheService;
+import com.favorites.comm.Const;
+import com.favorites.comm.aop.LoggerManage;
+import com.favorites.domain.Collect;
+import com.favorites.domain.Favorites;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.IsDelete;
+import com.favorites.domain.result.ExceptionMsg;
+import com.favorites.domain.result.Response;
+import com.favorites.domain.view.CollectSummary;
+import com.favorites.repository.CollectRepository;
+import com.favorites.repository.FavoritesRepository;
+import com.favorites.service.CollectService;
+import com.favorites.service.FavoritesService;
+import com.favorites.service.NoticeService;
+import com.favorites.utils.DateUtils;
+import com.favorites.utils.HtmlUtil;
 
 @RestController
 @RequestMapping("/collect")
@@ -44,8 +50,6 @@ public class CollectController extends BaseController{
 	private FavoritesService favoritesService;
 	@Resource
 	private CollectService collectService;
-	@Autowired
-	private PraiseRepository praiseRepository;
 	@Resource
 	private FavoritesRepository favoritesRepository;
 	@Resource
@@ -186,21 +190,13 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/like/{id}")
+	@LoggerManage(description="文章点赞或者取消点赞")
 	public Response like(@PathVariable("id") long id) {
-		Praise praise=praiseRepository.findByUserIdAndCollectId(getUserId(), id);
-		if(praise==null){
-			Praise newPraise=new Praise();
-			newPraise.setUserId(getUserId());
-			newPraise.setCollectId(id);
-			newPraise.setCreateTime(DateUtils.getCurrentTime());
-			praiseRepository.save(newPraise);
-			// 保存消息通知
-			Collect collect = collectRepository.findOne(id);
-			if(null != collect){
-				noticeService.saveNotice(String.valueOf(id), "praise", collect.getUserId(), String.valueOf(newPraise.getId()));
-			}
-		}else if(praise.getUserId().equals(getUserId())){
-			praiseRepository.delete(praise.getId());
+		try {
+			collectService.like(getUserId(), id);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("文章点赞或者取消点赞异常：",e);
 		}
 		return result();
 		

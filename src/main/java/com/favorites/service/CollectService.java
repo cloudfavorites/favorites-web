@@ -27,5 +27,7 @@ public interface CollectService {
 	public List<CollectSummary> searchOther(Long userId,String key,Pageable pageable);
 	
 	public void otherCollect(Collect collect);
+	
+	public void like(Long userId,long id);
 
 }
