@@ -1,11 +1,10 @@
 package com.favorites.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 /**
  * 用户
  * @author DingYS
@@ -36,6 +35,8 @@ public class User extends Entitys implements Serializable {
 	private String outDate;
 	@Column(nullable = true)
 	private String validataCode;
+	@Column(nullable = true)
+	private String backgroundPicture;
 
 	public User() {
 		super();
@@ -106,5 +107,10 @@ public class User extends Entitys implements Serializable {
 	public void setValidataCode(String validataCode) {
 		this.validataCode = validataCode;
 	}
-
+	public String getBackgroundPicture() {
+		return backgroundPicture;
+	}
+	public void setBackgroundPicture(String backgroundPicture) {
+		this.backgroundPicture = backgroundPicture;
+	}
 }

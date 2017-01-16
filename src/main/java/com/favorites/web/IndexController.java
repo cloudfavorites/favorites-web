@@ -138,6 +138,7 @@ public class IndexController extends BaseController{
 	}
 
 	@RequestMapping(value="/uploadHeadPortrait")
+	@LoggerManage(description="上传你头像页面")
 	public String uploadHeadPortrait(){
 		return "user/uploadheadportrait";
 	}
@@ -148,6 +149,12 @@ public class IndexController extends BaseController{
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
 		model.addAttribute("favoritesList",favoritesList);
 		return "favorites/export";
+	}
+
+	@RequestMapping(value="/uploadBackground")
+	@LoggerManage(description="上传背景页面")
+	public String uploadBackground(){
+		return "user/uploadbackground";
 	}
 	
 }

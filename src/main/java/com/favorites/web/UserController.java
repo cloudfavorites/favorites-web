@@ -59,6 +59,8 @@ public class UserController extends BaseController {
 	private String staticUrl;
 	@Value("${file.profilepictures.url}")
 	private String fileProfilepicturesUrl;
+	@Value("${file.backgroundpictures.url}")
+	private String fileBackgroundpicturesUrl;
 	@Autowired	
 	private ConfigRepository configRepository;
 	@Autowired
@@ -331,7 +333,7 @@ public class UserController extends BaseController {
 	
 	/**
 	 * 上传头像
-	 * @param file
+	 * @param dataUrl
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
@@ -359,6 +361,39 @@ public class UserController extends BaseController {
 	        return new ResponseData(ExceptionMsg.SUCCESS, savePath);	
 		} catch (Exception e) {
 			logger.error("upload head portrait failed, ", e);
+			return new ResponseData(ExceptionMsg.FAILED);
+		}
+	}
+
+	/**
+	 * 上传背景
+	 * @param dataUrl
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadBackground", method = RequestMethod.POST)
+	@LoggerManage(description="上传背景")
+	public ResponseData uploadBackground(String dataUrl){
+		try {
+			String filePath=staticUrl+fileBackgroundpicturesUrl;
+			String fileName=UUID.randomUUID().toString()+".png";
+			String savePath = fileBackgroundpicturesUrl+fileName;
+			String image = dataUrl;
+			String header ="data:image";
+			String[] imageArr=image.split(",");
+			if(imageArr[0].contains(header)){
+				image=imageArr[1];
+				BASE64Decoder decoder = new BASE64Decoder();
+				byte[] decodedBytes = decoder.decodeBuffer(image);
+				FileUtil.uploadFile(decodedBytes, filePath, fileName);
+				User user = getUser();
+				userRepository.setBackgroundPicture(savePath, user.getId());
+				user.setBackgroundPicture(savePath);
+				getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
+			}
+			logger.info("背景地址：" + savePath);
+			return new ResponseData(ExceptionMsg.SUCCESS, savePath);
+		} catch (Exception e) {
+			logger.error("upload background picture failed, ", e);
 			return new ResponseData(ExceptionMsg.FAILED);
 		}
 	}

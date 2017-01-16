@@ -42,8 +42,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("update User set profilePicture=:profilePicture where id=:id") 
     int setProfilePicture(@Param("profilePicture") String profilePicture, @Param("id") Long id);
 
-/*    @Query("from User u where u.name=:name")
-    User findUser(@Param("name") String name);
-    
-*/
+//    @Query("from User u where u.name=:name")
+//    User findUser(@Param("name") String name);
+
+    @Modifying(clearAutomatically=true)
+    @Transactional
+    @Query("update User set backgroundPicture=:backgroundPicture where id=:id")
+    int setBackgroundPicture(@Param("backgroundPicture") String backgroundPicture, @Param("id") Long id);
 }

@@ -4,7 +4,12 @@
       <section>
          <div class="content-wrapper">
             <div class="unwrap">
-               <div class="bg-cover" style="background-image:url('img/profile-bg.jpg');">
+                <div class="mast">
+               <div class="bg-cover" th:style="'background-image:url('+ @{(${user.backgroundPicture} == null ? 'img/profile-bg.jpg': ${user.backgroundPicture})} +')'">
+                   <a href="javascript:void(0);" th:onclick="'locationUrl(\'/uploadBackground\',\'\');'" class="camerabtn">
+                       <img src="img/camera.png" alt=""/>
+                       <span>上传背景图</span>
+                   </a>
                   <div class="p-xl text-center text-white">
                      <a href="javascript:void(0);">
                         <img th:src="${user.profilePicture == null ? 'img/favicon.png':user.profilePicture}" alt="" class="img-thumbnail img-circle thumb128"/></a>
@@ -88,6 +93,7 @@
                   </div>
                </div>
             </div>
+         </div>
             <input type="hidden" name="collectId" id="collectId" />
             <input type="hidden"  id="userId" th:value="${user.id}" />
             <input type="hidden" id="myself" th:value="${myself}"/>

@@ -1,17 +1,4 @@
 package com.favorites.web;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.User;
@@ -25,6 +12,18 @@ import com.favorites.repository.FollowRepository;
 import com.favorites.repository.UserRepository;
 import com.favorites.service.CollectService;
 import com.favorites.service.NoticeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -243,7 +242,6 @@ public class HomeController extends BaseController{
 	 * @param model
 	 * @param page
 	 * @param size
-	 * @param type
 	 * @return
 	 */
 	@RequestMapping(value="/notice/atMe")
@@ -262,7 +260,6 @@ public class HomeController extends BaseController{
 	 * @param model
 	 * @param page
 	 * @param size
-	 * @param type
 	 * @return
 	 */
 	@RequestMapping(value="/notice/commentMe")
@@ -281,7 +278,6 @@ public class HomeController extends BaseController{
 	 * @param model
 	 * @param page
 	 * @param size
-	 * @param type
 	 * @return
 	 */
 	@RequestMapping(value="/notice/praiseMe")
