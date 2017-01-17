@@ -6,9 +6,11 @@
             <div class="unwrap">
                 <div class="mast">
                <div class="bg-cover" th:style="'background-image:url('+ @{(${user.backgroundPicture} == null ? 'img/profile-bg.jpg': ${user.backgroundPicture})} +')'">
-                   <a href="javascript:void(0);" th:onclick="'locationUrl(\'/uploadBackground\',\'\');'" class="camerabtn">
-                       <img src="img/camera.png" alt=""/>
-                       <span>上传背景图</span>
+                   <a href="javascript:void(0);" th:onclick="'locationUrl(\'/uploadBackground\',\'\');'" id="background">
+                       <div th:if="${user.id == loginUser.id}">
+                           <img src="img/camera.png" alt=""/>
+                           <span>上传背景图</span>
+                       </div>
                    </a>
                   <div class="p-xl text-center text-white">
                      <a href="javascript:void(0);">
@@ -104,6 +106,7 @@
 	$(function(){
 		var isFollow = /*[[${isFollow}]]*/;
 		var user = /*[[${user}]]*/;
+        var loginUser = /*[[${loginUser}]]*/;
 		if(isFollow > 0){
 			$("#follow").attr("class","btn btn-default");
 			$("#follow").attr("onclick","changeFollow('unfollow','"+user.id+"')");
@@ -126,6 +129,9 @@
 		userLocationUrl("/usercontent/"+user.id+"/0","userAll");
 		loadUserFavorites();
 		standardStr = "standard";
+		if(user.id == loginUser.id){
+		    $("#background").attr("class", "camerabtn");
+        }
 	});
 	function changeFollow(status,userId){
 		$.ajax({
