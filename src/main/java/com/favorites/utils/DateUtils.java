@@ -61,10 +61,31 @@ public class DateUtils {
         }
         return "刚刚";
     }
-    
-    
-    
-    public static void main(String[] args) {
-		System.out.println(getTimeFormatText(1442370985118l));
-	}
+
+    /**
+     * 将时间戳转换成当天0点
+     * @param timestamp
+     * @return
+     */
+    public static long getDayBegin(long timestamp) {
+        String format = "yyyy-MM-DD";
+        String toDayString = new SimpleDateFormat(format).format(new Date(timestamp));
+        Date toDay = null;
+        try {
+            toDay = org.apache.commons.lang3.time.DateUtils.parseDate(toDayString, new String[]{format});
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return toDay.getTime();
+    }
+
+    /**
+     * 获取一个月之前的时间戳
+     * @return
+     */
+    public static long getLastMonthTime() {
+        return getDayBegin(getCurrentTime())-86400000l*30;
+    }
+
 }
