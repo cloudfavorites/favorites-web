@@ -32,9 +32,9 @@ public class CollectorRepositoryTest {
     @Test
     public void test(){
         EntityManager em=emf.createEntityManager();
-        String qSql = "SELECT follow_id as user_id,COUNT(1) AS counts FROM follow GROUP BY follow_id ORDER BY counts DESC LIMIT 1";
-        Query query1=em.createNativeQuery(qSql);
-        List objecArraytList = query1.getResultList();
+        String querySql = "SELECT follow_id as user_id,COUNT(1) AS counts FROM follow GROUP BY follow_id ORDER BY counts DESC LIMIT 1";
+        Query query=em.createNativeQuery(querySql);
+        List objecArraytList = query.getResultList();
         Object[] obj = (Object[]) objecArraytList.get(0);
         System.out.println("+++++++++++++++++++++++++++++++++++++ user_id:"+obj[0]);
         System.out.println("+++++++++++++++++++++++++++++++++++++ counts:"+obj[1]);
@@ -46,6 +46,6 @@ public class CollectorRepositoryTest {
         Long collectUserId = collectorRepository.getMostCollectUser();
         System.out.println("+++++++++++++++++++++++++++++++++++++ collectUserId:"+collectUserId);
         Long followedUserid = collectorRepository.getMostFollowedUser();
-        System.out.println("+++++++++++++++++++++++++++++++++++++ objUserid:"+followedUserid);
+        System.out.println("+++++++++++++++++++++++++++++++++++++ followedUserid:"+followedUserid);
     }
 }
