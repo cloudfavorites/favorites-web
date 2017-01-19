@@ -45,7 +45,19 @@ public class CollectorRepositoryTest {
     public void getMostUser(){
         Long collectUserId = collectorRepository.getMostCollectUser();
         System.out.println("+++++++++++++++++++++++++++++++++++++ collectUserId:"+collectUserId);
-        Long followedUserid = collectorRepository.getMostFollowedUser();
+        Long followedUserid = collectorRepository.getMostFollowedUser(collectUserId);
         System.out.println("+++++++++++++++++++++++++++++++++++++ followedUserid:"+followedUserid);
+        String notUserIds = collectUserId+","+followedUserid;
+        Long praiseUserid = collectorRepository.getMostPraisedUser(notUserIds);
+        System.out.println("+++++++++++++++++++++++++++++++++++++ praiseUserid:"+praiseUserid);
+        notUserIds = notUserIds+","+praiseUserid;
+        Long commentUserid = collectorRepository.getMostCommentedUser(notUserIds);
+        System.out.println("+++++++++++++++++++++++++++++++++++++ commentUserid:"+commentUserid);
+        notUserIds = notUserIds+","+commentUserid;
+        Long popularUserid = collectorRepository.getMostPopularUser(notUserIds);
+        System.out.println("+++++++++++++++++++++++++++++++++++++ popularUserid:"+popularUserid);
+        notUserIds = notUserIds+","+popularUserid;
+        Long activeUserid = collectorRepository.getMostActiveUser(notUserIds);
+        System.out.println("+++++++++++++++++++++++++++++++++++++ activeUserid:"+activeUserid);
     }
 }

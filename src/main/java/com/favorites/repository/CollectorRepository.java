@@ -8,16 +8,16 @@ package com.favorites.repository;
  **/
 public interface CollectorRepository {
 
-    public Long getMostCollectUser();
+    Long getMostCollectUser();
 
-    public Long getMostFollowedUser();
+    Long getMostFollowedUser(Long notUserId);
 
-    public Long getMostPraisedUser();
+    Long getMostPraisedUser(String notUserIds);
 
-    public Long getMostCommentedUser();
+    Long getMostCommentedUser(String notUserIds);
 
-    public Long getMostPopularUser();
+    Long getMostPopularUser(String notUserIds);
 
-    public Long getMostActiveUser();
+    Long getMostActiveUser(String notUserIds);
 
 }
