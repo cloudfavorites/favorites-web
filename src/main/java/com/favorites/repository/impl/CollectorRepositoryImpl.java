@@ -3,6 +3,7 @@ package com.favorites.repository.impl;
 import com.favorites.domain.view.CollectorView;
 import com.favorites.repository.BaseNativeSqlRepository;
 import com.favorites.repository.CollectorRepository;
+import com.favorites.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,10 @@ import java.util.List;
 @Service
 public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements CollectorRepository {
 
-
+    /**
+     * 收藏文章最多的用户
+     * @return
+     */
     @Override
     public Long getMostCollectUser() {
         String querySql = "SELECT c.user_id ,COUNT(1) AS counts FROM collect c GROUP BY c.user_id ORDER BY counts DESC LIMIT 1";
@@ -25,6 +29,11 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
         return Long.valueOf(obj[0].toString());
     }
 
+    /**
+     * 被关注最多的用户
+     * @param notUserId
+     * @return
+     */
     @Override
     public Long getMostFollowedUser(Long notUserId) {
         String querySql = "SELECT id,follow_id as user_id,COUNT(1) AS counts FROM follow \n" +
@@ -35,6 +44,11 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
         return  userId;
     }
 
+    /**
+     * 文章被赞最多的用户
+     * @param notUserIds
+     * @return
+     */
     @Override
     public Long getMostPraisedUser(String notUserIds) {
         String querySql = "SELECT c.user_id,SUM(p.counts) as counts FROM collect c LEFT JOIN \n" +
@@ -46,6 +60,11 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
         return Long.valueOf(obj[0].toString());
     }
 
+    /**
+     * 文章被评论最多的用户
+     * @param notUserIds
+     * @return
+     */
     @Override
     public Long getMostCommentedUser(String notUserIds) {
         String querySql="SELECT c.user_id,SUM(p.counts) as counts FROM collect c LEFT JOIN \n" +
@@ -57,6 +76,11 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
         return Long.valueOf(obj[0].toString());
     }
 
+    /**
+     * 最受欢迎的用户
+     * @param notUserIds
+     * @return
+     */
     @Override
     public Long getMostPopularUser(String notUserIds) {
         String querySql = "SELECT u.user_id,SUM(u.counts) as counts FROM\n" +
@@ -70,16 +94,23 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
         return Long.valueOf(obj[0].toString());
     }
 
+    /**
+     * 近一个月最活跃用户
+     * @param notUserIds
+     * @return
+     */
     @Override
     public Long getMostActiveUser(String notUserIds) {
+        long nowTime = DateUtils.getCurrentTime();
+        long lastMonth = DateUtils.getLastMonthTime();
         String querySql = "SELECT u.user_id,SUM(u.counts) as counts FROM\n" +
-                "(SELECT user_id,COUNT(1) as counts FROM collect WHERE create_time>1482076800000 AND create_time<1484731170155 GROUP BY user_id\n" +
+                "(SELECT user_id,COUNT(1) as counts FROM collect WHERE create_time>" + lastMonth + " AND create_time<" + nowTime + " GROUP BY user_id\n" +
                 "UNION ALL\n" +
-                "SELECT user_id,COUNT(1) as counts FROM `comment` WHERE create_time>1482076800000 AND create_time<1484731170155 GROUP BY user_id\n" +
+                "SELECT user_id,COUNT(1) as counts FROM `comment` WHERE create_time>" + lastMonth + " AND create_time<" + nowTime + " GROUP BY user_id\n" +
                 "UNION ALL\n" +
-                "SELECT user_id,COUNT(1) as counts FROM praise WHERE create_time>1482076800000 AND create_time<1484731170155 GROUP BY user_id\n" +
+                "SELECT user_id,COUNT(1) as counts FROM praise WHERE create_time>" + lastMonth + " AND create_time<" + nowTime + " GROUP BY user_id\n" +
                 "UNION ALL\n" +
-                "SELECT user_id,COUNT(1) as counts FROM follow WHERE create_time>1482076800000 AND create_time<1484731170155 GROUP BY user_id)u\n" +
+                "SELECT user_id,COUNT(1) as counts FROM follow WHERE create_time>" + lastMonth + " AND create_time<" + nowTime + " GROUP BY user_id)u\n" +
                 "WHERE u.user_id NOT IN (" + notUserIds + ")\n" +
                 "GROUP BY u.user_id ORDER BY counts DESC LIMIT 1";
         List<Object[]> objecArraytList = sqlArrayList(querySql);
