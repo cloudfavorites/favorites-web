@@ -5,12 +5,14 @@ import com.favorites.domain.User;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.enums.IsDelete;
+import com.favorites.domain.result.Response;
 import com.favorites.domain.view.CollectSummary;
 import com.favorites.repository.CollectRepository;
 import com.favorites.repository.FavoritesRepository;
 import com.favorites.repository.FollowRepository;
 import com.favorites.repository.UserRepository;
 import com.favorites.service.CollectService;
+import com.favorites.service.LookRecordService;
 import com.favorites.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -41,7 +43,10 @@ public class HomeController extends BaseController{
 	private FollowRepository followRepository;
 	@Autowired
 	private NoticeService noticeService;
-	
+	@Autowired
+	private LookRecordService lookRecordService;
+
+
 	@RequestMapping(value="/standard/{type}/{userId}")
 	@LoggerManage(description="文章列表standard")
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -290,6 +295,49 @@ public class HomeController extends BaseController{
 		model.addAttribute("collects", collects);
 		logger.info("at end :"+ getUserId());
 		return "notice/praiseme";
+	}
+
+	/**
+	 * 浏览记录 added by chenzhimin
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@RequestMapping(value="/lookRecord/{type}/{userId}")
+	@LoggerManage(description="浏览记录lookRecord")
+	public String getLookRecord(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+						     @RequestParam(value = "size", defaultValue = "15") Integer size,
+							 @PathVariable("type") String type,@PathVariable("userId") Long userId) {
+
+		Sort sort = new Sort(Direction.DESC, "lastModifyTime");
+		Pageable pageable = new PageRequest(page, size, sort);
+		model.addAttribute("type", type);
+		Favorites favorites = new Favorites();
+
+		List<CollectSummary> collects = null;
+		User user = userRepository.findOne(userId);
+		model.addAttribute("otherPeople", user);
+		collects =lookRecordService.getLookRecords(this.getUserId(),pageable);
+
+		model.addAttribute("collects", collects);
+		model.addAttribute("favorites", favorites);
+		model.addAttribute("userId", getUserId());
+		model.addAttribute("size", collects.size());
+		logger.info("LookRecord end :"+ getUserId());
+		return "lookRecord/list";
+	}
+
+	/**
+	 * @author chenzhimin
+	 * @date 2017年1月23日
+	 * @param collectId 收藏ID
+	 * @return
+	 */
+	@RequestMapping(value="/lookRecord/save/{collectId}")
+	public Response saveLookRecord(@PathVariable("collectId") long collectId) {
+		lookRecordService.saveLookRecord(this.getUserId(),collectId);
+		return result();
 	}
 	
 }

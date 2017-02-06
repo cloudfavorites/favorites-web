@@ -333,6 +333,25 @@ function comment(collectId){
 		});
 }
 
+//添加浏览记录
+function saveLookRecord(collectId){
+    $.ajax({
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        data:'',
+        url: '/lookRecord/save/'+collectId,
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        success: function(response){
+
+        }
+    });
+}
+
 
 function deleteComment(id,collectId){
 	 $.ajax({
