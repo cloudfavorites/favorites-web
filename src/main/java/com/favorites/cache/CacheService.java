@@ -3,6 +3,7 @@ package com.favorites.cache;
 import com.favorites.domain.UrlLibrary;
 import com.favorites.repository.UrlLibraryRepository;
 import com.favorites.utils.HtmlUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,5 +42,16 @@ public class CacheService {
         urlLibrary.setUrl(key);
         urlLibrary.setLogoUrl(logoUrl);
         urlLibraryRepository.save(urlLibrary);
+    }
+
+    public boolean refreshOne(String key,String newValue){
+        if(StringUtils.isNotBlank(key)){
+            String value = getMap(key);
+            if(StringUtils.isNotBlank(newValue) && !newValue.equals(value)){
+                maps.put(key,newValue);
+                return true;
+            }
+        }
+        return false;
     }
 }
