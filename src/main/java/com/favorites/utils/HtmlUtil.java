@@ -297,9 +297,4 @@ public class HtmlUtil {
 			return null;
 	}
 
-	public static void main(String[] ars){
-		String logoUrl = getImge("http://www.cnblogs.com/ityouknow/p/5909460.html");
-		System.out.println("logoUrl:" + logoUrl);
-	}
-
 }
