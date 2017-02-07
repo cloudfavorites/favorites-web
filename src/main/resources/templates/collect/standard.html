@@ -252,7 +252,7 @@
 
                                  <div class="media resource-card-thumbnail">
 
-                                    <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
+                                    <a  th:href="@{${collect.url}}" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" class="pull-left" target="_blank">
 
                                        <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
 
@@ -262,13 +262,13 @@
 
                                        <h4 class="visible-xs media-heading resource-card-title-xs">
 
-                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+                                          <a target="_blank" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
 
                                        </h4>
 
                                        <h3 class="hidden-xs media-heading resource-card-title">
 
-                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+                                          <a target="_blank" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
 
                                        </h3>
 
