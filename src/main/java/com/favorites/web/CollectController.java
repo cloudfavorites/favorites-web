@@ -1,28 +1,5 @@
 package com.favorites.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.favorites.cache.CacheService;
 import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
@@ -37,9 +14,25 @@ import com.favorites.repository.CollectRepository;
 import com.favorites.repository.FavoritesRepository;
 import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
-import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @RestController
 @RequestMapping("/collect")
@@ -52,8 +45,6 @@ public class CollectController extends BaseController{
 	private CollectService collectService;
 	@Resource
 	private FavoritesRepository favoritesRepository;
-	@Resource
-	private NoticeService noticeService;
 	@Autowired
 	private CacheService cacheService;
 	
@@ -67,7 +58,7 @@ public class CollectController extends BaseController{
 	public Response collect(Collect collect) {		
 		try {
 			if(StringUtils.isBlank(collect.getLogoUrl())){
-				collect.setLogoUrl(cacheService.getMap(collect.getUrl()));
+				collect.setLogoUrl(Const.BASE_PATH + Const.default_logo);
 			}
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){

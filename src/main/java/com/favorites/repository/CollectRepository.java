@@ -15,6 +15,8 @@ import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.view.CollectView;
 
+import static javafx.scene.input.KeyCode.T;
+
 public interface CollectRepository extends JpaRepository<Collect, Long> {
 	
 	public String baseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
@@ -88,4 +90,10 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Modifying
 	@Query("update Collect c set c.isDelete = ?1,c.lastModifyTime = ?2 where c.id = ?3")
 	int modifyIsDeleteById(IsDelete isDelete,Long lastModifyTime,Long id);
+
+
+	@Transactional
+	@Modifying
+	@Query("update Collect c set c.logoUrl = ?1,c.lastModifyTime = ?2 where c.url = ?3")
+	int updateLogoUrlByUrl(String logoUrl,Long lastModifyTime,String url);
 }
