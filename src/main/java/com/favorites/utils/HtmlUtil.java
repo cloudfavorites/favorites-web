@@ -59,10 +59,16 @@ public class HtmlUtil {
 				// 判断图片大小
 				String fileUrl = download(imgUrl);
 				File picture = new File(fileUrl);
-				BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
+				FileInputStream in = new FileInputStream(picture);
+				BufferedImage sourceImg = ImageIO.read(in);
 				String weight = String.format("%.1f",picture.length()/1024.0);
 				int width = sourceImg.getWidth();
 				int height = sourceImg.getHeight();
+				// 删除临时文件
+				if(picture.exists()){
+					in.close();
+					picture.delete();
+				}
 				if(Double.parseDouble(weight) <= 0 || width <=0 || height <= 0){
 					logger.info("当前图片大小为0，继续获取图片链接");
 				}else{
@@ -289,6 +295,11 @@ public class HtmlUtil {
 				e.printStackTrace();
 			}
 			return null;
+	}
+
+	public static void main(String[] ars){
+		String logoUrl = getImge("http://www.cnblogs.com/ityouknow/p/5909460.html");
+		System.out.println("logoUrl:" + logoUrl);
 	}
 
 }
