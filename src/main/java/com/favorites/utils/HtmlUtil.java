@@ -71,6 +71,7 @@ public class HtmlUtil {
 				}
 				if(Double.parseDouble(weight) <= 0 || width <=0 || height <= 0){
 					logger.info("当前图片大小为0，继续获取图片链接");
+					imgUrl="";
 				}else{
 					break;
 				}
