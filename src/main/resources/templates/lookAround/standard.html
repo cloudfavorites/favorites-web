@@ -138,7 +138,7 @@
                 </h3>
                 <p>
                   <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
-                    <img th:src="@{(${collect.profilePicture}=='' ? '/img/favicon.png' : ${collect.profilePicture})}"></img>
+                    <img th:src="@{(${collect.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
                     <span th:text="${collect.userName}"></span>
                   </a>
                 </p>
@@ -177,7 +177,7 @@
 
               <li th:each="collect,collectStat : ${collects}" >
 
-                <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
+                <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
 
                 <div class="timeline-panel">
 
@@ -468,7 +468,7 @@
             <ul class="list-group" th:each="user,userStat : ${fiveUsers}">
               <li class="list-group-item">
                 <a href="#" class="pull-left" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'">
-                  <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
+                  <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
                 </a>
                 <div class="media-body">
                   <h4>

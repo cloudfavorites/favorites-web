@@ -34,7 +34,6 @@ public class SecurityFilter implements Filter {
 		GreenUrlSet.add(Const.BASE_PATH + "/index");
 		GreenUrlSet.add(Const.BASE_PATH + "/forgotPassword");
 		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
-		GreenUrlSet.add(Const.BASE_PATH + "/lookAround");
 		GreenUrlSet.add(Const.BASE_PATH + "/tool");
 	}
 	
@@ -157,7 +156,8 @@ public class SecurityFilter implements Filter {
                 || url.contains("/login")||url.contains("/user/login")
                 || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
                 || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
-                || url.contains("/newPassword")||url.contains("/user/setNewPassword")) {
+                || url.contains("/newPassword")||url.contains("/user/setNewPassword")
+				|| url.contains("/lookAround/standard/ALL")) {
             return true;
         } else {
             return false;
