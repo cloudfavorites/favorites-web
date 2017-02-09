@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+<body>
+
+<script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
+<script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
+<script th:src="@{/vendor/bootstrap/dist/js/bootstrap.js}"></script>
+<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
+<script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
+
+<script th:src="@{/js/layout.js}" ></script>
+
+<div class="wrapper">
+  <header class="topnavbar-wrapper">
+    <nav role="navigation" class="navbar topnavbar">
+      <div class="navbar-header">
+        <a href="/" class="navbar-brand">
+          <div class="brand-logo">
+            <img th:src="@{/img/logo.png}" alt="App Logo" class="img-responsive"></img></div>
+          <div class="brand-logo-collapsed">
+            <img th:src="@{/img/logo-single.png}" alt="App Logo" class="img-responsive"></img></div>
+        </a>
+      </div>
+      <div class="nav-wrapper">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#" data-toggle-state="aside-collapsed" class="hidden-xs" title="缩小/扩大侧栏"> <em class="fa fa-navicon"></em>
+            </a>
+            <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle" title="缩小/扩大侧栏"> <em class="fa fa-navicon"></em>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" data-search-open="" title="搜索">
+              <em class="icon-magnifier"></em>
+            </a>
+          </li>
+          <li class="page-scroll">
+            <a href="/login">登录</a>
+          </li>
+          <li class="page-scroll">
+            <a href="/register">注册</a>
+          </li>
+        </ul>
+      </div>
+      <form role="search" action="search.html" class="navbar-form">
+        <div class="form-group has-feedback">
+          <input id="searchKey" type="text" placeholder="输入并且按回车确定..." class="form-control"></input>
+          <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+        </div>
+        <button type="submit" class="hidden btn btn-default">提交</button>
+      </form>
+    </nav>
+  </header>
+  <aside class="aside">
+    <div class="aside-inner">
+      <nav data-sidebar-anyclick-close="" class="sidebar">
+        <ul class="nav">
+          <li class="nav-heading ">主导航</li>
+          <li class=" ">
+            <a href="/standard/my/0.html" title="首页">
+              <em class="icon-home"></em>
+              <span>首页</span>
+            </a>
+          </li>
+          <li class=" active">
+            <a title="发现" href="/standard/explore/0.html">
+              <em class="icon-compass"></em>
+              <span>发现</span>
+            </a>
+          </li>
+          <li class="nav-heading ">更多</li>
+          <li class=" ">
+            <a href="/tool.html" title="网页收集工具">
+              <em class="icon-wrench"></em>
+              <span>网页收集工具</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+  <section>
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-9">
+          <div class="classification">
+            <ul>
+              <li>
+                <a class="active" href="/lookAround/standard/ALL.html">全部</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/TRAVEL.html">旅行</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/FOOD.html">料理</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/EXERCISE.html">健身</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/PHOTOGRAPH.html">摄影</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/MUSIC.html">音乐</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/REARING.html">育儿</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/LOVE.html">恋爱</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/BUSINESS.html">创业</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/ART.html">美术设计</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/MANAGER.html">产品经理</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/MARKET.html">市场营销</a>
+              </li>
+              <li>
+                <a href="/lookAround/standard/RUNNING.html">运营</a>
+              </li>
+            </ul>
+          </div>
+          <div class="slider">
+            <ul class="slides" th:each="collect : ${fiveCollects}">
+              <li th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
+                <h3>
+                  <a th:href="@{${collect.url}}" th:text="${collect.title}"></a>
+                </h3>
+                <p>
+                  <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
+                    <img th:src="@{(${collect.profilePicture}=='' ? '/img/favicon.png' : ${collect.profilePicture})}"></img>
+                    <span th:text="${collect.userName}"></span>
+                  </a>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div id="simple" th:if="${collects.size() > 0}" style="margin-top: 45px;">
+            <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
+
+              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookAround/standard/' + ${category}+'\',\'\');'">
+
+                <span class="icon-layers"></span>
+
+              </a>
+
+              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookAround/standard/' + ${category}+'\',\'\');'">
+
+                <span class="icon-layers"></span>
+
+              </a>
+
+              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default  active" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookAround/simple/' + ${category}+'\',\'\');'" >
+
+                <span class="icon-list"></span>
+
+              </a>
+
+              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookAround/simple/' + ${category}+'\',\'\');'" >
+
+                <span class="icon-list"></span>
+
+              </a>
+
+            </div>
+            <table class="table">
+
+              <tbody  id="collectSimpleList">
+
+              <tr th:each="collect,collectStat : ${collects}">
+
+                <td>
+
+                  <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+
+                </td>
+
+                <td width="10%" class="text-center">
+
+                  <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
+
+                <td width="15%" class="text-center">
+
+                  <div>
+
+                    <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" > <i class="fa fa-pencil"></i>
+
+                    </a>
+
+                    <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'"> <i class="fa fa-trash text-danger"></i>
+
+                    </a>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              </tbody>
+
+            </table>
+            <button  id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" style="display:none;">加载更多</button>
+            <div id="loadingSimple" style="text-align:center;margin:20px;display:none;"><img src="/img/loading.gif" width="64" height="64" /></div>
+            <br />
+            <br />
+            <br />
+          </div>
+        </div>
+
+        <input type="hidden" name="collectId" id="collectId" />
+
+        <input type="hidden" name="forward" id="forward" th:value="'/simple/'+${type}+'/0'" />
+
+        <input type="hidden" name="category" id="category" th:value="${category}" />
+
+        <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
+
+        <input type="hidden"  id="userId" th:value="${userId}" />
+
+        <div class="col-lg-3 col-md-3 hidden-sm">
+          <div class="panel panel-default panel-follow">
+            <div class="panel-heading">推荐关注</div>
+            <ul class="list-group" th:each="user,userStat : ${fiveUsers}">
+              <li class="list-group-item">
+                <a href="#" class="pull-left" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'">
+                  <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
+                </a>
+                <div class="media-body">
+                  <h4>
+                    <a href="#" th:text="${user.userName}" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'"></a>
+                  </h4>
+                  <small></small>
+                  <a href="#" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
+                     onclick="changeFollow(this.id)"></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <span>&copy; 2016 - Favorites</span>
+    <span class="pull-right">
+            沪ICP备11037833号 | 联系邮箱：
+            <a href="#">contact@favorites.info</a>
+         </span>
+  </footer>
+</div>
+
+<script>
+   $(".slider").flexslider({
+      animation: "side",
+      slideshowSpeed: 3000,
+      pauseOnHover: true,
+      directionNav: true,
+      controlNav: true,
+      prevText: "&lt;",
+      nextText: "&gt;"
+   });
+</script>
+<script type='text/javascript'>
+    //关注某人或取消关注某人
+	function changeFollow(followIdStr){
+	    var userId = document.getElementById("userId").value;
+	    var textStr = document.getElementById(followIdStr).innerText;
+	    var status = "";
+	    if(textStr == "关注"){
+	        status = "follow";
+	    }else if(textStr == "取消关注"){
+	        status = "unfollow";
+	    }
+	    var followId = followIdStr.substring(6);
+	    if(userId != ""){
+            $.ajax({
+                  async: false,
+                  type: 'POST',
+                  dataType: 'json',
+                  data:{'status':status,'userId':followId},
+                  url: '/follow/changeFollowStatus',
+                  error : function(XMLHttpRequest, textStatus, errorThrown) {
+                      console.log(XMLHttpRequest);
+                      console.log(textStatus);
+                      console.log(errorThrown);
+                  },
+                  success: function(response){
+                      if(response.rspCode == '000000'){
+                          if(textStr == "关注"){
+                              document.getElementById(followIdStr).innerText = "取消关注";
+                          }else{
+                              document.getElementById(followIdStr).innerText = "关注";
+                          }
+                      }
+                  }
+            });
+		}else{
+		    alert("请先登录或注册");
+		}
+	}
+    //切换列表试图和方框试图
+	function switchShow(type){
+	    if(type == "list"){
+	        document.getElementById("collectPraisesList").style.display = "block";
+	        document.getElementById("collectPraisesLayer").style.display = "none";
+	    }else if(type == "layer"){
+	        document.getElementById("collectPraisesLayer").style.display = "block";
+	        document.getElementById("collectPraisesList").style.display = "none";
+	    }
+	}
+
+</script>
+</body>
+</html>

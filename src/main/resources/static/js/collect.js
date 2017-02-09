@@ -392,6 +392,11 @@ function loadStandardMore(){
 	}else{
 		url = url + "/0";
 	}
+	if($("#pageType").val() == "lookAround"){
+	    url = url + "/" + $("#category").val();
+	}else{
+	    url = url + "/NO";
+	}
 	 $.ajax({
 			async: false,
 			type: 'POST',
@@ -679,6 +684,11 @@ function loadSimpleMore(){
 	}else{
 		url = url + "/0";
 	}
+	if($("#pageType").val() == "lookAround"){
+    	url = url + "/" + $("#category").val();
+    }else{
+        url = url + "/NO";
+    }
 	 $.ajax({
 			async: false,
 			type: 'POST',

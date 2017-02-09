@@ -15,8 +15,6 @@ import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.view.CollectView;
 
-import static javafx.scene.input.KeyCode.T;
-
 public interface CollectRepository extends JpaRepository<Collect, Long> {
 	
 	public String baseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
@@ -28,7 +26,17 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,u.profilePicture as profilePicture,f.id as favoriteId,f.name as favoriteName "
 			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.isDelete='YES'";
-	
+
+
+	//随便看看根据类别查询收藏
+	@Query(baseSql+ " and c.type='public' and c.category=?1 ")
+	Page<CollectView> findExploreViewByCategory(String category,Pageable pageable);
+
+	//随便看看查询收藏
+	@Query(baseSql+ " and c.type='public' ")
+	Page<CollectView> findExploreViewByType(Pageable pageable);
+
+
 	Long countByUserIdAndIsDelete(Long userId,IsDelete isDelete);
 	
 	Long countByUserIdAndTypeAndIsDelete(Long userId,CollectType type,IsDelete isDelete);

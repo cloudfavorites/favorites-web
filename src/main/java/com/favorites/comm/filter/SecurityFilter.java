@@ -34,6 +34,8 @@ public class SecurityFilter implements Filter {
 		GreenUrlSet.add(Const.BASE_PATH + "/index");
 		GreenUrlSet.add(Const.BASE_PATH + "/forgotPassword");
 		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
+		GreenUrlSet.add(Const.BASE_PATH + "/lookAround");
+		GreenUrlSet.add(Const.BASE_PATH + "/tool");
 	}
 	
 	@Override
