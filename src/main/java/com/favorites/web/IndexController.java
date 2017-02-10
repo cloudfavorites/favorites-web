@@ -5,16 +5,26 @@ import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.Config;
 import com.favorites.domain.Favorites;
+import com.favorites.domain.User;
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.enums.IsDelete;
+import com.favorites.domain.view.CollectSummary;
+import com.favorites.domain.view.IndexCollectorView;
 import com.favorites.repository.*;
 import com.favorites.service.CollectService;
+import com.favorites.service.CollectorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -31,14 +41,20 @@ public class IndexController extends BaseController{
 	private FollowRepository followRepository;
 	@Autowired
 	private CollectRepository collectRepository;
-	@Resource
-	private CollectService collectService;
 	@Autowired
 	private NoticeRepository noticeRepository;
+	@Autowired
+	private CollectorService collectorService;
+    @Autowired
+    private CollectService collectService;
+    @Autowired
+    private UserRepository userRepository;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	@LoggerManage(description="首页")
-	public String index(){
+	public String index(Model model){
+		IndexCollectorView indexCollectorView = collectorService.getCollectors();
+		model.addAttribute("collector",indexCollectorView);
 		return "index";
 	}
 	
@@ -116,13 +132,15 @@ public class IndexController extends BaseController{
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	@LoggerManage(description="登出")
-	public String logout(HttpServletResponse response) {
+	public String logout(HttpServletResponse response,Model model) {
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
 		getSession().removeAttribute(Const.LAST_REFERER);
 		Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, "");
 		cookie.setMaxAge(0);
 		cookie.setPath("/");
 		response.addCookie(cookie);
+		IndexCollectorView indexCollectorView = collectorService.getCollectors();
+		model.addAttribute("collector",indexCollectorView);
 		return "index";
 	}
 
@@ -156,5 +174,59 @@ public class IndexController extends BaseController{
 	public String uploadBackground(){
 		return "user/uploadbackground";
 	}
-	
+
+    /**
+     * 首页收藏家个人首页
+     * @param model
+     * @param userId
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping(value="/collector/{userId}/{favoritesId}")
+    @LoggerManage(description="首页收藏家个人首页")
+    public String collectorPageShow(Model model, @PathVariable("userId") Long userId, @PathVariable("favoritesId") Long favoritesId, @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                 @RequestParam(value = "size", defaultValue = "15") Integer size){
+        User user = userRepository.findOne(userId);
+        Long collectCount = 0l;
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(page, size, sort);
+        List<CollectSummary> collects = null;
+        Integer isFollow = 0;
+        if(getUserId().longValue() == userId.longValue()){
+            model.addAttribute("myself",IsDelete.YES.toString());
+            collectCount = collectRepository.countByUserIdAndIsDelete(userId,IsDelete.NO);
+            if(0 == favoritesId){
+                collects =collectService.getCollects("myself", userId, pageable,null,null);
+            }else{
+                collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l,null);
+            }
+        }else{
+            model.addAttribute("myself",IsDelete.NO.toString());
+            collectCount = collectRepository.countByUserIdAndTypeAndIsDelete(userId, CollectType.PUBLIC, IsDelete.NO);
+            if(favoritesId == 0){
+                collects =collectService.getCollects("others", userId, pageable,null,getUserId());
+            }else{
+                collects = collectService.getCollects("otherpublic", userId, pageable, favoritesId,getUserId());
+            }
+            isFollow = followRepository.countByUserIdAndFollowIdAndStatus(getUserId(), userId, FollowStatus.FOLLOW);
+        }
+        Integer follow = followRepository.countByUserIdAndStatus(userId, FollowStatus.FOLLOW);
+        Integer followed = followRepository.countByFollowIdAndStatus(userId, FollowStatus.FOLLOW);
+        List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
+        List<String> followUser = followRepository.findFollowUserByUserId(userId);
+        List<String> followedUser = followRepository.findFollowedUserByFollowId(userId);
+        model.addAttribute("collectCount",collectCount);
+        model.addAttribute("follow",follow);
+        model.addAttribute("followed",followed);
+        model.addAttribute("user",user);
+        model.addAttribute("collects", collects);
+        model.addAttribute("favoritesList",favoritesList);
+        model.addAttribute("followUser",followUser);
+        model.addAttribute("followedUser",followedUser);
+        model.addAttribute("isFollow",isFollow);
+		model.addAttribute("loginUserInfo",getUser());
+        return "collector";
+    }
+
 }

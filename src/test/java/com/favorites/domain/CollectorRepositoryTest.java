@@ -1,6 +1,8 @@
 package com.favorites.domain;
 
+import com.favorites.domain.view.IndexCollectorView;
 import com.favorites.repository.CollectorRepository;
+import com.favorites.service.CollectorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,10 @@ public class CollectorRepositoryTest {
 
     @PersistenceUnit
     private EntityManagerFactory emf;
-
     @Autowired
     private CollectorRepository collectorRepository;
+    @Autowired
+    private CollectorService collectorService;
 
     @Test
     public void test(){
@@ -59,5 +62,11 @@ public class CollectorRepositoryTest {
         notUserIds = notUserIds+","+popularUserid;
         Long activeUserid = collectorRepository.getMostActiveUser(notUserIds);
         System.out.println("+++++++++++++++++++++++++++++++++++++ activeUserid:"+activeUserid);
+    }
+
+    @Test
+    public void  getCollectors(){
+        IndexCollectorView indexCollectorView = collectorService.getCollectors();
+        System.out.println("+++++++++++++++++++++++++++++++++++++ collectors:"+indexCollectorView.getMostActiveUser());
     }
 }
