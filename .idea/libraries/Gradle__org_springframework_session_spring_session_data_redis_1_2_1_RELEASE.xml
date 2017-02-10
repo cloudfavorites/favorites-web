@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: org.springframework.session:spring-session-data-redis:1.2.1.RELEASE">
-    <CLASSES>
-      <root url="jar://D:/DevelopmentTools/gradle-2.14.1/caches/modules-2/files-2.1/org.springframework.session/spring-session-data-redis/1.2.1.RELEASE/35dce87b37b4ccaa439c1a3924ac73bbe533229f/spring-session-data-redis-1.2.1.RELEASE.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
