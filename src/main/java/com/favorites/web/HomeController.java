@@ -163,7 +163,13 @@ public class HomeController extends BaseController{
 		model.addAttribute("followUser",followUser);
 		model.addAttribute("followedUser",followedUser);
 		model.addAttribute("isFollow",isFollow);
-		model.addAttribute("loginUser",getUser());
+		User userTemp = null;
+		User currentUser = getUser();
+		if(this.getUser()==null){
+			userTemp = new User();
+			userTemp.setId(0L);
+		}
+		model.addAttribute("loginUser",getUser() == null ? userTemp : getUser());
 		return "user";
 	}
 	

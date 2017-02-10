@@ -76,7 +76,7 @@ public class IndexController extends BaseController{
 	 * 随便看看 标准模式显示  added by chenzhimin
 	 * @return
 	 */
-	@RequestMapping(value="/lookAround/standard/{category}",method=RequestMethod.GET)
+	@RequestMapping(value="/lookAround/standard/{category}")
 	@LoggerManage(description="随便看看页面")
 	public String lookAroundStandard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 							 @RequestParam(value = "size", defaultValue = "15") Integer size,
@@ -103,9 +103,9 @@ public class IndexController extends BaseController{
 
 	/**
 	 * 随便看看 简单模式显示  added by chenzhimin
-	 * @return
+	 * @return  /lookAround/simple/ALL
 	 */
-	@RequestMapping(value="/lookAround/simple/{category}",method=RequestMethod.GET)
+	@RequestMapping(value="/lookAround/simple/{category}")
 	@LoggerManage(description="随便看看页面")
 	public String lookAroundSimple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 									 @RequestParam(value = "size", defaultValue = "20") Integer size,

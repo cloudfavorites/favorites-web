@@ -152,12 +152,16 @@ public class SecurityFilter implements Filter {
      * @date 2016-5-4
      */
     private boolean containsKey(String url) {
-        if (url.contains("/media/")
+
+		if (url.contains("/media/")
                 || url.contains("/login")||url.contains("/user/login")
                 || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
                 || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
                 || url.contains("/newPassword")||url.contains("/user/setNewPassword")
-				|| url.contains("/lookAround/standard/ALL")) {
+				|| url.startsWith("/lookAround/standard/")
+				|| url.startsWith("/lookAround/simple/")
+				|| url.startsWith("/user/")
+				|| url.startsWith("/standard/")) {
             return true;
         } else {
             return false;

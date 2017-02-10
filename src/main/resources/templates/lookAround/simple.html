@@ -89,43 +89,43 @@
           <div class="classification">
             <ul>
               <li>
-                <a class="active" href="/lookAround/standard/ALL.html">全部</a>
+                <a class="active" href="/lookAround/standard/ALL">全部</a>
               </li>
               <li>
-                <a href="/lookAround/standard/TRAVEL.html">旅行</a>
+                <a href="/lookAround/standard/TRAVEL">旅行</a>
               </li>
               <li>
-                <a href="/lookAround/standard/FOOD.html">料理</a>
+                <a href="/lookAround/standard/FOOD">料理</a>
               </li>
               <li>
-                <a href="/lookAround/standard/EXERCISE.html">健身</a>
+                <a href="/lookAround/standard/EXERCISE">健身</a>
               </li>
               <li>
-                <a href="/lookAround/standard/PHOTOGRAPH.html">摄影</a>
+                <a href="/lookAround/standard/PHOTOGRAPH">摄影</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MUSIC.html">音乐</a>
+                <a href="/lookAround/standard/MUSIC">音乐</a>
               </li>
               <li>
-                <a href="/lookAround/standard/REARING.html">育儿</a>
+                <a href="/lookAround/standard/REARING">育儿</a>
               </li>
               <li>
-                <a href="/lookAround/standard/LOVE.html">恋爱</a>
+                <a href="/lookAround/standard/LOVE">恋爱</a>
               </li>
               <li>
-                <a href="/lookAround/standard/BUSINESS.html">创业</a>
+                <a href="/lookAround/standard/BUSINESS">创业</a>
               </li>
               <li>
-                <a href="/lookAround/standard/ART.html">美术设计</a>
+                <a href="/lookAround/standard/ART">美术设计</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MANAGER.html">产品经理</a>
+                <a href="/lookAround/standard/MANAGER">产品经理</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MARKET.html">市场营销</a>
+                <a href="/lookAround/standard/MARKET">市场营销</a>
               </li>
               <li>
-                <a href="/lookAround/standard/RUNNING.html">运营</a>
+                <a href="/lookAround/standard/RUNNING">运营</a>
               </li>
             </ul>
           </div>
@@ -147,25 +147,25 @@
           <div id="simple" th:if="${collects.size() > 0}" style="margin-top: 45px;">
             <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
 
-              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookAround/standard/' + ${category}+'\',\'\');'">
+              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  th:href="'/lookAround/standard/' + ${category}">
 
                 <span class="icon-layers"></span>
 
               </a>
 
-              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookAround/standard/' + ${category}+'\',\'\');'">
+              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  th:href="'/lookAround/standard/' + ${category}">
 
                 <span class="icon-layers"></span>
 
               </a>
 
-              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default  active" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookAround/simple/' + ${category}+'\',\'\');'" >
+              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default  active" th:href="'/lookAround/simple/' + ${category}" >
 
                 <span class="icon-list"></span>
 
               </a>
 
-              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookAround/simple/' + ${category}+'\',\'\');'" >
+              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" th:href="'/lookAround/simple/' + ${category}" >
 
                 <span class="icon-list"></span>
 
@@ -282,7 +282,7 @@
 	        status = "unfollow";
 	    }
 	    var followId = followIdStr.substring(6);
-	    if(userId != ""){
+	    if(userId != "0"){
             $.ajax({
                   async: false,
                   type: 'POST',
@@ -308,16 +308,7 @@
 		    alert("请先登录或注册");
 		}
 	}
-    //切换列表试图和方框试图
-	function switchShow(type){
-	    if(type == "list"){
-	        document.getElementById("collectPraisesList").style.display = "block";
-	        document.getElementById("collectPraisesLayer").style.display = "none";
-	    }else if(type == "layer"){
-	        document.getElementById("collectPraisesLayer").style.display = "block";
-	        document.getElementById("collectPraisesList").style.display = "none";
-	    }
-	}
+
 
 </script>
 </body>
