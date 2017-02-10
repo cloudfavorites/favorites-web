@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 war {
     baseName = 'favorites-web'
