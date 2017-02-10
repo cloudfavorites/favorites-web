@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.webjars:jquery-form:3.51">
+    <CLASSES>
+      <root url="jar://D:/DevelopmentTools/gradle-2.14.1/caches/modules-2/files-2.1/org.webjars/jquery-form/3.51/74d1fb365608c34eeed57ca64886b367afde7d75/jquery-form-3.51.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/DevelopmentTools/gradle-2.14.1/caches/modules-2/files-2.1/org.webjars/jquery-form/3.51/590de801d9fdfd9eeb4e8c7575e1220063d7cb5b/jquery-form-3.51-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
