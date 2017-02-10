@@ -2,10 +2,7 @@ package com.favorites.web;
 
 import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
-import com.favorites.domain.Collect;
-import com.favorites.domain.Config;
-import com.favorites.domain.Favorites;
-import com.favorites.domain.User;
+import com.favorites.domain.*;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.enums.IsDelete;
@@ -14,6 +11,7 @@ import com.favorites.domain.view.IndexCollectorView;
 import com.favorites.repository.*;
 import com.favorites.service.CollectService;
 import com.favorites.service.CollectorService;
+import com.favorites.service.LookAroundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +47,13 @@ public class IndexController extends BaseController{
     private CollectService collectService;
     @Autowired
     private UserRepository userRepository;
-	
+
+	/**
+	 * 随便看看  added by chenzhimin
+	 */
+	@Autowired
+	private LookAroundService lookAroundService;
+
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	@LoggerManage(description="首页")
 	public String index(Model model){
@@ -76,10 +80,69 @@ public class IndexController extends BaseController{
 		logger.info("collect size="+size+" userID="+getUserId());
 		return "home";
 	}
-	
+
+	/**
+	 * 随便看看 标准模式显示  added by chenzhimin
+	 * @return
+	 */
+	@RequestMapping(value="/lookAround/standard/{category}")
+	@LoggerManage(description="随便看看页面")
+	public String lookAroundStandard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+							 @RequestParam(value = "size", defaultValue = "15") Integer size,
+							 @PathVariable("category") String category) {
+
+		Sort sort = new Sort(Sort.Direction.DESC, "id");
+		Pageable pageable = new PageRequest(page, size, sort);
+		model.addAttribute("category", category);
+		model.addAttribute("type", "lookAround");
+		Favorites favorites = new Favorites();
+		List<CollectSummary> collects = null;
+		List<CollectSummary> fivecollects = lookAroundService.scrollFiveCollect();
+		List<UserIsFollow> fiveUsers = lookAroundService.queryFiveUser(this.getUserId());
+
+		collects =lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		model.addAttribute("fiveCollects", fivecollects);
+		model.addAttribute("fiveUsers", fiveUsers);
+		model.addAttribute("collects", collects);
+		model.addAttribute("favorites", favorites);
+		model.addAttribute("userId", getUserId());
+		model.addAttribute("size", collects.size());
+		return "lookAround/standard";
+	}
+
+	/**
+	 * 随便看看 简单模式显示  added by chenzhimin
+	 * @return  /lookAround/simple/ALL
+	 */
+	@RequestMapping(value="/lookAround/simple/{category}")
+	@LoggerManage(description="随便看看页面")
+	public String lookAroundSimple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+									 @RequestParam(value = "size", defaultValue = "20") Integer size,
+									 @PathVariable("category") String category) {
+
+		Sort sort = new Sort(Sort.Direction.DESC, "id");
+		Pageable pageable = new PageRequest(page, size, sort);
+		model.addAttribute("category", category);
+		model.addAttribute("type", "explore");
+		Favorites favorites = new Favorites();
+		List<CollectSummary> collects = null;
+		List<CollectSummary> fivecollects = lookAroundService.scrollFiveCollect();
+		List<UserIsFollow> fiveUsers = lookAroundService.queryFiveUser(this.getUserId());
+
+		collects =lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		model.addAttribute("fiveCollects", fivecollects);
+		model.addAttribute("fiveUsers", fiveUsers);
+		model.addAttribute("collects", collects);
+		model.addAttribute("favorites", favorites);
+		model.addAttribute("userId", getUserId());
+		model.addAttribute("size", collects.size());
+		return "lookAround/simple";
+	}
+
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	@LoggerManage(description="登陆页面")
 	public String login() {
+
 		return "login";
 	}
 	

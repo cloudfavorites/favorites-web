@@ -34,6 +34,7 @@ public class SecurityFilter implements Filter {
 		GreenUrlSet.add(Const.BASE_PATH + "/index");
 		GreenUrlSet.add(Const.BASE_PATH + "/forgotPassword");
 		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
+		GreenUrlSet.add(Const.BASE_PATH + "/tool");
 	}
 	
 	@Override
@@ -151,12 +152,17 @@ public class SecurityFilter implements Filter {
      * @date 2016-5-4
      */
     private boolean containsKey(String url) {
-        if (url.contains("/media/")
+
+		if (url.contains("/media/")
                 || url.contains("/login")||url.contains("/user/login")
                 || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
                 || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
                 || url.contains("/newPassword")||url.contains("/user/setNewPassword")
-				|| url.contains("/collect")|| url.contains("/user")|| url.contains("/favorites")||url.contains("/comment")) {
+				|| url.contains("/collect")|| url.contains("/favorites")||url.contains("/comment")
+				|| url.startsWith("/lookAround/standard/")
+				|| url.startsWith("/lookAround/simple/")
+				|| url.startsWith("/user/")
+				|| url.startsWith("/standard/")) {
             return true;
         } else {
             return false;

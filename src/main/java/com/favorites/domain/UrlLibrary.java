@@ -19,6 +19,16 @@ public class UrlLibrary extends Entitys implements Serializable{
     private String url;
     @Column(nullable = true)
     private String logoUrl;
+    @Column(columnDefinition="INT default 0")
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public Long getId() {
         return id;

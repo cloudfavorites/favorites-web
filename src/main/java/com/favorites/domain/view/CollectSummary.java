@@ -24,7 +24,11 @@ public class CollectSummary  implements Serializable {
 	private Long praiseCount;
 	private Long commentCount;
 	private boolean isPraise;
-	
+
+	public CollectSummary(){
+
+	}
+
 	public CollectSummary(CollectView view) {
 		this.id = view.getId();
 		this.userId = view.getUserId();

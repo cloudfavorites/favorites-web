@@ -333,6 +333,25 @@ function comment(collectId){
 		});
 }
 
+//添加浏览记录
+function saveLookRecord(collectId){
+    $.ajax({
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        data:'',
+        url: '/lookRecord/save/'+collectId,
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        success: function(response){
+
+        }
+    });
+}
+
 
 function deleteComment(id,collectId){
 	 $.ajax({
@@ -372,6 +391,11 @@ function loadStandardMore(){
 		url = url + "/" + $("#userId").val();
 	}else{
 		url = url + "/0";
+	}
+	if($("#pageType").val() == "lookAround"){
+	    url = url + "/" + $("#category").val();
+	}else{
+	    url = url + "/NO";
 	}
 	 $.ajax({
 			async: false,
@@ -660,6 +684,11 @@ function loadSimpleMore(){
 	}else{
 		url = url + "/0";
 	}
+	if($("#pageType").val() == "lookAround"){
+    	url = url + "/" + $("#category").val();
+    }else{
+        url = url + "/NO";
+    }
 	 $.ajax({
 			async: false,
 			type: 'POST',

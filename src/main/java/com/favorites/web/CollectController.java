@@ -1,28 +1,5 @@
 package com.favorites.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.favorites.cache.CacheService;
 import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
@@ -37,9 +14,26 @@ import com.favorites.repository.CollectRepository;
 import com.favorites.repository.FavoritesRepository;
 import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
-import com.favorites.service.NoticeService;
+import com.favorites.service.LookAroundService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @RestController
 @RequestMapping("/collect")
@@ -52,10 +46,14 @@ public class CollectController extends BaseController{
 	private CollectService collectService;
 	@Resource
 	private FavoritesRepository favoritesRepository;
-	@Resource
-	private NoticeService noticeService;
 	@Autowired
 	private CacheService cacheService;
+
+	/**
+	 * 随便看看  added by chenzhimin
+	 */
+	@Autowired
+	private LookAroundService lookAroundService;
 	
 	/**
 	 * 文章收集
@@ -67,7 +65,7 @@ public class CollectController extends BaseController{
 	public Response collect(Collect collect) {		
 		try {
 			if(StringUtils.isBlank(collect.getLogoUrl())){
-				collect.setLogoUrl(cacheService.getMap(collect.getUrl()));
+				collect.setLogoUrl(Const.BASE_PATH + Const.default_logo);
 			}
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
@@ -113,11 +111,12 @@ public class CollectController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/standard/{type}/{favoritesId}/{userId}")
+	@RequestMapping(value="/standard/{type}/{favoritesId}/{userId}/{category}")
 	@LoggerManage(description="文章列表standard")
 	public List<CollectSummary> standard(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
-	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
+	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId,
+			@PathVariable("category") String category) {
 		  Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects = null;
@@ -127,7 +126,9 @@ public class CollectController extends BaseController{
 	    	}else{
 	    		collects = collectService.getCollects("others", userId, pageable, null,getUserId());
 	    	}
-	    }else{
+	    }else if(category != null && !"".equals(category) && !"NO".equals(category)){//用于随便看看功能中收藏列表显示
+			collects = lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		}else{
 	    	if(null != favoritesId && 0 != favoritesId){
 		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null,null);
 		    }else{
@@ -146,11 +147,12 @@ public class CollectController extends BaseController{
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/simple/{type}/{favoritesId}/{userId}")
+	@RequestMapping(value="/simple/{type}/{favoritesId}/{userId}/{category}")
 	@LoggerManage(description="文章列表simple")
 	public List<CollectSummary> simple(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,
-	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId) {
+	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId
+			,@PathVariable("category") String category) {
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects = null;
@@ -160,7 +162,9 @@ public class CollectController extends BaseController{
 	    	}else{
 	    		collects = collectService.getCollects("others", userId, pageable, null,getUserId());
 	    	}
-	    }else{
+	    }else if(category != null && !"".equals(category) && !"NO".equals(category)){//用于随便看看功能中收藏列表显示
+			collects = lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		}else{
 	    	if(null != favoritesId && 0 != favoritesId){
 		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null,null);
 		    }else{

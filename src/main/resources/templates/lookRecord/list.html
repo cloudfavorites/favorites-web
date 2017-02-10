@@ -34,17 +34,7 @@
 
                <div class="col-xs-12 text-center">
 
-                  <h2 class="text-thin">您和您的好友，暂未收藏</h2>
-
-                  <p>第一次使用，需要安装网页收集工具</p>
-
-                  <p>点击下面按钮，进行安装。</p>
-
-                  <p>
-
-                    <button class="mt-lg btn btn-primary btn" onClick="locationUrl('/tool','tool')">去安装</button>
-
-                 </p>
+                  <h2 class="text-thin">您暂时没有浏览记录</h2>
 
                </div>
 
@@ -252,7 +242,7 @@
 
                                  <div class="media resource-card-thumbnail">
 
-                                    <a  th:href="@{${collect.url}}" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" class="pull-left" target="_blank">
+                                    <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
 
                                        <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
 
@@ -262,13 +252,13 @@
 
                                        <h4 class="visible-xs media-heading resource-card-title-xs">
 
-                                          <a target="_blank" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
 
                                        </h4>
 
                                        <h3 class="hidden-xs media-heading resource-card-title">
 
-                                          <a target="_blank" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+                                          <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
 
                                        </h3>
 

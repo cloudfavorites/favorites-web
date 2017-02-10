@@ -1,12 +1,17 @@
 package com.favorites.schedule;
 
 
+import com.favorites.cache.CacheService;
+import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
+import com.favorites.domain.UrlLibrary;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.repository.CollectRepository;
 import com.favorites.repository.FavoritesRepository;
+import com.favorites.repository.UrlLibraryRepository;
 import com.favorites.utils.DateUtils;
+import com.favorites.utils.HtmlUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,6 +29,10 @@ public class ScheduledTasks {
 	private CollectRepository collectRespository;
 	@Autowired
 	private FavoritesRepository favoritesRespository;
+	@Autowired
+	private UrlLibraryRepository urlLibraryRepository;
+	@Autowired
+	private CacheService cacheService;
 	
 	/**
 	 * 回收站定时
@@ -47,5 +56,27 @@ public class ScheduledTasks {
 			}
 		}
     }
+
+	@Scheduled(cron="11 1 1 * * ?")
+	@LoggerManage(description="获取图片logoUrl定时")
+    public void getImageLogoUrl(){
+		List<UrlLibrary> urlLibraryList = urlLibraryRepository.findByCountLessThanAndLogoUrl(10, Const.BASE_PATH+"img/logo.jpg");
+		logger.info("集合长度：" + urlLibraryList.size());
+		for(UrlLibrary urlLibrary : urlLibraryList){
+			try {
+				String logoUrl = HtmlUtil.getImge(urlLibrary.getUrl());
+				// 刷新缓存
+				boolean result = cacheService.refreshOne(urlLibrary.getUrl(),logoUrl);
+				if(result){
+					collectRespository.updateLogoUrlByUrl(logoUrl,DateUtils.getCurrentTime(),urlLibrary.getUrl());
+					urlLibraryRepository.updateLogoUrlById(urlLibrary.getId(),logoUrl);
+				}else{
+					urlLibraryRepository.increaseCountById(urlLibrary.getId());
+				}
+			}catch (Exception e){
+				logger.error("获取图片异常：",e);
+			}
+		}
+	}
 
 }

@@ -8,8 +8,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,16 +45,35 @@ public class HtmlUtil {
 		try {
 			doc = Jsoup.connect(url).userAgent(Const.userAgent).get();
 			Elements images = doc.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
-			if(images !=null){
-				imgUrl=images.first().attr("src");
-			}
-			if(StringUtils.isNotBlank(imgUrl) ){
-				if(imgUrl.startsWith("//")){
-					imgUrl = "http:" + imgUrl;
-				}else if(!imgUrl.startsWith("http") && !imgUrl.startsWith("/")){
-					imgUrl=URLUtil.getDomainUrl(url) + "/" + imgUrl;
-				}else if(!imgUrl.startsWith("http")){
-					imgUrl=URLUtil.getDomainUrl(url)+imgUrl;
+			for(Element image : images){
+				imgUrl=image.attr("src");
+				if(StringUtils.isNotBlank(imgUrl) ){
+					if(imgUrl.startsWith("//")){
+						imgUrl = "http:" + imgUrl;
+					}else if(!imgUrl.startsWith("http") && !imgUrl.startsWith("/")){
+						imgUrl=URLUtil.getDomainUrl(url) + "/" + imgUrl;
+					}else if(!imgUrl.startsWith("http")){
+						imgUrl=URLUtil.getDomainUrl(url)+imgUrl;
+					}
+				}
+				// 判断图片大小
+				String fileUrl = download(imgUrl);
+				File picture = new File(fileUrl);
+				FileInputStream in = new FileInputStream(picture);
+				BufferedImage sourceImg = ImageIO.read(in);
+				String weight = String.format("%.1f",picture.length()/1024.0);
+				int width = sourceImg.getWidth();
+				int height = sourceImg.getHeight();
+				// 删除临时文件
+				if(picture.exists()){
+					in.close();
+					picture.delete();
+				}
+				if(Double.parseDouble(weight) <= 0 || width <=0 || height <= 0){
+					logger.info("当前图片大小为0，继续获取图片链接");
+					imgUrl="";
+				}else{
+					break;
 				}
 			}
 		} catch (Exception e) {
@@ -243,12 +267,35 @@ public class HtmlUtil {
 			return m.group();
 		return null;
 	}
-	
-	public static void main(String[] args) {
-//		System.out.println(getCollectFromUrl("http://www.iteye.com/"));
-//		System.out.println(getPageImg("https://github.com/knightliao/disconf/wiki"));
-		File file = new File("C:\\Users\\DingYS\\Desktop\\bookmarks_2016_9_28_chrome.html");
-		importHtmlMore(file);
+
+	// 图片下载
+	private static String download(String url) {
+			try {
+				String imageName = url.substring(url.lastIndexOf("/") + 1,
+						url.length());
+
+				URL uri = new URL(url);
+				InputStream in = uri.openStream();
+				String dirName = "static/temp/";
+				File dirFile = new File(dirName);
+				if(!dirFile.isDirectory()){
+					dirFile.mkdir();
+				}
+				String fileName = dirName+imageName;
+				File file = new File(dirFile,imageName);
+				FileOutputStream fo = new FileOutputStream(file);
+				byte[] buf = new byte[1024];
+				int length = 0;
+				while ((length = in.read(buf, 0, buf.length)) != -1) {
+					fo.write(buf, 0, length);
+				}
+				in.close();
+				fo.close();
+				return fileName;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
 	}
 
 }

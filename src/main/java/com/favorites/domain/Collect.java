@@ -46,6 +46,8 @@ public class Collect  implements Serializable {
 	private Long createTime;
 	@Column(nullable = false)
 	private Long lastModifyTime;
+	@Column(nullable = true)
+	private String category;
 	@Transient
 	private String collectTime;
 	@Transient
@@ -175,6 +177,11 @@ public class Collect  implements Serializable {
 		this.newFavorites = newFavorites;
 	}
 
+	public String getCategory() {
+		return category;
+	}
 
-
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

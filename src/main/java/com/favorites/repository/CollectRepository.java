@@ -26,7 +26,17 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,u.profilePicture as profilePicture,f.id as favoriteId,f.name as favoriteName "
 			+ "from Collect c,User u,Favorites f WHERE c.userId=u.id and c.favoritesId=f.id and c.isDelete='YES'";
-	
+
+
+	//随便看看根据类别查询收藏
+	@Query(baseSql+ " and c.type='public' and c.category=?1 ")
+	Page<CollectView> findExploreViewByCategory(String category,Pageable pageable);
+
+	//随便看看查询收藏
+	@Query(baseSql+ " and c.type='public' ")
+	Page<CollectView> findExploreViewByType(Pageable pageable);
+
+
 	Long countByUserIdAndIsDelete(Long userId,IsDelete isDelete);
 	
 	Long countByUserIdAndTypeAndIsDelete(Long userId,CollectType type,IsDelete isDelete);
@@ -88,4 +98,10 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Modifying
 	@Query("update Collect c set c.isDelete = ?1,c.lastModifyTime = ?2 where c.id = ?3")
 	int modifyIsDeleteById(IsDelete isDelete,Long lastModifyTime,Long id);
+
+
+	@Transactional
+	@Modifying
+	@Query("update Collect c set c.logoUrl = ?1,c.lastModifyTime = ?2 where c.url = ?3")
+	int updateLogoUrlByUrl(String logoUrl,Long lastModifyTime,String url);
 }
