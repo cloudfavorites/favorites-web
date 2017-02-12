@@ -23,7 +23,7 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
      */
     @Override
     public Long getMostCollectUser() {
-        String querySql = "SELECT c.user_id ,COUNT(1) AS counts FROM collect c GROUP BY c.user_id ORDER BY counts DESC LIMIT 1";
+        String querySql = "SELECT c.user_id ,COUNT(1) AS counts FROM collect c WHERE type='PUBLIC' AND is_delete='NO' GROUP BY c.user_id ORDER BY counts DESC LIMIT 1";
         List<Object[]> objecArraytList = sqlArrayList(querySql);
         Object[] obj =  objecArraytList.get(0);
         return Long.valueOf(obj[0].toString());
