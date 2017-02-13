@@ -30,7 +30,7 @@
 
 	 <li th:each="collect,collectStat : ${collects}" >
 
-	    <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${user.profilePicture==null?'img/favicon.png':user.profilePicture})} + ')'" ></a>
+	    <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(/' + @{(${user.profilePicture==null?'img/favicon.png':user.profilePicture})} + ')'" ></a>
 
 	    <div class="timeline-panel">
 
