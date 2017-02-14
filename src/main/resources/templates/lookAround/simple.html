@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+<head th:include="lookAround :: htmlhead" th:with="title='favorites'"></head>
 <body>
 
 <script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
@@ -8,8 +8,7 @@
 <script th:src="@{/vendor/bootstrap/dist/js/bootstrap.js}"></script>
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
-
-<script th:src="@{/js/layout.js}" ></script>
+<script th:src="@{/js/collect.js}" ></script>
 
 <div class="wrapper">
   <header class="topnavbar-wrapper">
@@ -271,6 +270,7 @@
    });
 </script>
 <script type='text/javascript'>
+    var page=1;
     //关注某人或取消关注某人
 	function changeFollow(followIdStr){
 	    var userId = document.getElementById("userId").value;

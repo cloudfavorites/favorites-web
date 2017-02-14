@@ -54,7 +54,7 @@
 
                <span th:if="${otherPeople == null and type != 'garbage'}" data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
 
-               <div class="pull-right" th:if="${otherPeople == null and type != 'garbage'}">
+               <div class="pull-right">
 
                   <span class="title-small icon-folder-alt mr-sm"></span>
 
@@ -84,7 +84,7 @@
 
 			      <img src="/img/empty_list.png" class="mt shaozi-mobile-qrcode" />
 
-			      <h3 style="color:#aaaaaa" class="mt text-thin">此收藏夹为空</h3>
+			      <h3 style="color:#aaaaaa" class="mt text-thin">您暂时没有浏览记录</h3>
 
 			   </div>
 
@@ -96,25 +96,25 @@
 
                   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
 
-                     <a th:if="${otherPeople == null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/0\',\'\');'">
+                     <a th:if="${otherPeople == null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookRecord/standard/' + ${type} + '/0\',\'\');'">
 
                         <span class="icon-layers"></span>
 
                      </a>
 
-                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'">
+                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookRecord/standard/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'">
 
                         <span class="icon-layers"></span>
 
                      </a>
 
- 	                 <a th:if="${otherPeople == null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/0\',\'\');'" >
+ 	                 <a th:if="${otherPeople == null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookRecord/simple/' + ${type} + '/0\',\'\');'" >
 
                         <span class="icon-list"></span>
 
                      </a>
 
-                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'" >
+                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'lookRecord//simple/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'" >
 
                         <span class="icon-list"></span>
 
@@ -142,7 +142,7 @@
 
                                        <div class="pull-right dropdown dropdown-list">
 
-                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" th:if="${userId == collect.userId}" >
+                                          <a href="#" data-toggle="dropdown" class="sharing-more-button" >
 
                                              <span class="fa fa-angle-down"></span>
 
@@ -154,33 +154,9 @@
 
                                                 <div class="list-group">
 
-                                                   <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
 
-                                                      <div class="media-box">
 
-                                                         <div class="pull-left">
-
-                                                            <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em>
-
-                                                         </div>
-
-                                                         <div class="media-box-body clearfix">
-
-                                                            <p class="m0">修改收藏</p>
-
-                                                            <p class="m0 text-muted">
-
-                                                               <small>修改收藏的各种属性</small>
-
-                                                            </p>
-
-                                                         </div>
-
-                                                      </div>
-
-                                                   </a>
-
-                                                   <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'">
+                                                   <a href="javascript:void(0);"  class="list-group-item" th:onclick="'delLookRecord(' + ${collect.id} + ');'">
 
                                                       <div class="media-box">
 
@@ -194,11 +170,6 @@
 
                                                             <p class="m0">删除</p>
 
-                                                            <p class="m0 text-muted">
-
-                                                               <small>该分享会永久删除</small>
-
-                                                            </p>
 
                                                          </div>
 
@@ -409,7 +380,7 @@
 
             <input type="hidden" name="collectId" id="collectId" />
 
-            <input type="hidden" name="forward" id="forward" th:value="'/standard/'+${type}+'/0'" />
+            <input type="hidden" name="forward" id="forward" th:value="'/lookRecord/standard/'+${type}+'/0'" />
 
             <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
 

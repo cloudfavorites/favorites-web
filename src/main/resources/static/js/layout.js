@@ -1,5 +1,5 @@
 /*---LEFT BAR ACCORDION----*/
-var mainActiveId='home';
+
 var firstUrl = null;//第一个页面
 var secondUrl = null;//第二个页面
 var flag = 1;
@@ -173,16 +173,6 @@ function initUserFavorites(favorites){
 	$("#allFavorites").append(allFavorites);
 }
 
-function locationUrl(url,activeId){
-	page=1;
-	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
-		$("#"+mainActiveId).removeAttr("class");
-		$("#"+activeId).attr("class", "active");
-		mainActiveId = activeId;
-	}
-	goUrl(url,null);
-}
-
 function userLocationUrl(url,activeId){
 	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
 		$("a.media.p.mt0.list-group-item.active").removeClass("active");
@@ -194,17 +184,7 @@ function userLocationUrl(url,activeId){
 	userGoUrl(url,null);
 }
 
-var xmlhttp = new getXMLObject();
-function goUrl(url,params) {
-	fixUrl(url,params);
-	if(xmlhttp) {
-		//var params = "";
-		xmlhttp.open("POST",url,true); 
-		xmlhttp.onreadystatechange = handleServerResponse;
-		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-		xmlhttp.send(params); 
-	}
-}
+
 
 var userXmlhttp = new getXMLObject();
 function userGoUrl(url,params) {
@@ -219,24 +199,7 @@ function userGoUrl(url,params) {
 }
 
 
-function fixUrl(url, params){
-	if(params != null){
-		url = url + "?" + params;
-	}
-	if(firstUrl == null){
-		firstUrl = url;
-	}else if(secondUrl == null){
-		secondUrl = url;
-	}else{
-		if(flag == 1){
-			firstUrl = url;
-			flag = 2;
-		}else{
-			secondUrl = url;
-			flag = 1;
-		}
-	}
-}
+
 
 /**
  * 后退
@@ -270,12 +233,7 @@ function getXMLObject() {
 	return xmlHttp; // Mandatory Statement returning the ajax object created
 }
 
-function handleServerResponse() {
-	if (xmlhttp.readyState == 4) {
-		//document.getElementById("mainSection").innerHTML =xmlhttp.responseText;
-		$("#content").html(xmlhttp.responseText);
-	}
-}
+
 
 function userHandleServerResponse() {
 	if (userXmlhttp.readyState == 4) {		

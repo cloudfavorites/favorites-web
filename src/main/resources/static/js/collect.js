@@ -109,6 +109,26 @@ function delCollect(){
 			}
 		});
 }
+//删除浏览记录
+function delLookRecord(collectId){
+     $("#collectId").val(collectId);
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:"",
+			url: '/lookRecord/delete/'+$("#collectId").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(response){
+				loadFavorites();
+				locationUrl('/lookRecord/standard/my/0','lookRecord');
+			}
+	 });
+}
 
 
 function getCollect(id,user){

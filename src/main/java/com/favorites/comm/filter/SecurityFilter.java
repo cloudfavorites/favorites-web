@@ -161,7 +161,8 @@ public class SecurityFilter implements Filter {
 				|| url.startsWith("/lookAround/standard/")
 				|| url.startsWith("/lookAround/simple/")
 				|| url.startsWith("/user/")
-				|| url.startsWith("/standard/")) {
+				|| url.startsWith("/standard/")
+				|| url.startsWith("/collect/standard/lookAround/")) {
             return true;
         } else {
             return false;

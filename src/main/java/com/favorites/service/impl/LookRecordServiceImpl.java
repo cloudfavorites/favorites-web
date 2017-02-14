@@ -5,7 +5,6 @@ import com.favorites.domain.Praise;
 import com.favorites.domain.view.CollectSummary;
 import com.favorites.domain.view.CollectView;
 import com.favorites.repository.CommentRepository;
-import com.favorites.repository.FollowRepository;
 import com.favorites.repository.LookRecordRepository;
 import com.favorites.repository.PraiseRepository;
 import com.favorites.service.CollectService;
@@ -57,6 +56,11 @@ public class LookRecordServiceImpl implements LookRecordService {
     }
 
     @Override
+    public void deleteLookRecord(Long userId, Long collectId) {
+        lookRecordRepository.deleteByUserIdAndCollectId(userId,collectId);
+    }
+
+    @Override
     public List<CollectSummary> getLookRecords(Long userId, Pageable pageable) {
         Page<CollectView> views = null;
 
@@ -68,7 +72,6 @@ public class LookRecordServiceImpl implements LookRecordService {
     /**
      * @author neo
      * @date 2016年8月11日
-     * @param collects
      * @return
      */
     private List<CollectSummary> convertCollect(Page<CollectView> views,Long userId) {

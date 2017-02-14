@@ -13,5 +13,7 @@ public interface LookRecordService {
 
     public void saveLookRecord(Long userId, Long collectId);
 
+    public void deleteLookRecord(Long userId, Long collectId);
+
     public List<CollectSummary> getLookRecords(Long userId, Pageable pageable);
 }
