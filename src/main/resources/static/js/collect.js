@@ -110,7 +110,7 @@ function delCollect(){
 		});
 }
 //删除浏览记录
-function delLookRecord(collectId){
+function delLookRecord(collectId,kind){
      $("#collectId").val(collectId);
 	 $.ajax({
 			async: false,
@@ -125,7 +125,32 @@ function delLookRecord(collectId){
 			},
 			success: function(response){
 				loadFavorites();
-				locationUrl('/lookRecord/standard/my/0','lookRecord');
+				if(kind == "standard"){
+				    locationUrl('/lookRecord/standard/my/0','');
+				}else{
+				    locationUrl('/lookRecord/simple/my/0','');
+				}
+
+			}
+	 });
+}
+
+//根据用户删除浏览记录
+function delLookRecordAll(){
+	 $.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:"",
+			url: '/lookRecord/deleteAll',
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(response){
+				loadFavorites();
+				locationUrl('/lookRecord/standard/my/0','');
 			}
 	 });
 }
@@ -610,15 +635,15 @@ function listStandardCollect(collects,listId,user){
 		"         </div>"+
 		"          <div class=\"m0\">"+replaceEmpty(collects[i].remark)+"</div>"+
 		"         <div class=\"media resource-card-thumbnail\">"+
-		"            <a href=\""+collects[i].url+"\" target=\"_blank\" class=\"pull-left\">"+
+		"            <a href=\""+collects[i].url+"\" onclick=\"saveLookRecord("+collects[i].id+");\" target=\"_blank\" class=\"pull-left\">"+
 		"               <div style=\"background-image:url("+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+")\" class=\"media-object resource-card-image\"></div>"+
 		"            </a>"+
 		"            <div class=\"media-body\">"+
 		"               <h4 class=\"visible-xs media-heading resource-card-title-xs\">"+
-		"                  <a href=\""+collects[i].url+"\" target=\"_blank\">"+collects[i].title+"</a>"+
+		"                  <a onclick=\"saveLookRecord("+collects[i].id+");\" href=\""+collects[i].url+"\" target=\"_blank\">"+collects[i].title+"</a>"+
 		"               </h4>"+
 		"               <h3 class=\"hidden-xs media-heading resource-card-title\">"+
-		"                  <a href=\""+collects[i].url+"\" target=\"_blank\">"+collects[i].title+"</a>"+
+		"                  <a onclick=\"saveLookRecord("+collects[i].id+");\" href=\""+collects[i].url+"\" target=\"_blank\">"+collects[i].title+"</a>"+
 		"               </h3>"+
 		"               <div class=\"hidden-xs resource-card-content\">"+
 		"                  <p>"+collects[i].description+"</p>"+
@@ -743,7 +768,7 @@ function listSimpleCollect(collects,user){
 		var item =
 			"<tr>"+
 			"    <td>"+
-			"      <a href=\""+collects[i].url+"\" style=\"font-size:16px;color:#656565;\" target=\"_blank\">"+collects[i].title+"</a>"+
+			"      <a onclick=\"saveLookRecord("+collects[i].id+");\" href=\""+collects[i].url+"\" style=\"font-size:16px;color:#656565;\" target=\"_blank\">"+collects[i].title+"</a>"+
 			"    </td>"+
 			"   <td width=\"10%\" class=\"text-center\">"+
 			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+

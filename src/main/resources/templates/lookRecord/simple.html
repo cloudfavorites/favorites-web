@@ -51,7 +51,7 @@
                <div class="col-lg-12 col-md-12 mt">
 
                	   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-
+                     <a class="btn btn-xs btn-default" href="javascript:void(0);" style="float:left;margin-right:40px;" th:onclick="'delLookRecordAll();'"><i class="fa fa-trash text-danger"></i>删除全部</a>
                      <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookRecord/standard/' + ${type} + '/0\',\'\');'">
 
                         <span class="icon-layers"></span>
@@ -98,7 +98,7 @@
 
                               <div>
 
-                                 <a href="javascript:void(0);" class="ml" th:onclick="'delLookRecord(' + ${collect.id} + ');'"> <i class="fa fa-trash text-danger"></i>
+                                 <a href="javascript:void(0);" class="ml" th:onclick="'delLookRecord(' + ${collect.id} + ',\'simple\');'"> <i class="fa fa-trash text-danger"></i>
 
                                  </a>
 

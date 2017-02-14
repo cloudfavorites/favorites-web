@@ -38,4 +38,7 @@ public interface LookRecordRepository  extends JpaRepository<LookRecord, Long> {
 
     @Transactional
     Long deleteByUserIdAndCollectId(Long userId,Long collectId);
+
+    @Transactional
+    Long deleteByUserId(Long userId);
 }

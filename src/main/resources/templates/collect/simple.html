@@ -86,7 +86,7 @@
 
                            <td>
 
-                              <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+                              <a th:onclick="'saveLookRecord(' + ${collect.id} + ');'" target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
 
                            </td>
 

@@ -364,29 +364,5 @@ public class HomeController extends BaseController{
 		logger.info("LookRecord end :"+ getUserId());
 		return "lookRecord/simple";
 	}
-
-	/**
-	 * @author chenzhimin
-	 * @date 2017年1月23日
-	 * @param collectId 收藏ID
-	 * @return
-	 */
-	@RequestMapping(value="/lookRecord/save/{collectId}")
-	public Response saveLookRecord(@PathVariable("collectId") long collectId) {
-		lookRecordService.saveLookRecord(this.getUserId(),collectId);
-		return result();
-	}
-
-	/**
-	 * @author chenzhimin
-	 * @date 2017年1月23日
-	 * @param collectId 收藏ID
-	 * @return
-	 */
-	@RequestMapping(value="/lookRecord/delete/{collectId}")
-	public Response deleteLookRecord(@PathVariable("collectId") long collectId) {
-		lookRecordService.deleteLookRecord(this.getUserId(),collectId);
-		return result();
-	}
 	
 }
