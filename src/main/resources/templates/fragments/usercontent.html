@@ -30,7 +30,7 @@
 
 	 <li th:each="collect,collectStat : ${collects}" >
 
-	    <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${user.profilePicture==null?'img/favicon.png':user.profilePicture})} + ')'" ></a>
+	    <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(/' + @{(${user.profilePicture==null?'img/favicon.png':user.profilePicture})} + ')'" ></a>
 
 	    <div class="timeline-panel">
 
@@ -182,7 +182,7 @@
 
 	                        <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${user.id}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
 
-	                        <div class="pull-right hidden-xxs">
+	                        <div th:if="${loginUser!=null}" class="pull-right hidden-xxs">
 
 	                           <small>
 
@@ -254,6 +254,36 @@
 
 	                        </div>
 
+							  <div th:if="${loginUser==null}" class="pull-right hidden-xxs">
+
+								  <small>
+
+									  <a class="sharing-action-button" >
+
+										  <span class="fa fa-thumbs-o-up"></span>
+
+										  <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
+
+									  </a>
+
+									  <input th:id="'praiseC' + ${collect.id}" type="hidden" name="praiseC" th:value="${collect.praiseCount}" />
+
+									  <input th:id="'commentC' + ${collect.id}" type="hidden" name="commentC" th:value="${collect.commentCount}" />
+
+									  |
+
+									  <a  class="sharing-action-button btn-comment" href="javascript:void(0);" th:onclick="'switchComment(' + ${collect.id} + ');'">
+
+										  <span class="fa fa-comment-o"></span>
+
+										  <show th:id="'commentS' + ${collect.id}" th:text="|评论(${collect.commentCount})|">	 评论(0)</show>
+
+									  </a>
+
+								  </small>
+
+							  </div>
+
 	                     </div>
 
 	                     <div class="collapse" th:id="'collapse' + ${collect.id}">
@@ -266,7 +296,7 @@
 
                                    <form>
 
-                                      <div class="input-group">
+                                      <div th:if="${loginUser!=null}" class="input-group">
 
                                          <input th:id="'commentContent' + ${collect.id}"   type="text" placeholder="输入评论..." class="form-control"/>
 
@@ -384,7 +414,7 @@
 
 	 <input type="hidden" id="userFavoritesId" th:value="${favoritesId}"/>
 
-	 <input type="hidden" id="loginUser" th:value="${loginUser.id}"/>
+	 <input type="hidden" th:if="${loginUser!=null}" id="loginUser" th:value="${loginUser.id}"/>
 
 	</div>
 

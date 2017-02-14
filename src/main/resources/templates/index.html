@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" >
 
 <head>
 
@@ -88,66 +88,66 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostCollectUser}+'/0'" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
-                                <p>我是一个风骚的程序员</p>
+                                <p>我收藏的文章最多，我收藏我快乐！</p>
                             </div>
                         </div>
                         <img src="index/img/portfolio/cabin.png" class="img-responsive" alt="" />
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostFollowedUser}+'/0'" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
-                                <p>我是一个有逼格的设计师</p>
+                                <p>关注我的人最多,我是人气王！</p>
                             </div>
                         </div>
                         <img src="index/img/portfolio/cake.png" class="img-responsive" alt="" />
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostPraisedUser}+'/0'" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
-                                <p>我是一个有风格的建筑师</p>
+                                <p>赞我文章的人最多，大家都来赞赞赞！</p>
                             </div>
                         </div>
                         <img src="index/img/portfolio/circus.png" class="img-responsive" alt="" />
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostCommentedUser}+'/0'" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
-                                  <p>我是一个游戏狂，看看我的收藏吧！</p>
+                                  <p>评论我文章的人最多，快看我收藏了什么！</p>
                             </div>
                         </div>
                         <img src="index/img/portfolio/game.png" class="img-responsive" alt="" />
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostPopularUser}+'/0'" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
-                                 <p>我是一个保险柜..</p>
+                                 <p>我最受欢迎，想不想关注我！</p>
                             </div>
                         </div>
                         <img src="index/img/portfolio/safe.png" class="img-responsive" alt=""/>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostActiveUser}+'/0'" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
-                                 <p>我是宅男，我喜欢潜水..</p>
+                                 <p>近一个月我最活跃，快来超越我！</p>
                             </div>
                         </div>
                         <img src="index/img/portfolio/submarine.png" class="img-responsive" alt="" />
@@ -551,7 +551,7 @@
     <script src="index/js/freelancer.min.js"></script>
    	<div style="display:none">
    	  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260466344'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260466344' type='text/javascript'%3E%3C/script%3E"));</script>
-    </div> 
+    </div>
 </body>
 
 </html>
