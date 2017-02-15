@@ -12,8 +12,11 @@ $(function() {
 	loadFavorites();
 	loadConfig();
 	loadFollows();
+	myrefresh();
 	$("#passwordError").hide();
 	$("#nicknameError").hide();
+	$("#noticeNum").hide();
+	window.setInterval("myrefresh();",1000*5);
 });
 
 
@@ -475,4 +478,27 @@ function praiseMeOnclick() {
 		}
 	});
 	locationUrl('/notice/praiseMe','praiseMe');
+}
+
+function myrefresh(){
+	$.ajax({
+		url : "/notice/getNoticeNum",
+		data : '',
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(result) {
+			if(result.rspCode == '000000'){
+				var totalNum = result.data.newPraiseMeCount+result.data.newCommentMeCount+result.data.newAtMeCount;
+				if(Number(totalNum) > 0){
+					$("#noticeNum").show();
+					$("#noticeNum").text(totalNum);
+				}
+				$("#atMeNewNotice").text(result.data.newAtMeCount+" 条新消息");
+				$("#commentMeNewNotice").text(result.data.newCommentMeCount+" 条新消息");
+				$("#praiseMeNewNotice").text(result.data.newPraiseMeCount + " 条新消息");
+			}
+		}
+	});
 }

@@ -60,7 +60,8 @@
 
                      <em class="icon-bell"></em>
 
-                     <div class="label label-danger" th:if="${newAtMeCount gt 0 or newCommentMeCount gt 0 or newPraiseMeCount gt 0}" th:text="${newAtMeCount}+${newCommentMeCount}+${newPraiseMeCount}"></div>
+                     <!--<div class="label label-danger" th:if="${newAtMeCount gt 0 or newCommentMeCount gt 0 or newPraiseMeCount gt 0}" th:text="${newAtMeCount}+${newCommentMeCount}+${newPraiseMeCount}"></div>-->
+                     <div class="label label-danger" id="noticeNum"></div>
 
                   </a>
 
@@ -86,7 +87,7 @@
 
                                     <p class="m0 text-muted">
 
-                                       <small id="atMeNewNotice" th:text="${newAtMeCount}+' 条新消息'"></small>
+                                       <small id="atMeNewNotice"></small>
 
                                     </p>
 
@@ -112,7 +113,7 @@
 
                                     <p class="m0 text-muted">
 
-                                       <small id="commentMeNewNotice" th:text="${newCommentMeCount}+' 条新评论'"></small>
+                                       <small id="commentMeNewNotice"></small>
 
                                     </p>
 
@@ -138,7 +139,7 @@
 
                                     <p class="m0 text-muted">
 
-                                       <small id="praiseMeNewNotice" th:text="${newPraiseMeCount}+' 个新的赞'"></small>
+                                       <small id="praiseMeNewNotice"></small>
 
                                        <input id="newPraiseMeCounts" type="hidden" th:value="${newPraiseMeCount}"/>
 
