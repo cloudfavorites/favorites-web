@@ -10,6 +10,7 @@
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
+<script th:src="@{/js/comm.js}" ></script>
 
 <div class="wrapper">
   <header class="topnavbar-wrapper">
@@ -137,7 +138,7 @@
                 </h3>
                 <p>
                   <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
-                    <img th:src="@{(${collect.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
+                    <img th:src="@{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
                     <span th:text="${collect.userName}"></span>
                   </a>
                 </p>
