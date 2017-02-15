@@ -326,7 +326,7 @@ function initComment(comments,collectId){
 	 $("#commentList"+collectId).html("");
 	for(var i=0;i<comments.length;i++){
 		var item ='<div class=\"media bb p\"><small class=\"pull-right text-muted\">'+comments[i].commentTime+'</small>';
-		item=item+'<div class=\"pull-left\"><img class=\"media-object img-circle thumb32\" src=\"'+comments[i].profilePicture+ '\" /></div> ';
+		item=item+'<div class=\"pull-left\"><img class=\"media-object img-circle thumb32\" src=\"/'+comments[i].profilePicture+ '\" /></div> ';
 		item=item+'<div class=\"media-body\">  <span class=\"media-heading\">  <p class=\"m0\"> '
 		item=item+"<a href=\"javascript:void(0);\" onclick=\"locationUrl('/user/" + comments[i].userId + "/0')\">"+comments[i].userName+"</a>";
 		item=item+'</p> <p class=\"m0 text-muted\">';
@@ -340,19 +340,24 @@ function initComment(comments,collectId){
 			if(comments[i].userId==$("#loginUser").val()){
 				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
 			}else{
-				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" class=\"replyComment\" >    回复</a>";
 			}
 		}else{
 			if(comments[i].userId==$("#userId").val()){
 				item=item+"<a href=\"javascript:void(0);\" onclick=\"deleteComment('"+comments[i].id+"','"+collectId+"')\" >    删除</a>";
 			}else{
-				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" >    回复</a>";
+				item=item+"<a href=\"javascript:void(0);\" onclick=\"replyComment('"+comments[i].userName+"','"+collectId+"')\" class=\"replyComment\" >    回复</a>";
 			}
 		}
 		item=item+'</small></p></span></div></div>';
 		comment=comment+item;
 	}
-	 $("#commentList"+collectId).append(comment);
+	$("#commentList"+collectId).append(comment);
+
+    if($("#loginUserInfo").val()==null||$("#loginUserInfo").val()==''){
+        $(".replyComment").hide();
+    }
+
 }
 
 
