@@ -5,7 +5,6 @@ import com.favorites.domain.Praise;
 import com.favorites.domain.view.CollectSummary;
 import com.favorites.domain.view.CollectView;
 import com.favorites.repository.CommentRepository;
-import com.favorites.repository.FollowRepository;
 import com.favorites.repository.LookRecordRepository;
 import com.favorites.repository.PraiseRepository;
 import com.favorites.service.CollectService;
@@ -42,18 +41,30 @@ public class LookRecordServiceImpl implements LookRecordService {
 
     @Override
     public void saveLookRecord(Long userId,Long collectId) {
-        Integer count = lookRecordRepository.countByUserIdAndCollectId(userId,collectId);
-        if (count > 0){
-            lookRecordRepository.updatelastModifyTime(userId,collectId, DateUtils.getCurrentTime());
-        }else {
-            LookRecord lookRecord = new LookRecord();
-            lookRecord.setUserId(userId);
-            lookRecord.setCollectId(collectId);
-            lookRecord.setCreateTime(DateUtils.getCurrentTime());
-            lookRecord.setLastModifyTime(DateUtils.getCurrentTime());
-            lookRecordRepository.save(lookRecord);
+        if(userId != null && userId > 0 && collectId != null) {
+            Integer count = lookRecordRepository.countByUserIdAndCollectId(userId, collectId);
+            if (count > 0) {
+                lookRecordRepository.updatelastModifyTime(userId, collectId, DateUtils.getCurrentTime());
+            } else {
+                LookRecord lookRecord = new LookRecord();
+                lookRecord.setUserId(userId);
+                lookRecord.setCollectId(collectId);
+                lookRecord.setCreateTime(DateUtils.getCurrentTime());
+                lookRecord.setLastModifyTime(DateUtils.getCurrentTime());
+                lookRecordRepository.save(lookRecord);
+            }
         }
 
+    }
+
+    @Override
+    public void deleteLookRecord(Long userId, Long collectId) {
+        lookRecordRepository.deleteByUserIdAndCollectId(userId,collectId);
+    }
+
+    @Override
+    public void deleteLookRecordByUserID(Long userId) {
+        lookRecordRepository.deleteByUserId(userId);
     }
 
     @Override
@@ -68,7 +79,6 @@ public class LookRecordServiceImpl implements LookRecordService {
     /**
      * @author neo
      * @date 2016年8月11日
-     * @param collects
      * @return
      */
     private List<CollectSummary> convertCollect(Page<CollectView> views,Long userId) {

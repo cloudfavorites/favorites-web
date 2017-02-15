@@ -169,7 +169,7 @@ public class HomeController extends BaseController{
 			userTemp = new User();
 			userTemp.setId(0L);
 		}
-		model.addAttribute("loginUser",getUser() == null ? userTemp : getUser());
+		model.addAttribute("loginUser",currentUser == null ? userTemp : currentUser);
 		return "user";
 	}
 	
@@ -304,21 +304,21 @@ public class HomeController extends BaseController{
 	}
 
 	/**
-	 * 浏览记录 added by chenzhimin
+	 * 浏览记录 标准显示 added by chenzhimin
 	 * @param model
 	 * @param page
 	 * @param size
 	 * @return
 	 */
-	@RequestMapping(value="/lookRecord/{type}/{userId}")
+	@RequestMapping(value="/lookRecord/standard/{type}/{userId}")
 	@LoggerManage(description="浏览记录lookRecord")
-	public String getLookRecord(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public String getLookRecordStandard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 						     @RequestParam(value = "size", defaultValue = "15") Integer size,
 							 @PathVariable("type") String type,@PathVariable("userId") Long userId) {
 
 		Sort sort = new Sort(Direction.DESC, "lastModifyTime");
 		Pageable pageable = new PageRequest(page, size, sort);
-		model.addAttribute("type", type);
+		model.addAttribute("type", "lookRecord");
 		Favorites favorites = new Favorites();
 
 		List<CollectSummary> collects = null;
@@ -331,19 +331,38 @@ public class HomeController extends BaseController{
 		model.addAttribute("userId", getUserId());
 		model.addAttribute("size", collects.size());
 		logger.info("LookRecord end :"+ getUserId());
-		return "lookRecord/list";
+		return "lookRecord/standard";
 	}
 
 	/**
-	 * @author chenzhimin
-	 * @date 2017年1月23日
-	 * @param collectId 收藏ID
+	 * 浏览记录 简单显示 added by chenzhimin
+	 * @param model
+	 * @param page
+	 * @param size
 	 * @return
 	 */
-	@RequestMapping(value="/lookRecord/save/{collectId}")
-	public Response saveLookRecord(@PathVariable("collectId") long collectId) {
-		lookRecordService.saveLookRecord(this.getUserId(),collectId);
-		return result();
+	@RequestMapping(value="/lookRecord/simple/{type}/{userId}")
+	@LoggerManage(description="浏览记录lookRecord")
+	public String getLookRecordSimple(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
+								@RequestParam(value = "size", defaultValue = "20") Integer size,
+								@PathVariable("type") String type,@PathVariable("userId") Long userId) {
+
+		Sort sort = new Sort(Direction.DESC, "lastModifyTime");
+		Pageable pageable = new PageRequest(page, size, sort);
+		model.addAttribute("type", "lookRecord");
+		Favorites favorites = new Favorites();
+
+		List<CollectSummary> collects = null;
+		User user = userRepository.findOne(userId);
+		model.addAttribute("otherPeople", user);
+		collects =lookRecordService.getLookRecords(this.getUserId(),pageable);
+
+		model.addAttribute("collects", collects);
+		model.addAttribute("favorites", favorites);
+		model.addAttribute("userId", getUserId());
+		model.addAttribute("size", collects.size());
+		logger.info("LookRecord end :"+ getUserId());
+		return "lookRecord/simple";
 	}
 	
 }

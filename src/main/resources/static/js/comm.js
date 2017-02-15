@@ -1,3 +1,4 @@
+var mainActiveId='home';
 
 function UrlSearch() {
     var name,value;
@@ -68,3 +69,50 @@ function getFileName(param){
 	　　var fileName = myFile.substring(x,length);
 		$("#"+param + "Name").val(fileName);
 	　　}
+
+function locationUrl(url,activeId){
+	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
+		$("#"+mainActiveId).removeAttr("class");
+		$("#"+activeId).attr("class", "active");
+		mainActiveId = activeId;
+	}
+	goUrl(url,null);
+}
+
+var xmlhttp = new getXMLObject();
+function goUrl(url,params) {
+	fixUrl(url,params);
+	if(xmlhttp) {
+		//var params = "";
+		xmlhttp.open("POST",url,true);
+		xmlhttp.onreadystatechange = handleServerResponse;
+		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+		xmlhttp.send(params);
+	}
+}
+
+function fixUrl(url, params){
+	if(params != null){
+		url = url + "?" + params;
+	}
+	if(firstUrl == null){
+		firstUrl = url;
+	}else if(secondUrl == null){
+		secondUrl = url;
+	}else{
+		if(flag == 1){
+			firstUrl = url;
+			flag = 2;
+		}else{
+			secondUrl = url;
+			flag = 1;
+		}
+	}
+}
+
+function handleServerResponse() {
+	if (xmlhttp.readyState == 4) {
+		//document.getElementById("mainSection").innerHTML =xmlhttp.responseText;
+		$("#content").html(xmlhttp.responseText);
+	}
+}

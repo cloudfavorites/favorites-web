@@ -22,7 +22,7 @@
 
                <span th:if="${otherPeople == null and type != 'garbage'}" data-toggle="modal" data-target="#modal-changeFavName" class="title-small clickable icon-pencil mr-sm"></span>
 
-               <div class="pull-right" th:if="${otherPeople == null and type != 'garbage'}">
+               <div class="pull-right">
 
                   <span class="title-small icon-folder-alt mr-sm"></span>
 
@@ -51,26 +51,26 @@
                <div class="col-lg-12 col-md-12 mt">
 
                	   <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
-
-                     <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/0\',\'\');'">
-
-                        <span class="icon-layers"></span>
-
-                     </a>
-
-                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/standard/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'">
+                     <a class="btn btn-xs btn-default" href="javascript:void(0);" style="float:left;margin-right:40px;" th:onclick="'delLookRecordAll();'"><i class="fa fa-trash text-danger"></i>删除全部</a>
+                     <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookRecord/standard/' + ${type} + '/0\',\'\');'">
 
                         <span class="icon-layers"></span>
 
                      </a>
 
- 	                 <a th:if="${otherPeople == null}" class="btn btn-xs btn-default  active" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/0\',\'\');'" >
+                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  href="javascript:void(0);"  th:onclick="'locationUrl(\'/lookRecord/standard/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'">
+
+                        <span class="icon-layers"></span>
+
+                     </a>
+
+ 	                 <a th:if="${otherPeople == null}" class="btn btn-xs btn-default  active" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookRecord/simple/' + ${type} + '/0\',\'\');'" >
 
                         <span class="icon-list"></span>
 
                      </a>
 
-                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/simple/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'" >
+                     <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" href="javascript:void(0);" th:onclick="'locationUrl(\'/lookRecord/simple/' + ${type} + '/'+${otherPeople.id}+'\',\'\');'" >
 
                         <span class="icon-list"></span>
 
@@ -86,7 +86,7 @@
 
                            <td>
 
-                              <a th:onclick="'saveLookRecord(' + ${collect.id} + ');'" target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+                              <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
 
                            </td>
 
@@ -98,11 +98,7 @@
 
                               <div>
 
-                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" > <i class="fa fa-pencil"></i>
-
-                                 </a>
-
-                                 <a th:if="${userId == collect.userId}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'"> <i class="fa fa-trash text-danger"></i>
+                                 <a href="javascript:void(0);" class="ml" th:onclick="'delLookRecord(' + ${collect.id} + ',\'simple\');'"> <i class="fa fa-trash text-danger"></i>
 
                                  </a>
 
@@ -131,7 +127,7 @@
 
              <input type="hidden" name="collectId" id="collectId" />
 
-             <input type="hidden" name="forward" id="forward" th:value="'/simple/'+${type}+'/0'" />
+             <input type="hidden" name="forward" id="forward" th:value="'/lookRecord/simple/'+${type}+'/0'" />
 
              <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
 

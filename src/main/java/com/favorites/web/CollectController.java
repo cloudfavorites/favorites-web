@@ -15,6 +15,7 @@ import com.favorites.repository.FavoritesRepository;
 import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
 import com.favorites.service.LookAroundService;
+import com.favorites.service.LookRecordService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +55,12 @@ public class CollectController extends BaseController{
 	 */
 	@Autowired
 	private LookAroundService lookAroundService;
+
+	/**
+	 * 浏览记录  added by chenzhimin
+	 */
+	@Autowired
+	private LookRecordService lookRecordService;
 	
 	/**
 	 * 文章收集
@@ -128,6 +135,8 @@ public class CollectController extends BaseController{
 	    	}
 	    }else if(category != null && !"".equals(category) && !"NO".equals(category)){//用于随便看看功能中收藏列表显示
 			collects = lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		}else if(type != null && !"".equals(type) && "lookRecord".equals(type)){//用于浏览记录功能中收藏列表显示
+			collects =lookRecordService.getLookRecords(this.getUserId(),pageable);
 		}else{
 	    	if(null != favoritesId && 0 != favoritesId){
 		    	collects = collectService.getCollects(String.valueOf(favoritesId),getUserId(), pageable,null,null);
