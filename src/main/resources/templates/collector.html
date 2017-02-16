@@ -22,7 +22,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id="lefttop">
                     <!-- <li>
                         <a href="#" data-search-open="" title="搜索">
                             <em class="icon-magnifier"></em>
@@ -142,7 +142,7 @@
                                     <div class="list-group ng-scope" th:each=" follow : ${followUser}">
                                         <a class="media p mt0 list-group-item">
 				                  <span class="pull-left">
-				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? follow[2]:'img/dummy.png'}" />
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? '/'+follow[2]:'img/dummy.png'}" />
 				                  </span>
                                             <span class="media-body">
 				                     <span class="media-heading">
@@ -158,7 +158,7 @@
                                     <div class="list-group ng-scope" th:each=" followed : ${followedUser}">
                                         <a class="media p mt0 list-group-item">
 				                  <span class="pull-left">
-				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? followed[2]:'img/dummy.png'}" />
+				                     <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? '/'+followed[2]:'img/dummy.png'}" />
 				                  </span>
                                             <span class="media-body">
 				                     <span class="media-heading">
@@ -178,7 +178,7 @@
             <input type="hidden" name="collectId" id="collectId" />
             <input type="hidden"  id="userId" th:value="${user.id}" />
             <input type="hidden" id="myself" th:value="${myself}"/>
-            <input type="hidden" th:if="${loginUserInfo!=null}" id="loginUserInfo" th:value="${loginUserInfo.id}"/>
+            <input type="hidden" id="loginUserInfo" th:value="${loginUserInfo!=null}? ${loginUserInfo.id}"/>
         </div>
     </section>
 </div>
@@ -189,7 +189,7 @@
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
 <script th:src="@{/media/js/app.js}" ></script>
 <script th:src="@{/js/layout.js}" ></script>
-<script th:src="@{/js/collector.js}" ></script>
+<script th:src="@{/js/collect.js}" ></script>
 <script th:src="@{/js/comm.js}" ></script>
 <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
 <script th:src="@{/vendor/toastr/toastr.min.js}"></script>
@@ -231,6 +231,10 @@
                     locationUrl('/search/'+key,"");
                 }
             }
+        }
+
+        if($("#loginUserInfo").val()){
+            $("#lefttop").hide();
         }
 
     });

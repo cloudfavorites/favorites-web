@@ -59,6 +59,10 @@ public class IndexController extends BaseController{
 	public String index(Model model){
 		IndexCollectorView indexCollectorView = collectorService.getCollectors();
 		model.addAttribute("collector",indexCollectorView);
+		User user = super.getUser();
+		if(null != user){
+			model.addAttribute("user",user);
+		}
 		return "index";
 	}
 	
