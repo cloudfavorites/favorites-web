@@ -3,7 +3,6 @@
 <head th:include="lookAround :: htmlhead" th:with="title='favorites'"></head>
 <body>
 
-
 <script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
 <script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
 <script th:src="@{/vendor/bootstrap/dist/js/bootstrap.js}"></script>
@@ -11,7 +10,7 @@
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
 <script th:src="@{/js/comm.js}" ></script>
-
+<div th:replace="fragments/alert :: alert">alert</div>
 <div class="wrapper">
   <header class="topnavbar-wrapper">
     <nav role="navigation" class="navbar topnavbar">
@@ -131,13 +130,13 @@
             </ul>
           </div>
           <div class="slider">
-            <ul class="slides" th:each="collect : ${fiveCollects}">
-              <li th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
+            <ul class="slides">
+              <li th:each="collect : ${fiveCollects}" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
                 <h3>
                   <a th:href="@{${collect.url}}" th:text="${collect.title}"></a>
                 </h3>
                 <p>
-                  <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
+                  <a th:href="'/collector/' + ${collect.userId} + '/0'">
                     <img th:src="@{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
                     <span th:text="${collect.userName}"></span>
                   </a>
@@ -177,7 +176,7 @@
 
               <li th:each="collect,collectStat : ${collects}" >
 
-                <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
+                <a th:href="'/collector/' + ${collect.userId} + '/0'" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})} + ')'"></a>
 
                 <div class="timeline-panel">
 
@@ -267,7 +266,7 @@
 
                           <div class="m0">
 
-                            <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" >user name</a>
+                            <a th:href="'/collector/' + ${collect.userId} + '/0'" class="text-muted" th:text="${collect.userName}">user name</a>
 
                             <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PRIVATE' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PRIVATE\');'">
 
@@ -329,7 +328,7 @@
 
                         <!--<a href="javascript:void(0);" class="normal-color-a ng-binding" th:if="${otherPeople == null}"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/0\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>-->
 
-                        <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${collect.userId}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                        <a th:href="'/standard/' + ${collect.favoriteId} + '/' + ${collect.userId}" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}">文件加名称</a>
 
                         <div class="pull-right hidden-xxs">
 
@@ -467,12 +466,12 @@
             <div class="panel-heading">推荐关注</div>
             <ul class="list-group" th:each="user,userStat : ${fiveUsers}">
               <li class="list-group-item">
-                <a href="#" class="pull-left" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'">
+                <a th:href="'/collector/' + ${user.id} + '/0'" class="pull-left">
                   <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
                 </a>
                 <div class="media-body">
                   <h4>
-                    <a href="#" th:text="${user.userName}" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'"></a>
+                    <a th:href="'/collector/' + ${user.id} + '/0'" th:text="${user.userName}"></a>
                   </h4>
                   <small></small>
                   <a href="#" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
@@ -541,7 +540,7 @@
                   }
             });
 		}else{
-		    alert("请先登录或注册");
+		    $('#modal-loginTips').modal('show');
 		}
 	}
 

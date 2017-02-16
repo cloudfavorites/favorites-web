@@ -9,7 +9,7 @@
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
-
+<div th:replace="fragments/alert :: alert">alert</div>
 <div class="wrapper">
   <header class="topnavbar-wrapper">
     <nav role="navigation" class="navbar topnavbar">
@@ -129,13 +129,13 @@
             </ul>
           </div>
           <div class="slider">
-            <ul class="slides" th:each="collect : ${fiveCollects}">
-              <li th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
+            <ul class="slides">
+              <li th:each="collect : ${fiveCollects}" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
                 <h3>
                   <a th:href="@{${collect.url}}" th:text="${collect.title}"></a>
                 </h3>
                 <p>
-                  <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
+                  <a th:href="'/collector/' + ${collect.userId} + '/0'">
                     <img th:src="@{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
                     <span th:text="${collect.userName}"></span>
                   </a>
@@ -231,12 +231,12 @@
             <div class="panel-heading">推荐关注</div>
             <ul class="list-group" th:each="user,userStat : ${fiveUsers}">
               <li class="list-group-item">
-                <a href="#" class="pull-left" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'">
+                <a th:href="'/collector/' + ${user.id} + '/0'" class="pull-left">
                   <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
                 </a>
                 <div class="media-body">
                   <h4>
-                    <a href="#" th:text="${user.userName}" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'"></a>
+                    <a th:href="'/collector/' + ${user.id} + '/0'" th:text="${user.userName}"></a>
                   </h4>
                   <small></small>
                   <a href="#" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
@@ -305,7 +305,7 @@
                   }
             });
 		}else{
-		    alert("请先登录或注册");
+		    $('#modal-loginTips').modal('show');
 		}
 	}
 

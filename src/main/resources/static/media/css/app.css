@@ -1,6 +1,5 @@
 @charset 'UTF-8';
 // @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,400italic);
-
 /*!
 *
 * Angle - Bootstrap Admin App + jQuery
@@ -11,24 +10,18 @@
 * License: https://wrapbootstrap.com/help/licenses
 *
 */
-
 /* ========================================================================
-
 [Table of contents]
-
 1. Bootstrap reset
 1.1 bootstrap
 1.2 bootstrap-reset
-
 2. Typography
 2.1 typo
-
 3. Layout
 3.1 layout / .wrapper .content-wrapper
 3.2 top-navbar / .top-navbar
 3.3 sidebar / .sidebar
 3.4 offsidebar / .offsidebar
-
 4. Components
 4.1  button-extra
 4.2  placeholder / .box-placeholder
@@ -48,23 +41,19 @@
 4.16 table-grid
 4.17 todo / .todo
 4.18 nestable
-
 5. Charts
 5.1 chart-flot / .flot-chart
 5.2 chart-easypie / .easypie-chart
-
 6. Form elements
 6.1 form-elements
 6.2 form-validation
 6.3 form-tags
 6.4 form-wizard
 6.5 form-imgcrop
-
 7. Tables
 7.1 datatable
 7.2 table-extras
 7.3 jqgrid
-
 8. Plugins
 8.1 plugins
 8.2 slim-scroll / .slimScrollBar
@@ -75,21 +64,15 @@
 8.7 gmap / .gmap
 8.8 vector-map / vector-map
 8.9 portlets / .portlet
-
 9. Utilities
 9.1 utils
-
 10. Print CSS
 10.1 print
-
 11. Settings
 11.1 settings
-
 12. Documentation
 12.1 docs
-
 ========================================================================== */
-
 /* ========================================================================
 Component: bootstrap-reset.less
 ========================================================================== */
@@ -157,13 +140,11 @@ input[type='text'], input[type='email'], input[type='search'], input[type='passw
 .carousel .carousel-control em { position: absolute; z-index: 5; top: 50%; left: 50%; display: inline-block; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px; }
 .modal-backdrop { position: fixed; bottom: 0; }
 .topnavbar, .navbar, .navbar .dropdown-menu { filter: none !important; }
-
 /* ========================================================================
 Component: typo.less
 ========================================================================== */
 body { font-family: 'Source Sans Pro', sans-serif; color: #656565; }
 h1, h2, h3, h4 { font-weight: bold; }
-
 /* ========================================================================
 Component: layout.less
 ========================================================================== */
@@ -239,7 +220,6 @@ height: 1px; min-height: 100%;    /* ios blanks space fix */ }
 @media only screen and (min-width:768px) {
 .layout-fixed .wrapper > section { margin-top: 55px; }
 }
-
 /* IE10+ hack: safari fix breaks ie so we need to target ie only to restore */
 _:-ms-lang(x), .layout-fixed .wrapper > .aside > .aside-inner { position: static !important; }
 @media only screen and (min-width:992px) {
@@ -253,7 +233,6 @@ _:-ms-lang(x), .layout-fixed .wrapper > .aside > .aside-inner { position: static
 @media only screen and (min-width:1200px) {
 .layout-boxed .wrapper, .layout-boxed .wrapper .topnavbar-wrapper { width: 1140px; }
 }
-
 /* ========================================================================
 Component: layout-extra.less
 ========================================================================== */
@@ -278,7 +257,6 @@ Component: layout-extra.less
 .d-table-fixed { display: block; }
 .d-table-fixed > .d-cell { display: block; width: auto; height: auto; }
 }
-
 /* Target Firefox only */
 @-moz-document url-prefix() {
 .d-table, .d-table-desktop { height: 240px; min-height: 100%; }
@@ -322,7 +300,6 @@ Component: layout-extra.less
 .aside-float.layout-boxed .wrapper > section { padding-left: 0; }
 }
 .aside-float.aside-toggled.layout-fs .wrapper > section > .content-wrapper { padding: 0 0 0 20px; }
-
 /* ========================================================================
 Component: layout-animation.less
 ========================================================================== */
@@ -336,7 +313,6 @@ Component: layout-animation.less
 .sidebar li > a, .sidebar li > .nav-item, .sidebar > .nav > .nav-heading { white-space: nowrap; }
 .aside-collapsed .user-block-picture { -webkit-transition: width .2s cubic-bezier(.35, 0, .25, 1); -o-transition: width .2s cubic-bezier(.35, 0, .25, 1); transition: width .2s cubic-bezier(.35, 0, .25, 1); }
 .aside-collapsed .user-block { -webkit-transition: padding .2s cubic-bezier(.35, 0, .25, 1); -o-transition: padding .2s cubic-bezier(.35, 0, .25, 1); transition: padding .2s cubic-bezier(.35, 0, .25, 1); }
-
 /* ========================================================================
 Component: top-navbar.less
 ========================================================================== */
@@ -400,7 +376,6 @@ Component: top-navbar.less
 .aside-collapsed .topnavbar .navbar-header { width: 70px; }
 .aside-collapsed .topnavbar .navbar-form { left: 70px; }
 }
-
 /* ========================================================================
 Component: sidebar.less
 ========================================================================== */
@@ -445,7 +420,6 @@ Component: sidebar.less
 .aside-collapsed .sidebar > .nav > li > a:focus, .aside-collapsed .sidebar > .nav > li > .nav-item:focus { background-color: transparent; }
 .aside-collapsed .sidebar > .nav > li > a:focus > em, .aside-collapsed .sidebar > .nav > li > .nav-item:focus > em { color: inherit; }
 .aside-collapsed .sidebar .nav .label { position: absolute; top: 10px; right: 5px; text-indent: 0; }
-
 /* ========================================================================
 Component: offsidebar.less
 ========================================================================== */
@@ -465,11 +439,9 @@ Component: offsidebar.less
 }
 .offsidebar { right: -235px; }
 .no-csstransforms3d .offsidebar-open .offsidebar { right: 0; }
-
 /* Transformation ready devices*/
 .csstransforms3d .offsidebar { right: 0; // -webkit-transition: -webkit-transform .3s ease, z-index 0s linear .3s; //    -moz-transition: -moz-transform .3s ease, z-index 0s linear .3s; //      -o-transition: -o-transform .3s ease, z-index 0s linear .3s; //         transition: transform .3s ease, z-index 0s linear .3s; -webkit-transform: translate3d(235px, 0, 0); transform: translate3d(235px, 0, 0); }
 .csstransforms3d .offsidebar-open .offsidebar { -webkit-transition: -webkit-transform .3s ease; -moz-transition: -moz-transform .3s ease; -o-transition: -o-transform .3s ease; transition: transform .3s ease; -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
-
 /* ========================================================================
 Component: breadcrumbs.less
 ========================================================================== */
@@ -477,7 +449,6 @@ Component: breadcrumbs.less
 h3 + .breadcrumb, .content-heading + .breadcrumb { margin: -25px -25px 20px -20px; border-top: 1px solid #cfdbe2; border-bottom: 1px solid #cfdbe2; background-color: #fafbfc; }
 h3 > .breadcrumb, .content-heading > .breadcrumb { font-size: 13px; margin-bottom: 0; padding: 10px 10px 0 0; border: 0; background: transparent; }
 h3 > .breadcrumb.pull-right, .content-heading > .breadcrumb.pull-right { margin: -2px 0 0; }
-
 /* ========================================================================
 Component: button-extra.less
 ========================================================================== */
@@ -536,14 +507,12 @@ Component: button-extra.less
 .btn-circle { font-size: 12px; line-height: 35px; width: 35px; height: 35px; padding: 0; text-align: center; border: 0; border-radius: 500px; }
 .btn-circle > * { line-height: inherit !important; }
 .btn-circle.btn-lg { font-size: 18px; line-height: 50px; width: 50px; height: 50px; }
-
 /* ========================================================================
 Component: placeholder.less
 ========================================================================== */
 .box-placeholder { margin-bottom: 15px; padding: 20px; color: #444; border: 1px dashed #ddd; background: #fafafa; }
 .box-placeholder >:last-child { margin-bottom: 0; }
 .box-placeholder-lg { padding-top: 80px; padding-bottom: 80px; }
-
 /* ========================================================================
 Component: panels.less
 ========================================================================== */
@@ -590,7 +559,6 @@ Component: panels.less
 .panel-dark > .panel-heading + .panel-collapse > .panel-body { border-top-color: #cfdbe2; }
 .panel-dark > .panel-heading .badge { color: #3a3f51; background-color: #fff; }
 .panel-dark > .panel-footer + .panel-collapse > .panel-body { border-bottom-color: #cfdbe2; }
-
 /* ========================================================================
 Component: progress-extra.less
 ========================================================================== */
@@ -617,11 +585,9 @@ Component: progress-extra.less
 .progress-80 { width: 80%; }
 .progress-90 { width: 90%; }
 .progress-100 { width: 100%; }
-
 /* ========================================================================
 Component: radial-bar.less
 ========================================================================== */
-
 /* -------------------------------------
 * Bar container
 * ------------------------------------- */
@@ -763,7 +729,6 @@ Component: radial-bar.less
 .radial-bar-xs { font-size: 8px; width: 30px; height: 30px; }
 .radial-bar-xs:after, .radial-bar-xs > img { line-height: 21px; width: 21px; height: 21px; margin-top: 4.5px; margin-left: 4.5px; }
 x:-o-prefocus, .radial-bar { background-clip: content-box; }
-
 /* ========================================================================
 Component: user-block.less
 ========================================================================== */
@@ -783,7 +748,6 @@ Component: user-block.less
 .aside-collapsed .user-block > .user-block-picture { float: none; width: 50px; margin: 0  auto; }
 .aside-collapsed .user-block > .user-block-picture > .user-block-status { display: block; }
 .aside-collapsed .user-block .user-block-info { display: none; }
-
 /* ========================================================================
 Component: circles.less
 ========================================================================== */
@@ -808,7 +772,6 @@ Component: circles.less
 .circle-outline.circle-info { border: 1px solid #23b7e5; }
 .circle-outline.circle-warning { border: 1px solid #ff902b; }
 .circle-outline.circle-danger { border: 1px solid #f05050; }
-
 /* ========================================================================
 Component: timeline.less
 ========================================================================== */
@@ -871,7 +834,6 @@ Component: timeline.less
 .timeline > li.timeline-inverted > .timeline-panel { padding-left: 36px; }
 .timeline > li.timeline-inverted .timeline-date { right: 50%; left: auto; width: auto; margin-right: 36px; margin-left: 0; }
 }
-
 /* ========================================================================
 Component: dropdown-extras.less
 ========================================================================== */
@@ -887,7 +849,6 @@ Component: dropdown-extras.less
 .dropdown > a > .label { top: 10px; }
 }
 .dropdown-menu-header { padding: 10px 15px; border-bottom: 1px solid #e1e1e1; background-color: #fafafa; }
-
 /* ========================================================================
 Component: row-extra.less
 ========================================================================== */
@@ -897,7 +858,6 @@ Component: row-extra.less
 .row-table { display: table; width: 100%; height: 100%; margin: 0; table-layout: fixed; }
 .row-table > [class*='col-'] { display: table-cell; float: none; table-layout: fixed; vertical-align: middle; }
 .row-flush > [class*='col-'] { padding-right: 0; padding-left: 0; }
-
 /* ========================================================================
 Component: half-float.less
 ========================================================================== */
@@ -905,13 +865,11 @@ Component: half-float.less
 .half-float .half-float-bottom, .half-float .half-float-top { position: absolute; z-index: 2; bottom: -60px; left: 50%; width: 120px; height: 120px; margin-left: -60px; }
 .half-float .half-float-top { top: -60px; bottom: auto; }
 .half-float + * { margin-top: -55px; padding-top: 65px; }
-
 /* ========================================================================
 Component: masonry-grid.less
 ========================================================================== */
 .row-masonry { position: relative; width: 100%; margin: 0; padding: 0; }
 .row-masonry > .col-masonry { display: inline-block; width: 100%; min-height: 1em; margin-bottom: 15px; }
-
 /* Columns definition by devices */
 @media only screen and (min-width:480px) {
 .row-masonry-sm-1 { -moz-column-count: 1; -webkit-column-count: 1; column-count: 1; -moz-column-gap: 15px; -webkit-column-gap: 15px; column-gap: 15px; -moz-columns: 1; -webkit-columns: 1; columns: 1; }
@@ -1113,7 +1071,6 @@ Component: masonry-grid.less
 .no-csscolumns .row-masonry-xl-12:after { display: inline-block; width: 100%; content: ''; }
 .no-csscolumns .row-masonry-xl-12 > .col-masonry { display: inline-block; width: 7%; vertical-align: top; }
 }
-
 /* ========================================================================
 Component: widget.less
 ========================================================================== */
@@ -1121,7 +1078,6 @@ Component: widget.less
 .widget.panel, .widget .panel { overflow: hidden; }
 .widget .lateral-picture { position: relative; display: block; overflow: hidden; width: auto; height: 240px; }
 .widget .lateral-picture > img { position: absolute; top: 0; left: 0; width: auto; max-height: 100%; }
-
 /* ========================================================================
 Component: animate.less
 ========================================================================== */
@@ -1172,24 +1128,19 @@ Component: animate.less
 100% { -webkit-transform: none; -ms-transform: none; transform: none; opacity: 1; }
 }
 .fadeInLeft { -webkit-animation-name: fadeInLeft; animation-name: fadeInLeft; }
-
 /*!
 * table-grid (http://mdo.github.io/table-grid)
 * Released under MIT, (c) 2014 Mark Otto
 */
-
 /*
 * The Grid
 */
 @media only screen and (min-width:768px) {
-
 /* Add `.table-grid` for the table */
 .table-grid { display: table; width: 100%; height: 100%; table-layout: fixed; }
-
 /* Add `.col` for the table cells, or columns */
 .col { display: table-cell; height: 100%; vertical-align: top; }
 .col.col-full-center { vertical-align: middle; }
-
 /* Set the widths */
 .col-1 { width: 8.333333%; }
 .col-2 { width: 16.666667%; }
@@ -1213,7 +1164,6 @@ Component: animate.less
 .col-xxl { width: 360px; }
 .col-wide { width: 100%; }
 .col-auto { width: auto; }
-
 /* Padded columns */
 .table-grid-padded { margin-right: -1rem; margin-left: -1rem; }
 .table-grid-padded .table-grid { border-spacing: 1rem 0; }
@@ -1221,14 +1171,12 @@ Component: animate.less
 @media only screen and (max-width:991px) {
 .table-grid-desktop.table-grid, .table-grid-desktop .col { display: block; width: auto; }
 }
-
 /*
 * Vertically center grid content
 *
 * Requires content within the column to be inline or inline-block.
 */
 .table-grid-align-middle .col { vertical-align: middle; }
-
 /* ========================================================================
 Component: todo.less
 ========================================================================== */
@@ -1241,7 +1189,6 @@ Component: todo.less
 .todo .todo-complete .todo-title { text-decoration: line-through; }
 .todo .panel-group > .panel { margin: 0; border: 1px; }
 .todo .panel-group > .panel .panel-body { border-bottom: 1px solid #edf1f2; }
-
 /* ========================================================================
 Component: nestable.less
 ========================================================================== */
@@ -1260,7 +1207,6 @@ Component: nestable.less
 .dd-dragel { position: absolute; z-index: 9999; pointer-events: none; }
 .dd-dragel > .dd-item .dd-handle { margin-top: 0; }
 .dd-dragel .dd-handle { -webkit-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, .1); box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, .1); }
-
 /**
 * Nestable Extras
 */
@@ -1269,7 +1215,6 @@ Component: nestable.less
 .dd + .dd { margin-left: 2%; }
 }
 .dd-hover > .dd-handle { background: #2ea8e5 !important; }
-
 /**
 * Nestable Draggable Handles
 */
@@ -1279,7 +1224,6 @@ Component: nestable.less
 .dd3-handle { position: absolute; top: 0; left: 0; overflow: hidden; width: 40px; margin: 0; cursor: pointer; white-space: nowrap; text-indent: 100%; border: 1px solid #ebebeb; border-top-right-radius: 0; border-bottom-right-radius: 0; background: #fff; }
 .dd3-handle:before { font-size: 20px; font-weight: normal; position: absolute; top: 10px; left: 0; display: block; width: 100%; content: '鈮�'; text-align: center; text-indent: 0; color: #ccc; }
 .dd3-handle:hover { background: #f7f7f7; }
-
 /* ========================================================================
 Component: chart-flot.less
 ========================================================================== */
@@ -1293,18 +1237,15 @@ Component: chart-flot.less
 .flot-chart-content { width: 100%; height: 100%; }
 .flot-pie-label { font-size: 10px; padding: 3px 5px; text-align: center; color: #fff; }
 #flotTip { font-size: 12px !important; position: relative; z-index: 5; padding: 5px; color: #f1f1f1; border-color: transparent !important; border-radius: 2px !important; background-color: rgba(0, 0, 0, .75) !important; }
-
 /* ========================================================================
 Component: chart-easypie.less
 ========================================================================== */
 .easypie-chart { position: relative; display: inline-block; padding: 0 6px; }
 .easypie-chart span { font-size: 20px; position: absolute; top: 50%; left: 50%; display: block; width: 100%; height: 30px; margin-top: -15px; margin-left: -50%; }
 .easypie-chart canvas { max-width: 100%; }
-
 /* ========================================================================
 Component: form-elements.less
 ========================================================================== */
-
 /**
 * Custom form elements
 *    - Checkbox
@@ -1320,18 +1261,13 @@ Component: form-elements.less
 .c-checkbox:hover span, .c-radio:hover span { border-color: #5d9cec; }
 .form-inline .c-checkbox span, .form-inline .c-radio span { margin-left: 0; }
 .c-checkbox.c-checkbox-rounded span, .c-radio.c-checkbox-rounded span, .c-checkbox.c-radio-rounded span, .c-radio.c-radio-rounded span { border-radius: 500px; }
-
 /* override for radio */
 .c-radio span { border-radius: 500px; }
-
 /* the icon */
 .c-checkbox span:before, .c-radio span:before { font-size: 12px; line-height: 18px; position: absolute; top: 0; right: 0; bottom: 0; left: 0; text-align: center !important; vertical-align: middle; opacity: 0; }
-
 /* Checked state */
 .c-checkbox, .c-radio {    /* override for radio */
-
 /* Disable state */
-
 /* override for radio */ }
 .c-checkbox input[type=checkbox]:checked + span:before, .c-radio input[type=checkbox]:checked + span:before, .c-checkbox input[type=radio]:checked + span:before, .c-radio input[type=radio]:checked + span:before { transition: color .3s ease-out; opacity: 1; color: #fff; }
 .c-checkbox input[type=checkbox]:checked + span, .c-radio input[type=checkbox]:checked + span, .c-checkbox input[type=radio]:checked + span, .c-radio input[type=radio]:checked + span { border-color: #5d9cec; background-color: #5d9cec; }
@@ -1341,9 +1277,7 @@ Component: form-elements.less
 .c-checkbox input[type=radio]:disabled + span, .c-radio input[type=radio]:disabled + span { background-color: #fff !important; }
 .c-checkbox input[type=radio]:disabled + span:before, .c-radio input[type=radio]:disabled + span:before { color: #ddd; }
 .c-radio.c-radio-nofont {    /* override for radio */
-
 /* Disable state */
-
 /* override for radio */ }
 .c-radio.c-radio-nofont span:before { top: 50%; left: 50%; width: 10px; height: 10px; margin-top: -5px; margin-left: -5px; content: ''; border-radius: 500px; }
 .c-radio.c-radio-nofont input[type=radio]:checked + span:before { transition: color .3s ease-out; opacity: 1; color: #fff; }
@@ -1371,7 +1305,6 @@ Component: form-elements.less
 .input-md { width: 260px; }
 .note-editor { line-height: 20px; margin-top: 5px; padding: 0; padding-bottom: 1px; border: none; background-color: #fff; background-image: -webkit-linear-gradient(#eee .1em, transparent .1em); background-image: linear-gradient(#eee .1em, transparent .1em); background-size: 100% 20px; }
 .note-editor.note-editor-margin { padding-left: 55px; background-image: -webkit-linear-gradient(0deg, transparent 49px, #ffe0c4 49px, #ffe0c4 51px, transparent 51px), -webkit-linear-gradient(#eee .1em, transparent .1em); background-image: linear-gradient(90deg, transparent 49px, #ffe0c4 49px, #ffe0c4 51px, transparent 51px), linear-gradient(#eee .1em, transparent .1em); }
-
 /* ========================================================================
 Component: form-validation.less
 ========================================================================== */
@@ -1379,7 +1312,6 @@ Component: form-validation.less
 .parsley-errors-list { display: none; margin: 0; padding: 0; }
 .parsley-errors-list.filled { display: block; }
 .parsley-errors-list > li { font-size: 12px; list-style: none; color: #f05050; }
-
 /* ========================================================================
 Component: form-tags.less
 ========================================================================== */
@@ -1391,7 +1323,6 @@ body .bootstrap-tagsinput::-webkit-input-placeholder { color: #b7bac9; }
 body .bootstrap-tagsinput[disabled], body .bootstrap-tagsinput[readonly], fieldset[disabled] body .bootstrap-tagsinput { cursor: not-allowed; opacity: 1; background-color: #edf1f2; }
 textareabody .bootstrap-tagsinput { height: auto; }
 body .bootstrap-tagsinput .tag { color: #fff; }
-
 /* ========================================================================
 Component: form-wizard.less
 ========================================================================== */
@@ -1450,7 +1381,6 @@ Component: form-wizard.less
 .tabcontrol > .content > .body { position: absolute; float: left; width: 95%; height: 95%; padding: 2.5%; }
 .tabcontrol > .content > .body ul { list-style: disc !important; }
 .tabcontrol > .content > .body ul > li { display: list-item; }
-
 /* ========================================================================
 Component: form-imgcrop.less
 ========================================================================== */
@@ -1464,7 +1394,6 @@ Component: form-imgcrop.less
 .preview-sm { width: 69px; height: 39px; }
 .preview-xs { width: 35px; height: 20px; margin-right: 0; }
 .cropper-container img { display: block; width: 100%; min-width: 0 !important; max-width: none !important; height: 100%; min-height: 0 !important; max-height: none !important; image-orientation: 0deg !important; }
-
 /* ========================================================================
 Component: datatable.less
 ========================================================================== */
@@ -1489,7 +1418,6 @@ div.dataTables_filter label, div.dataTables_length label, div.dataTables_paginat
 div.dataTables_filter label select, div.dataTables_length label select, div.dataTables_paginate select { display: inline-block; }
 .dataTables_wrapper > .row > div { float: none; width: 100%; text-align: center; }
 }
-
 /* ========================================================================
 Component: table-extras.less
 ========================================================================== */
@@ -1506,7 +1434,6 @@ Component: table-extras.less
 #table-ext-1 th:nth-child(9) { width: 5%; }
 #table-ext-2 th:nth-child(1) { width: 5%; }
 #table-ext-2 th:nth-child(3) { width: 10%; }
-
 /* ========================================================================
 Component: jqgrid.less
 ========================================================================== */
@@ -1544,20 +1471,17 @@ tr.ui-widget-content { border: 0; }
 .ui-jqdialog .ui-jqdialog-titlebar { padding: 10px 10px; }
 .ui-jqdialog .ui-jqdialog-title { float: none !important; }
 .ui-jqdialog > .ui-resizable-se { position: absolute; }
-
 /* ========================================================================
 Component: plugins.less
 - User this stylesheet to include single css styles and fixes
 for plugins
 ========================================================================== */
-
 /**
 * Bootstrap Slider
 */
 body {    /**
    * Chosen
    */
-
 /**
    * Filestyle
    */ }
@@ -1597,14 +1521,12 @@ body .bootstrap-filestyle { max-width: 380px; }
 body [data-classyloader] { max-width: 100%; }
 body .select2-container { max-width: 100%; }
 body .select2-container--bootstrap .select2-selection--single, body .select2-container--bootstrap .select2-selection--multiple { border: 1px solid #dde6e9; box-shadow: 0 0 0 #000 !important; }
-
 /* ========================================================================
    Component: slim-scroll.less
  ========================================================================== */
 [data-scrollable] { display: block; }
 .slimScrollBar { opacity: 1 !important; border: 0 !important; border-radius: 1px !important; background-color: rgba(0, 0, 0, .35) !important; }
 .slimScrollRail { bottom: 0; opacity: 1 !important; border: 0 !important; border-radius: 0 !important; background-color: rgba(0, 0, 0, .15) !important; }
-
 /* ========================================================================
    Component: alerts.less
  ========================================================================== */
@@ -1616,7 +1538,6 @@ body .select2-container--bootstrap .select2-selection--single, body .select2-con
 @media (max-width:480px) {
     .alerts { right: 10px; left: 10px; width: auto; margin: 0; }
 }
-
 /* ========================================================================
    Component: notify.less
  ========================================================================== */
@@ -1631,7 +1552,6 @@ body .select2-container--bootstrap .select2-selection--single, body .select2-con
 .uk-notify-message.alert.alert-normal { color: #fff; background: #444; }
 .uk-notify-message > .close { visibility: hidden; }
 .uk-notify-message:hover > .close { visibility: visible; }
-
 /* ========================================================================
    Component: calendar.less
  ========================================================================== */
@@ -1657,7 +1577,6 @@ body .select2-container--bootstrap .select2-selection--single, body .select2-con
 .calendar-app .external-events-trash.active:after { z-index: 1; opacity: 1; }
 .calendar-app .external-events-trash.hovered:after { background-color: #fb797e; }
 .calendar-app .external-event-color-selector .circle.selected { border: 3px solid rgba(255, 255, 255, .5); }
-
 /* ========================================================================
    Component: spinner.less
  ========================================================================== */
@@ -1687,18 +1606,15 @@ body .pacman > div:nth-child(2) { border-top-color: #5d9cec; border-bottom-color
 body .pacman > div:nth-child(3), body .pacman > div:nth-child(4), body .pacman > div:nth-child(5), body .pacman > div:nth-child(6) { background-color: #5d9cec; }
 body .sk-rotating-plane.sk-spinner, body .sk-double-bounce .sk-double-bounce1, body .sk-double-bounce .sk-double-bounce2, body .sk-wave .sk-rect, body .sk-wandering-cubes .sk-cube1, body .sk-wandering-cubes .sk-cube2, body .sk-chasing-dots .sk-dot1, body .sk-chasing-dots .sk-dot2, body .sk-three-bounce div, body .sk-circle .sk-child:before, body .sk-cube-grid .sk-cube, body .sk-fading-circle .sk-circle:before, body .sk-spinner-pulse.sk-spinner, body .sk-rotating-plane { background-color: #5d9cec !important; }
 body .sk-wordpress .sk-inner-circle { background-color: #fff; }
-
 /* just for loaders.css demo */
 .loader-demo { height: 150px; padding-top: 50px; text-align: center; }
 .loader-demo > div { display: inline-block; }
 .loader-demo.loader-demo-sk { padding-top: 0; }
-
 /* ========================================================================
    Component: gmap.less
  ========================================================================== */
 .gmap { height: 300px; }
 .gmap.gmap-sm { height: 150px; }
-
 /* ========================================================================
    Component: vector-map.less
  ========================================================================== */
@@ -1706,7 +1622,6 @@ body .jvectormap-label { position: absolute; z-index: 1100; display: none; paddi
 body .jvectormap-zoomin, body .jvectormap-zoomout { line-height: 10px; position: absolute; left: 10px; width: 22px; height: 22px; padding: 5px; cursor: pointer; text-align: center; color: white; border-radius: 2px; background: #515253; }
 body .jvectormap-zoomin { top: 10px; }
 body .jvectormap-zoomout { top: 30px; }
-
 /* ========================================================================
    Component: portlets.less
  ========================================================================== */
@@ -1714,7 +1629,6 @@ body .jvectormap-zoomout { top: 30px; }
 [data-toggle='portlet'].portlet-handler, [data-toggle='portlet'] .portlet-handler { cursor: move; }
 .portlets-wrapper { overflow: auto; margin-right: auto; margin-left: auto; padding-right: 15px; padding-left: 15px; }
 .portlet.box-placeholder { padding: 0; }
-
 /* ========================================================================
    Component: mailbox.less
  ========================================================================== */
@@ -1741,7 +1655,6 @@ body .jvectormap-zoomout { top: 30px; }
 .mb-view > tbody > tr > td { cursor: auto; }
 .mb-view .mb-mail-to-list { margin-top: 6px; }
 .mb-view .mb-mail-to-list > a { margin-right: 5px; color: #909fa7; }
-
 /* ========================================================================
    Component: utils.less
  ========================================================================== */
@@ -1950,7 +1863,6 @@ body .jvectormap-zoomout { top: 30px; }
 }
 .link-unstyled { text-decoration: none !important; outline: none !important; }
 .no-resize { min-width: 100%; max-width: 100%; resize: none; }
-
 /**
  * Displays hidden content on hover. Add this class to the parent element.
  * Markup
@@ -1969,7 +1881,6 @@ body .jvectormap-zoomout { top: 30px; }
 .media-box > .pull-left { margin-right: 10px; }
 .media-box > .pull-right { margin-left: 10px; }
 .media-box-list { padding-left: 0; list-style: none; }
-
 /* ========================================================================
    Component: print.less
  ========================================================================== */
@@ -2086,6 +1997,12 @@ body, .popover, .tooltip { font-family: 'Source Sans Pro', Helvetica, Tahoma, Ar
 .sidebar .nav > li.active .text-muted { color: #fff; }
 .btn-primary { border-color: #18bc9c; background-color: #18bc9c; }
 .btn-primary:hover { border-color: #0fb391; background-color: #0fb391; }
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary:active:focus,
+.btn-primary.active:focus{ background-color: #27c24c; border-color:#27c24c;}
 .shaozi-mobile-qrcode { width: 140px; height: 150px; padding-top: 10px; }
 .resource-card-image-small-loading { width: 84px; height: 60px; background-repeat: no-repeat; background-position: 50% 50%; background-size: auto 100%; }
 .slider { position: relative; }
@@ -2121,3 +2038,4 @@ body, .popover, .tooltip { font-family: 'Source Sans Pro', Helvetica, Tahoma, Ar
 .unwrap .mast .bg-gray-dark { background: rgba(0, 0, 0, .6); }
 .unwrap .mast .col-xs-4 { border-left: 1px solid #fff; }
 .unwrap .mast .col-xs-4:first-child { border-left: none; }
+.go-top { position: fixed; z-index: 9999; right: 15px; bottom: 75px; width: 50px; height: 50px; cursor: pointer; background: url(../img/gotop.png) center no-repeat; background-size: cover; }
