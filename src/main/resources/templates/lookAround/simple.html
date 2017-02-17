@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="lookAround :: htmlhead" th:with="title='favorites'"></head>
-<body>
+<body th:onload="'showCategory(\'' + ${category} + '\');'">
 
 <script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
 <script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
@@ -52,43 +52,43 @@
           <div class="classification">
             <ul>
               <li>
-                <a class="active" href="/lookAround/standard/ALL">全部</a>
+              <a id="categoryALL" name="categoryALL" class="active" href="/lookAround/standard/ALL">全部</a>
+            </li>
+              <li>
+                <a id="categoryTRAVEL" name="categoryTRAVEL" href="/lookAround/standard/TRAVEL">旅行</a>
               </li>
               <li>
-                <a href="/lookAround/standard/TRAVEL">旅行</a>
+                <a id="categoryFOOD" name="categoryFOOD" href="/lookAround/standard/FOOD">料理</a>
               </li>
               <li>
-                <a href="/lookAround/standard/FOOD">料理</a>
+                <a id="categoryEXERCISE" name="categoryEXERCISE" href="/lookAround/standard/EXERCISE">健身</a>
               </li>
               <li>
-                <a href="/lookAround/standard/EXERCISE">健身</a>
+                <a id="categoryPHOTOGRAPH" name="categoryPHOTOGRAPH" href="/lookAround/standard/PHOTOGRAPH">摄影</a>
               </li>
               <li>
-                <a href="/lookAround/standard/PHOTOGRAPH">摄影</a>
+                <a id="categoryMUSIC" name="categoryMUSIC" href="/lookAround/standard/MUSIC">音乐</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MUSIC">音乐</a>
+                <a id="categoryREARING" name="categoryREARING" href="/lookAround/standard/REARING">育儿</a>
               </li>
               <li>
-                <a href="/lookAround/standard/REARING">育儿</a>
+                <a id="categoryLOVE" name="categoryLOVE" href="/lookAround/standard/LOVE">恋爱</a>
               </li>
               <li>
-                <a href="/lookAround/standard/LOVE">恋爱</a>
+                <a id="categoryBUSINESS" name="categoryBUSINESS" href="/lookAround/standard/BUSINESS">创业</a>
               </li>
               <li>
-                <a href="/lookAround/standard/BUSINESS">创业</a>
+                <a id="categoryART" name="categoryART" href="/lookAround/standard/ART">美术设计</a>
               </li>
               <li>
-                <a href="/lookAround/standard/ART">美术设计</a>
+                <a id="categoryMANAGER" name="categoryMANAGER" href="/lookAround/standard/MANAGER">产品经理</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MANAGER">产品经理</a>
+                <a id="categoryMARKET" name="categoryMARKET" href="/lookAround/standard/MARKET">市场营销</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MARKET">市场营销</a>
-              </li>
-              <li>
-                <a href="/lookAround/standard/RUNNING">运营</a>
+                <a id="categoryRUNNING" name="categoryRUNNING" href="/lookAround/standard/RUNNING">运营</a>
               </li>
             </ul>
           </div>
@@ -177,6 +177,9 @@
             <br />
             <br />
             <br />
+          </div>
+          <div  th:if="${collects.size() == 0}" style="margin-top: 45px;">
+            <h3 align="center" style="color:#aaaaaa;" class="mt text-thin">暂时没有该类别的收藏</h3>
           </div>
         </div>
 

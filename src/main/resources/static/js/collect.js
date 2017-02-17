@@ -860,3 +860,14 @@ $(function() {
 	});
 });
 
+function showCategory(category){
+    var categoryArr = ['ALL','TRAVEL','FOOD','EXERCISE','PHOTOGRAPH','MUSIC','REARING',
+    'LOVE','BUSINESS','ART','MANAGER','MARKET','RUNNING'];
+    $("#category"+category).addClass('active');
+    for(var i = 0; i < categoryArr.length; i++){
+        if(categoryArr[i] != category){
+            $("#category"+categoryArr[i]).removeClass('active');
+        }
+    }
+}
+
