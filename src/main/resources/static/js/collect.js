@@ -567,7 +567,7 @@ function listStandardCollect(collects,listId,user){
 		}
 		var item =
 		"<li>"+
-		"<a style=\"background-image:url("+(collects[i].profilePicture=='' ? 'img/favicon.png' : collects[i].profilePicture )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\"javascript:void(0);\" onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" ></a>"+
+		"<a style=\"background-image:url("+(collects[i].profilePicture=='' ? 'img/favicon.png' : '/'+collects[i].profilePicture )+")\" class=\"hidden-xs timeline-badge sharing-user-avatar\" href=\"javascript:void(0);\" onclick=\"locationUrl(\'/user/"+collects[i].userId+"/0\',\'\');\" ></a>"+
 		"<div class=\"timeline-panel\">"+
 		"   <div class=\"popover right\">"+
 		"      <div class=\"arrow\"></div>"+
@@ -667,7 +667,7 @@ function listStandardCollect(collects,listId,user){
 		"                   <if  style=\"display:none\" > "+
 		"				     | "+
 		"				  </if> "+
-		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button\">"+
+		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button btn-praise\">"+
 		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+
 		"                     <show id=\"likeS"+collects[i].id+"\">点赞("+collects[i].praiseCount+")</show>"+
 		"                  </a>"+
@@ -694,6 +694,15 @@ function listStandardCollect(collects,listId,user){
 			"                   	    收藏"+
 			"                  </a>";
 		}
+        if($("#loginUserInfo").val()){
+            item=item+"	 <if> "+
+                "				     | "+
+                "				  </if> "+
+                "                  <a class=\"sharing-action-button\" onclick=\"getCollect("+collects[i].id+")\">"+
+                "                     <span class=\"fa fa-spoon\"></span>"+
+                "                   	    收藏"+
+                "                  </a>";
+        }
 			item=item+		"               </small>"+
 		"            </div>"+
 		"         </div>"+
@@ -718,7 +727,12 @@ function listStandardCollect(collects,listId,user){
 		"</li>";
 		collectStandardList=collectStandardList+item;
 	}
-	 $("#"+listId).append(collectStandardList);
+	$("#"+listId).append(collectStandardList);
+    if($("#loginUserInfo").val()==""){
+        $(".sharing-action-button.btn-praise").removeAttr("onclick");
+        $(".input-group").hide();
+    }
+
 }
 
 

@@ -52,8 +52,11 @@
                     <li class="page-scroll">
                         <a href="#about">关于</a>
                     </li>
-                     <li class="page-scroll">
+                     <li th:if="${user==null}" class="page-scroll">
                         <a href="/login">登录</a>
+                    </li>
+                    <li th:if="${user!=null}" class="page-scroll">
+                        <a href="/logout">注销</a>
                     </li>
                 </ul>
             </div>

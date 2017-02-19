@@ -59,6 +59,7 @@ public class IndexController extends BaseController{
 	public String index(Model model){
 		IndexCollectorView indexCollectorView = collectorService.getCollectors();
 		model.addAttribute("collector",indexCollectorView);
+		model.addAttribute("user",getUser());
 		return "index";
 	}
 	
@@ -279,6 +280,10 @@ public class IndexController extends BaseController{
         List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
         List<String> followUser = followRepository.findFollowUserByUserId(userId);
         List<String> followedUser = followRepository.findFollowedUserByFollowId(userId);
+		Config config = configRepository.findByUserId(getUserId());
+        if(getUserId()==null||getUserId()==0){
+			config = configRepository.findByUserId(userId);
+		}
         model.addAttribute("collectCount",collectCount);
         model.addAttribute("follow",follow);
         model.addAttribute("followed",followed);
@@ -289,6 +294,8 @@ public class IndexController extends BaseController{
         model.addAttribute("followedUser",followedUser);
         model.addAttribute("isFollow",isFollow);
 		model.addAttribute("loginUserInfo",getUser());
+		model.addAttribute("config",config);
+		model.addAttribute("configObj",config);
         return "collector";
     }
 

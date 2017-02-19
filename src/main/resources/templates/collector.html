@@ -6,7 +6,7 @@
     <header class="topnavbar-wrapper">
         <nav role="navigation" class="navbar topnavbar">
             <div class="navbar-header">
-                <a href="/" class="navbar-brand">
+                <a href="/index" class="navbar-brand">
                     <div class="brand-logo">
                         <img class="img-responsive" alt="App Logo" th:src="@{/img/logo.png}"  /></div>
                     <div class="brand-logo-collapsed">
@@ -22,12 +22,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right" id="lefttop">
-                    <!-- <li>
-                        <a href="#" data-search-open="" title="搜索">
-                            <em class="icon-magnifier"></em>
-                        </a>
-                    </li> -->
+                <ul th:if="${loginUserInfo==null}" class="nav navbar-nav navbar-right">
                     <li>
                         <a th:href="@{/login}">
                             登录
@@ -36,6 +31,13 @@
                     <li>
                         <a th:href="@{/register}">
                             注册
+                        </a>
+                    </li>
+                </ul>
+                <ul th:if="${loginUserInfo!=null}" class="nav navbar-nav navbar-right">
+                    <li>
+                        <a th:href="@{/logout}">
+                            注销
                         </a>
                     </li>
                 </ul>
@@ -96,7 +98,7 @@
                             <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
                             <p th:if="${myself == 'YES'}" th:text="${user.email}">123456789@qq.com</p>
                             <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
-                            <!-- <a href="javascript:void(0);" th:if="${myself == 'NO'}" id="follow"></a> -->
+                            <a href="javascript:void(0);" th:if="${loginUserInfo!=null and myself == 'NO'}" id="follow"></a>
                         </div>
                     </div>
                     <div class="text-center bg-gray-dark p-lg mb">
@@ -182,6 +184,7 @@
         </div>
     </section>
 </div>
+<div th:replace="fragments/alert :: alert">alert</div>
 <script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
 <script th:src="@{/webjars/jquery-form/3.51/jquery.form.js}"></script>
 <script th:src="@{/webjars/bootstrap/3.3.6/dist/js/bootstrap.min.js}"></script>
@@ -232,11 +235,6 @@
                 }
             }
         }
-
-        if($("#loginUserInfo").val()){
-            $("#lefttop").hide();
-        }
-
     });
     function changeFollow(status,userId){
         $.ajax({
