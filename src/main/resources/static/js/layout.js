@@ -1,7 +1,6 @@
 /*---LEFT BAR ACCORDION----*/
 
-var firstUrl = null;//第一个页面
-var secondUrl = null;//第二个页面
+
 var flag = 1;
 var gfavorites;
 var gfollows;
@@ -12,8 +11,11 @@ $(function() {
 	loadFavorites();
 	loadConfig();
 	loadFollows();
+	myrefresh();
 	$("#passwordError").hide();
 	$("#nicknameError").hide();
+	$("#noticeNum").hide();
+	window.setInterval("myrefresh();",1000*5);
 });
 
 
@@ -213,25 +215,7 @@ function historyBack(){
 }
 
 
-//XML OBJECT
-function getXMLObject() {
-	var xmlHttp = false;
-	try {
-		xmlHttp = new ActiveXObject("Msxml2.XMLHTTP") // For Old Microsoft
-														// Browsers
-	} catch (e) {
-		try {
-			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP") // For Microsoft
-																// IE 6.0+
-		} catch (e2) {
-			xmlHttp = false // No Browser accepts the XMLHTTP Object then false
-		}
-	}
-	if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
-		xmlHttp = new XMLHttpRequest(); // For Mozilla, Opera Browsers
-	}
-	return xmlHttp; // Mandatory Statement returning the ajax object created
-}
+
 
 
 
@@ -475,4 +459,27 @@ function praiseMeOnclick() {
 		}
 	});
 	locationUrl('/notice/praiseMe','praiseMe');
+}
+
+function myrefresh(){
+	$.ajax({
+		url : "/notice/getNoticeNum",
+		data : '',
+		type : 'POST',
+		dataType : "json",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		},
+		success : function(result) {
+			if(result.rspCode == '000000'){
+				var totalNum = result.data.newPraiseMeCount+result.data.newCommentMeCount+result.data.newAtMeCount;
+				if(Number(totalNum) > 0){
+					$("#noticeNum").show();
+					$("#noticeNum").text(totalNum);
+				}
+				$("#atMeNewNotice").text(result.data.newAtMeCount+" 条新消息");
+				$("#commentMeNewNotice").text(result.data.newCommentMeCount+" 条新消息");
+				$("#praiseMeNewNotice").text(result.data.newPraiseMeCount + " 条新消息");
+			}
+		}
+	});
 }

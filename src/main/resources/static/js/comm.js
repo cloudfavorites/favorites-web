@@ -1,4 +1,6 @@
 var mainActiveId='home';
+var firstUrl = null;//第一个页面
+var secondUrl = null;//第二个页面
 
 function UrlSearch() {
     var name,value;
@@ -89,6 +91,26 @@ function goUrl(url,params) {
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
 		xmlhttp.send(params);
 	}
+}
+
+//XML OBJECT
+function getXMLObject() {
+	var xmlHttp = false;
+	try {
+		xmlHttp = new ActiveXObject("Msxml2.XMLHTTP") // For Old Microsoft
+														// Browsers
+	} catch (e) {
+		try {
+			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP") // For Microsoft
+																// IE 6.0+
+		} catch (e2) {
+			xmlHttp = false // No Browser accepts the XMLHTTP Object then false
+		}
+	}
+	if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+		xmlHttp = new XMLHttpRequest(); // For Mozilla, Opera Browsers
+	}
+	return xmlHttp; // Mandatory Statement returning the ajax object created
 }
 
 function fixUrl(url, params){

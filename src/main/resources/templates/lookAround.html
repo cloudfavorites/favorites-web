@@ -23,7 +23,6 @@
 <div th:fragment="navbar"  class="wrapper"  role="navigation">
     <div th:replace="fragments/header :: header">Header</div>
     <div th:replace="fragments/left :: left">left</div>
-    <div th:replace="fragments/sidebar :: sidebar">sidebar</div>
     <div layout:fragment="content" id="content" ></div>
     <div th:replace="fragments/footer :: footer">footer</div>
 </div>
@@ -38,6 +37,9 @@
 <script th:src="@{/js/comm.js}" ></script>
 <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
 <script th:src="@{/vendor/toastr/toastr.min.js}"></script>
+<script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
+<script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
+
 <script th:inline="javascript">
 	/*<![CDATA[*/
 	    var size = /*[[${size}]]*/ 0;

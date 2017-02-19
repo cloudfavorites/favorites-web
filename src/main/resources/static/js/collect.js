@@ -157,7 +157,9 @@ function delLookRecordAll(){
 
 
 function getCollect(id,user){
-	 $.ajax({
+     var userId = document.getElementById("userId").value;
+     if(userId != "0"){
+	    $.ajax({
 			async: false,
 			type: 'POST',
 			dataType: 'json',
@@ -210,6 +212,9 @@ function getCollect(id,user){
 				loadFollows();
 			}
 		});
+	}else{
+	    $('#modal-loginTips').modal('show');
+	}
 }
 
 
@@ -239,7 +244,9 @@ function changePrivacy(id,type){
 
 
 function changeLike(id){
-	 $.ajax({
+     var userId = document.getElementById("userId").value;
+     if(userId != "0"){
+	    $.ajax({
 			async: false,
 			type: 'POST',
 			dataType: 'json',
@@ -271,6 +278,9 @@ function changeLike(id){
 				}
 			}
 		});
+	}else{
+	    $('#modal-loginTips').modal('show');
+	}
 }
 
 
@@ -295,11 +305,16 @@ function search(){
 
 
 function switchComment(collectId){
-	 if($("#collapse"+collectId).hasClass('in')){
-		 $("#collapse"+collectId).removeClass('in');
-      }else{
-    	  showComment(collectId);
-      }
+     var userId = document.getElementById("userId").value;
+     if(userId != "0"){
+         if($("#collapse"+collectId).hasClass('in')){
+             $("#collapse"+collectId).removeClass('in');
+         }else{
+              showComment(collectId);
+         }
+     }else{
+         $('#modal-loginTips').modal('show');
+     }
 }
 
 function showComment(collectId){
@@ -858,4 +873,15 @@ $(function() {
 		}
 	});
 });
+
+function showCategory(category){
+    var categoryArr = ['ALL','TRAVEL','FOOD','EXERCISE','PHOTOGRAPH','MUSIC','REARING',
+    'LOVE','BUSINESS','ART','MANAGER','MARKET','RUNNING'];
+    $("#category"+category).addClass('active');
+    for(var i = 0; i < categoryArr.length; i++){
+        if(categoryArr[i] != category){
+            $("#category"+categoryArr[i]).removeClass('active');
+        }
+    }
+}
 

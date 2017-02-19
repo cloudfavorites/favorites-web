@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="lookAround :: htmlhead" th:with="title='favorites'"></head>
-<body>
+<body th:onload="'showCategory(\'' + ${category} + '\');'">
 
 <script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
 <script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
@@ -9,7 +9,7 @@
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
-
+<div th:replace="fragments/alert :: alert">alert</div>
 <div class="wrapper">
   <header class="topnavbar-wrapper">
     <nav role="navigation" class="navbar topnavbar">
@@ -22,14 +22,6 @@
         </a>
       </div>
       <div class="nav-wrapper">
-        <ul class="nav navbar-nav">
-          <li>
-            <a href="#" data-toggle-state="aside-collapsed" class="hidden-xs" title="缩小/扩大侧栏"> <em class="fa fa-navicon"></em>
-            </a>
-            <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle" title="缩小/扩大侧栏"> <em class="fa fa-navicon"></em>
-            </a>
-          </li>
-        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href="#" data-search-open="" title="搜索">
@@ -53,89 +45,61 @@
       </form>
     </nav>
   </header>
-  <aside class="aside">
-    <div class="aside-inner">
-      <nav data-sidebar-anyclick-close="" class="sidebar">
-        <ul class="nav">
-          <li class="nav-heading ">主导航</li>
-          <li class=" ">
-            <a href="/standard/my/0.html" title="首页">
-              <em class="icon-home"></em>
-              <span>首页</span>
-            </a>
-          </li>
-          <li class=" active">
-            <a title="发现" href="/standard/explore/0.html">
-              <em class="icon-compass"></em>
-              <span>发现</span>
-            </a>
-          </li>
-          <li class="nav-heading ">更多</li>
-          <li class=" ">
-            <a href="/tool.html" title="网页收集工具">
-              <em class="icon-wrench"></em>
-              <span>网页收集工具</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </aside>
-  <section>
+  <section style="margin-left:0;">
     <div class="content-wrapper">
       <div class="row">
         <div class="col-lg-9 col-md-9">
           <div class="classification">
             <ul>
               <li>
-                <a class="active" href="/lookAround/standard/ALL">全部</a>
+              <a id="categoryALL" name="categoryALL" class="active" href="/lookAround/standard/ALL">全部</a>
+            </li>
+              <li>
+                <a id="categoryTRAVEL" name="categoryTRAVEL" href="/lookAround/standard/TRAVEL">旅行</a>
               </li>
               <li>
-                <a href="/lookAround/standard/TRAVEL">旅行</a>
+                <a id="categoryFOOD" name="categoryFOOD" href="/lookAround/standard/FOOD">料理</a>
               </li>
               <li>
-                <a href="/lookAround/standard/FOOD">料理</a>
+                <a id="categoryEXERCISE" name="categoryEXERCISE" href="/lookAround/standard/EXERCISE">健身</a>
               </li>
               <li>
-                <a href="/lookAround/standard/EXERCISE">健身</a>
+                <a id="categoryPHOTOGRAPH" name="categoryPHOTOGRAPH" href="/lookAround/standard/PHOTOGRAPH">摄影</a>
               </li>
               <li>
-                <a href="/lookAround/standard/PHOTOGRAPH">摄影</a>
+                <a id="categoryMUSIC" name="categoryMUSIC" href="/lookAround/standard/MUSIC">音乐</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MUSIC">音乐</a>
+                <a id="categoryREARING" name="categoryREARING" href="/lookAround/standard/REARING">育儿</a>
               </li>
               <li>
-                <a href="/lookAround/standard/REARING">育儿</a>
+                <a id="categoryLOVE" name="categoryLOVE" href="/lookAround/standard/LOVE">恋爱</a>
               </li>
               <li>
-                <a href="/lookAround/standard/LOVE">恋爱</a>
+                <a id="categoryBUSINESS" name="categoryBUSINESS" href="/lookAround/standard/BUSINESS">创业</a>
               </li>
               <li>
-                <a href="/lookAround/standard/BUSINESS">创业</a>
+                <a id="categoryART" name="categoryART" href="/lookAround/standard/ART">美术设计</a>
               </li>
               <li>
-                <a href="/lookAround/standard/ART">美术设计</a>
+                <a id="categoryMANAGER" name="categoryMANAGER" href="/lookAround/standard/MANAGER">产品经理</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MANAGER">产品经理</a>
+                <a id="categoryMARKET" name="categoryMARKET" href="/lookAround/standard/MARKET">市场营销</a>
               </li>
               <li>
-                <a href="/lookAround/standard/MARKET">市场营销</a>
-              </li>
-              <li>
-                <a href="/lookAround/standard/RUNNING">运营</a>
+                <a id="categoryRUNNING" name="categoryRUNNING" href="/lookAround/standard/RUNNING">运营</a>
               </li>
             </ul>
           </div>
           <div class="slider">
-            <ul class="slides" th:each="collect : ${fiveCollects}">
-              <li th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
+            <ul class="slides">
+              <li th:each="collect : ${fiveCollects}" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
                 <h3>
                   <a th:href="@{${collect.url}}" th:text="${collect.title}"></a>
                 </h3>
                 <p>
-                  <a href="javascript:void(0);" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'">
+                  <a th:href="'/collector/' + ${collect.userId} + '/0'">
                     <img th:src="@{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
                     <span th:text="${collect.userName}"></span>
                   </a>
@@ -214,6 +178,9 @@
             <br />
             <br />
           </div>
+          <div  th:if="${collects.size() == 0}" style="margin-top: 45px;">
+            <h3 align="center" style="color:#aaaaaa;" class="mt text-thin">暂时没有该类别的收藏</h3>
+          </div>
         </div>
 
         <input type="hidden" name="collectId" id="collectId" />
@@ -231,12 +198,12 @@
             <div class="panel-heading">推荐关注</div>
             <ul class="list-group" th:each="user,userStat : ${fiveUsers}">
               <li class="list-group-item">
-                <a href="#" class="pull-left" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'">
+                <a th:href="'/collector/' + ${user.id} + '/0'" class="pull-left">
                   <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
                 </a>
                 <div class="media-body">
                   <h4>
-                    <a href="#" th:text="${user.userName}" th:onclick="'locationUrl(\'/user/' + ${user.id} + '/0\',\'\');'"></a>
+                    <a th:href="'/collector/' + ${user.id} + '/0'" th:text="${user.userName}"></a>
                   </h4>
                   <small></small>
                   <a href="#" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
@@ -249,7 +216,7 @@
       </div>
     </div>
   </section>
-  <footer>
+  <footer style="margin-left:0;">
     <span>&copy; 2016 - Favorites</span>
     <span class="pull-right">
             沪ICP备11037833号 | 联系邮箱：
@@ -305,7 +272,7 @@
                   }
             });
 		}else{
-		    alert("请先登录或注册");
+		    $('#modal-loginTips').modal('show');
 		}
 	}
 

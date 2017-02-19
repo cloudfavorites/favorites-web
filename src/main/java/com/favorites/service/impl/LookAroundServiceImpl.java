@@ -71,7 +71,8 @@ public class LookAroundServiceImpl implements LookAroundService{
                     "a.id AS id, " +
                     "a.user_name AS userName, " +
                     "a.profile_picture AS profilePicture, " +
-                    "COUNT(user_id) AS num " +
+                    "(SELECT STATUS FROM follow WHERE follow_id = a.id AND user_id = " + userId + ") AS isFollow, " +
+                    "COUNT(b.user_id) AS num " +
                     "FROM user a " +
                     "INNER JOIN collect b ON b.user_id = a.id " +
                     "GROUP BY b.user_id " +
@@ -81,8 +82,7 @@ public class LookAroundServiceImpl implements LookAroundService{
                     "a.id AS id, " +
                     "a.user_name AS userName, " +
                     "a.profile_picture AS profilePicture, " +
-                    "COUNT(user_id) AS num, " +
-                    "(SELECT STATUS FROM follow WHERE follow_id = a.id AND user_id = 10) AS isFollow " +
+                    "COUNT(b.user_id) AS num " +
                     "FROM user a " +
                     "INNER JOIN collect b ON b.user_id = a.id " +
                     "GROUP BY b.user_id " +

@@ -21,7 +21,7 @@
     <link href="index/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 	<style>
-		#portfolio .portfolio-item .portfolio-link .caption .caption-content{ top:36%;}
+		#portfolio .portfolio-item .portfolio-link .caption .caption-content{ top:36%;} .userName{ text-transform:none; }
 		#portfolio .portfolio-item .portfolio-link .caption .caption-content p{ font-size:16px; line-height:24px; margin:24px 16px 0;}
 	</style>
 
@@ -46,17 +46,15 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li class="page-scroll">
+                    <li>
                         <a href="/lookAround/standard/ALL">随便看看</a>
                     </li>
                     <li class="page-scroll">
                         <a href="#about">关于</a>
                     </li>
-                     <li th:if="${user==null}" class="page-scroll">
-                        <a href="/login">登录</a>
-                    </li>
-                    <li th:if="${user!=null}" class="page-scroll">
-                        <a href="/logout">注销</a>
+                    <li>
+                        <a href="/login" th:unless="${user != null}">登录</a>
+                        <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
                     </li>
                 </ul>
             </div>
@@ -92,7 +90,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostCollectUser}+'/0'" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostCollectUser}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -103,7 +101,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostFollowedUser}+'/0'" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostFollowedUser}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -114,7 +112,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostPraisedUser}+'/0'" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostPraisedUser}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -125,7 +123,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostCommentedUser}+'/0'" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostCommentedUser}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -136,7 +134,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostPopularUser}+'/0'" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostPopularUser}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -147,7 +145,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostActiveUser}+'/0'" class="portfolio-link" data-toggle="modal">
+                    <a th:href="'/collector/'+${collector.mostActiveUser}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
