@@ -226,7 +226,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	public void otherCollect(Collect collect) {
 		Collect other=collectRepository.findOne(collect.getId());
 		//收藏别人文章默认给点赞
-		like(collect.getUserId(),other.getId());
+		collectLike(collect.getUserId(),other.getId());
 		if(StringUtils.isNotBlank(collect.getNewFavorites())){
 			collect.setFavoritesId(createfavorites(collect.getNewFavorites(), collect.getUserId()));
 		}else{
@@ -421,8 +421,27 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 		}else if(praise.getUserId().equals(userId)){
 			praiseRepository.delete(praise.getId());
 		}
-		
 	}
 
+	/**
+	 * 收藏文章默认点赞
+	 * @param userId
+	 * @param id
+	 */
+	public void collectLike(Long userId,long id) {
+		Praise praise=praiseRepository.findByUserIdAndCollectId(userId, id);
+		if(praise==null){
+			Praise newPraise=new Praise();
+			newPraise.setUserId(userId);
+			newPraise.setCollectId(id);
+			newPraise.setCreateTime(DateUtils.getCurrentTime());
+			praiseRepository.save(newPraise);
+			// 保存消息通知
+			Collect collect = collectRepository.findOne(id);
+			if(null != collect){
+				noticeService.saveNotice(String.valueOf(id), "praise", collect.getUserId(), String.valueOf(newPraise.getId()));
+			}
+		}
+	}
 
 }
