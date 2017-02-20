@@ -105,6 +105,10 @@ public class IndexController extends BaseController{
 		List<UserIsFollow> fiveUsers = lookAroundService.queryFiveUser(this.getUserId());
 
 		collects =lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		User user = super.getUser();
+		if(null != user){
+			model.addAttribute("user",user);
+		}
 		model.addAttribute("fiveCollects", fivecollects);
 		model.addAttribute("fiveUsers", fiveUsers);
 		model.addAttribute("collects", collects);
@@ -134,6 +138,10 @@ public class IndexController extends BaseController{
 		List<UserIsFollow> fiveUsers = lookAroundService.queryFiveUser(this.getUserId());
 
 		collects =lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		User user = super.getUser();
+		if(null != user){
+			model.addAttribute("user",user);
+		}
 		model.addAttribute("fiveCollects", fivecollects);
 		model.addAttribute("fiveUsers", fiveUsers);
 		model.addAttribute("collects", collects);
