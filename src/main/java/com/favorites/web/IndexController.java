@@ -131,7 +131,7 @@ public class IndexController extends BaseController{
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
 		Pageable pageable = new PageRequest(page, size, sort);
 		model.addAttribute("category", category);
-		model.addAttribute("type", "explore");
+		model.addAttribute("type", "lookAround");
 		Favorites favorites = new Favorites();
 		List<CollectSummary> collects = null;
 		List<CollectSummary> fivecollects = lookAroundService.scrollFiveCollect();
