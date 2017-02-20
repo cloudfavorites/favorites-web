@@ -10,42 +10,39 @@
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
 <script th:src="@{/js/comm.js}" ></script>
+<!-- Theme CSS -->
+<link href="../../index/css/freelancer.min.css" rel="stylesheet" />
 <div th:replace="fragments/alert :: alert">alert</div>
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+      </button>
+      <a class="navbar-brand" href="/index">云收藏</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden">
+          <a href="#page-top"></a>
+        </li>
+        <li>
+          <a href="/lookAround/standard/ALL">随便看看</a>
+        </li>
+        <li>
+          <a href="/login" th:unless="${user != null}">登录</a>
+          <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
 <div class="wrapper">
-  <header class="topnavbar-wrapper">
-    <nav role="navigation" class="navbar topnavbar">
-      <div class="navbar-header">
-        <a href="/" class="navbar-brand">
-          <div class="brand-logo">
-            <img th:src="@{/img/logo.png}" alt="App Logo" class="img-responsive"></img></div>
-          <div class="brand-logo-collapsed">
-            <img th:src="@{/img/logo-single.png}" alt="App Logo" class="img-responsive"></img></div>
-        </a>
-      </div>
-      <div class="nav-wrapper">
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#" data-search-open="" title="搜索">
-              <em class="icon-magnifier"></em>
-            </a>
-          </li>
-          <li class="page-scroll">
-            <a href="/login">登录</a>
-          </li>
-          <li class="page-scroll">
-            <a href="/register">注册</a>
-          </li>
-        </ul>
-      </div>
-      <form role="search" action="search.html" class="navbar-form">
-        <div class="form-group has-feedback">
-          <input id="searchKey" type="text" placeholder="输入并且按回车确定..." class="form-control"></input>
-          <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
-        </div>
-        <button type="submit" class="hidden btn btn-default">提交</button>
-      </form>
-    </nav>
-  </header>
   <section style="margin-left:0;">
     <div class="content-wrapper">
       <div class="row">
@@ -441,7 +438,7 @@
                     <a th:href="'/collector/' + ${user.id} + '/0'" th:text="${user.userName}"></a>
                   </h4>
                   <small></small>
-                  <a href="#" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
+                  <a href="#" th:if="${userId != user.id}" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
                      onclick="changeFollow(this.id)"></a>
                 </div>
               </li>
