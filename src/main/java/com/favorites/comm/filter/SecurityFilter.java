@@ -41,6 +41,7 @@ public class SecurityFilter implements Filter {
 	public void doFilter(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
+
 		HttpServletRequest request = (HttpServletRequest) srequest;
 		String uri = request.getRequestURI();
 		if (request.getSession().getAttribute(Const.LOGIN_SESSION_KEY) == null) {
@@ -76,7 +77,7 @@ public class SecurityFilter implements Filter {
 							logger.info("userId :" + user.getId());
 							request.getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 							String referer = this.getRef(request);
-							if(referer.indexOf("/collect?") >= 0){
+							if(referer.indexOf("/collect?") >= 0 || referer.indexOf("/collect/detail/") >= 0){
 								filterChain.doFilter(srequest, sresponse);
 								return;
 							}else{
@@ -92,10 +93,10 @@ public class SecurityFilter implements Filter {
 					String referer = this.getRef(request);
 					logger.debug("security filter, deney, " + request.getRequestURI());
 					String html = "";
-					if(0 > referer.indexOf("/collect?")){
-						html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
-					}else{
+					if(referer.contains("/collect?") || referer.contains("/collect/detail/")){
 						html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
+					}else{
+						html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
 					}
 					html = html.replace("_BP_", Const.BASE_PATH);
 					sresponse.getWriter().write(html);
@@ -105,10 +106,10 @@ public class SecurityFilter implements Filter {
 	        	String referer = this.getRef(request);
 	        	logger.debug("security filter, deney, " + request.getRequestURI());
 				String html = "";
-				if(0 > referer.indexOf("/collect?")){
-					html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
-				}else{
+				if(referer.contains("/collect?") || referer.contains("/collect/detail/")){
 					html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
+				}else{
+					html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
 				}
 				html = html.replace("_BP_", Const.BASE_PATH);
 				sresponse.getWriter().write(html);
@@ -158,7 +159,8 @@ public class SecurityFilter implements Filter {
                 || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
                 || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
                 || url.contains("/newPassword")||url.contains("/user/setNewPassword")
-				|| url.contains("/collect")||url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
+				|| (url.contains("/collect") && !url.contains("/collect/detail/"))
+				|| url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
 				|| url.startsWith("/lookAround/standard/")
 				|| url.startsWith("/lookAround/simple/")
 				|| url.startsWith("/user/")
