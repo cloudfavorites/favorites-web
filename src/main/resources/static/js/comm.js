@@ -135,6 +135,11 @@ function fixUrl(url, params){
 function handleServerResponse() {
 	if (xmlhttp.readyState == 4) {
 		//document.getElementById("mainSection").innerHTML =xmlhttp.responseText;
-		$("#content").html(xmlhttp.responseText);
+		var text = xmlhttp.responseText;
+		if(text.indexOf("<title>Favorites error Page</title>") >= 0){
+			window.location.href="/error.html";
+		}else{
+			$("#content").html(xmlhttp.responseText);
+		}
 	}
 }
