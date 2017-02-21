@@ -10,6 +10,8 @@
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
 <script th:src="@{/js/comm.js}" ></script>
+<script th:src="@{/index/js/freelancer.min.js}"></script>
+
 <!-- Theme CSS -->
 <link href="../../index/css/freelancer.min.css" rel="stylesheet" />
 <div th:replace="fragments/alert :: alert">alert</div>
@@ -40,6 +42,19 @@
     </div>
     <!-- /.navbar-collapse -->
   </div>
+  <script>
+    (function($) {
+      $('body').scrollspy({
+          target: '.navbar-fixed-top',
+          offset: 51
+      });
+      $('#mainNav').affix({
+          offset: {
+              top: 100
+          }
+      })
+    })(jQuery);
+  </script>
   <!-- /.container-fluid -->
 </nav>
 <div class="wrapper">
@@ -309,7 +324,7 @@
 
                             </if>
 
-                            <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
+                            <a th:id="'like' + ${collect.id}" class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
 
                               <span class="fa fa-thumbs-o-up"></span>
 
@@ -323,7 +338,7 @@
 
                             </if>
 
-                            <a th:id="'unlike' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
+                            <a th:id="'unlike' + ${collect.id}" class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
 
                               <span class="fa fa-thumbs-up"></span>
 
@@ -337,7 +352,7 @@
 
                             |
 
-                            <a  class="sharing-action-button btn-comment" href="javascript:void(0);" th:onclick="'switchComment(' + ${collect.id} + ');'" >
+                            <a class="sharing-action-button btn-comment" href="javascript:void(0);" th:onclick="'switchComment(' + ${collect.id} + ');'" >
 
                               <span class="fa fa-comment-o"></span>
 
@@ -351,7 +366,7 @@
 
                             </if>
 
-                            <a class="sharing-action-button"  th:if="${userId != collect.userId}"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
+                            <a th:if="${userId != collect.userId}" class="sharing-action-button" th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
 
                               <span class="fa fa-spoon"></span>
 

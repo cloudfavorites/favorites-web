@@ -9,6 +9,7 @@
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
+<script th:src="@{/index/js/freelancer.min.js}"></script>
 <!-- Theme CSS -->
 <link href="../../index/css/freelancer.min.css" rel="stylesheet" />
 <div th:replace="fragments/alert :: alert">alert</div>
@@ -40,6 +41,19 @@
       </div>
       <!-- /.navbar-collapse -->
     </div>
+    <script>
+    (function($) {
+      $('body').scrollspy({
+          target: '.navbar-fixed-top',
+          offset: 51
+      });
+      $('#mainNav').affix({
+          offset: {
+              top: 100
+          }
+      })
+    })(jQuery);
+  </script>
     <!-- /.container-fluid -->
   </nav>
   <section style="margin-left:0;">
