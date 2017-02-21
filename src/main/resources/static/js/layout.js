@@ -222,7 +222,13 @@ function historyBack(){
 function userHandleServerResponse() {
 	if (userXmlhttp.readyState == 4) {		
 		//document.getElementById("mainSection").innerHTML =xmlhttp.responseText;
-		$("#usercontent").html(userXmlhttp.responseText);
+		var text = userXmlhttp.responseText;
+		if(text.indexOf("<title>Favorites error Page</title>") >= 0){
+			window.location.href="/error.html";
+		}else{
+			$("#usercontent").html(userXmlhttp.responseText);
+		}
+
 	}
 }
 
