@@ -41,7 +41,6 @@ public class SecurityFilter implements Filter {
 	public void doFilter(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-
 		HttpServletRequest request = (HttpServletRequest) srequest;
 		String uri = request.getRequestURI();
 		if (request.getSession().getAttribute(Const.LOGIN_SESSION_KEY) == null) {

@@ -158,6 +158,7 @@ function delLookRecordAll(){
 
 function getCollect(id,user){
     var userId = document.getElementById("userId").value;
+
     if(userId != "0"){
         $.ajax({
             async: false,
