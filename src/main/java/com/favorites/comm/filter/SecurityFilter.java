@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class SecurityFilter implements Filter {
 
-  protected Logger logger = Logger.getLogger(this.getClass());
+	protected Logger logger = Logger.getLogger(this.getClass());
 	private static Set<String> GreenUrlSet = new HashSet<String>();
 
 	@Autowired
@@ -36,7 +36,7 @@ public class SecurityFilter implements Filter {
 		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
 		GreenUrlSet.add(Const.BASE_PATH + "/tool");
 	}
-	
+
 	@Override
 	public void doFilter(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)
 			throws IOException, ServletException {
@@ -46,11 +46,11 @@ public class SecurityFilter implements Filter {
 		String uri = request.getRequestURI();
 		if (request.getSession().getAttribute(Const.LOGIN_SESSION_KEY) == null) {
 			Cookie[] cookies = request.getCookies();
-		    if (containsSuffix(uri) || GreenUrlSet.contains(uri) || containsKey(uri)) {
-	            logger.debug("don't check  url , " + request.getRequestURI());
-	            filterChain.doFilter(srequest, sresponse);
-	            return;
-	        }else if (cookies!=null) {
+			if (containsSuffix(uri) || GreenUrlSet.contains(uri) || containsKey(uri)) {
+				logger.debug("don't check  url , " + request.getRequestURI());
+				filterChain.doFilter(srequest, sresponse);
+				return;
+			}else if (cookies!=null) {
 				boolean flag = true;
 				for (int i = 0; i < cookies.length; i++) {
 					Cookie cookie = cookies[i];
@@ -102,9 +102,9 @@ public class SecurityFilter implements Filter {
 					sresponse.getWriter().write(html);
 				}
 			}else{
-	        	//跳转到登陆页面
-	        	String referer = this.getRef(request);
-	        	logger.debug("security filter, deney, " + request.getRequestURI());
+				//跳转到登陆页面
+				String referer = this.getRef(request);
+				logger.debug("security filter, deney, " + request.getRequestURI());
 				String html = "";
 				if(referer.contains("/collect?") || referer.contains("/collect/detail/")){
 					html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
@@ -113,52 +113,52 @@ public class SecurityFilter implements Filter {
 				}
 				html = html.replace("_BP_", Const.BASE_PATH);
 				sresponse.getWriter().write(html);
-	        }
+			}
 		}else{
 			filterChain.doFilter(srequest, sresponse);
 		}
 	}
-	
-	
-	
-    /**
-     * @param url
-     * @return
-     * @author neo
-     * @date 2016-5-4
-     */
-    private boolean containsSuffix(String url) {
-        if (url.endsWith(".js")
-                || url.endsWith(".css")
-                || url.endsWith(".jpg")
-                || url.endsWith(".gif")
-                || url.endsWith(".png")
-                || url.endsWith(".html")
-                || url.endsWith(".eot")
-                || url.endsWith(".svg")
-                || url.endsWith(".ttf")
-                || url.endsWith(".woff")
-                || url.endsWith(".ico")
-                || url.endsWith(".woff2")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     * @param url
-     * @return
-     * @author neo
-     * @date 2016-5-4
-     */
-    private boolean containsKey(String url) {
+
+
+
+	/**
+	 * @param url
+	 * @return
+	 * @author neo
+	 * @date 2016-5-4
+	 */
+	private boolean containsSuffix(String url) {
+		if (url.endsWith(".js")
+				|| url.endsWith(".css")
+				|| url.endsWith(".jpg")
+				|| url.endsWith(".gif")
+				|| url.endsWith(".png")
+				|| url.endsWith(".html")
+				|| url.endsWith(".eot")
+				|| url.endsWith(".svg")
+				|| url.endsWith(".ttf")
+				|| url.endsWith(".woff")
+				|| url.endsWith(".ico")
+				|| url.endsWith(".woff2")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param url
+	 * @return
+	 * @author neo
+	 * @date 2016-5-4
+	 */
+	private boolean containsKey(String url) {
 
 		if (url.contains("/media/")
-                || url.contains("/login")||url.contains("/user/login")
-                || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
-                || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
-                || url.contains("/newPassword")||url.contains("/user/setNewPassword")
+				|| url.contains("/login")||url.contains("/user/login")
+				|| url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
+				|| url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
+				|| url.contains("/newPassword")||url.contains("/user/setNewPassword")
 				|| (url.contains("/collector") && !url.contains("/collect/detail/"))
 				|| url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
 				|| url.startsWith("/lookAround/standard/")
@@ -167,31 +167,31 @@ public class SecurityFilter implements Filter {
 				|| url.startsWith("/standard/")
 				|| url.startsWith("/collect/standard/lookAround/")
 				|| url.startsWith("/collect/simple/lookAround/")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
-	
+
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
-	
-	public  String codeToString(String str) {
-        String strString = str;
-        try {
-            byte tempB[] = strString.getBytes("ISO-8859-1");
-            strString = new String(tempB);
-            return strString;
-        } catch (Exception e) {
-            return strString;
-        }
-    }
 
-    public String getRef(HttpServletRequest request){
+	public  String codeToString(String str) {
+		String strString = str;
+		try {
+			byte tempB[] = strString.getBytes("ISO-8859-1");
+			strString = new String(tempB);
+			return strString;
+		} catch (Exception e) {
+			return strString;
+		}
+	}
+
+	public String getRef(HttpServletRequest request){
 		String referer = "";
 		String param = this.codeToString(request.getQueryString());
 		if(StringUtils.isNotBlank(request.getContextPath())){
@@ -207,7 +207,7 @@ public class SecurityFilter implements Filter {
 		return referer;
 	}
 
-    public String getUserId(String value){
+	public String getUserId(String value){
 		try {
 			String userId = Des3EncryptionUtil.decode(Const.DES3_KEY,value);
 			userId = userId.substring(0,userId.indexOf(Const.PASSWORD_KEY));
