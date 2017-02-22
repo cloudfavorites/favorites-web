@@ -86,7 +86,7 @@ public class ScheduledTasks {
 	/**
 	 * 回收站定时
 	 */
-	@Scheduled(cron="0 50 15 * * ?")
+	@Scheduled(cron="11 31 1 * * ?")
 	@LoggerManage(description="自动清除不能访问文章定时")
 	public void clearInvalidCollect() {
 		//查询设置自动清除文章的用户
