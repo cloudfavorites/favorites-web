@@ -1,13 +1,11 @@
 package com.favorites.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.favorites.domain.Config;
 import com.favorites.repository.ConfigRepository;
 import com.favorites.service.ConfigService;
 import com.favorites.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service("configService")
 public class ConfigServiceImpl implements ConfigService{
@@ -27,6 +25,7 @@ public class ConfigServiceImpl implements ConfigService{
 		config.setDefaultModel("simple");
 		config.setDefaultFavorties(favoritesId);
 		config.setDefaultCollectType("public");
+		config.setClearCollect("manual");
 		config.setCreateTime(DateUtils.getCurrentTime());
 		config.setLastModifyTime(DateUtils.getCurrentTime());
 		configRepository.save(config);
@@ -57,6 +56,13 @@ public class ConfigServiceImpl implements ConfigService{
 			configRepository.updateModelTypeById(id, value, DateUtils.getCurrentTime());
 		}else if("defaultFavorites".equals(type)){
 			configRepository.updateFavoritesById(id, defaultFavorites, DateUtils.getCurrentTime());
+		}else if("defaultClear".equals(type)){
+			if("auto".equals(config.getClearCollect())){
+				value = "manual";
+			}else{
+				value = "auto";
+			}
+			configRepository.updateClearCollectById(id, value, DateUtils.getCurrentTime());
 		}
 		
 	}

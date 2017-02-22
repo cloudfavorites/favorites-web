@@ -1,12 +1,7 @@
 package com.favorites.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
 
 /**
  * 属性设置
@@ -33,13 +28,25 @@ public class Config extends Entitys implements Serializable {
 	private Long createTime;
 	@Column(nullable = false)
 	private Long lastModifyTime;
+	@Column(nullable = false)
+	private String clearCollect;
 	@Transient
 	private String collectTypeName;
 	@Transient
 	private String modelName;
+	@Transient
+	private String clearName;
 
 	public Config() {
 		super();
+	}
+
+	public String getClearCollect() {
+		return clearCollect;
+	}
+
+	public void setClearCollect(String clearCollect) {
+		this.clearCollect = clearCollect;
 	}
 
 	public Long getId() {
@@ -112,6 +119,18 @@ public class Config extends Entitys implements Serializable {
 
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+
+	public String getClearName() {
+		if(clearCollect!=null&&clearCollect.equals("auto")){
+			return "自动";
+		}else{
+			return "手动";
+		}
+	}
+
+	public void setClearName(String clearName) {
+		this.clearName = clearName;
 	}
 
 }

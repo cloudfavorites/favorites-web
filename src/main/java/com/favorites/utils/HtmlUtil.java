@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -296,6 +297,34 @@ public class HtmlUtil {
 				e.printStackTrace();
 			}
 			return null;
+	}
+
+	/**
+	 * 判断链接是否失效
+	 * @param url
+	 * @return
+	 */
+	public static boolean isConnect(String url){
+		HttpURLConnection connection;
+		int counts = 0;
+		boolean flag = false;
+		if (url == null || url.length() <= 0) {
+			return flag;
+		}
+		while (counts < 3) {
+			try {
+				connection = (HttpURLConnection) new URL(url).openConnection();
+				int state = connection.getResponseCode();
+				if (state == 200) {
+					flag = true;
+				}
+				break;
+			} catch (Exception e) {
+				counts++;
+				continue;
+			}
+		}
+		return flag;
 	}
 
 }

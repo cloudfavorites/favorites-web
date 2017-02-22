@@ -99,9 +99,11 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	@Query("update Collect c set c.isDelete = ?1,c.lastModifyTime = ?2 where c.id = ?3")
 	int modifyIsDeleteById(IsDelete isDelete,Long lastModifyTime,Long id);
 
-
 	@Transactional
 	@Modifying
 	@Query("update Collect c set c.logoUrl = ?1,c.lastModifyTime = ?2 where c.url = ?3")
 	int updateLogoUrlByUrl(String logoUrl,Long lastModifyTime,String url);
+
+	List<Collect> findByUserIdAndIsDelete(Long userId,IsDelete isDelete);
+
 }

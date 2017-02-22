@@ -35,6 +35,7 @@ function loadConfig(){
 			$("#defaultCollectType").html("");
 			$("#defaultModel").html("");
 			$("#defaultFavorites").html("");
+            $("#defaultClear").html("");
 			initConfigDatas(config);
 			//设置默认选中收藏夹
 			obj = document.getElementById("layoutFavoritesName");
@@ -128,6 +129,7 @@ function initFavorites(favorites){
 function initConfigDatas(config){
 	$("#defaultCollectType").append("<strong>默认"+config.collectTypeName+"收藏（点击切换）</strong>")
 	$("#defaultModel").append("<strong>收藏时显示" +config.modelName+"模式</strong>");
+    $("#defaultClear").append("<strong>"+config.clearName+"清除无效文章</strong>");
 }
 
 function initFollows(follows){

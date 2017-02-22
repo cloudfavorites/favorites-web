@@ -2,12 +2,18 @@ package com.favorites.repository;
 
 import javax.transaction.Transactional;
 
+import com.favorites.domain.enums.CollectType;
+import com.favorites.domain.view.CollectView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.favorites.domain.User;
+
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -49,4 +55,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User set backgroundPicture=:backgroundPicture where id=:id")
     int setBackgroundPicture(@Param("backgroundPicture") String backgroundPicture, @Param("id") Long id);
+
+    @Query("select u.id as id from User u,Config c where u.id=c.userId and c.clearCollect='auto'")
+    List<Long> findAutoClearCollectUsers();
 }
