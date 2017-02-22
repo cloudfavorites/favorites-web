@@ -157,59 +157,65 @@ function delLookRecordAll(){
 
 
 function getCollect(id,user){
-    $.ajax({
-        async: false,
-        type: 'POST',
-        dataType: 'json',
-        data:"",
-        url: '/collect/detail/'+id,
-        error : function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log(XMLHttpRequest);
-            console.log(textStatus);
-            console.log(errorThrown);
-        },
-        success: function(collect){
-            $("#ctitle").val(collect.title);
-            $("#clogoUrl").val(collect.logoUrl);
-            $("#cremark").val(collect.remark);
-            $("#cdescription").val(collect.description);
-            $("#ccollectId").val(collect.id);
-            $("#curl").val(collect.url);
-            $('#modal-changeSharing').modal('show');
-            if("private" == gconfig.defaultCollectType){
-                $("#type").prop('checked',true);
-            }else{
-                $("#type").prop('checked',false);
-            }
-            if("simple"==gconfig.defaultModel){
-                $("#show2").hide();
-                $("#show1").show();
-                $("#model2").hide();
-                $("#model1").show();
-            }else{
-                $("#show1").hide();
-                $("#show2").show();
-                $("#model1").hide();
-                $("#model2").show();
-            }
-            if("usercontent" == user){
-                if($("#userId").val() == $("#loginUser").val()){
-                    $("#favoritesSelect").val(collect.favoritesId);
+    var userId = document.getElementById("userId").value;
+
+    if(userId != "0"){
+        $.ajax({
+            async: false,
+            type: 'POST',
+            dataType: 'json',
+            data:"",
+            url: '/collect/detail/'+id,
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            success: function(collect){
+                $("#ctitle").val(collect.title);
+                $("#clogoUrl").val(collect.logoUrl);
+                $("#cremark").val(collect.remark);
+                $("#cdescription").val(collect.description);
+                $("#ccollectId").val(collect.id);
+                $("#curl").val(collect.url);
+                $('#modal-changeSharing').modal('show');
+                if("private" == gconfig.defaultCollectType){
+                    $("#type").prop('checked',true);
                 }else{
-                    $("#favoritesSelect").val(gconfig.defaultFavorties);
+                    $("#type").prop('checked',false);
                 }
-            }else{
-                if($("#userId").val() == collect.userId){
-                    $("#favoritesSelect").val(collect.favoritesId);
+                if("simple"==gconfig.defaultModel){
+                    $("#show2").hide();
+                    $("#show1").show();
+                    $("#model2").hide();
+                    $("#model1").show();
                 }else{
-                    $("#favoritesSelect").val(gconfig.defaultFavorties);
+                    $("#show1").hide();
+                    $("#show2").show();
+                    $("#model1").hide();
+                    $("#model2").show();
                 }
+                if("usercontent" == user){
+                    if($("#userId").val() == $("#loginUser").val()){
+                        $("#favoritesSelect").val(collect.favoritesId);
+                    }else{
+                        $("#favoritesSelect").val(gconfig.defaultFavorties);
+                    }
+                }else{
+                    if($("#userId").val() == collect.userId){
+                        $("#favoritesSelect").val(collect.favoritesId);
+                    }else{
+                        $("#favoritesSelect").val(gconfig.defaultFavorties);
+                    }
+                }
+                $("#newFavorites").val("");
+                $("#userCheck").val(user);
+                loadFollows();
             }
-            $("#newFavorites").val("");
-            $("#userCheck").val(user);
-            loadFollows();
-        }
-    });
+        });
+    }else{
+    	window.location.href="/login";
+    }
 }
 
 
@@ -274,7 +280,7 @@ function changeLike(id){
 			}
 		});
 	}else{
-	    $('#modal-loginTips').modal('show');
+	    window.location.href="/login";
 	}
 }
 
@@ -308,7 +314,7 @@ function switchComment(collectId){
               showComment(collectId);
          }
      }else{
-         $('#modal-loginTips').modal('show');
+         window.location.href="/login";
      }
 }
 

@@ -22,19 +22,19 @@ public class LoggerAdvice {
 	
 	private Logger logger = Logger.getLogger(this.getClass());
 
-	@Before("within(com.favorites.web..*) && @annotation(loggerManage)")
+	@Before("within(com.favorite..*) && @annotation(loggerManage)")
 	public void addBeforeLogger(JoinPoint joinPoint, LoggerManage loggerManage) {
 		logger.info("执行 " + loggerManage.description() + " 开始");
 		logger.info(joinPoint.getSignature().toString());
 		logger.info(parseParames(joinPoint.getArgs()));
 	}
 	
-	@AfterReturning("within(com.favorites.web..*) && @annotation(loggerManage)")
+	@AfterReturning("within(com.favorites..*) && @annotation(loggerManage)")
 	public void addAfterReturningLogger(JoinPoint joinPoint, LoggerManage loggerManage) {
 		logger.info("执行 " + loggerManage.description() + " 结束");
 	}
 	
-	@AfterThrowing(pointcut = "within(com.favorites.web..*) && @annotation(loggerManage)", throwing = "ex")
+	@AfterThrowing(pointcut = "within(com.favorites..*) && @annotation(loggerManage)", throwing = "ex")
 	public void addAfterThrowingLogger(JoinPoint joinPoint, LoggerManage loggerManage, Exception ex) {
 		logger.error("执行 " + loggerManage.description() + " 异常", ex);
 	}
