@@ -48,6 +48,9 @@ public class SecurityFilter implements Filter {
 			Cookie[] cookies = request.getCookies();
 			if (containsSuffix(uri) || GreenUrlSet.contains(uri) || containsKey(uri)) {
 				logger.debug("don't check  url , " + request.getRequestURI());
+				if(uri.startsWith("/lookAround/standard/") || uri.startsWith("/lookAround/simple/")){
+					this.getRef(request);
+				}
 				filterChain.doFilter(srequest, sresponse);
 				return;
 			}else if (cookies!=null) {
@@ -77,7 +80,8 @@ public class SecurityFilter implements Filter {
 							logger.info("userId :" + user.getId());
 							request.getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 							String referer = this.getRef(request);
-							if(referer.indexOf("/collect?") >= 0 || referer.indexOf("/collect/detail/") >= 0){
+							if(referer.indexOf("/collect?") >= 0 || referer.indexOf("/lookAround/standard/") >= 0
+									|| referer.indexOf("/lookAround/simple/") >= 0){
 								filterChain.doFilter(srequest, sresponse);
 								return;
 							}else{
@@ -93,7 +97,8 @@ public class SecurityFilter implements Filter {
 					String referer = this.getRef(request);
 					logger.debug("security filter, deney, " + request.getRequestURI());
 					String html = "";
-					if(referer.contains("/collect?") || referer.contains("/collect/detail/")){
+					if(referer.contains("/collect?") || referer.contains("/lookAround/standard/")
+							|| referer.contains("/lookAround/simple/")){
 						html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
 					}else{
 						html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
@@ -106,7 +111,8 @@ public class SecurityFilter implements Filter {
 				String referer = this.getRef(request);
 				logger.debug("security filter, deney, " + request.getRequestURI());
 				String html = "";
-				if(referer.contains("/collect?") || referer.contains("/collect/detail/")){
+				if(referer.contains("/collect?") || referer.contains("/lookAround/standard/")
+						|| referer.contains("/lookAround/simple/")){
 					html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
 				}else{
 					html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
