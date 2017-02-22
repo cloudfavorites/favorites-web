@@ -159,7 +159,7 @@ public class SecurityFilter implements Filter {
                 || url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
                 || url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
                 || url.contains("/newPassword")||url.contains("/user/setNewPassword")
-				|| (url.contains("/collect") && !url.contains("/collect/detail/"))
+				|| (url.contains("/collector") && !url.contains("/collect/detail/"))
 				|| url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
 				|| url.startsWith("/lookAround/standard/")
 				|| url.startsWith("/lookAround/simple/")
