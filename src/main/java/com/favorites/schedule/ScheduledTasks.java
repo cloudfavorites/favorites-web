@@ -99,10 +99,11 @@ public class ScheduledTasks {
 				for(Collect collect:collectList){
 					//判断链接是否有效
 					boolean bl = HtmlUtil.isConnect(collect.getUrl());
-					//链接无效则删除
+					//链接无效则放入回收站
 					if(bl==false){
-						collectRespository.delete(collect.getId());
-						logger.info("用户ID:"+collect.getUserId()+",文章链接:"+collect.getUrl()+"无效，已被删除");
+						collectRespository.modifyIsDeleteById(IsDelete.YES,DateUtils.getCurrentTime(),collect.getId());
+						favoritesRespository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
+						logger.info("文章id:"+collect.getId()+"无效，已被放入回收站");
 					}
 				}
 			}catch (Exception e){
