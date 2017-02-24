@@ -258,7 +258,7 @@ public class IndexController extends BaseController{
      * @param size
      * @return
      */
-    @RequestMapping(value="/collector/{userId}/{favoritesId}")
+    @RequestMapping(value="/collector/{userId}/{favoritesId:[0-9]*}")
     @LoggerManage(description="首页收藏家个人首页")
     public String collectorPageShow(Model model, @PathVariable("userId") Long userId, @PathVariable("favoritesId") Long favoritesId, @RequestParam(value = "page", defaultValue = "0") Integer page,
                                  @RequestParam(value = "size", defaultValue = "15") Integer size){
