@@ -1,10 +1,9 @@
 package com.favorites.util.html;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+import com.favorites.Application;
+import com.favorites.comm.Const;
+import com.favorites.comm.config.Config;
+import com.favorites.schedule.ScheduledTasks;
+import com.favorites.utils.URLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -16,10 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.favorites.Application;
-import com.favorites.comm.Const;
-import com.favorites.comm.config.Config;
-import com.favorites.utils.URLUtil;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,12 +29,19 @@ public class HtmlUtilTest {
    private static Logger logger = Logger.getLogger(HtmlUtilTest.class);
    @Autowired
    private static Config config;
+   @Autowired
+	ScheduledTasks tasks;
 
 	   
    @Test
    public void test() throws Exception {
-	   String imgsrc="http://insights.thoughtworkers.org/wp-content/uploads/2016/08/%E5%A4%B4%E5%9B%BE-1.jpg";
-	   downImage(imgsrc);
+//	   String imgsrc="http://insights.thoughtworkers.org/wp-content/uploads/2016/08/%E5%A4%B4%E5%9B%BE-1.jpg";
+//	   downImage(imgsrc);
+//	   String url="https://support.microsoft.com/zh-cn/products/windows#!/zh-cn/products/windows?os=windows-7";
+//	   boolean b = HtmlUtil.isConnect(url);
+//	   System.out.println("========================="+b);
+
+	   tasks.clearInvalidCollect();
    }
    
    

@@ -41,7 +41,6 @@ public class SecurityFilter implements Filter {
 	public void doFilter(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-
 		HttpServletRequest request = (HttpServletRequest) srequest;
 		String uri = request.getRequestURI();
 		if (request.getSession().getAttribute(Const.LOGIN_SESSION_KEY) == null) {
@@ -166,6 +165,7 @@ public class SecurityFilter implements Filter {
 				|| url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
 				|| url.contains("/newPassword")||url.contains("/user/setNewPassword")
 				|| (url.contains("/collector") && !url.contains("/collect/detail/"))
+				|| url.contains("/collect/standard/")||url.contains("/collect/simple/")
 				|| url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
 				|| url.startsWith("/lookAround/standard/")
 				|| url.startsWith("/lookAround/simple/")
