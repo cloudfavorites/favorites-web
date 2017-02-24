@@ -2,7 +2,7 @@ package com.favorites.util.html;
 import com.favorites.Application;
 import com.favorites.comm.Const;
 import com.favorites.comm.config.Config;
-import com.favorites.utils.HtmlUtil;
+import com.favorites.schedule.ScheduledTasks;
 import com.favorites.utils.URLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,15 +29,19 @@ public class HtmlUtilTest {
    private static Logger logger = Logger.getLogger(HtmlUtilTest.class);
    @Autowired
    private static Config config;
+   @Autowired
+	ScheduledTasks tasks;
 
 	   
    @Test
    public void test() throws Exception {
 //	   String imgsrc="http://insights.thoughtworkers.org/wp-content/uploads/2016/08/%E5%A4%B4%E5%9B%BE-1.jpg";
 //	   downImage(imgsrc);
-	   String url="https://assets.onestore.ms/cdnfiles/external/uhf/long/9a49a7e9d8e881327e81b9eb43dabc01de70a9bb/images/microsoft-gray.png";
-	   boolean b = HtmlUtil.isConnect(url);
-	   System.out.println("========================="+b);
+//	   String url="https://support.microsoft.com/zh-cn/products/windows#!/zh-cn/products/windows?os=windows-7";
+//	   boolean b = HtmlUtil.isConnect(url);
+//	   System.out.println("========================="+b);
+
+	   tasks.clearInvalidCollect();
    }
    
    

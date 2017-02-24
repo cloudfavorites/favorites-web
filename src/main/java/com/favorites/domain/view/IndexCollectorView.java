@@ -1,5 +1,7 @@
 package com.favorites.domain.view;
 
+import com.favorites.domain.User;
+
 /**
  * @Description:
  * @Auth: yuyang
@@ -8,63 +10,63 @@ package com.favorites.domain.view;
  **/
 public class IndexCollectorView {
     //收藏文章最多的用户
-    private Long mostCollectUser;
+    private User mostCollectUser;
     //被关注最多的用户
-    private Long mostFollowedUser;
+    private User mostFollowedUser;
     //文章被赞最多的用户
-    private Long mostPraisedUser;
+    private User mostPraisedUser;
     //文章被评论最多的用户
-    private Long mostCommentedUser;
+    private User mostCommentedUser;
     //最受欢迎的用户
-    private Long mostPopularUser;
+    private User mostPopularUser;
     //近一个月最活跃用户
-    private Long mostActiveUser;
+    private User mostActiveUser;
 
-    public Long getMostCollectUser() {
+    public User getMostCollectUser() {
         return mostCollectUser;
     }
 
-    public void setMostCollectUser(Long mostCollectUser) {
+    public void setMostCollectUser(User mostCollectUser) {
         this.mostCollectUser = mostCollectUser;
     }
 
-    public Long getMostFollowedUser() {
+    public User getMostFollowedUser() {
         return mostFollowedUser;
     }
 
-    public void setMostFollowedUser(Long mostFollowedUser) {
+    public void setMostFollowedUser(User mostFollowedUser) {
         this.mostFollowedUser = mostFollowedUser;
     }
 
-    public Long getMostPraisedUser() {
+    public User getMostPraisedUser() {
         return mostPraisedUser;
     }
 
-    public void setMostPraisedUser(Long mostPraisedUser) {
+    public void setMostPraisedUser(User mostPraisedUser) {
         this.mostPraisedUser = mostPraisedUser;
     }
 
-    public Long getMostCommentedUser() {
+    public User getMostCommentedUser() {
         return mostCommentedUser;
     }
 
-    public void setMostCommentedUser(Long mostCommentedUser) {
+    public void setMostCommentedUser(User mostCommentedUser) {
         this.mostCommentedUser = mostCommentedUser;
     }
 
-    public Long getMostPopularUser() {
+    public User getMostPopularUser() {
         return mostPopularUser;
     }
 
-    public void setMostPopularUser(Long mostPopularUser) {
+    public void setMostPopularUser(User mostPopularUser) {
         this.mostPopularUser = mostPopularUser;
     }
 
-    public Long getMostActiveUser() {
+    public User getMostActiveUser() {
         return mostActiveUser;
     }
 
-    public void setMostActiveUser(Long mostActiveUser) {
+    public void setMostActiveUser(User mostActiveUser) {
         this.mostActiveUser = mostActiveUser;
     }
 }

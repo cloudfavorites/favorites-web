@@ -311,7 +311,7 @@ public class HtmlUtil {
 		if (url == null || url.length() <= 0) {
 			return flag;
 		}
-		while (counts < 3) {
+		while (counts < 5) {
 			try {
 				connection = (HttpURLConnection) new URL(url).openConnection();
 				int state = connection.getResponseCode();

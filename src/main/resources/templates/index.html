@@ -20,12 +20,19 @@
     <!-- Custom Fonts -->
     <link href="index/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
-	<style>
-	    p{font-size:20px}p.small{font-size:16px}
-		#portfolio .portfolio-item .portfolio-link .caption .caption-content{ top:36%;}
-		.userName{ text-transform:none; }
-		#portfolio .portfolio-item .portfolio-link .caption .caption-content p{ font-size:16px; line-height:24px; margin:24px 16px 0;}
-	</style>
+    <style>
+        #portfolio .portfolio-item .portfolio-link .caption .caption-content{ top:36%;}
+        #portfolio .portfolio-item .portfolio-link .caption .caption-content p{ font-size:16px; line-height:24px; margin:24px 16px 0;}
+        #portfolio .portfolio-item .portfolio-link{ height: 260px; overflow:hidden; }
+        #portfolio .portfolio-item:nth-child(1) .portfolio-link{ background: #ba4c63;}
+        #portfolio .portfolio-item:nth-child(2) .portfolio-link{ background: #1fa4b6;}
+        #portfolio .portfolio-item:nth-child(3) .portfolio-link{ background: #f8a3a3;}
+        #portfolio .portfolio-item:nth-child(4) .portfolio-link{ background: #1d83c1;}
+        #portfolio .portfolio-item:nth-child(5) .portfolio-link{ background: #18bc9c;}
+        #portfolio .portfolio-item:nth-child(6) .portfolio-link{ background: #ccb2a3;}
+        #portfolio .portfolio-item .portfolio-link .img-responsive{ width: 180px; height: 180px; display: block; border-radius: 50%; margin: 40px auto; }
+    </style>
+
 
 </head>
 
@@ -92,69 +99,75 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostCollectUser}+'/0'" class="portfolio-link">
+                    <a th:href="'/collector/'+${collector.mostCollectUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                 <p>我收藏的文章最多，我收藏我快乐！</p>
                             </div>
                         </div>
-                        <img src="index/img/portfolio/cabin.png" class="img-responsive" alt="" />
+                        <!--<img src="index/img/portfolio/cabin.png" class="img-responsive" alt="" />-->
+                        <img th:src="@{(${collector.mostCollectUser.profilePicture} == null ? @{/index/img/portfolio/cabin.png}:'/'+${collector.mostCollectUser.profilePicture})}" alt="" class="img-responsive"/>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostFollowedUser}+'/0'" class="portfolio-link">
+                    <a th:href="'/collector/'+${collector.mostFollowedUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                 <p>关注我的人最多,我是人气王！</p>
                             </div>
                         </div>
-                        <img src="index/img/portfolio/cake.png" class="img-responsive" alt="" />
+                        <!--<img src="index/img/portfolio/cake.png" class="img-responsive" alt="" />-->
+                        <img th:src="@{(${collector.mostFollowedUser.profilePicture} == null ? @{/index/img/portfolio/cake.png}:'/'+${collector.mostFollowedUser.profilePicture})}" alt="" class="img-responsive"/>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostPraisedUser}+'/0'" class="portfolio-link">
+                    <a th:href="'/collector/'+${collector.mostPraisedUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                 <p>赞我文章的人最多，大家都来赞赞赞！</p>
                             </div>
                         </div>
-                        <img src="index/img/portfolio/circus.png" class="img-responsive" alt="" />
+                        <!--<img src="index/img/portfolio/circus.png" class="img-responsive" alt="" />-->
+                        <img th:src="@{(${collector.mostPraisedUser.profilePicture} == null ? @{/index/img/portfolio/circus.png}:'/'+${collector.mostPraisedUser.profilePicture})}" alt="" class="img-responsive"/>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostCommentedUser}+'/0'" class="portfolio-link">
+                    <a th:href="'/collector/'+${collector.mostCommentedUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                   <p>评论我文章的人最多，快看我收藏了什么！</p>
                             </div>
                         </div>
-                        <img src="index/img/portfolio/game.png" class="img-responsive" alt="" />
+                        <!--<img src="index/img/portfolio/game.png" class="img-responsive" alt="" />-->
+                        <img th:src="@{(${collector.mostCommentedUser.profilePicture} == null ? @{/index/img/portfolio/game.png}:'/'+${collector.mostCommentedUser.profilePicture})}" alt="" class="img-responsive"/>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostPopularUser}+'/0'" class="portfolio-link">
+                    <a th:href="'/collector/'+${collector.mostPopularUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                  <p>我最受欢迎，想不想关注我！</p>
                             </div>
                         </div>
-                        <img src="index/img/portfolio/safe.png" class="img-responsive" alt=""/>
+                        <!--<img src="index/img/portfolio/safe.png" class="img-responsive" alt=""/>-->
+                        <img th:src="@{(${collector.mostPopularUser.profilePicture} == null ? @{/index/img/portfolio/safe.png}:'/'+${collector.mostPopularUser.profilePicture})}" alt="" class="img-responsive"/>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostActiveUser}+'/0'" class="portfolio-link">
+                    <a th:href="'/collector/'+${collector.mostActiveUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                  <p>近一个月我最活跃，快来超越我！</p>
                             </div>
                         </div>
-                        <img src="index/img/portfolio/submarine.png" class="img-responsive" alt="" />
+                        <!--<img src="index/img/portfolio/submarine.png" class="img-responsive" alt="" />-->
+                        <img th:src="@{(${collector.mostActiveUser.profilePicture} == null ? @{/index/img/portfolio/submarine.png}:'/'+${collector.mostActiveUser.profilePicture})}" alt="" class="img-responsive"/>
                     </a>
                 </div>
             </div>

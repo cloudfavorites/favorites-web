@@ -2,6 +2,7 @@ package com.favorites.service.impl;
 
 import com.favorites.domain.view.IndexCollectorView;
 import com.favorites.repository.CollectorRepository;
+import com.favorites.repository.UserRepository;
 import com.favorites.service.CollectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class CollectorServiceImpl implements CollectorService {
 
     @Autowired
     private CollectorRepository collectorRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     /**
@@ -27,21 +30,21 @@ public class CollectorServiceImpl implements CollectorService {
     public IndexCollectorView getCollectors() {
         IndexCollectorView indexCollectorView = new IndexCollectorView();
         Long mostCollectUser = collectorRepository.getMostCollectUser();
-        indexCollectorView.setMostCollectUser(mostCollectUser);
+        indexCollectorView.setMostCollectUser(userRepository.findById(mostCollectUser));
         Long mostFollowedUser = collectorRepository.getMostFollowedUser(mostCollectUser);
-        indexCollectorView.setMostFollowedUser(mostFollowedUser);
+        indexCollectorView.setMostFollowedUser(userRepository.findById(mostFollowedUser));
         String notUserIds = mostCollectUser+","+mostFollowedUser;
         Long mostPraisedUser = collectorRepository.getMostPraisedUser(notUserIds);
-        indexCollectorView.setMostPraisedUser(mostPraisedUser);
+        indexCollectorView.setMostPraisedUser(userRepository.findById(mostPraisedUser));
         notUserIds += ","+mostPraisedUser;
         Long mostCommentedUser = collectorRepository.getMostCommentedUser(notUserIds);
-        indexCollectorView.setMostCommentedUser(mostCommentedUser);
+        indexCollectorView.setMostCommentedUser(userRepository.findById(mostCommentedUser));
         notUserIds += ","+ mostCommentedUser;
         Long mostPopularUser = collectorRepository.getMostPopularUser(notUserIds);
-        indexCollectorView.setMostPopularUser(mostPopularUser);
+        indexCollectorView.setMostPopularUser(userRepository.findById(mostPopularUser));
         notUserIds += ","+ mostPopularUser;
         Long mostActiveUser = collectorRepository.getMostActiveUser(notUserIds);
-        indexCollectorView.setMostActiveUser(mostActiveUser);
+        indexCollectorView.setMostActiveUser(userRepository.findById(mostActiveUser));
         return indexCollectorView;
     }
 }
