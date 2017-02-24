@@ -136,7 +136,7 @@
 
                      <li th:each="collect,collectStat : ${collects}" >
 
-                        <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
+                        <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? '/img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
 
                         <div class="timeline-panel">
 
@@ -254,7 +254,7 @@
 
                                     <a  th:href="@{${collect.url}}" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" class="pull-left" target="_blank">
 
-                                       <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+                                       <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? '/img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
 
                                     </a>
 
