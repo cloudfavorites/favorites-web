@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="lookAround :: htmlhead" th:with="title='favorites'"></head>
-<body th:onload="'showCategory(\'' + ${category} + '\');'">
+<body th:onload="'lookAroundInit(\'' + ${category} + '\');'">
 
 <script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
 <script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
@@ -9,6 +9,7 @@
 <script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
 <script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
 <script th:src="@{/js/collect.js}" ></script>
+<script th:src="@{/js/lookAround.js}" ></script>
 <script th:src="@{/index/js/freelancer.min.js}"></script>
 <!-- Theme CSS -->
 <link href="../../index/css/freelancer.min.css" rel="stylesheet" />
@@ -240,49 +241,6 @@
       prevText: "&lt;",
       nextText: "&gt;"
    });
-</script>
-<script type='text/javascript'>
-    var page=1;
-
-    //关注某人或取消关注某人
-	function changeFollow(followIdStr){
-	    var userId = document.getElementById("userId").value;
-	    var textStr = document.getElementById(followIdStr).innerText;
-	    var status = "";
-	    if(textStr == "关注"){
-	        status = "follow";
-	    }else if(textStr == "取消关注"){
-	        status = "unfollow";
-	    }
-	    var followId = followIdStr.substring(6);
-	    if(userId != "0"){
-            $.ajax({
-                  async: false,
-                  type: 'POST',
-                  dataType: 'json',
-                  data:{'status':status,'userId':followId},
-                  url: '/follow/changeFollowStatus',
-                  error : function(XMLHttpRequest, textStatus, errorThrown) {
-                      console.log(XMLHttpRequest);
-                      console.log(textStatus);
-                      console.log(errorThrown);
-                  },
-                  success: function(response){
-                      if(response.rspCode == '000000'){
-                          if(textStr == "关注"){
-                              document.getElementById(followIdStr).innerText = "取消关注";
-                          }else{
-                              document.getElementById(followIdStr).innerText = "关注";
-                          }
-                      }
-                  }
-            });
-		}else{
-		    window.location.href="/login";
-		}
-	}
-
-
 </script>
 </body>
 </html>

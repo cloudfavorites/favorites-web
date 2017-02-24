@@ -878,7 +878,8 @@ $(function() {
 	});
 });
 
-function showCategory(category){
+function lookAroundInit(category){
+
     var categoryArr = ['ALL','TRAVEL','FOOD','EXERCISE','PHOTOGRAPH','MUSIC','REARING',
     'LOVE','BUSINESS','ART','MANAGER','MARKET','RUNNING'];
     $("#category"+category).addClass('active');
@@ -887,5 +888,7 @@ function showCategory(category){
             $("#category"+categoryArr[i]).removeClass('active');
         }
     }
+    loadConfig();
+    loadFavorites();
 }
 
