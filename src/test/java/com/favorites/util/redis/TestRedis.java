@@ -1,5 +1,7 @@
 package com.favorites.util.redis;
 
+import com.favorites.domain.User;
+import com.favorites.service.RedisService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.favorites.domain.User;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestRedis {
@@ -19,8 +19,11 @@ public class TestRedis {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     
-	 @Autowired
+    @Autowired
 	private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisService redisService;
 
     @Test
     public void test() throws Exception {
@@ -46,5 +49,23 @@ public class TestRedis {
 
     }
 
+    @Test
+    public void testRedisService(){
+        redisService.set("test","123");
+        System.out.println("redis test: "+redisService.get("test"));
+        redisService.setObject("user",new User("aa@126.com", "aa", "aa123456", "aa"));
+        User user = (User) redisService.getObject("user");
+        System.out.println("redis user: "+user.toString());
+        boolean f = redisService.expire("user",1);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("redis expire: "+f);
+        System.out.println("redis expire user: "+ redisService.getObject("user"));
+        redisService.delete("test");
+        System.out.println("redis delete test: "+redisService.get("test"));
+    }
 
 }

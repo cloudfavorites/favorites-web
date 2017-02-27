@@ -12,6 +12,7 @@ import com.favorites.repository.*;
 import com.favorites.service.CollectService;
 import com.favorites.service.CollectorService;
 import com.favorites.service.LookAroundService;
+import com.favorites.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +48,8 @@ public class IndexController extends BaseController{
     private CollectService collectService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+	private RedisService redisService;
 
 	/**
 	 * 随便看看  added by chenzhimin
@@ -57,7 +60,11 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	@LoggerManage(description="首页")
 	public String index(Model model){
-		IndexCollectorView indexCollectorView = collectorService.getCollectors();
+		IndexCollectorView indexCollectorView = (IndexCollectorView) redisService.getObject("collector");
+		if(indexCollectorView==null){
+			indexCollectorView = collectorService.getCollectors();
+			redisService.setObject("collector", indexCollectorView);
+		}
 		model.addAttribute("collector",indexCollectorView);
 		User user = super.getUser();
 		if(null != user){

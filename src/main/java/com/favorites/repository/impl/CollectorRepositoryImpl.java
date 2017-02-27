@@ -117,7 +117,7 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
                 "UNION ALL\n" +
                 "SELECT user_id,COUNT(1) as counts FROM follow WHERE create_time>" + lastMonth + " AND create_time<" + nowTime + " GROUP BY user_id)u\n" +
                 "WHERE u.user_id NOT IN (" + notUserIds + ")\n" +
-                "AND u.user_id in (SELECT user_id FROM collect  WHERE is_delete='NO' AND type='PUBLIC' GROUP BY user_id HAVING COUNT(1)>=10)\n" +
+                "AND u.user_id in (SELECT user_id FROM collect  WHERE is_delete='NO' AND type='PUBLIC' GROUP BY user_id HAVING COUNT(1)>10)\n" +
                 "GROUP BY u.user_id ORDER BY counts DESC LIMIT 1";
         List<Object[]> objecArraytList = sqlArrayList(querySql);
         Object[] obj =  objecArraytList.get(0);
