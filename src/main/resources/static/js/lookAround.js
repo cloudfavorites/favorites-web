@@ -1,6 +1,7 @@
 var page=1;
 var gconfig;
 var gfollows;
+
 //关注某人或取消关注某人
 function changeFollow(followIdStr){
     var userId = document.getElementById("userId").value;
@@ -38,6 +39,9 @@ function changeFollow(followIdStr){
         window.location.href="/login";
     }
 }
+
+
+
 function loadFollows(){
     $.ajax({
         async: false,
@@ -76,7 +80,7 @@ function loadConfig(){
 			console.log(errorThrown);
 		},
 		success: function(config){
-			gconfig=config;
+		    gconfig=config;
 			$("#defaultCollectType").html("");
 			$("#defaultModel").html("");
 			$("#defaultFavorites").html("");
