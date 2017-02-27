@@ -41,7 +41,7 @@
                         </div>
                         <div class="m0" th:text="${collect.remark}"></div>
                         <div class="media resource-card-thumbnail"> <a  th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" class="pull-left" target="_blank">
-                            <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+                            <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? '/img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
                             </a>
                             <div class="media-body">
                                 <h4 class="visible-xs media-heading resource-card-title-xs"> <a target="_blank" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" th:text="${collect.title}">title</a> </h4>
@@ -118,7 +118,7 @@
         <tbody id="collectSimpleList">
             <tr th:each="collect,collectStat : ${collects}">
                 <td><a target="_blank" style="font-size:16px;color:#656565;" th:onclick="'saveLookRecord(' + ${collect.id} + ');'" th:href="@{${collect.url}}" th:text="${collect.title}">Bootstrap中文网</a></td>
-                <td width="10%" class="text-center"><img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
+                <td width="10%" class="text-center"><img   th:src="@{(${collect.logoUrl}=='' ? '/img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
                 <td width="15%" class="text-center"><div> <a th:if="${myself=='YES'}" href="javascript:void(0);" class="mr" th:onclick="'getCollect(' + ${collect.id} + ',\'usercontent\');'" > <i class="fa fa-pencil"></i> </a> <a th:if="${myself=='YES'}" href="javascript:void(0);" class="ml" th:onclick="'onCollect(' + ${collect.id} + ',\'usercontent\');'"> <i class="fa fa-trash text-danger"></i> </a> </div></td>
             </tr>
         </tbody>

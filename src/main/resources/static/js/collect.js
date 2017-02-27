@@ -809,7 +809,7 @@ function listSimpleCollect(collects,user){
 			"   <td width=\"10%\" class=\"text-center\">"+
 			"     <img height=\"25px\" width=\"35px\" src=\""+(collects[i].logoUrl=='' ? 'img/favicon.png' : collects[i].logoUrl )+"\" alt=\"\"></td>"+
 			"   <td width=\"15%\" class=\"text-center\">"+
-			"    <div>";			if($("#userId").val() == collects[i].userId){
+			"    <div class=\"simplemodify\">";			if($("#userId").val() == collects[i].userId){
 				item=item+
                 "    <a onclick=\"getCollect("+collects[i].id+",'"+user+"');\" class=\"mr\" href=\"javascript:void(0);\"> <i class=\"fa fa-pencil\"></i>"+
 				"    </a>"+
@@ -822,6 +822,9 @@ function listSimpleCollect(collects,user){
 		collectSimpleList=collectSimpleList+item;
 	}
 	 $("#collectSimpleList").append(collectSimpleList);
+    if($("#loginUserInfo").val()!=$("#userId").val()){
+        $(".simplemodify").hide();
+    }
 }
 
 $(function() {
