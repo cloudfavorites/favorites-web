@@ -211,6 +211,7 @@ function getCollect(id,user){
                 $("#newFavorites").val("");
                 $("#userCheck").val(user);
                 loadFollows();
+                changeLike(id);
             }
         });
     }else{
