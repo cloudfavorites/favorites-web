@@ -42,19 +42,11 @@ $(function(){
 	  	         url:"/collect/collect",
 	  	         data:$("#collect-form").serialize(),
 	  	         success: function(response) {
+	  	             getPraiseStatus($("#ccollectId").val());
 	  	        	 if(response.rspCode == '000000'){
 	  	        		loadFavorites();
-	  					$('#modal-changeSharing').modal('hide');
-	  					if($("#userCheck").val()=="usercontent"){
-	  						userLocationUrl($("#forward").val(),"userAll");
-	  						loadUserFavorites();
-	  					}else if($("#pageType").val()=="garbage"){
-	  						locationUrl($("#forward").val(),"");
-	  					}else if($("#forward").val().lenght > 0){
-	  						locationUrl($("#forward").val(),"home");
-	  					}else{
-	  						locationUrl("/standard/my/0","home");
-	  					}
+	  	        		$('#modal-changeSharing').modal('hide');
+	  					loadUserFavorites();
 	  	        	 }else{
 	  	        		$("#errorMsg").text(response.rspMsg);
 	 			 		$("#errorMsg").show();
@@ -158,7 +150,6 @@ function delLookRecordAll(){
 
 function getCollect(id,user){
     var userId = document.getElementById("userId").value;
-
     if(userId != "0"){
         $.ajax({
             async: false,
@@ -211,7 +202,6 @@ function getCollect(id,user){
                 $("#newFavorites").val("");
                 $("#userCheck").val(user);
                 loadFollows();
-                changeLike(id);
             }
         });
     }else{
@@ -283,6 +273,39 @@ function changeLike(id){
 	}else{
 	    window.location.href="/login";
 	}
+}
+
+//查询点赞状态并刷新页面
+function getPraiseStatus(id){
+    $.ajax({
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        data:'',
+        url: '/collect/getPaiseStatus/'+id,
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        success: function(maps){
+            if(maps.status == "praise"){
+                $("#like"+id).hide();
+                $("#likel"+id).hide();
+                $("#unlike"+id).show();
+                $("#unlikel"+id).show();
+                $("#praiseC"+id).val(parseInt(maps.praiseCount));
+                $("#unlikeS"+id).html("取消点赞("+parseInt(maps.praiseCount)+")");
+            }else{
+                $("#like"+id).show();
+                $("#praiseC"+id).val(parseInt(maps.praiseCount));
+                $("#likeS"+id).html("点赞("+parseInt(maps.praiseCount)+")");
+                $("#likel"+id).show();
+                $("#unlike"+id).hide();
+                $("#unlikel"+id).hide();
+            }
+        }
+    });
 }
 
 
