@@ -290,23 +290,16 @@
 
                                     <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${collect.userId}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
 
-                                    <div class="pull-right hidden-xxs">
+                                    <div class="pull-right hidden-xxs" th:onmouseover="'share(\''+${collect.url}+'\',\''+${collect.title}+'\',\''+${collect.description}+'\',\''+${collect.logoUrl}+'\');'">
+                                       <small class="jiathis_style_32x32">
+                                          <a href="javascript:void(0);" class="jiathis jiathis_txt sharing-action-button" style="font-size: 100%;line-height:25px!important">
 
-                                       <small>
+                                             <span class="fa fa-share-alt "></span>
 
-                                          <a class="sharing-action-button" style="display:none">
-
-                                             <span class="fa fa-share-alt"></span>
-
-                                             	分享
-
+                                             分享&nbsp;
                                           </a>
 
-                                           <if style="display:none"    >
-
-										     |
-
-										  </if>
+                                          |
 
                                           <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
 

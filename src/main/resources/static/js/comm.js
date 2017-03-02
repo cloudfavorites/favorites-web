@@ -90,6 +90,7 @@ function goUrl(url,params) {
 		xmlhttp.onreadystatechange = handleServerResponse;
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
 		xmlhttp.send(params);
+		with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://v3.jiathis.com/code_mini/jia.js?uid=2126448'];
 	}
 }
 
