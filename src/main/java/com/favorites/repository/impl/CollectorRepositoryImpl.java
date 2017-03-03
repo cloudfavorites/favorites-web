@@ -55,7 +55,6 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
         String querySql = "SELECT c.user_id,SUM(p.counts) as counts FROM collect c LEFT JOIN \n" +
                 "(SELECT collect_id,COUNT(1) as counts FROM praise GROUP BY collect_id)p \n" +
                 "ON c.id=p.collect_id WHERE c.user_id NOT IN (" + notUserIds +") \n" +
-//                "AND c.user_id in (SELECT user_id FROM collect  WHERE is_delete='NO' AND type='PUBLIC' GROUP BY user_id HAVING COUNT(1)>10) \n" +
                 "GROUP BY c.user_id ORDER BY counts DESC LIMIT 1";
         List<Object[]> objecArraytList = sqlArrayList(querySql);
         Object[] obj =  objecArraytList.get(0);
