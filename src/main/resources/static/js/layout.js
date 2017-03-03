@@ -16,6 +16,12 @@ $(function() {
 	$("#nicknameError").hide();
 	$("#noticeNum").hide();
 	window.setInterval("myrefresh();",1000*5);
+	window.setInterval((function(){
+		var div = $(".jiathis_style").children(0);
+		if(div.attr("style") =="border:10px solid #7F7F7F; width:300px;"){
+			$("div[style='border:10px solid #7F7F7F; width:300px;']").attr("style","border:10px solid #7F7F7F; width:320px;");
+		}
+	}),"100");
 });
 
 
