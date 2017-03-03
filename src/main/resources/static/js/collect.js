@@ -595,7 +595,9 @@ function loadOtherMore(){
 function listStandardCollect(collects,listId,user){
 	var collectStandardList='';
 	var collect = '';
+    var collectorUserId='';
 	for(var i=0;i<collects.length;i++){
+        collectorUserId=collects[i].userId;
 		if($("#userId").val() != collects[i].userId){
 			collect = "				  <if> "+
 			"				     | "+
@@ -770,6 +772,11 @@ function listStandardCollect(collects,listId,user){
 	if($("#loginUserInfo").val()==""){
         $(".sharing-action-button.btn-praise").removeAttr("onclick");
         $(".input-group").hide();
+    }
+    if($("#collector").val()){
+        if($("#loginUserInfo").val() != collectorUserId){
+            $(".pull-right.dropdown.dropdown-list").hide();
+        }
     }
 }
 
