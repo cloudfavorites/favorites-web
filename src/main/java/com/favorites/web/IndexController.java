@@ -221,7 +221,11 @@ public class IndexController extends BaseController{
 		cookie.setMaxAge(0);
 		cookie.setPath("/");
 		response.addCookie(cookie);
-		IndexCollectorView indexCollectorView = collectorService.getCollectors();
+		IndexCollectorView indexCollectorView = (IndexCollectorView) redisService.getObject("collector");
+		if(indexCollectorView==null){
+			indexCollectorView = collectorService.getCollectors();
+			redisService.setObject("collector", indexCollectorView);
+		}
 		model.addAttribute("collector",indexCollectorView);
 		return "index";
 	}

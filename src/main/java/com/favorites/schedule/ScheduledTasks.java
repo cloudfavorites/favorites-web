@@ -90,32 +90,6 @@ public class ScheduledTasks {
 		}
 	}
 
-	@Scheduled(cron="11 31 1 * * ?")
-	@LoggerManage(description="自动清除不能访问文章定时")
-	public void clearInvalidCollect() {
-		//查询设置自动清除文章的用户
-		List<Long> userList = userRepository.findAutoClearCollectUsers();
-		logger.info("设置自动清除无效文章用户集合长度：" + userList.size());
-		for(Long userId : userList){
-			try {
-				//查询用户文章列表
-				List<Collect> collectList = collectRespository.findByUserIdAndIsDelete(userId,IsDelete.NO);
-				for(Collect collect:collectList){
-					//判断链接是否有效
-					boolean bl = HtmlUtil.isConnect(collect.getUrl());
-					//链接无效则放入回收站
-					if(bl==false){
-						collectRespository.modifyIsDeleteById(IsDelete.YES,DateUtils.getCurrentTime(),collect.getId());
-						favoritesRespository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
-						logger.info("文章id:"+collect.getId()+"无效，已被放入回收站");
-					}
-				}
-			}catch (Exception e){
-				logger.error("自动清除不能访问文章定时任务异常：",e);
-			}
-		}
-	}
-
 	@Scheduled(cron="11 11 0 * * ?")
 	@LoggerManage(description="查询收藏夹放到缓存定时")
 	public void putRedisCollector() {

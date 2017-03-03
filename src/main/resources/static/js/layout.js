@@ -35,7 +35,6 @@ function loadConfig(){
 			$("#defaultCollectType").html("");
 			$("#defaultModel").html("");
 			$("#defaultFavorites").html("");
-            $("#defaultClear").html("");
 			initConfigDatas(config);
 			//设置默认选中收藏夹
 			obj = document.getElementById("layoutFavoritesName");
@@ -97,6 +96,9 @@ function initFavorites(favorites){
 	for(var i=0;i<favorites.length;i++){
 		var id = favorites[i].id ;
 		var name = favorites[i].name;
+		if(getByteLen(name)>16){
+            name = cut_str(name,8)+"...";
+        }
 		var count = favorites[i].count;
 		var url ='/standard/'+ id + "/0";
 		if(name=="未读列表"){
@@ -126,10 +128,38 @@ function initFavorites(favorites){
 	}
 }
 
+function getByteLen(val) {
+    var len = 0;
+    for (var i = 0; i < val.length; i++) {
+        var a = val.charAt(i);
+        if (a.match(/[^\x00-\xff]/ig) != null)
+        {
+            len += 2;
+        }
+        else
+        {
+            len += 1;
+        }
+    }
+    return len;
+}
+
+function cut_str(str, len){
+    var char_length = 0;
+    for (var i = 0; i < str.length; i++){
+        var son_str = str.charAt(i);
+        encodeURI(son_str).length > 2 ? char_length += 1 : char_length += 0.5;
+        if (char_length >= len){
+            var sub_len = char_length == len ? i+1 : i;
+            return str.substr(0, sub_len);
+            break;
+        }
+    }
+}
+
 function initConfigDatas(config){
 	$("#defaultCollectType").append("<strong>默认"+config.collectTypeName+"收藏（点击切换）</strong>")
 	$("#defaultModel").append("<strong>收藏时显示" +config.modelName+"模式</strong>");
-    $("#defaultClear").append("<strong>"+config.clearName+"清除无效文章</strong>");
 }
 
 function initFollows(follows){

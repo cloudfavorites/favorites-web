@@ -56,8 +56,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("update User set backgroundPicture=:backgroundPicture where id=:id")
     int setBackgroundPicture(@Param("backgroundPicture") String backgroundPicture, @Param("id") Long id);
 
-    @Query("select u.id as id from User u,Config c where u.id=c.userId and c.clearCollect='auto'")
-    List<Long> findAutoClearCollectUsers();
-
     User findById(Long id);
 }
