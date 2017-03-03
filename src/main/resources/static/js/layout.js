@@ -228,7 +228,8 @@ function userGoUrl(url,params) {
 		userXmlhttp.open("POST",url,true); 
 		userXmlhttp.onreadystatechange = userHandleServerResponse;
 		userXmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-		userXmlhttp.send(params); 
+		userXmlhttp.send(params);
+		with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://v3.jiathis.com/code_mini/jia.js?uid=2126448'];
 	}
 }
 
@@ -520,4 +521,17 @@ function myrefresh(){
 			}
 		}
 	});
+}
+var jiathis_config = {};
+function share(url,title,description,pic){
+	description = description + "    -分享自云收藏(http://favorites.ren/)";
+
+	jiathis_config.data_track_clickback=true;
+		jiathis_config.url=url;
+		jiathis_config.pic=pic
+		jiathis_config.summary=description;
+		jiathis_config.title=title;
+		jiathis_config.shortUrl=false;
+		jiathis_config.hideMore=false;
+
 }

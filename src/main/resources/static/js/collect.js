@@ -42,19 +42,11 @@ $(function(){
 	  	         url:"/collect/collect",
 	  	         data:$("#collect-form").serialize(),
 	  	         success: function(response) {
+	  	             getPraiseStatus($("#ccollectId").val());
 	  	        	 if(response.rspCode == '000000'){
 	  	        		loadFavorites();
-	  					$('#modal-changeSharing').modal('hide');
-	  					if($("#userCheck").val()=="usercontent"){
-	  						userLocationUrl($("#forward").val(),"userAll");
-	  						loadUserFavorites();
-	  					}else if($("#pageType").val()=="garbage"){
-	  						locationUrl($("#forward").val(),"");
-	  					}else if($("#forward").val().lenght > 0){
-	  						locationUrl($("#forward").val(),"home");
-	  					}else{
-	  						locationUrl("/standard/my/0","home");
-	  					}
+	  	        		$('#modal-changeSharing').modal('hide');
+	  					loadUserFavorites();
 	  	        	 }else{
 	  	        		$("#errorMsg").text(response.rspMsg);
 	 			 		$("#errorMsg").show();
@@ -158,7 +150,6 @@ function delLookRecordAll(){
 
 function getCollect(id,user){
     var userId = document.getElementById("userId").value;
-
     if(userId != "0"){
         $.ajax({
             async: false,
@@ -211,7 +202,6 @@ function getCollect(id,user){
                 $("#newFavorites").val("");
                 $("#userCheck").val(user);
                 loadFollows();
-                changeLike(id);
             }
         });
     }else{
@@ -283,6 +273,39 @@ function changeLike(id){
 	}else{
 	    window.location.href="/login";
 	}
+}
+
+//查询点赞状态并刷新页面
+function getPraiseStatus(id){
+    $.ajax({
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        data:'',
+        url: '/collect/getPaiseStatus/'+id,
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        success: function(maps){
+            if(maps.status == "praise"){
+                $("#like"+id).hide();
+                $("#likel"+id).hide();
+                $("#unlike"+id).show();
+                $("#unlikel"+id).show();
+                $("#praiseC"+id).val(parseInt(maps.praiseCount));
+                $("#unlikeS"+id).html("取消点赞("+parseInt(maps.praiseCount)+")");
+            }else{
+                $("#like"+id).show();
+                $("#praiseC"+id).val(parseInt(maps.praiseCount));
+                $("#likeS"+id).html("点赞("+parseInt(maps.praiseCount)+")");
+                $("#likel"+id).show();
+                $("#unlike"+id).hide();
+                $("#unlikel"+id).hide();
+            }
+        }
+    });
 }
 
 
@@ -675,15 +698,13 @@ function listStandardCollect(collects,listId,user){
 		"         <div class=\"m0\">"+
 		"            <span class=\"icon-folder mr-sm\"></span>"+
 		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"/"+collects[i].userId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
-		"            <div class=\"pull-right hidden-xxs\">"+
-		"               <small>"+
-		"                  <a style=\"display:none\" class=\"sharing-action-button\">"+
+		"            <div class=\"pull-right hidden-xxs\" onmouseover=\"share(\'"+collects[i].url+"\',\'"+collects[i].title+"\',\'"+collects[i].description+"\',\'"+collects[i].logoUrl+"\');\">"+
+		"               <small class=\"jiathis_style_32x32\">"+
+		"                  <a href=\"javascript:void(0);\" class=\"jiathis jiathis_txt sharing-action-button\" style=\"font-size: 100%;line-height:25px!important\">"+
 		"                     <span class=\"fa fa-share-alt\"></span>"+
-		"                     	分享"+
+		"                     	分享&nbsp;"+
 		"                  </a>"+
-		"                   <if  style=\"display:none\" > "+
 		"				     | "+
-		"				  </if> "+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button btn-praise\">"+
 		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+
 		"                     <show id=\"likeS"+collects[i].id+"\">点赞("+collects[i].praiseCount+")</show>"+
@@ -745,11 +766,11 @@ function listStandardCollect(collects,listId,user){
 		collectStandardList=collectStandardList+item;
 	}
 	$("#"+listId).append(collectStandardList);
-    if($("#loginUserInfo").val()==""){
+	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://v3.jiathis.com/code_mini/jia.js?uid=2126448'];
+	if($("#loginUserInfo").val()==""){
         $(".sharing-action-button.btn-praise").removeAttr("onclick");
         $(".input-group").hide();
     }
-
 }
 
 

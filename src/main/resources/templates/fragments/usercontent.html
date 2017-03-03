@@ -52,9 +52,17 @@
                             </div>
                         </div>
                         <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${user.id}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
-                            <div th:if="${loginUser!=null}" class="pull-right hidden-xxs"> <small>
+                            <div th:if="${loginUser!=null}" class="pull-right hidden-xxs" th:onmouseover="'share(\''+${collect.url}+'\',\''+${collect.title}+'\',\''+${collect.description}+'\',\''+${collect.logoUrl}+'\');'">
+                                <small class="jiathis_style_32x32">
                                 <!-- <a class="sharing-action-button"><span class="fa fa-share-alt"></span>分享</a>
-	                            <if th:id="'likel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"> | </if> --> 
+	                            <if th:id="'likel' + ${collect.id}"  th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"> | </if> -->
+                                <a href="javascript:void(0);" class="jiathis jiathis_txt sharing-action-button" style="font-size: 100%;line-height:25px!important">
+
+                                    <span class="fa fa-share-alt "></span>
+
+                                    分享&nbsp;
+                                </a>
+                                |
                                 <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-o-up"></span>
                                 <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
                                 </a> 
