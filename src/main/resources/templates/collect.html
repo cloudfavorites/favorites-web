@@ -83,11 +83,27 @@
                   <label style="font-weight:normal;margin-bottom:0;">
                   <input id="type" type="checkbox" name="type" class="mb" value="PRIVATE" /> 私密收藏</label>
                <p class="pt-lg text-center">选择一个收藏夹</p>
-               <select  name="favoritesId" id="favoritesId" class="mb form-control">
-                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>
-               </select>
-               <p class="text-center">或者</p>
-               <input type="text" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
+               <div class="collect-sort-folder">
+                  <div class="collect-tab-head">
+                      <a href="javascript:void(0);">智能推荐</a>
+                      <a href="javascript:void(0);">我的收藏夹</a>
+                  </div>
+                  <div class="collect-tab-body">
+                      <div class="wrap">
+                          <div id="smartFavoritesList" class="sort">
+                          </div>
+                      </div>
+                      <div class="wrap">
+                          <div class="folder">
+                               <select  name="favoritesId" id="favoritesId" class="mb form-control">
+                                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>
+                               </select>
+                               <p class="text-center">或者</p>
+                               <input type="text" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
+                          </div>
+                      </div>
+                  </div>
+               </div>
                <button id="collect" class="mt-lg btn btn-primary btn-block">提交</button>
                <input type="hidden" name="url" id="url" value=""/>
                <input type="hidden" name="charset" id="charset" value=""/>
@@ -118,7 +134,7 @@
             <span>&copy;</span>
             <span>2016</span>
             <span>-</span>
-            <span>Favorites</span>
+            <span>2017</span>
             <br/>
             <span>cloudfavorites@126.com</span>
          </div>
@@ -158,6 +174,7 @@
                 console.log(errorThrown);
             }
         });
+        smartFavoritesFun($("#title").val(),$("#description").val(),'favoritesId');
    		if("private"== config.defaultCollectType){
    			$("#type").attr("checked","checked");
    		}
@@ -204,41 +221,41 @@
    	    });  
    		
    		$("#collect").click(function(){
-   		 if($("#title").val()==""){
-   			 $("#errorMsg").text("标题不能为空");
-   			 $("#errorMsg").show();
-   			 return;
-   		 }
-   		  $("#collect").attr("disabled","disabled");
-   		  $("#errorMsg").hide();
-   	  	  $.ajax({
-   	  	         type: "POST",
-   	  	         url:"/collect/collect",
-   	  	         data:$("#collect-form").serialize(),
-   	  	         success: function(response) { 
-   	  	        	 if(response.rspCode == '000000'){
-   	  	        		window.location="/";
-   	  	        	 }else{
-                         if(response.hasOwnProperty("rspCode")){
-                             $("#errorMsg").text(response.rspMsg);
-                             $("#errorMsg").show();
-                             $("#collect").removeAttr("disabled");
+              if($("#title").val()==""){
+                  $("#errorMsg").text("标题不能为空");
+                  $("#errorMsg").show();
+                  return;
+              }
+              $("#collect").attr("disabled","disabled");
+              $("#errorMsg").hide();
+              $.ajax({
+                     type: "POST",
+                     url:"/collect/collect",
+                     data:$("#collect-form").serialize(),
+                     success: function(response) {
+                         if(response.rspCode == '000000'){
+                            window.location="/";
                          }else{
-                             window.location="/login";
+                             if(response.hasOwnProperty("rspCode")){
+                                 $("#errorMsg").text(response.rspMsg);
+                                 $("#errorMsg").show();
+                                 $("#collect").removeAttr("disabled");
+                             }else{
+                                 window.location="/login";
+                             }
                          }
-   	  	        	 }
-   	  	         },
-   	  	         error: function (jqXHR, textStatus, errorThrown) {
-   	  	        	 console.log(jqXHR.responseText);
-   	  	        	 console.log(jqXHR.status);
-   	  	        	 console.log(jqXHR.readyState);
-   	  	        	 console.log(jqXHR.statusText);
-   	  	             console.log(textStatus);
-   	  	             console.log(errorThrown);
-   	  	         }
-   	  	     });
-   		});
-   	});
+                     },
+                     error: function (jqXHR, textStatus, errorThrown) {
+                         console.log(jqXHR.responseText);
+                         console.log(jqXHR.status);
+                         console.log(jqXHR.readyState);
+                         console.log(jqXHR.statusText);
+                         console.log(textStatus);
+                         console.log(errorThrown);
+                     }
+              });
+         });
+    });
    	function showAt(name){
    		var text = $("#remark").val();
    		$("#remark").val(text + "@" +name + " ").focus();
@@ -247,6 +264,29 @@
    </script>  
    <div style="display:none">
    	  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260466344'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260466344' type='text/javascript'%3E%3C/script%3E"));</script>
-    </div> 
+    </div>
+   <script>
+      $(document).ready(function() {
+         $('.collect-sort-folder').each(function() {
+            $(this).find('.collect-tab-head').each(function() {
+                $(this).children().eq(0).addClass('active')
+            });
+            $(this).find('.collect-tab-body').each(function() {
+                $(this).children().eq(0).show();
+            });
+            $(this).find('.collect-tab-head').children().on('click', function() {
+                $(this).addClass('active').siblings().removeClass('active');
+                var index = $('.collect-tab-head').children().index(this);
+                $('.collect-tab-body').children().eq(index).show().siblings().hide();
+            });
+         });
+
+         $(document).on('click', '.collect-tab-body .sort a', function(){
+            if (!$(this).hasClass('active')) {
+                $(this).addClass('active').siblings('a').removeClass('active')
+            }
+         });
+      });
+   </script>
 </body>
 </html>

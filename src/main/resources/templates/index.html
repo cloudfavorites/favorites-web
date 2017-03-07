@@ -65,6 +65,9 @@
                         <a href="/login" th:unless="${user != null}">登录</a>
                         <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
                     </li>
+                    <li>
+                        <a href="/feedback">提建议</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -313,7 +316,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        Copyright &copy; favorites 2016
+                        Copyright &copy; favorites 2016-2017
                     </div>
                 </div>
             </div>

@@ -63,11 +63,27 @@
                   <label style="font-weight:normal;margin-bottom:0;">
                      <input id="type" type="checkbox" name="type" class="mb" value="PRIVATE" /> 私密收藏</label>
                <p class="pt-lg text-center">选择一个收藏夹</p>
-               <select  name="favoritesId" id="favoritesSelect" class="mb form-control">
-                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>
-               </select>
-               <p class="text-center">或者</p>
-               <input type="text" id="newFavorites" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
+               <div class="collect-sort-folder">
+                   <div class="collect-tab-head">
+                      <a href="javascript:void(0);">智能推荐</a>
+                      <a href="javascript:void(0);">我的收藏夹</a>
+                   </div>
+                   <div class="collect-tab-body">
+                      <div class="wrap">
+                          <div id="smartFavoritesList" class="sort">
+                          </div>
+                      </div>
+                      <div class="wrap">
+                          <div class="folder">
+                              <select  name="favoritesId" id="favoritesSelect" class="mb form-control">
+                                  <option th:each="favorites : ${favoritesList}" th:value="${favorites.id}" th:text="${favorites.name}"  th:selected="(${favorites.id} == ${configObj.defaultFavorties})"></option>
+                              </select>
+                              <p class="text-center">或者</p>
+                              <input type="text" id="newFavorites" name="newFavorites" class="mb form-control" placeholder="新建分类收藏夹"/>
+                          </div>
+                      </div>
+                   </div>
+               </div>
                <button id="ccollect" class="mt-lg btn btn-primary btn-block">提交</button>
                <input type="hidden" name="id" id="ccollectId" value=""/>
                <input type="hidden" id="userCheck" value=""/>
@@ -89,5 +105,13 @@
          </div>
       </div>
    </div>
+   <!--<script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>-->
+   <script th:src="@{/webjars/vue/1.0.24/vue.min.js}"></script>
+   <script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>
+   <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
+   <script th:src="@{/js/comm.js}"></script>
+   <script>
+
+   </script>
 </body>
 </html>

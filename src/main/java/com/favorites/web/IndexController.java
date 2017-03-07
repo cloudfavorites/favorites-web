@@ -198,6 +198,15 @@ public class IndexController extends BaseController{
 	public String newFavorites(){
 		return "favorites/newfavorites";
 	}
+
+	@RequestMapping(value="/feedback")
+	@LoggerManage(description="意见反馈页面")
+	public String feedback(Model model){
+		User user = null;
+		user = userRepository.findOne(getUserId());
+		model.addAttribute("user", user);
+		return "favorites/feedback";
+	}
 	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
 	@LoggerManage(description="收藏页面")
@@ -221,7 +230,11 @@ public class IndexController extends BaseController{
 		cookie.setMaxAge(0);
 		cookie.setPath("/");
 		response.addCookie(cookie);
-		IndexCollectorView indexCollectorView = collectorService.getCollectors();
+		IndexCollectorView indexCollectorView = (IndexCollectorView) redisService.getObject("collector");
+		if(indexCollectorView==null){
+			indexCollectorView = collectorService.getCollectors();
+			redisService.setObject("collector", indexCollectorView);
+		}
 		model.addAttribute("collector",indexCollectorView);
 		return "index";
 	}

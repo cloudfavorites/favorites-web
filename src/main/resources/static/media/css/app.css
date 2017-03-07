@@ -2039,3 +2039,15 @@ body, .popover, .tooltip { font-family: 'Source Sans Pro', Helvetica, Tahoma, Ar
 .unwrap .mast .col-xs-4 { border-left: 1px solid #fff; }
 .unwrap .mast .col-xs-4:first-child { border-left: none; }
 .go-top { position: fixed; z-index: 9999; right: 15px; bottom: 75px; width: 50px; height: 50px; cursor: pointer; background: url(../img/gotop.png) center no-repeat; background-size: cover; }
+.collect-tab-head{ height: 36px; padding: 0 5px;}
+.collect-tab-head a{ float: left; color: #666; display: block; width: 140px; height: 36px; line-height: 36px; text-align: center;}
+.collect-tab-head a:hover,.collect-tab-head a:focus,.collect-tab-head a:active{ text-decoration: none;}
+.collect-tab-head a.active{ font-weight: bold; color: #37bc9b; border:1px solid #37bc9b; line-height: 34px;}
+.collect-tab-body{ margin-top: 5px;}
+.collect-tab-body .wrap{ display: none;}
+.collect-tab-body .wrap.active{ display: block;}
+.collect-tab-body .sort{ overflow: hidden;}
+.collect-tab-body .sort a{ width: 86px; height: 32px; line-height: 32px; display: block; text-align: center; overflow: hidden; background: #f4f4f4; color: #9a9a9a; float: left; margin: 10px 5px 0 5px; padding-left: 2px; text-overflow:ellipsis; white-space:nowrap;}
+.collect-tab-body .sort a:hover,.collect-tab-body .sort a:focus,.collect-tab-body .sort a:active{ text-decoration: none;}
+.collect-tab-body .sort a.active{ color: #fff; background: #37bc9b;}
+.collect-tab-body .folder{ overflow: hidden; margin-top: 15px;}
