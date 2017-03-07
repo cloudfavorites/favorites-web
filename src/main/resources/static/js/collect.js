@@ -777,6 +777,7 @@ function listStandardCollect(collects,listId,user){
     if($("#collector").val()){
         if($("#loginUserInfo").val() != collectorUserId){
             $(".pull-right.dropdown.dropdown-list").hide();
+            $(".deco-none").hide();
         }
     }
 }
