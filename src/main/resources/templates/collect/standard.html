@@ -1,7 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 
   <head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
-
+  <link rel="stylesheet" th:href="@{/vendor/fontawesome/css/font-awesome.min.css}"></link>
+  <link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.css}"></link>
+  <link rel="stylesheet" th:href="@{/media/css/bootstrap.css}" id="bscss"></link>
+  <link rel="stylesheet" th:href="@{/media/css/app.css}" id="maincss"></link>
+  <link rel="stylesheet" th:href="@{/media/css/theme-i.css}" id="maincss"></link>
   <body>
 
       <section >
@@ -423,7 +427,9 @@
       </section>
 
   </body>
-
+  <script th:src="@{/webjars/vue/1.0.24/vue.min.js}"></script>
+  <script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>
+  <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
   <script type='text/javascript' th:inline="javascript">
 
   $(function(){

@@ -702,6 +702,42 @@
     $html.addClass($.support.touch ? "touch" : "no-touch");
 
 }(jQuery, window, document));
+
+
+// Custom jQuery
+// -----------------------------------
+
+
+(function(window, document, $, undefined){
+
+  $(function(){
+
+
+         $('.collect-sort-folder').each(function() {
+            $(this).find('.collect-tab-head').each(function() {
+                $(this).children().eq(0).addClass('active')
+            });
+            $(this).find('.collect-tab-body').each(function() {
+                $(this).children().eq(0).show();
+            });
+            $(this).find('.collect-tab-head').children().on('click', function() {
+                $(this).addClass('active').siblings().removeClass('active');
+                var index = $('.collect-tab-head').children().index(this);
+                $('.collect-tab-body').children().eq(index).show().siblings().hide();
+            });
+         });
+
+         $(document).on('click', '.collect-tab-body .sort a', function(){
+            if (!$(this).hasClass('active')) {
+                $(this).addClass('active').siblings('a').removeClass('active')
+            }
+         });
+
+
+  });
+
+})(window, document, window.jQuery);
+
 // Custom jQuery
 // ----------------------------------- 
 

@@ -144,3 +144,39 @@ function handleServerResponse() {
 		}
 	}
 }
+
+function smartFavoritesFun(title,description,selectLabelName){
+    $.ajax({
+        type: "POST",
+        url:"/collect/getFavoriteResult",
+        data:{'title':title,'description':description},
+        success: function(maps) {
+            var favoritesStr = "";
+            for(var i = 0; i < maps.favoritesList.length; i++){
+                if(maps.favoritesList[i].id == maps.favoritesResult){
+                    favoritesStr += "<a id=\"smartFavorites" + maps.favoritesList[i].id + "\""
+                        + " href=\"javascript:void(0);\" class=\"active\" onclick=\"switchFavorites(this.id,\'" + selectLabelName + "\'" + ")\">"
+                        + maps.favoritesList[i].name + "</a>";
+                }else{
+                    favoritesStr += "<a id=\"smartFavorites" + maps.favoritesList[i].id + "\""
+                        + " href=\"javascript:void(0);\" onclick=\"switchFavorites(this.id,\'" + selectLabelName + "\'" + ")\">"
+                        + maps.favoritesList[i].name + "</a>";
+                }
+            }
+            $("#smartFavoritesList").append(favoritesStr);
+            $("#"+selectLabelName).val(maps.favoritesResult);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+            console.log(jqXHR.status);
+            console.log(jqXHR.readyState);
+            console.log(jqXHR.statusText);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+}
+function switchFavorites(id,selectLabelName){
+    var favoritesId = id.substring(14);
+    $("#"+selectLabelName).val(favoritesId);
+}

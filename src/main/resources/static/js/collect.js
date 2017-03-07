@@ -60,8 +60,9 @@ $(function(){
 	  	             console.log(textStatus);
 	  	             console.log(errorThrown);
 	  	         }
-	  	     });
-		});
+	  	  });
+	});
+	smartFavoritesFun($("#ctitle").val(),$("#cdescription").val(),'favoritesSelect');
 });
 
 

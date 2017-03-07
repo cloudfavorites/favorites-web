@@ -115,6 +115,31 @@ public class CollectController extends BaseController{
 			return Const.default_logo;
 		}
 	}
+
+	/**
+	 * 根据收藏的文章标题和描述推荐收藏夹
+	 */
+	@RequestMapping(value="/getFavoriteResult",method=RequestMethod.POST)
+	@LoggerManage(description="获取推荐收藏夹")
+	public Map<String,Object> getFavoriteResult(String title,String description){
+		Long result = null;
+		int faultPosition = 0;
+		Map<String,Object> maps = new HashMap<String,Object>();
+		List<Favorites> favoritesList = this.favoritesRepository.findByUserId(getUserId());
+		for (int i = 0; i < favoritesList.size(); i++){
+			Favorites favorites = favoritesList.get(i);
+			if(favorites.getName().indexOf(title) > 0 || favorites.getName().indexOf(description) > 0){
+				result = favorites.getId();
+			}
+			if("未读列表".equals(favorites.getName())){
+				faultPosition = i;
+			}
+		}
+		result = result == null ? favoritesList.get(faultPosition).getId() : result;
+		maps.put("favoritesResult",result == null ? 0 : result);
+		maps.put("favoritesList",favoritesList);
+		return maps;
+	}
 	
 	/**
 	 * @author neo
