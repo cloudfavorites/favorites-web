@@ -38,7 +38,8 @@
 	<script th:src="@{/js/layout.js}" ></script>
 	<script th:src="@{/js/collect.js}" ></script>
 	<script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
-	<script th:src="@{/vendor/toastr/toastr.min.js}"></script>  	
+	<script th:src="@{/vendor/toastr/toastr.min.js}"></script>
+    <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=2126448" charset="utf-8"></script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 	    var size = /*[[${size}]]*/ 0;
@@ -50,8 +51,9 @@
 	    var config = /*[[${config}]]*/;
 		if(null != config){
 			$("#layoutConfigId").val(config.id);
-		} 
+		}
 	/*]]>*/
+
 	</script>
 </body>
 </html>

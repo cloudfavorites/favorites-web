@@ -41,7 +41,6 @@ public class HtmlUtilTest {
 //	   boolean b = HtmlUtil.isConnect(url);
 //	   System.out.println("========================="+b);
 
-	   tasks.clearInvalidCollect();
    }
    
    
