@@ -107,6 +107,7 @@
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                 <p>我收藏的文章最多，我收藏我快乐！</p>
+                                <p th:text="${collector.mostCollectUser.introduction == null ? '暂无简介' : collector.mostCollectUser.introduction.length() gt 15 ? collector.mostCollectUser.introduction.substring(0,15)+'...' : collector.mostCollectUser.introduction}">暂无简介</p>
                             </div>
                         </div>
                         <!--<img src="index/img/portfolio/cabin.png" class="img-responsive" alt="" />-->
@@ -119,6 +120,7 @@
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                 <p>关注我的人最多,我是人气王！</p>
+                                <p th:text="${collector.mostFollowedUser.introduction == null ? '暂无简介' : collector.mostFollowedUser.introduction.length() gt 15 ? collector.mostFollowedUser.introduction.substring(0,15)+'...' : collector.mostFollowedUser.introduction}">暂无简介</p>
                             </div>
                         </div>
                         <!--<img src="index/img/portfolio/cake.png" class="img-responsive" alt="" />-->
@@ -131,6 +133,7 @@
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                 <p>赞我文章的人最多，大家都来赞赞赞！</p>
+                                <p th:text="${collector.mostPraisedUser.introduction == null ? '暂无简介' : collector.mostPraisedUser.introduction.length() gt 15 ? collector.mostPraisedUser.introduction.substring(0,15)+'...' : collector.mostPraisedUser.introduction}">暂无简介</p>
                             </div>
                         </div>
                         <!--<img src="index/img/portfolio/circus.png" class="img-responsive" alt="" />-->
@@ -143,6 +146,7 @@
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                   <p>评论我文章的人最多，快看我收藏了什么！</p>
+                                  <p th:text="${collector.mostCommentedUser.introduction == null ? '暂无简介' : collector.mostCommentedUser.introduction.length() gt 15 ? collector.mostCommentedUser.introduction.substring(0,15)+'...' : collector.mostCommentedUser.introduction}">暂无简介</p>
                             </div>
                         </div>
                         <!--<img src="index/img/portfolio/game.png" class="img-responsive" alt="" />-->
@@ -155,6 +159,7 @@
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                  <p>我最受欢迎，想不想关注我！</p>
+                                 <p th:text="${collector.mostPopularUser.introduction == null ? '暂无简介' : collector.mostPopularUser.introduction.length() gt 15 ? collector.mostPopularUser.introduction.substring(0,15)+'...' : collector.mostPopularUser.introduction}">暂无简介</p>
                             </div>
                         </div>
                         <!--<img src="index/img/portfolio/safe.png" class="img-responsive" alt=""/>-->
@@ -167,6 +172,7 @@
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                                  <p>近一个月我最活跃，快来超越我！</p>
+                                <p th:text="${collector.mostActiveUser.introduction == null ? '暂无简介' : collector.mostActiveUser.introduction.length() gt 15 ? collector.mostActiveUser.introduction.substring(0,15)+'...' : collector.mostActiveUser.introduction}">暂无简介</p>
                             </div>
                         </div>
                         <!--<img src="index/img/portfolio/submarine.png" class="img-responsive" alt="" />-->

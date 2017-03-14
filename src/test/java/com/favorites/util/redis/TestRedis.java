@@ -64,8 +64,8 @@ public class TestRedis {
         }
         System.out.println("redis expire: "+f);
         System.out.println("redis expire user: "+ redisService.getObject("user"));
-        redisService.delete("test");
-        System.out.println("redis delete test: "+redisService.get("test"));
+        redisService.delete("collector");
+        System.out.println("redis delete test: "+redisService.get("collector"));
     }
 
 }
