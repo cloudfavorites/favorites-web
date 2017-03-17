@@ -42,7 +42,7 @@
                                              <div class="input-group">
                                                 <input type="text" class="form-control" required="required" placeholder="输入回复..." />
                                                 <span class="input-group-btn">
-                                                   <button type="submit" th:onclick="'sendLetter(\'reply\',\''+${letter.id}+'\',this);'" class="btn btn-default" th:value="${letter.id}">发送</button>
+                                                   <button type="submit" th:onclick="'sendLetter(\'reply\',\''+${letter.id}+'\',this);'" class="btn btn-default" >发送</button>
                                                 </span>
                                              </div>
                                           </form>
@@ -61,4 +61,37 @@
          </div>
       </section>
 </body>
+<script type='text/javascript' th:inline="javascript">
+   $(function(){
+      reload();
+      var loadingFlag = true;
+      $(window).scroll(function(){
+         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            if($("#letter").length >= 1){
+               if(loadingFlag){
+                  loadingFlag = false;
+                  $('#loadingStandard').show();
+                  loadMore();
+                  $('#loadingStandard').hide();
+                  loadingFlag = true;
+               }
+            }
+         }
+      });
+   });
+   function reload(){
+      $(".timeline li").each(function(){
+         var _this = $(this);
+         _this.find(".table-grid .btn").click(function(){
+            if(_this.find(".collapse").hasClass('in')){
+               _this.find(".collapse").removeClass('in')
+            }else{
+               _this.find(".collapse").addClass('in')
+               var rep = "@"+_this.find(".m0 .text-muted .send-user-name").html()+" ";
+               _this.find(".form-control").focus().val(rep);
+            }
+         });
+      });
+   }
+</script>
 </html>

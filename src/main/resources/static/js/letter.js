@@ -1,21 +1,4 @@
 var page = 1;
-$(function(){
-    reload();
-    var loadingFlag = true;
-    $(window).scroll(function(){
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            if($("#letter").length >= 1){
-                if(loadingFlag){
-                    loadingFlag = false;
-                    $('#loadingStandard').show();
-                    loadMore();
-                    $('#loadingStandard').hide();
-                    loadingFlag = true;
-                }
-            }
-        }
-    });
-});
 
 function loadMore(){
     $.ajax({
@@ -31,6 +14,9 @@ function loadMore(){
         },
         success: function(letters){
             listLetter(letters);
+            if(letters.length > 0){
+                reload();
+            }
             page++;
         }
     });
@@ -88,7 +74,6 @@ function listLetter(letters){
         letterList = letterList + item;
     }
     $("#letterList").append(letterList);
-    reload();
 }
 
 // 发送私信
@@ -141,17 +126,3 @@ function sendLetter(type,pid,obj){
     });
 }
 
-function reload(){
-    $(".timeline li").each(function(){
-        var _this = $(this);
-        _this.find(".table-grid .btn").click(function(){
-            if(_this.find(".collapse").hasClass('in')){
-                _this.find(".collapse").removeClass('in')
-            }else{
-                _this.find(".collapse").addClass('in')
-                var rep = "@"+_this.find(".m0 .text-muted .send-user-name").html()+" ";
-                _this.find(".form-control").focus().val(rep);
-            }
-        });
-    });
-}
