@@ -52,21 +52,21 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/login" th:unless="${user != null}">登录</a>
+                        <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
+                    </li>
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
                     <li>
                         <a href="/lookAround/standard/ALL">随便看看</a>
                     </li>
-                    <li class="page-scroll">
-                        <a href="#about">关于</a>
-                    </li>
-                    <li>
-                        <a href="/login" th:unless="${user != null}">登录</a>
-                        <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
-                    </li>
                     <li>
                         <a href="/feedback">提建议</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#about">关于</a>
                     </li>
                 </ul>
             </div>

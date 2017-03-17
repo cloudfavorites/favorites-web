@@ -506,6 +506,20 @@ function praiseMeOnclick() {
 	locationUrl('/notice/praiseMe','praiseMe');
 }
 
+function showNotice(type){
+	var temp = $(".label.label-danger").html();
+	if(type == "letter"){
+		temp = temp - $("#newLetterNoticeCount").val();
+		$("#newLetterNotice").html("0 条新消息");
+	}
+	if(temp==0){
+		$(".label.label-danger").hide();
+	}else{
+		$(".label.label-danger").html(temp);
+	}
+	locationUrl('/letter/letterMe','letterMe');
+}
+
 function myrefresh(){
 	$.ajax({
 		url : "/notice/getNoticeNum",
@@ -516,7 +530,7 @@ function myrefresh(){
 		},
 		success : function(result) {
 			if(result.rspCode == '000000'){
-				var totalNum = result.data.newPraiseMeCount+result.data.newCommentMeCount+result.data.newAtMeCount;
+				var totalNum = result.data.newPraiseMeCount+result.data.newCommentMeCount+result.data.newAtMeCount+result.data.newLetterNotice;
 				if(Number(totalNum) > 0){
 					$("#noticeNum").show();
 					$("#noticeNum").text(totalNum);
@@ -524,6 +538,8 @@ function myrefresh(){
 				$("#atMeNewNotice").text(result.data.newAtMeCount+" 条新消息");
 				$("#commentMeNewNotice").text(result.data.newCommentMeCount+" 条新消息");
 				$("#praiseMeNewNotice").text(result.data.newPraiseMeCount + " 条新消息");
+				$("#newLetterNotice").text(result.data.newLetterNotice+" 条新消息");
+				$("#newLetterNoticeCount").val(result.data.newLetterNotice);
 			}
 		}
 	});

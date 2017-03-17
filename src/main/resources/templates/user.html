@@ -13,7 +13,9 @@
                         <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
                         <p th:if="${myself == 'YES'}" th:text="${user.email}">123456789@qq.com</p>
                         <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
-                        <a href="javascript:void(0);" th:if="${myself == 'NO'}" id="follow"></a> </div>
+                        <a href="javascript:void(0);" th:if="${myself == 'NO'}" id="follow"></a>
+                        <a href="javascript:void(0);" th:if="${myself == 'NO'}" class="btn btn-success" data-toggle="modal" data-target="#modal-letter">私信</a>
+                    </div>
                 </div>
                 <div class="text-center bg-gray-dark p-lg mb">
                     <div class="row row-table">

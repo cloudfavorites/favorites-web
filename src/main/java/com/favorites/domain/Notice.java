@@ -1,11 +1,10 @@
 package com.favorites.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 消息
@@ -22,7 +21,7 @@ public class Notice extends Entitys implements Serializable {
 	private Long id;
 	@Column(nullable = false)
 	private Long userId;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String collectId;
 	@Column(nullable = false)
 	private String type;

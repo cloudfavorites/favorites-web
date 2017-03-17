@@ -1,17 +1,16 @@
 package com.favorites.web;
+
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Favorites;
 import com.favorites.domain.User;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.FollowStatus;
 import com.favorites.domain.enums.IsDelete;
-import com.favorites.domain.result.Response;
 import com.favorites.domain.view.CollectSummary;
-import com.favorites.repository.CollectRepository;
-import com.favorites.repository.FavoritesRepository;
-import com.favorites.repository.FollowRepository;
-import com.favorites.repository.UserRepository;
+import com.favorites.domain.view.LetterSummary;
+import com.favorites.repository.*;
 import com.favorites.service.CollectService;
+import com.favorites.service.LetterService;
 import com.favorites.service.LookRecordService;
 import com.favorites.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,10 @@ public class HomeController extends BaseController{
 	private NoticeService noticeService;
 	@Autowired
 	private LookRecordService lookRecordService;
+	@Autowired
+	private LetterService letterService;
+	@Autowired
+	private NoticeRepository noticeRepository;
 
 
 	@RequestMapping(value="/standard/{type}/{userId}")
@@ -363,6 +366,18 @@ public class HomeController extends BaseController{
 		model.addAttribute("size", collects.size());
 		logger.info("LookRecord end :"+ getUserId());
 		return "lookRecord/simple";
+	}
+
+	@RequestMapping("/letter/letterMe")
+	@LoggerManage(description = "私信我的页面展示")
+	public String letterMe(Model model, @RequestParam(value = "page", defaultValue = "0") Integer page,
+						   @RequestParam(value = "size", defaultValue = "15") Integer size){
+		Sort sort = new Sort(Sort.Direction.DESC, "id");
+		Pageable pageable = new PageRequest(page, size, sort);
+		List<LetterSummary> letterList = letterService.findLetter(getUserId(),pageable);
+		model.addAttribute("letterList",letterList);
+		noticeRepository.updateReadedByUserId("read",getUserId(),"letter");
+		return "notice/letterme";
 	}
 	
 }
