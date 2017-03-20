@@ -5,7 +5,6 @@ import com.favorites.comm.Const;
 import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.Favorites;
-import com.favorites.domain.Praise;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.result.ExceptionMsg;
@@ -13,7 +12,6 @@ import com.favorites.domain.result.Response;
 import com.favorites.domain.view.CollectSummary;
 import com.favorites.repository.CollectRepository;
 import com.favorites.repository.FavoritesRepository;
-import com.favorites.repository.PraiseRepository;
 import com.favorites.service.CollectService;
 import com.favorites.service.FavoritesService;
 import com.favorites.service.LookAroundService;
@@ -34,7 +32,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,9 +47,6 @@ public class CollectController extends BaseController{
 	private CollectService collectService;
 	@Resource
 	private FavoritesRepository favoritesRepository;
-	@Resource
-	private PraiseRepository praiseRepository;
-
 	@Autowired
 	private CacheService cacheService;
 
@@ -377,19 +371,8 @@ public class CollectController extends BaseController{
 		logger.info("searchOther end :");
 		return otherCollects;
 	}
-
-	/**
-	 * 查询点赞状态及该文章的点赞数量
-	 */
-	@RequestMapping(value="/getPaiseStatus/{collectId}")
-	public Map<String,Object> getPraiseStatus(Model model,@PathVariable("collectId") Long collectId){
-		Map<String,Object> maps = new HashMap<String,Object>();
-		Praise praise = praiseRepository.findByUserIdAndCollectId(getUserId(), collectId);
-		Long praiseCount = praiseRepository.countByCollectId(collectId);
-		maps.put("status",praise != null ? "praise" : "unpraise");
-		maps.put("praiseCount",praiseCount);
-		return maps;
-	}
+	
+	
 	
 	
 }
