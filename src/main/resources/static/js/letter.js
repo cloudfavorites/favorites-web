@@ -99,7 +99,6 @@ function sendLetter(type,pid,obj){
     }
     var url = '/letter/sendLetter';
     $.ajax({
-        async: false,
         url : url,
         data : {'content':content,'sendType':type,'receiveUserId':receiveUserId,'pid':pid},
         type : 'POST',
