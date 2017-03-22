@@ -117,7 +117,11 @@ public class LookAroundServiceImpl implements LookAroundService{
         if(category != null && !"".equals(category) && !"ALL".equals(category)) {
             views = collectRepository.findExploreViewByCategory(category,pageable);
         }else{
-            views = collectRepository.findExploreViewByType(pageable);
+            if(null != userId){
+                views = collectRepository.findExploreView(userId,pageable);
+            }else{
+                views = collectRepository.findExploreViewByType(pageable);
+            }
         }
         List<CollectSummary> summarys = new ArrayList<CollectSummary>();
         for (CollectView view : views) {

@@ -1,14 +1,5 @@
 package com.favorites.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.favorites.domain.Notice;
 import com.favorites.domain.User;
 import com.favorites.domain.view.CollectSummary;
@@ -20,6 +11,14 @@ import com.favorites.repository.PraiseRepository;
 import com.favorites.repository.UserRepository;
 import com.favorites.service.NoticeService;
 import com.favorites.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("noticeService")
 public class NoticeServiceImpl implements NoticeService{
@@ -42,7 +41,9 @@ public class NoticeServiceImpl implements NoticeService{
 	 */
 	public void saveNotice(String collectId,String type,Long userId,String operId){
 		Notice notice = new Notice();
-		notice.setCollectId(collectId);
+		if(StringUtils.isNotBlank(collectId)){
+			notice.setCollectId(collectId);
+		}
 		notice.setReaded("unread");
 		notice.setType(type);
 		if(StringUtils.isNotBlank(operId)){

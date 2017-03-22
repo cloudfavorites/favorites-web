@@ -46,7 +46,9 @@ $(function(){
 	  	        	 if(response.rspCode == '000000'){
 	  	        		loadFavorites();
 	  	        		$('#modal-changeSharing').modal('hide');
-	  					loadUserFavorites();
+						 if($("#userCheck").val()=="usercontent"){
+							 loadUserFavorites();
+						 }
 	  	        	 }else{
 	  	        		$("#errorMsg").text(response.rspMsg);
 	 			 		$("#errorMsg").show();

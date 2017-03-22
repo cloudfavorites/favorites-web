@@ -188,6 +188,27 @@
          </div>
       </div>
    </div>
+   <div id="modal-letter" class="modal fade">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" data-dismiss="modal" class="close">
+                       <span>&times;</span>
+                   </button>
+                   <h4 class="modal-title">给TA发私信</h4>
+               </div>
+               <form id="sendLetterForm" data-parsley-validate="true" onsubmit="return false">
+                   <div class="modal-body">
+                       <div class="form-group">
+                           <textarea id="letterContent" class="form-control" rows="3" required="required" placeholder="请输入内容！" data-parsley-error-message="请输入内容！"> </textarea>
+                       </div>
+                       <!--<div class="btn btn-primary btn-block" onclick="sendLetter('original');">发送</div>-->
+                       <button id="sendLetterBtn" type="submit" class="btn btn-primary btn-block" onclick="sendLetter('original','','');">发送</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
    <input type="hidden" id="layoutConfigId" name="layoutConfigId"/>
   </div> 
 </body>

@@ -87,9 +87,11 @@ public class NoticeController extends BaseController{
 		Long newAtMeCount = noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "at", "unread");
 		Long newCommentMeCount = noticeRepository.countByUserIdAndTypeAndReaded(getUserId(), "comment", "unread");
 		Long newPraiseMeCount = noticeRepository.countPraiseByUserIdAndReaded(getUserId(), "unread");
+		Long newLetterNotice = noticeRepository.countByUserIdAndTypeAndReaded(getUserId(),"letter","unread");
 		result.put("newAtMeCount",newAtMeCount);
 		result.put("newCommentMeCount",newCommentMeCount);
 		result.put("newPraiseMeCount",newPraiseMeCount);
+		result.put("newLetterNotice",newLetterNotice);
 		return new ResponseData(ExceptionMsg.SUCCESS,result);
 	}
 
