@@ -37,7 +37,7 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
     @Override
     public Long getMostFollowedUser(Long notUserId) {
         String querySql = "SELECT id,follow_id as user_id,COUNT(1) AS counts FROM follow \n" +
-                "WHERE follow_id != " + notUserId +
+                "WHERE status='FOLLOW' and follow_id != " + notUserId +
                 " GROUP BY follow_id ORDER BY counts DESC LIMIT 1";
         CollectorView cv = new CollectorView();
         List<CollectorView> list = sqlObjectList(querySql,cv);
