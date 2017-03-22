@@ -4,7 +4,7 @@
 </head>
 <body>
 <div class="col-lg-9 col-md-9 mt" id="standard">
-    <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;" th:if="${collects.size() > 0}"> <a class="btn btn-xs btn-default active" > <span class="icon-layers"></span> </a> <a class="btn btn-xs btn-default" id="standardBtn"> <span class="icon-list"></span> </a> </div>
+    <!--<div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;" th:if="${collects.size() > 0}"> <a class="btn btn-xs btn-default active" > <span class="icon-layers"></span> </a> <a class="btn btn-xs btn-default" id="standardBtn"> <span class="icon-list"></span> </a> </div>-->
     <ul class="timeline-alt" id="collectStandardList">
         <li th:each="collect,collectStat : ${collects}" > <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(/' + @{(${user.profilePicture==null?'img/favicon.png':user.profilePicture})} + ')'" ></a>
             <div class="timeline-panel">
@@ -121,7 +121,7 @@
     <br />
 </div>
 <div class="col-lg-9 col-md-9 mt" id="simple"  style="display:none;">
-    <div class="btn-group btn-xs mb pull-right" th:if="${collects.size() > 0}" style="margin-top: -25px;"> <a class="btn btn-xs btn-default" id="simpleBtn"> <span class="icon-layers"></span> </a> <a class="btn btn-xs btn-default active" > <span class="icon-list"></span> </a> </div>
+    <!--<div class="btn-group btn-xs mb pull-right" th:if="${collects.size() > 0}" style="margin-top: -25px;"> <a class="btn btn-xs btn-default" id="simpleBtn"> <span class="icon-layers"></span> </a> <a class="btn btn-xs btn-default active" > <span class="icon-list"></span> </a> </div>-->
     <table class="table">
         <tbody id="collectSimpleList">
             <tr th:each="collect,collectStat : ${collects}">

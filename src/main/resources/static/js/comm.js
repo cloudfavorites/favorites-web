@@ -180,3 +180,17 @@ function switchFavorites(id,selectLabelName){
     var favoritesId = id.substring(14);
     $("#"+selectLabelName).val(favoritesId);
 }
+
+var jiathis_config = {};
+function share(url,title,description,pic){
+	description = description + "    -分享自云收藏http://favorites.ren/";
+
+	jiathis_config.data_track_clickback=true;
+	jiathis_config.url=url;
+	jiathis_config.pic=pic;
+	jiathis_config.summary=description;
+	jiathis_config.title=title;
+	jiathis_config.shortUrl=false;
+	jiathis_config.hideMore=false;
+
+}

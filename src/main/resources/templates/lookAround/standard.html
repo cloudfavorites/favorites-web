@@ -14,18 +14,6 @@
 <!--<script th:src="@{/js/collect.js}" ></script>-->
 <!--<script th:src="@{/index/js/freelancer.min.js}"></script>-->
 
-<script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
-<script th:src="@{/webjars/jquery-form/3.51/jquery.form.js}"></script>
-<script th:src="@{/webjars/bootstrap/3.3.6/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{/vendor/modernizr/modernizr.custom.js}" ></script>
-<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
-<script th:src="@{/media/js/app.js}" ></script>
-<script th:src="@{/js/comm.js}" ></script>
-<script th:src="@{/js/collect.js}" ></script>
-<script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
-<script th:src="@{/vendor/toastr/toastr.min.js}"></script>
-<script th:src="@{/js/lookAround.js}" ></script>
-<script th:src="@{/index/js/freelancer.min.js}"></script>
 
 <!-- Theme CSS -->
 <link href="../../index/css/freelancer.min.css" rel="stylesheet" />
@@ -57,19 +45,6 @@
     </div>
     <!-- /.navbar-collapse -->
   </div>
-  <script>
-    (function($) {
-      $('body').scrollspy({
-          target: '.navbar-fixed-top',
-          offset: 51
-      });
-      $('#mainNav').affix({
-          offset: {
-              top: 100
-          }
-      })
-    })(jQuery);
-  </script>
   <!-- /.container-fluid -->
 </nav>
 <div class="wrapper">
@@ -136,7 +111,7 @@
             </ul>
           </div>
           <div id="standard" th:if="${collects.size() > 0}" style="margin-top: 45px;">
-            <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
+            <!--<div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
 
               <a th:if="${otherPeople == null}" class="btn btn-xs btn-default active"  th:href="'/lookAround/standard/' + ${category}">
 
@@ -162,7 +137,7 @@
 
               </a>
 
-            </div>
+            </div>-->
             <ul class="timeline-alt" id="collectStandardList">
 
               <li th:each="collect,collectStat : ${collects}" >
@@ -321,23 +296,17 @@
 
                         <a th:href="'/standard/' + ${collect.favoriteId} + '/' + ${collect.userId}" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}">文件加名称</a>
 
-                        <div class="pull-right hidden-xxs">
+                        <div class="pull-right hidden-xxs" th:onmouseover="'share(\''+${collect.url}+'\',\''+${collect.title}+'\',\''+${collect.description}+'\',\''+${collect.logoUrl}+'\');'">
+                          <small class="jiathis_style_32x32">
 
-                          <small>
+                            <a href="javascript:void(0);" class="jiathis jiathis_txt sharing-action-button" style="font-size: 100%;line-height:25px!important">
 
-                            <a class="sharing-action-button" style="display:none">
+                              <span class="fa fa-share-alt "></span>
 
-                              <span class="fa fa-share-alt"></span>
-
-                              分享
-
+                              分享&nbsp;
                             </a>
 
-                            <if style="display:none"    >
-
                               |
-
-                            </if>
 
                             <a th:id="'like' + ${collect.id}" class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'">
 
@@ -485,8 +454,34 @@
 	    </span>
   </footer>
 </div>
-
+<script th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-form/3.51/jquery.form.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.6/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/modernizr/modernizr.custom.js}" ></script>
+<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}" ></script>
+<script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
+<script th:src="@{/media/js/app.js}" ></script>
+<script th:src="@{/js/comm.js}" ></script>
+<script th:src="@{/js/collect.js}" ></script>
+<script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script>
+<script th:src="@{/webjars/vue/1.0.24/vue.min.js}"></script>
+<script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>
+<script th:src="@{/vendor/toastr/toastr.min.js}"></script>
+<script th:src="@{/js/lookAround.js}" ></script>
+<script th:src="@{/index/js/freelancer.min.js}"></script>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=2126448" charset="utf-8"></script>
 <script>
+  (function($) {
+    $('body').scrollspy({
+      target: '.navbar-fixed-top',
+      offset: 51
+    });
+    $('#mainNav').affix({
+      offset: {
+        top: 100
+      }
+    })
+  })(jQuery);
    $(".slider").flexslider({
       animation: "side",
       slideshowSpeed: 3000,
