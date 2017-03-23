@@ -705,7 +705,7 @@ function listStandardCollect(collects,listId,user){
 		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"/"+collects[i].userId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
 		"            <div class=\"pull-right hidden-xxs\" onmouseover=\"share(\'"+collects[i].url+"\',\'"+collects[i].title+"\',\'"+collects[i].description+"\',\'"+collects[i].logoUrl+"\');\">"+
 		"               <small class=\"jiathis_style_32x32\">"+
-		"                  <a href=\"javascript:void(0);\" class=\"jiathis jiathis_txt sharing-action-button\" style=\"font-size: 100%;line-height:25px!important\">"+
+		"                  <a href=\"javascript:void(0);\" class=\"jiathis jiathis_txt sharing-action-button\" style=\"font-size: 100%;line-height:18px!important;padding-top:2px;\">"+
 		"                     <span class=\"fa fa-share-alt\"></span>"+
 		"                     	分享&nbsp;"+
 		"                  </a>"+

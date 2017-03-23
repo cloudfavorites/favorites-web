@@ -22,9 +22,9 @@
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="/lookAround/standard/ALL">随便看看</a>
-                </li>
+                </li>-->
                 <li>
                     <a href="/login" th:unless="${loginUserInfo != null}">登录</a>
                     <a href="/" th:if="${loginUserInfo != null}" th:text="${loginUserInfo.userName}" class="userName"></a>

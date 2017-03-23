@@ -36,23 +36,6 @@ public class NoticeController extends BaseController{
 	private CommentRepository commentRepository;
 	
 	/**
-	 * 更新消息为已读
-	 * @return
-	 */
-	@RequestMapping(value = "/updateNoticeReaded", method = RequestMethod.POST)
-	public ResponseData updateAtMeNoticeReaded(String type) {
-		logger.info("updateNoticeReaded begin");
-		try {
-			int counts = noticeRepository.updateReadedByUserId("read", getUserId(), type);
-			return new ResponseData(ExceptionMsg.SUCCESS, counts);
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("updateNoticeReaded failed, ", e);
-			return new ResponseData(ExceptionMsg.FAILED);
-		}
-	}
-	
-	/**
 	 * 回复
 	 * @param comment
 	 * @return

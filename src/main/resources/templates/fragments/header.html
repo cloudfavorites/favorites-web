@@ -71,7 +71,7 @@
 
                         <div class="list-group">
 
-                           <a class="list-group-item" href="javascript:void(0);" onclick="atMeOnclick()">
+                           <a class="list-group-item" href="javascript:void(0);" onclick="showNotice('at')">
 
                               <div class="media-box">
 
@@ -88,7 +88,7 @@
                                     <p class="m0 text-muted">
 
                                        <small id="atMeNewNotice"></small>
-
+                                        <input type="hidden" id="newAtMeCount"/>
                                     </p>
 
                                  </div>
@@ -97,7 +97,7 @@
 
                            </a>
 
-                            <a class="list-group-item" href="javascript:void(0);" onclick="commentMeOnclick()">
+                            <a class="list-group-item" href="javascript:void(0);" onclick="showNotice('comment')">
 
                               <div class="media-box">
 
@@ -114,6 +114,7 @@
                                     <p class="m0 text-muted">
 
                                        <small id="commentMeNewNotice"></small>
+                                       <input type="hidden" id="newCommentMeCount" />
 
                                     </p>
 
@@ -123,7 +124,7 @@
 
                            </a>
 
-                            <a class="list-group-item" href="javascript:void(0);" onclick="praiseMeOnclick()">
+                            <a class="list-group-item" href="javascript:void(0);" onclick="showNotice('praise')">
 
                               <div class="media-box">
 
@@ -141,7 +142,7 @@
 
                                        <small id="praiseMeNewNotice"></small>
 
-                                       <input id="newPraiseMeCounts" type="hidden" th:value="${newPraiseMeCount}"/>
+                                       <input id="newPraiseMeCounts" type="hidden" />
 
                                     </p>
 

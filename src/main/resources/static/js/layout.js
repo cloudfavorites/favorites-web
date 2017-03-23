@@ -431,93 +431,36 @@ function updateNickname() {
 	});
    }
 
-function atMeOnclick() {
-	var url = '/notice/updateNoticeReaded';
-	$.ajax({
-		async: false,
-		url : url,
-		data : 'type=at',
-		type : 'POST',
-		dataType : "json",
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		},
-		success : function(data, textStatus) {
-			if(data.rspCode == '000000'){
-				var temp = $(".label.label-danger").html()-data.data;
-				if(temp==0){
-					$(".label.label-danger").hide();
-				}else{
-					$(".label.label-danger").html(temp);
-				}
-				$("#atMeNewNotice").html("0  条新消息");
-  	    	}
-		}
-	});
-	locationUrl('/notice/atMe','atMe');
-}
-
-function commentMeOnclick() {
-	var url = '/notice/updateNoticeReaded';
-	$.ajax({
-		async: false,
-		url : url,
-		data : 'type=comment',
-		type : 'POST',
-		dataType : "json",
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		},
-		success : function(data, textStatus) {
-			if(data.rspCode == '000000'){
-				var temp = $(".label.label-danger").html()-data.data;
-				if(temp==0){
-					$(".label.label-danger").hide();
-				}else{
-					$(".label.label-danger").html(temp);
-				}
-				$("#commentMeNewNotice").html("0  条新评论");
-  	    	}
-		}
-	});
-	locationUrl('/notice/commentMe','commentMe');
-}
-
-function praiseMeOnclick() {
-	var url = '/notice/updateNoticeReaded';
-	$.ajax({
-		async: false,
-		url : url,
-		data : 'type=praise',
-		type : 'POST',
-		dataType : "json",
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		},
-		success : function(data, textStatus) {
-			if(data.rspCode == '000000'){
-				var temp = $(".label.label-danger").html()-$("#newPraiseMeCounts").val();
-				if(temp==0){
-					$(".label.label-danger").hide();
-				}else{
-					$(".label.label-danger").html(temp);
-				}
-				$("#praiseMeNewNotice").html("0  个新的赞");
-  	    	}
-		}
-	});
-	locationUrl('/notice/praiseMe','praiseMe');
-}
-
 function showNotice(type){
 	var temp = $(".label.label-danger").html();
 	if(type == "letter"){
 		temp = temp - $("#newLetterNoticeCount").val();
 		$("#newLetterNotice").html("0 条新消息");
+	}else if(type == "praise"){
+		temp = temp - $("#newPraiseMeCounts").val();
+		$("#praiseMeNewNotice").html("0 条新消息");
+	}else if(type == "comment"){
+		temp = temp - $("#newCommentMeCount").val();
+		$("#commentMeNewNotice").html("0 条新消息");
+	}else if(type == "at"){
+		temp = temp - $("#newAtMeCount").val();
+		$("#atMeNewNotice").html("0 条新消息");
 	}
 	if(temp==0){
 		$(".label.label-danger").hide();
 	}else{
 		$(".label.label-danger").html(temp);
 	}
-	locationUrl('/letter/letterMe','letterMe');
+	if(type == "letter"){
+		locationUrl('/letter/letterMe','letterMe');
+	}else if(type == "praise"){
+		locationUrl('/notice/praiseMe','praiseMe');
+	}else if(type == "comment"){
+		locationUrl('/notice/commentMe','commentMe');
+	}else if(type == "at"){
+		locationUrl('/notice/atMe','atMe');
+	}
+
 }
 
 function myrefresh(){
@@ -536,8 +479,11 @@ function myrefresh(){
 					$("#noticeNum").text(totalNum);
 				}
 				$("#atMeNewNotice").text(result.data.newAtMeCount+" 条新消息");
+				$("#newAtMeCount").val(result.data.newAtMeCount);
 				$("#commentMeNewNotice").text(result.data.newCommentMeCount+" 条新消息");
+				$("#newCommentMeCount").val(result.data.newCommentMeCount);
 				$("#praiseMeNewNotice").text(result.data.newPraiseMeCount + " 条新消息");
+				$("#newPraiseMeCounts").val(result.data.newPraiseMeCount);
 				$("#newLetterNotice").text(result.data.newLetterNotice+" 条新消息");
 				$("#newLetterNoticeCount").val(result.data.newLetterNotice);
 			}
