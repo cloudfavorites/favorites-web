@@ -10,7 +10,7 @@
 当您的浏览器收藏夹收藏的网站或者文章大于1000份的时候，找东西绝对是个体力活。   
 那就让云收藏帮您解决吧，方便分类、整理、查询、搜索。  
 
-###[favorites website &rarr;](http://favorites.ren/)
+### [favorites website &rarr;](http://favorites.ren/)
 
 
 
