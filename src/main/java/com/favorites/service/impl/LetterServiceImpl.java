@@ -73,7 +73,7 @@ public class LetterServiceImpl implements LetterService{
      */
     public List<LetterSummary> findLetter(Long userId, Pageable pageable){
         List<LetterView> viewList = letterRepository.findLetterByReceiveUserId(userId,pageable);
-        List<LetterSummary> summaryList = new ArrayList<>();
+        List<LetterSummary> summaryList = new ArrayList<LetterSummary>();
         for(LetterView view : viewList){
             LetterSummary summary = new LetterSummary(view);
             summaryList.add(summary);
