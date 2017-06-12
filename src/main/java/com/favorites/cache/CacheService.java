@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class CacheService {
 
-    private Map<String,String> maps = new HashMap<>();
+    private Map<String,String> maps = new HashMap<String, String>();
     @Autowired
     private UrlLibraryRepository urlLibraryRepository;
 

@@ -124,7 +124,7 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static Map<String, String> parseHtmlOne(InputStream in){
-		Map<String, String> map = new HashMap<>();
+		Map<String, String> map = new HashMap<String, String>();
 		try {
 			Document doc = Jsoup.parse(in, "UTF-8", "");
 			Elements metas = doc.select("a");  
@@ -188,7 +188,7 @@ public class HtmlUtil {
 		try {
 			Document doc = Jsoup.parse(in, "UTF-8", "");  
 			Elements bodys = doc.child(0).children();
-			Map<String, List<Map>> resultMap = new HashMap<>();
+			Map<String, List<Map>> resultMap = new HashMap<String, List<Map>>();
 			for(Element body : bodys){
 				if("body".equalsIgnoreCase(body.nodeName())){
 					Elements dls = body.children();
@@ -207,8 +207,8 @@ public class HtmlUtil {
 	}
 	
 	public static Map<String, List<Map>> parseElements(Element element,Map<String, List<Map>> resultMap){
-		Map<String, Map> favoritesMap = new HashMap<>();
-		Map<String, String> urlMap = new HashMap<>();
+		Map<String, Map> favoritesMap = new HashMap<String, Map>();
+		Map<String, String> urlMap = new HashMap<String, String>();
 		String favoritesName = "";
 		Elements dts = element.children();
 		for(Element dt : dts){
@@ -239,7 +239,7 @@ public class HtmlUtil {
 				mapList = resultMap.get(name);
 				mapList.add(favoritesMap);
 			}else{
-				mapList = new ArrayList<>();
+				mapList = new ArrayList<Map>();
 				mapList.add(favoritesMap);
 			}
 			resultMap.put(name, mapList);
