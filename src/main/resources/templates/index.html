@@ -91,7 +91,7 @@
         </div>
     </header>
 
-    <!-- Portfolio Grid Section -->
+     Portfolio Grid Section
     <section id="portfolio">
         <div class="container">
             <div class="row">
@@ -102,7 +102,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostCollectUser.id}+'/0'" class="portfolio-link">
+
+                    <a th:if="${collector.mostCollectUser != null}" th:href="'/collector/'+${collector.mostCollectUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -115,7 +116,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostFollowedUser.id}+'/0'" class="portfolio-link">
+                    <a th:if="${collector.mostFollowedUser != null}" th:href="'/collector/'+${collector.mostFollowedUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -128,7 +129,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostPraisedUser.id}+'/0'" class="portfolio-link">
+                    <a th:if="${collector.mostPraisedUser != null}" th:href="'/collector/'+${collector.mostPraisedUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -141,7 +142,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostCommentedUser.id}+'/0'" class="portfolio-link">
+                    <a th:if="${collector.mostCommentedUser != null}" th:href="'/collector/'+${collector.mostCommentedUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -154,7 +155,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostPopularUser.id}+'/0'" class="portfolio-link">
+                    <a th:if="${collector.mostPopularUser != null}" th:href="'/collector/'+${collector.mostPopularUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -167,7 +168,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a th:href="'/collector/'+${collector.mostActiveUser.id}+'/0'" class="portfolio-link">
+                    <a th:if="${collector.mostActiveUser != null}" th:href="'/collector/'+${collector.mostActiveUser.id}+'/0'" class="portfolio-link">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
