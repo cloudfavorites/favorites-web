@@ -21,9 +21,9 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="/lookAround/standard/ALL">随便看看</a>
-                    </li>
+                    </li>-->
                     <li>
                         <a href="/login" th:unless="${user != null}">登录</a>
                         <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
