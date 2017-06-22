@@ -1,9 +1,10 @@
 package com.favorites.util.html;
-import com.favorites.Application;
-import com.favorites.comm.Const;
-import com.favorites.comm.config.Config;
-import com.favorites.schedule.ScheduledTasks;
-import com.favorites.utils.URLUtil;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -12,18 +13,17 @@ import org.jsoup.nodes.Element;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.favorites.comm.Const;
+import com.favorites.comm.config.Config;
+import com.favorites.schedule.ScheduledTasks;
+import com.favorites.utils.URLUtil;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(Application.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class HtmlUtilTest {
 
    private static Logger logger = Logger.getLogger(HtmlUtilTest.class);
