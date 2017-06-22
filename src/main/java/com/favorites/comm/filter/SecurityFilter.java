@@ -28,13 +28,13 @@ public class SecurityFilter implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-		GreenUrlSet.add(Const.BASE_PATH + "/");
-		GreenUrlSet.add(Const.BASE_PATH + "/login");
-		GreenUrlSet.add(Const.BASE_PATH + "/register");
-		GreenUrlSet.add(Const.BASE_PATH + "/index");
-		GreenUrlSet.add(Const.BASE_PATH + "/forgotPassword");
-		GreenUrlSet.add(Const.BASE_PATH + "/newPassword");
-		GreenUrlSet.add(Const.BASE_PATH + "/tool");
+		GreenUrlSet.add("/");
+		GreenUrlSet.add("/login");
+		GreenUrlSet.add("/register");
+		GreenUrlSet.add("/index");
+		GreenUrlSet.add("/forgotPassword");
+		GreenUrlSet.add("/newPassword");
+		GreenUrlSet.add("/tool");
 	}
 
 	@Override
@@ -89,6 +89,10 @@ public class SecurityFilter implements Filter {
 						}
 						html = html.replace("_BP_", Const.BASE_PATH);
 						sresponse.getWriter().write(html);
+						/**
+						 * HttpServletResponse response = (HttpServletResponse) sresponse;
+						 response.sendRedirect("/");
+						 */
 					}
 				}
 				if(flag){
