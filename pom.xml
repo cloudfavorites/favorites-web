@@ -44,7 +44,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-		
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+		</dependency>
 		<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -54,21 +57,10 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.4</version>
 		</dependency>
-		
 		<dependency>
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>bootstrap</artifactId>
 		    <version>3.3.6</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>jquery</artifactId>
-		    <version>2.2.4</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>jquery-form</artifactId>
-		    <version>3.51</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars</groupId>

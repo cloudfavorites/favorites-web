@@ -28,7 +28,6 @@ public class SecurityFilter implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-		GreenUrlSet.add("/");
 		GreenUrlSet.add("/login");
 		GreenUrlSet.add("/register");
 		GreenUrlSet.add("/index");
@@ -45,11 +44,8 @@ public class SecurityFilter implements Filter {
 		String uri = request.getRequestURI();
 		if (request.getSession().getAttribute(Const.LOGIN_SESSION_KEY) == null) {
 			Cookie[] cookies = request.getCookies();
-			if (containsSuffix(uri) || GreenUrlSet.contains(uri) || containsKey(uri)) {
+			if (containsSuffix(uri)  || GreenUrlSet.contains(uri) || containsKey(uri)) {
 				logger.debug("don't check  url , " + request.getRequestURI());
-				if(uri.startsWith("/lookAround/standard/") || uri.startsWith("/lookAround/simple/")){
-					this.getRef(request);
-				}
 				filterChain.doFilter(srequest, sresponse);
 				return;
 			}else if (cookies!=null) {
@@ -122,6 +118,9 @@ public class SecurityFilter implements Filter {
 				}
 				html = html.replace("_BP_", Const.BASE_PATH);
 				sresponse.getWriter().write(html);
+				//	HttpServletResponse response = (HttpServletResponse) sresponse;
+				//response.sendRedirect("/");
+
 			}
 		}else{
 			filterChain.doFilter(srequest, sresponse);

@@ -15,7 +15,7 @@ $(function() {
 	$("#passwordError").hide();
 	$("#nicknameError").hide();
 	$("#noticeNum").hide();
-	window.setInterval("myrefresh();",1000*5);
+	window.setInterval("myrefresh();",600000);
 	window.setInterval((function(){
 		var div = $(".jiathis_style").children(0);
 		if(div.attr("style") =="border:10px solid #7F7F7F; width:300px;"){
