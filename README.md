@@ -22,3 +22,4 @@
 
 [如何构建项目](https://github.com/cloudfavorites/favorites-web/wiki/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E9%A1%B9%E7%9B%AE)
 
+[云收藏部署方案](https://github.com/cloudfavorites/favorites-web/wiki/%E4%BA%91%E6%94%B6%E8%97%8F%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88)
