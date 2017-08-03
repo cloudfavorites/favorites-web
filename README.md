@@ -23,3 +23,9 @@
 [如何构建项目](https://github.com/cloudfavorites/favorites-web/wiki/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E9%A1%B9%E7%9B%AE)
 
 [云收藏部署方案](https://github.com/cloudfavorites/favorites-web/wiki/%E4%BA%91%E6%94%B6%E8%97%8F%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88)
+
+
+
+**大家对这个项目有什么问题可以新建[issues](https://github.com/cloudfavorites/favorites-web/issues/new)提问，在提问之前请先查看已经关闭的[issues](https://github.com/cloudfavorites/favorites-web/issues?q=is%3Aissue+is%3Aclosed)**
+
+**特别是请提供一份项目sql这样的问题，我已经回答了300多次了！**
