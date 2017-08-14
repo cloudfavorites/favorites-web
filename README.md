@@ -26,6 +26,7 @@
 
 
 
-**大家对这个项目有什么问题可以新建[issues](https://github.com/cloudfavorites/favorites-web/issues/new)提问，在提问之前请先查看已经关闭的[issues](https://github.com/cloudfavorites/favorites-web/issues?q=is%3Aissue+is%3Aclosed)**
+**大家对这个项目有什么问题可以新建[issues](https://github.com/cloudfavorites/favorites-web/issues/new)提问，在提问之前请先查看已经关闭的[issues](https://github.com/cloudfavorites/favorites-web/issues?q=is%3Aissue+is%3Aclosed)。特别是请提供一份项目sql这样的问题，我已经回答了300多次了！**
 
-**特别是请提供一份项目sql这样的问题，我已经回答了300多次了！**
+
+**目前网站运行在阿里云最低配置的环境下，所以访问比较缓慢，有可以提供免费服务器的小伙伴可以联系我！**
