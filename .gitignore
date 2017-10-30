@@ -9,4 +9,4 @@
 *.iml
 *.class
 .checkstyle
-/.ide
+/.idea
