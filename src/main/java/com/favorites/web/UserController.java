@@ -72,7 +72,7 @@ public class UserController extends BaseController {
 	@LoggerManage(description="登陆")
 	public ResponseData login(User user,HttpServletResponse response) {
 		try {
-			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getUserName());
+			User loginUser = userRepository.findByUserNameOrEmail(user.getUserName(), user.getEmail());
 			if (loginUser == null ) {
 				return new ResponseData(ExceptionMsg.LoginNameNotExists);
 			}else if(!loginUser.getPassWord().equals(getPwd(user.getPassWord()))){
