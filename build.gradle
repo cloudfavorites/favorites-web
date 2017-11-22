@@ -9,7 +9,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 apply plugin: 'idea'
 
@@ -40,6 +40,7 @@ dependencies {
     compile 'org.webjars.bower:bootstrap:3.3.6'
     compile("org.webjars:vue:1.0.24")
     compile 'org.webjars.bower:vue-resource:0.7.0'
+    compile group: 'org.webjars', name: 'webjars-locator', version: '0.14'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
     compile 'org.springframework.boot:spring-boot-starter-tomcat'
 }
