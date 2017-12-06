@@ -10,8 +10,8 @@ import com.favorites.repository.CommentRepository;
 import com.favorites.repository.NoticeRepository;
 import com.favorites.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class NoticeController extends BaseController{
 	 * @param comment
 	 * @return
 	 */
-	@RequestMapping(value = "/reply", method = RequestMethod.POST)
+	@PostMapping("/reply")
 	public Response reply(Comment comment) {
 		logger.info("reply begin");
 		try {
