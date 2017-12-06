@@ -19,9 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -57,7 +57,7 @@ public class IndexController extends BaseController{
 	@Autowired
 	private LookAroundService lookAroundService;
 
-	@RequestMapping(value="/index",method=RequestMethod.GET)
+	@GetMapping("/index")
 	@LoggerManage(description="首页")
 	public String index(Model model){
 		IndexCollectorView indexCollectorView = (IndexCollectorView) redisService.getObject("collector");
@@ -73,7 +73,7 @@ public class IndexController extends BaseController{
 		return "index";
 	}
 	
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@GetMapping("/")
 	@LoggerManage(description="登陆后首页")
 	public String home(Model model) {
 		long size= collectRepository.countByUserIdAndIsDelete(getUserId(),IsDelete.NO);
@@ -158,14 +158,14 @@ public class IndexController extends BaseController{
 		return "lookAround/simple";
 	}
 
-	@RequestMapping(value="/login",method=RequestMethod.GET)
+	@GetMapping("/login")
 	@LoggerManage(description="登陆页面")
 	public String login() {
 
 		return "login";
 	}
 	
-	@RequestMapping(value="/register",method=RequestMethod.GET)
+	@GetMapping("/register")
 	@LoggerManage(description="注册页面")
 	public String regist() {
 		return "register";
@@ -208,7 +208,7 @@ public class IndexController extends BaseController{
 		return "favorites/feedback";
 	}
 	
-	@RequestMapping(value="/collect",method=RequestMethod.GET)
+	@GetMapping("/collect")
 	@LoggerManage(description="收藏页面")
 	public String collect(Model model) {
 		List<Favorites> favoritesList = favoritesRepository.findByUserId(getUserId());
@@ -221,7 +221,7 @@ public class IndexController extends BaseController{
 		return "collect";
 	}
 	
-	@RequestMapping(value="/logout",method=RequestMethod.GET)
+	@GetMapping("/logout")
 	@LoggerManage(description="登出")
 	public String logout(HttpServletResponse response,Model model) {
 		getSession().removeAttribute(Const.LOGIN_SESSION_KEY);
@@ -239,13 +239,13 @@ public class IndexController extends BaseController{
 		return "index";
 	}
 
-	@RequestMapping(value="/forgotPassword",method=RequestMethod.GET)
+	@GetMapping("/forgotPassword")
 	@LoggerManage(description="忘记密码页面")
 	public String forgotPassword() {
 		return "user/forgotpassword";
 	}
 	
-	@RequestMapping(value="/newPassword",method=RequestMethod.GET)
+	@GetMapping("/newPassword")
 	public String newPassword(String email) {
 		return "user/newpassword";
 	}

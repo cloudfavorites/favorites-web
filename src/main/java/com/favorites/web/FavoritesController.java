@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.favorites.comm.aop.LoggerManage;
@@ -43,7 +43,7 @@ public class FavoritesController extends BaseController{
 	 * @param name
 	 * @return
 	 */
-	@RequestMapping(value="/add",method=RequestMethod.POST)
+	@PostMapping("/add")
 	@LoggerManage(description="新建收藏夹")
 	public Response addFavorites(String name){
 		if(StringUtils.isNotBlank(name)){
@@ -70,7 +70,7 @@ public class FavoritesController extends BaseController{
 	 * 创建导入收藏夹
 	 * @return
 	 */
-	@RequestMapping(value="/addImportFavorites",method=RequestMethod.POST)
+	@PostMapping("/addImportFavorites")
 	@LoggerManage(description="创建导入收藏夹")
 	public ResponseData addImportFavorites(){
 		Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), "导入自浏览器");
@@ -90,7 +90,7 @@ public class FavoritesController extends BaseController{
 	 * @param favoritesId
 	 * @return
 	 */
-	@RequestMapping(value="/update",method=RequestMethod.POST)
+	@PostMapping("/update")
 	@LoggerManage(description="修改收藏夹")
 	public Response updateFavorites(String favoritesName,Long favoritesId){
 		if(StringUtils.isNotBlank(favoritesName)&& null != favoritesId){
@@ -120,7 +120,7 @@ public class FavoritesController extends BaseController{
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/del",method=RequestMethod.POST)
+	@PostMapping("/del")
 	@LoggerManage(description="删除收藏夹")
 	public Response delFavorites(Long id){
 		if(null == id){
@@ -152,7 +152,7 @@ public class FavoritesController extends BaseController{
 	 * 获取收藏夹
 	 * @return
 	 */
-	@RequestMapping(value = "/getFavorites/{userId}", method = RequestMethod.POST)
+	@PostMapping("/getFavorites/{userId}")
 	@LoggerManage(description="获取收藏夹")
 	public List<Favorites> getFavorites(@PathVariable("userId") Long userId) {
 		List<Favorites> favorites = null;

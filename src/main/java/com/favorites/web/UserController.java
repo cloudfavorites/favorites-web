@@ -23,8 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import sun.misc.BASE64Decoder;
 
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private FavoritesRepository favoritesRepository;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping("/login")
 	@LoggerManage(description="登陆")
 	public ResponseData login(User user,HttpServletResponse response) {
 		try {
@@ -105,7 +105,7 @@ public class UserController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/regist", method = RequestMethod.POST)
+	@PostMapping("/regist")
 	@LoggerManage(description="注册")
 	public Response create(User user) {
 		try {
@@ -135,7 +135,7 @@ public class UserController extends BaseController {
 		return result();
 	}
 
-	@RequestMapping(value = "/getFavorites", method = RequestMethod.POST)
+	@PostMapping("/getFavorites")
 	@LoggerManage(description="获取收藏夹")
 	public List<Favorites> getFavorites() {
 		List<Favorites> favorites = null;
@@ -152,7 +152,7 @@ public class UserController extends BaseController {
 	 * 获取属性设置
 	 * @return
 	 */
-	@RequestMapping(value = "/getConfig", method = RequestMethod.POST)
+	@PostMapping("/getConfig")
 	@LoggerManage(description="获取属性设置")
 	public Config getConfig(){
 		Config config = new Config();
@@ -170,7 +170,7 @@ public class UserController extends BaseController {
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value = "/updateConfig", method = RequestMethod.POST)
+	@PostMapping("/updateConfig")
 	@LoggerManage(description="属性修改")
 	public Response updateConfig(Long id, String type,String defaultFavorites){
 		if(null  != id && StringUtils.isNotBlank(type)){
@@ -195,7 +195,7 @@ public class UserController extends BaseController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/sendForgotPasswordEmail", method = RequestMethod.POST)
+	@PostMapping("/sendForgotPasswordEmail")
 	@LoggerManage(description="发送忘记密码邮件")
 	public Response sendForgotPasswordEmail(String email) {
 		try {
@@ -235,7 +235,7 @@ public class UserController extends BaseController {
 	 * @param sid
 	 * @return
 	 */
-	@RequestMapping(value = "/setNewPassword", method = RequestMethod.POST)
+	@PostMapping("/setNewPassword")
 	@LoggerManage(description="设置新密码")
 	public Response setNewPassword(String newpwd, String email, String sid) {
 		try {
@@ -264,7 +264,7 @@ public class UserController extends BaseController {
 	 * @param newPassword
 	 * @return
 	 */
-	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+	@PostMapping("/updatePassword")
 	@LoggerManage(description="修改密码")
 	public Response updatePassword(String oldPassword, String newPassword) {
 		try {
@@ -291,7 +291,7 @@ public class UserController extends BaseController {
 	 * @param introduction
 	 * @return
 	 */
-	@RequestMapping(value = "/updateIntroduction", method = RequestMethod.POST)
+	@PostMapping("/updateIntroduction")
 	@LoggerManage(description="修改个人简介")
 	public ResponseData updateIntroduction(String introduction) {
 		try {
@@ -312,7 +312,7 @@ public class UserController extends BaseController {
 	 * @param userName
 	 * @return
 	 */
-	@RequestMapping(value = "/updateUserName", method = RequestMethod.POST)
+	@PostMapping("/updateUserName")
 	@LoggerManage(description="修改昵称")
 	public ResponseData updateUserName(String userName) {
 		try {
@@ -343,7 +343,7 @@ public class UserController extends BaseController {
 	 * @param dataUrl
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
+	@PostMapping("/uploadHeadPortrait")
 	public ResponseData uploadHeadPortrait(String dataUrl){
 		logger.info("执行 上传头像 开始");
 		try { 
@@ -377,7 +377,7 @@ public class UserController extends BaseController {
 	 * @param dataUrl
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadBackground", method = RequestMethod.POST)
+	@PostMapping("/uploadBackground")
 	@LoggerManage(description="上传背景")
 	public ResponseData uploadBackground(String dataUrl){
 		try {
