@@ -1,3 +1,4 @@
+/*
 package com.favorites.service.impl;
 
 import com.favorites.service.RedisService;
@@ -8,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+*/
 /**
  * @Description:
  * @Auth: yuyang
  * @Date: 2017/2/24 16:11
  * @Version: 1.0
- **/
+ **//*
+
 @Service
 public class RedisServiceImpl implements RedisService{
 
@@ -54,3 +57,4 @@ public class RedisServiceImpl implements RedisService{
     }
 
 }
+*/

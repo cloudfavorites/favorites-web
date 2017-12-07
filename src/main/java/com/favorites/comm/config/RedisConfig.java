@@ -1,3 +1,4 @@
+/*
 package com.favorites.comm.config;
 
 import java.lang.reflect.Method;
@@ -60,4 +61,4 @@ public class RedisConfig extends CachingConfigurerSupport{
         return template;
     }
 
-}
+}*/

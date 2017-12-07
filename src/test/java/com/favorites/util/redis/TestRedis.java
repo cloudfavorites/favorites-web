@@ -1,3 +1,4 @@
+/*
 package com.favorites.util.redis;
 
 import com.favorites.domain.User;
@@ -68,4 +69,4 @@ public class TestRedis {
         System.out.println("redis delete test: "+redisService.get("collector"));
     }
 
-}
+}*/

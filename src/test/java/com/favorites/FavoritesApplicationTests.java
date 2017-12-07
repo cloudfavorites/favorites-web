@@ -27,7 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 @TestPropertySource(properties = { "spring.jmx.enabled:true",
 		"spring.datasource.jmx-enabled:true" })
 @ActiveProfiles("scratch")
-public class ApplicationTests {
+public class FavoritesApplicationTests {
 
 	@Autowired
 	private WebApplicationContext context;

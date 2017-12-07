@@ -7,13 +7,9 @@ import com.favorites.comm.aop.LoggerManage;
 import com.favorites.domain.Collect;
 import com.favorites.domain.UrlLibrary;
 import com.favorites.domain.enums.IsDelete;
-import com.favorites.domain.view.IndexCollectorView;
 import com.favorites.repository.CollectRepository;
 import com.favorites.repository.FavoritesRepository;
 import com.favorites.repository.UrlLibraryRepository;
-import com.favorites.repository.UserRepository;
-import com.favorites.service.CollectorService;
-import com.favorites.service.RedisService;
 import com.favorites.utils.DateUtils;
 import com.favorites.utils.HtmlUtil;
 import org.apache.log4j.Logger;
@@ -38,13 +34,10 @@ public class ScheduledTasks {
 	private UrlLibraryRepository urlLibraryRepository;
 	@Autowired
 	private CacheService cacheService;
+
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private CollectorService collectorService;
-	@Autowired
-	private RedisService redisService;
-	
+//	private RedisService redisService;
+
 	/**
 	 * 回收站定时
 	 */
@@ -90,7 +83,7 @@ public class ScheduledTasks {
 		}
 	}
 
-	@Scheduled(cron="11 11 0 * * ?")
+/*	@Scheduled(cron="11 11 0 * * ?")
 	@LoggerManage(description="查询收藏夹放到缓存定时")
 	public void putRedisCollector() {
 		try {
@@ -99,6 +92,6 @@ public class ScheduledTasks {
 		}catch (Exception e){
 			logger.error("查询收藏夹放到缓存定时任务异常：",e);
 		}
-	}
+	}*/
 
 }
