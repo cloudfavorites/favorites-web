@@ -4,13 +4,13 @@
 云收藏 - 让收藏更简单
 =========================
 
-[![Build Status](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg)](Build Status)
-[![JDK 1.8](https://img.shields.io/badge/JDK-1.8-brightgreen.svg)](JDK-1.8)
-[![Spring Boot 1.5.8](https://img.shields.io/badge/Spring%20Boot-1.5.8-green.svg)](Spring Boot 1.5.8)
-[![Maven](https://img.shields.io/badge/Maven-3.5.0-yellowgreen.svg)](Maven)
-[![Gradle](https://img.shields.io/badge/Gradle-4.6-orange.svg)](Gradle)
-[![license](https://img.shields.io/badge/license-MPL--2.0-blue.svg)](LICENSE)
-
+![Build Status](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg) 
+![JDK 1.8](https://img.shields.io/badge/JDK-1.8-brightgreen.svg)
+![Spring Boot 1.5.8](https://img.shields.io/badge/Spring%20Boot-1.5.8-green.svg)
+![Maven](https://img.shields.io/badge/Maven-3.5.0-yellowgreen.svg)
+![Gradle](https://img.shields.io/badge/Gradle-4.6-orange.svg)
+![license](https://img.shields.io/badge/license-MPL--2.0-blue.svg)
+ 
 
 云收藏是一个使用 Spring Boot 构建的开源网站，可以让用户在线随时随地收藏的一个网站，在网站上分类整理收藏的网站或者文章，可以作为稍后阅读的一个临时存放。作为一个开放开源的软件，可以让用户从浏览器将收藏夹内容导入到云收藏，也支持随时将云收藏收集的文章导出去做备份。 
 
