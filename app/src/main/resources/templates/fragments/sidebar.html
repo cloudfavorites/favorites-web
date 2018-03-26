@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<body >
+	<aside class="offsidebar" th:fragment="sidebar" >
+	   <h3 class="text-center">设置</h3>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" data-target="#modal-defaultFav" data-toggle="modal" href="javascript:void(0);" id="defaultFavorites"> 
+	      </a>
+	   </div>
+	   <!--<div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" href="javascript:void(0);" id="defaultCollectType" onclick="changeConfig('defaultCollectType')"> 
+	      </a>
+	   </div>-->
+	   <input type="hidden" id="configId" th:value="${config.id}"/>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" href="javascript:void(0);" id="defaultModel" onclick="changeConfig('defaultModel')">
+	      </a>
+	   </div>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" data-target="#modal-changeDescription" data-toggle="modal" href="javascript:void(0);">
+	         <strong>修改个人简介</strong>
+	      </a>
+	   </div>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" onclick="locationUrl('/uploadHeadPortrait','uploadHeadPortrait')">
+	         <strong>修改头像</strong>
+	      </a>
+	   </div>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" data-target="#modal-ChangeNickname" data-toggle="modal" href="#">
+	         <strong>修改昵称</strong>
+	      </a>
+	   </div>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-default btn-block" data-target="#modal-ChangePass" data-toggle="modal" href="#">
+	         <strong>修改密码</strong>
+	      </a>
+	   </div>
+	   <div class="p-lg text-center">
+	      <a class="btn btn-danger btn-block" href="/logout">
+	         <strong>注销</strong>
+	      </a>
+	   </div>
+	  <script type="text/javascript" th:inline="javascript">
+		function changeConfig(type){
+			 $.ajax({
+				async: false,
+				type: 'POST',
+				dataType: 'json',
+				data:{'id':$("#configId").val(),'type':type,'defaultFavorites':$("#layoutFavoritesName").val()},
+				url: '/user/updateConfig',
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					console.log(XMLHttpRequest);
+					console.log(textStatus);
+					console.log(errorThrown);
+				},
+				success: function(response){
+					loadConfig();
+					$("#updateFavoritestBtn").attr("aria-hidden","true");
+					$("#updateFavoritestBtn").attr("data-dismiss","modal");
+				}
+			}); 
+		}
+	</script>
+	</aside>
+</body>
+</html>

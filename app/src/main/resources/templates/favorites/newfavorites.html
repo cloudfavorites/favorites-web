@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+<body>
+      <section>
+         <div class="content-wrapper">
+            <h3>新建收藏夹</h3>
+            <div class="row">
+               <div class="col-md-3">
+                  <form id="form" data-parsley-validate="true" onsubmit="return false">
+                     <div class="form-group">
+                        <input id="name" type="text" class="form-control" placeholder="收藏夹名" data-parsley-error-message="请输入收藏夹名" required="required"/>
+                     </div>
+                     <button id="addFavorites" class="btn btn-block btn-primary mt-lg">提交</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </section>
+</body>
+ <script type='text/javascript'>
+ $(function(){
+	 toastr.options = {
+	            'closeButton': true,
+	            'positionClass': 'toast-top-center',
+	            'timeOut': '5000',
+	         };
+	 $("#addFavorites").click(function(){
+		 var ok = $('#form').parsley().isValid({force: true});
+		 if(ok){
+			 $.ajax({
+					async: false,
+					type: 'POST',
+					dataType: 'json',
+					data:'name=' + $("#name").val(),
+					url: '/favorites/add',
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log(XMLHttpRequest);
+						console.log(textStatus);
+						console.log(errorThrown);
+					},
+					success: function(response){
+						if(response.rspCode == '000000'){
+							 loadFavorites();
+							 toastr.success('收藏夹创建成功！', '操作成功');
+          	    	 	}else{
+          	    			toastr.error(response.rspMsg, '操作失败');
+          	    	 }
+					}
+				});
+		 }
+	 });
+ });
+ </script>
+</html>

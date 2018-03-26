@@ -1,0 +1,166 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='favorites'">
+
+</head>
+<body>
+<section>
+    <link rel="stylesheet" th:href="@{/vendor/cropper/cropper.min.css}" />
+    <div class="content-wrapper">
+        <h3>
+            上传背景
+            <small>选择一个心仪的背景</small>
+        </h3>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <!--
+                            <a href="#" class="pull-right">
+                                <small class="fa fa-refresh text-muted"></small>
+                            </a>
+                            -->
+                            请选择一张图片
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <input id="cropper-file" type="file" class="form-control" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);"/>
+                                <div class="bootstrap-filestyle input-group">
+                                    <input id="cropper-file-url" type="text" class="form-control" disabled=""/>
+                                    <span class="group-span-filestyle input-group-btn">
+                                    <label for="cropper-file" class="btn btn-default">
+                                       <span class="fa fa-folder-open text-muted"></span>
+                                    </label>
+                                 </span>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="cropper-preview" class="cropper-preview" data-text="截取的图像" style="min-height: 80px;"></div>
+                        </div>
+                    </div>
+                    <button id="cropper-submit" class="btn btn-primary btn-block" disabled="disabled" type="submit">提交</button>
+                </div>
+                <div class="col-lg-9 col-md-9">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="cropper-area">
+                                <img id="cropper-image" src="" alt=""/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/vendor/cropper/cropper.min.js}"></script>
+<script>
+    /*<![CDATA[*/
+    $(function(){
+        $("body").removeClass("offsidebar-open");
+
+        var $cropperImage = $('#cropper-image');
+        var $cropperFile = $('#cropper-file');
+        var $cropperFileUrl = $('#cropper-file-url');
+        var $cropperSubmit = $('#cropper-submit');
+        var $cropperPreview = $('.cropper-preview');
+        var URL = window.URL || window.webkitURL;
+        var blobURL;
+        var croppable = false;
+
+        $cropperSubmit.prop('disabled', true);
+
+        $cropperImage.cropper({
+            aspectRatio: 75 / 28,
+            viewMode: 1,
+            preview: $cropperPreview,
+            background: false,
+            mouseWheelZoom: false,
+            built: function () {
+                croppable = true;
+            }
+        });
+
+        if(URL){
+            $cropperFile.change(function(){
+                var files = this.files;
+                var file;
+                if(!$cropperImage.data('cropper')){
+                    return;
+                }
+                if(files && files.length){
+                    file = files[0];
+                    if(/^image\/\w+$/.test(file.type)){
+                        blobURL = URL.createObjectURL(file);
+                        $cropperFileUrl.val($cropperFile.val());
+                        $cropperSubmit.prop('disabled', false);
+                        $cropperImage.one('built.cropper', function(){
+                            URL.revokeObjectURL(blobURL);
+                        }).cropper('reset').cropper('replace', blobURL);
+                        $cropperFile.val('');
+                    }else{
+                        window.alert('请选择一个图像文件。');
+                    }
+                }
+            });
+        }else{
+            $cropperFile.prop('disabled', true);
+        }
+
+        function getrectangleCanvas(sourceCanvas){
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            var width = 750;
+            var height = 280;
+
+            canvas.width = width;
+            canvas.height = height;
+            context.beginPath();
+            context.rect(0, 0, width, height);
+            context.strokeStyle = 'rgba(0,0,0,0)';
+            context.stroke();
+            context.clip();
+            context.drawImage(sourceCanvas, 0, 0, width, height);
+
+            return canvas;
+        }
+
+        $cropperSubmit.on('click', function(){
+            var croppedCanvas;
+            var rectangleCanvas;
+            if(!croppable){
+                return;
+            }
+            croppedCanvas = $cropperImage.cropper('getCroppedCanvas');
+            rectangleCanvas = getrectangleCanvas(croppedCanvas);
+            var dataUrl = rectangleCanvas.toDataURL("image/png").replace(/\+/g,'%2B');
+            $.ajax({
+                url : '/user/uploadBackground',
+                data : 'dataUrl='+dataUrl,
+                async:  false,
+                type : 'POST',
+                dataType : "json",
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                },
+                success: function(response){
+                    if(response.rspCode == '000000'){
+                        $cropperFile.prop('disabled', true);
+                        $cropperSubmit.prop('disabled', true);
+                        $(".cropper-area .cropper-container").hide();
+                        $(".cropper-area .cropper-container").hide();
+                        toastr.success('背景上传成功！', '操作成功');
+                    }else{
+                        toastr.error(response.rspMsg, '操作失败');
+                    }
+                },
+                error: function(XmlHttpRequest, textStatus, errorThrown){
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

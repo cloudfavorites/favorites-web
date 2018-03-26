@@ -1,0 +1,202 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="layout :: htmlhead" th:with="title='favorites'">
+</head>
+
+<body>
+<section>
+    <div class="content-wrapper">
+        <h3>搜索结果</h3>
+        <div class="col-lg-12 col-md-12">
+            <ul class="timeline-alt" id="myCollectList">
+                <li data-datetime="我的" class="timeline-separator"></li>
+                <li th:each="collect,collectStat : ${myCollects}" > <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
+                    <div class="timeline-panel">
+                        <div class="popover right">
+                            <div class="arrow"></div>
+                            <div class="popover-content">
+                                <div class="table-grid">
+                                    <div class="col">
+                                        <div class="pull-right dropdown dropdown-list"> <a href="#" data-toggle="dropdown" class="sharing-more-button" th:if="${userId == collect.userId}" > <span class="fa fa-angle-down"></span> </a>
+                                            <ul class="dropdown-menu animated bounceIn">
+                                                <li>
+                                                    <div class="list-group"> <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
+                                                        <div class="media-box">
+                                                            <div class="pull-left"> <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em> </div>
+                                                            <div class="media-box-body clearfix">
+                                                                <p class="m0">修改收藏</p>
+                                                                <p class="m0 text-muted"> <small>修改收藏的各种属性</small> </p>
+                                                            </div>
+                                                        </div>
+                                                        </a> <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'">
+                                                        <div class="media-box">
+                                                            <div class="pull-left"> <em class="fa fa-trash fa-2x fa-fw text-danger"></em> </div>
+                                                            <div class="media-box-body clearfix">
+                                                                <p class="m0">删除</p>
+                                                                <p class="m0 text-muted"> <small>该分享会永久删除</small> </p>
+                                                            </div>
+                                                        </div>
+                                                        </a> </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="m0"> <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" >user name</a> <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PRIVATE' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PRIVATE\');'"> <span class="fa fa-lock" style="color: #eee;"></span> </a> <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PUBLIC' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PUBLIC\');'"> <span class="fa fa-lock text-warning"></span> </a> <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前 </small> </div>
+                                    </div>
+                                </div>
+                                <div class="m0" th:text="${collect.remark}"></div>
+                                <div class="media resource-card-thumbnail"> <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
+                                    <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="visible-xs media-heading resource-card-title-xs"> <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a> </h4>
+                                        <h3 class="hidden-xs media-heading resource-card-title"> <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a> </h3>
+                                        <div class="hidden-xs resource-card-content">
+                                            <p  th:text="${collect.description}">description</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${collect.userId}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                                    <div class="pull-right hidden-xxs"> <small> <a class="sharing-action-button" style="display:none"> <span class="fa fa-share-alt"></span> 分享 </a>
+                                        <if style="display:none"    > | </if>
+                                        <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-o-up"></span>
+                                        <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
+                                        </a>
+                                        <if style="display:none"  > | </if>
+                                        <a th:id="'unlike' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-up"></span>
+                                        <show th:id="'unlikeS' + ${collect.id}" th:text="|取消点赞(${collect.praiseCount})|"></show>
+                                        </a>
+                                        <input th:id="'praiseC' + ${collect.id}" type="hidden" name="praiseC" th:value="${collect.praiseCount}" />
+                                        <input th:id="'commentC' + ${collect.id}" type="hidden" name="commentC" th:value="${collect.commentCount}" />
+                                        | <a  class="sharing-action-button btn-comment" href="javascript:void(0);" th:onclick="'switchComment(' + ${collect.id} + ');'" > <span class="fa fa-comment-o"></span>
+                                        <show th:id="'commentS' + ${collect.id}" th:text="|评论(${collect.commentCount})|"> 评论(0)</show>
+                                        </a>
+                                        <if th:if="${userId != collect.userId}" > | </if>
+                                        <a class="sharing-action-button"  th:if="${userId != collect.userId}"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" > <span class="fa fa-spoon"></span> 收藏 </a> </small> </div>
+                                </div>
+                                <div class="collapse" th:id="'collapse' + ${collect.id}">
+                                    <comments th:id="'commentList' + ${collect.id}"></comments>
+                                    <div class="media p0" th:id="'comment' + ${collect.id}">
+                                        <div class="media-body">
+                                            <form>
+                                                <div class="input-group">
+                                                    <input th:id="'commentContent' + ${collect.id}"   type="text" placeholder="输入评论..." class="form-control"/>
+                                                    <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" th:onclick="'comment(' + ${collect.id} + ');'" >发送</button>
+                                                    </span> </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="text-center">
+                <button id="loadMyNoMore" class="btn btn" style="display:none" >没有更多了</button>
+                <button th:if="${mysize == 20}"  id="loadMyMore" class="btn btn-success" th:onclick="'loadMyMore();'">加载更多</button>
+                <div id="loadingMy" class="loading-more"><img src="/img/loading.gif" width="64" height="64" /></div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <ul class="timeline-alt" id="otherCollectList">
+                <li data-datetime="他人的" class="timeline-separator"></li>
+                <li th:each="collect,collectStat : ${otherCollects}" > <a href="javascript:void(0);" class="hidden-xs timeline-badge sharing-user-avatar" th:style="'background-image:url(' + @{(${collect.profilePicture}=='' ? 'img/favicon.png' : ${collect.profilePicture})} + ')'" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" ></a>
+                    <div class="timeline-panel">
+                        <div class="popover right">
+                            <div class="arrow"></div>
+                            <div class="popover-content">
+                                <div class="table-grid">
+                                    <div class="col">
+                                        <div class="pull-right dropdown dropdown-list"> <a href="#" data-toggle="dropdown" class="sharing-more-button" th:if="${userId == collect.userId}" > <span class="fa fa-angle-down"></span> </a>
+                                            <ul class="dropdown-menu animated bounceIn">
+                                                <li>
+                                                    <div class="list-group"> <a href="javascript:void(0);"  class="list-group-item"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" >
+                                                        <div class="media-box">
+                                                            <div class="pull-left"> <em class="fa fa-pencil-square-o fa-2x fa-fw text-info"></em> </div>
+                                                            <div class="media-box-body clearfix">
+                                                                <p class="m0">修改收藏</p>
+                                                                <p class="m0 text-muted"> <small>修改收藏的各种属性</small> </p>
+                                                            </div>
+                                                        </div>
+                                                        </a> <a href="javascript:void(0);"  class="list-group-item" th:onclick="'onCollect(' + ${collect.id} + ',\'\');'">
+                                                        <div class="media-box">
+                                                            <div class="pull-left"> <em class="fa fa-trash fa-2x fa-fw text-danger"></em> </div>
+                                                            <div class="media-box-body clearfix">
+                                                                <p class="m0">删除</p>
+                                                                <p class="m0 text-muted"> <small>该分享会永久删除</small> </p>
+                                                            </div>
+                                                        </div>
+                                                        </a> </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="m0"> <a href="javascript:void(0);" class="text-muted" th:text="${collect.userName}" th:onclick="'locationUrl(\'/user/' + ${collect.userId} + '/0\',\'\');'" >user name</a> <a th:if="${userId == collect.userId}" th:id="'private' + ${collect.id}"   class="deco-none"  title="设为私密"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PRIVATE' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PRIVATE');'"> <span class="fa fa-lock" style="color: #eee;"></span> </a> <a th:if="${userId == collect.userId}" th:id="'public' + ${collect.id}"  class="deco-none"  title="设为公开"  href="javascript:void(0);"  th:style="'display:' + @{(${collect.type}=='PUBLIC' ? 'none' : 'inline-block')} + ''"  th:onclick="'changePrivacy(' + ${collect.id} + ',\'PUBLIC\');'"> <span class="fa fa-lock text-warning"></span> </a> <small class="ml-sm text-muted" th:text="${collect.collectTime}">6天前 </small> </div>
+                                    </div>
+                                </div>
+                                <div class="m0" th:text="${collect.remark}"></div>
+                                <div class="media resource-card-thumbnail"> <a  th:href="@{${collect.url}}" class="pull-left" target="_blank">
+                                    <div class="media-object resource-card-image"  th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'" ></div>
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="visible-xs media-heading resource-card-title-xs"> <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a> </h4>
+                                        <h3 class="hidden-xs media-heading resource-card-title"> <a target="_blank" th:href="@{${collect.url}}" th:text="${collect.title}">title</a> </h3>
+                                        <div class="hidden-xs resource-card-content">
+                                            <p  th:text="${collect.description}">description</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${collect.userId}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                                    <div class="pull-right hidden-xxs"> <small> <a class="sharing-action-button" style="display:none"> <span class="fa fa-share-alt"></span> 分享 </a>
+                                        <if style="display:none"    > | </if>
+                                        <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-o-up"></span>
+                                        <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>
+                                        </a>
+                                        <if style="display:none"  > | </if>
+                                        <a th:id="'unlike' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'inline-block' : 'none')}+ ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-up"></span>
+                                        <show th:id="'unlikeS' + ${collect.id}" th:text="|取消点赞(${collect.praiseCount})|"></show>
+                                        </a>
+                                        <input th:id="'praiseC' + ${collect.id}" type="hidden" name="praiseC" th:value="${collect.praiseCount}" />
+                                        <input th:id="'commentC' + ${collect.id}" type="hidden" name="commentC" th:value="${collect.commentCount}" />
+                                        | <a  class="sharing-action-button btn-comment" href="javascript:void(0);" th:onclick="'switchComment(' + ${collect.id} + ');'" > <span class="fa fa-comment-o"></span>
+                                        <show th:id="'commentS' + ${collect.id}" th:text="|评论(${collect.commentCount})|"> 评论(0)</show>
+                                        </a>
+                                        <if th:if="${userId != collect.userId}" > | </if>
+                                        <a class="sharing-action-button"  th:if="${userId != collect.userId}"  th:onclick="'getCollect(' + ${collect.id} + ',\'\');'" > <span class="fa fa-spoon"></span> 收藏 </a> </small> </div>
+                                </div>
+                                <div class="collapse" th:id="'collapse' + ${collect.id}">
+                                    <comments th:id="'commentList' + ${collect.id}"></comments>
+                                    <div class="media p0" th:id="'comment' + ${collect.id}">
+                                        <div class="media-body">
+                                            <form>
+                                                <div class="input-group">
+                                                    <input th:id="'commentContent' + ${collect.id}"   type="text" placeholder="输入评论..." class="form-control"/>
+                                                    <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" th:onclick="'comment(' + ${collect.id} + ');'" >发送</button>
+                                                    </span> </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="text-center">
+                <button id="loadOtherNoMore" class="btn btn" style="display:none" >没有更多了</button>
+                <button th:if="${othersize == 20}"  id="loadOtherMore" class="btn btn-success" th:onclick="'loadOtherMore();'">加载更多</button>
+                <div id="loadingOther" class="loading-more"><img src="/img/loading.gif" width="64" height="64" /></div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+    </div>
+    <input type="hidden"  id="search-key" th:value="${key}" />
+    <input type="hidden" id="userId"  th:value="${userId}" />
+</section>
+</body>
+</html>

@@ -1,0 +1,38 @@
+version: '3'
+services:
+  nginx:
+   container_name: favorites-nginx
+   image: nginx:1.13
+   restart: always
+   ports:
+   - 80:80
+   - 443:443
+   volumes:
+   - ./nginx/conf.d:/etc/nginx/conf.d
+    
+  mysql:
+   container_name: favorites-mysql
+   image: mysql/mysql-server:5.7
+   environment:
+    MYSQL_DATABASE: favorites
+    MYSQL_ROOT_PASSWORD: favorites
+    MYSQL_ROOT_HOST: '%'
+   ports:
+   - "3306:3306"
+   restart: always
+    
+  app:
+    restart: always
+    build: ./app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ~/.m2:/root/.m2
+    expose:
+      - "8080"
+    command: mvn clean spring-boot:run -Drun.profiles=docker
+    depends_on:
+      - nginx
+      - mysql
+    environment:
+     MYSQL_DATABASE: favorites

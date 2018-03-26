@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+  <head th:include="layout :: htmlhead" ></head>
+  <body>
+      <section layout:fragment="content">
+        <div class="content-wrapper">
+            <h3>网页收集工具</h3>
+            <!--<p><span>1.chrome浏览器插件</span>-->
+            <!--<a target="_blank" href="https://chrome.google.com/webstore/detail/%E4%BA%91%E6%94%B6%E8%97%8F/gnidnmkcdgfiemdaeijncglpgldflhbb?hl=zh-CN" class="btn btn-primary">下载</a></p>-->
+            <!--<p></p>-->
+	        <span>网页收集小工具</span>
+	           <a th:href="@{${path}}" onclick="alert('请把这个按钮拖到您的浏览器书签栏'); return false;" class="btn btn-primary">云收藏</a>
+	        <span>(将该按钮拖动至浏览器书签栏,如下图)</span>
+         </div>
+         <div class="text-center">
+	       <img th:src="@{/img/useTool.gif}"  alt=""/>
+         </div>
+      </section>
+  </body>
+</html>

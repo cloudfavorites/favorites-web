@@ -1,0 +1,116 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta name="description" content="Bootstrap Admin App + jQuery"/>
+  <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin"/>
+  <title>云收藏 | 让收藏更简单</title>
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+ 
+  <link rel="stylesheet" th:href="@{/vendor/fontawesome/css/font-awesome.min.css}"></link>
+  <link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.css}"></link>
+  <link rel="stylesheet" th:href="@{/media/css/bootstrap.css}" id="bscss"></link>
+  <link rel="stylesheet" th:href="@{/media/css/app.css}" id="maincss"></link>
+  <link rel="stylesheet" th:href="@{/media/css/theme-i.css}" id="maincss"></link>
+ </head>
+  <body>
+    <div class="wrapper">
+      <div class="block-center mt-xl wd-xl">
+         <div class="panel panel-dark panel-flat">
+            <div class="panel-heading text-center">
+               <a href="/index">
+                  <img src="/img/logo.png" alt="Image" class="block-center img-rounded"/>
+               </a>
+            </div>
+            <div class="panel-body" id="loginPage">
+               <p class="text-center pv">请登录</p>
+               <form id="form" data-parsley-validate="true" onsubmit="return false">
+                  <div class="form-group has-feedback">
+                     <input type="text" placeholder="邮箱地址或登录名称" v-model="username" class="form-control" data-parsley-error-message="请输入邮箱地址或登录名称" required="required" />
+                     <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                  </div>
+                  <div class="form-group has-feedback">
+                     <input type="password" placeholder="密码" v-model="password" class="form-control" data-parsley-error-message="请输入密码" required="required" />
+                     <span class="fa fa-lock form-control-feedback text-muted"></span>
+                  </div>
+                  <div class="clearfix">
+                     <div class="pull-right">
+                        <a href="/forgotPassword" class="text-muted">忘记密码？</a>
+                     </div>
+                  </div>
+                  <button v-on:click="login" class="btn btn-block btn-primary mt-lg">登录</button>
+               </form>
+               <!-- <p class="pt-lg text-center">社会化登录</p>
+               <div class="text-center">
+                  <a href="javascript:void(0);">
+                     <span class="fa-stack fa-2x mr"> <i class="fa fa-circle-thin fa-stack-2x"></i> <i class="fa fa-qq fa-stack-1x"></i>
+                     </span>
+                  </a>
+                  <a href="javascript:void(0);">
+                     <span class="fa-stack fa-2x">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-weibo fa-stack-1x"></i>
+                     </span>
+                  </a>
+                  <a href="javascript:void(0);">
+                     <span class="fa-stack fa-2x ml">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-wechat fa-stack-1x"></i>
+                     </span>
+                  </a>
+               </div> -->
+               <p></p>
+               <div id="errorMsg" class="alert alert-danger text-center" style="display:none;"></div>
+               <p class="pt-lg text-center">需要注册？</p>
+               <a href="/register" class="btn btn-block btn-default">现在就注册</a>
+            </div>
+         </div>
+         <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>2016</span>
+            <span>-</span>
+            <span>2017</span>
+            <br/>
+            <span>cloudfavorites@126.com</span>
+         </div>
+      </div>
+   </div>
+  </body>
+   <script type="text/javascript" src="/webjarslocator/jquery/jquery.min.js"></script>
+   <script type="text/javascript" src="/webjarslocator/vue/vue.min.js"></script>
+
+   <script th:src="@{/webjars/vue-resource/0.7.0/dist/vue-resource.min.js}"></script>
+   <script th:src="@{/vendor/parsleyjs/dist/parsley.min.js}"></script> 
+   <script type='text/javascript'>
+    Vue.http.options.emulateJSON = true; 
+        var loginPage = new Vue({
+            el: '#loginPage',
+            data: {
+                'username': '',
+                'password': ''
+            },
+            methods: {
+            	login: function(event){
+            		var ok = $('#form').parsley().isValid({force: true});
+            		if(!ok){
+            			return;
+            		}
+            		var datas={
+            				 userName: this.username,
+            				 passWord: this.password
+	            			 };
+            	    this.$http.post('/user/login',datas).then(function(response){
+            	    	 if(response.data.rspCode == '000000'){
+            	    			 window.open(response.data.data, '_self');
+            	    	 }else{
+            	    		  $("#errorMsg").html(response.data.rspMsg);
+            	    		  $("#errorMsg").show();
+            	    	 }
+                     }, function(response){
+                         console.log('error');
+                     })
+                }
+            }
+        })
+    </script>
+</html>

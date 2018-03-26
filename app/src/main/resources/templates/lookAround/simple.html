@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="lookAround :: htmlhead" th:with="title='favorites'"></head>
+<body th:onload="'lookAroundInit(\'' + ${category} + '\');'">
+
+<script th:src="@{/vendor/modernizr/modernizr.custom.js}"></script>
+<script th:src="@{/vendor/jquery/dist/jquery.js}"></script>
+<script th:src="@{/vendor/bootstrap/dist/js/bootstrap.js}"></script>
+<script th:src="@{/vendor/jQuery-Storage-API/jquery.storageapi.js}"></script>
+<script th:src="@{/vendor/jquery.flexslider/jquery.flexslider.min.js}"></script>
+<script th:src="@{/js/lookAround.js}" ></script>
+<script th:src="@{/js/collect.js}" ></script>
+<script th:src="@{/index/js/freelancer.min.js}"></script>
+<!-- Theme CSS -->
+<link href="../../index/css/freelancer.min.css" rel="stylesheet" />
+<div th:replace="fragments/alert :: alert">alert</div>
+<div class="wrapper">
+  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header page-scroll">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="/index">云收藏</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="hidden">
+            <a href="#page-top"></a>
+          </li>
+          <li>
+            <a href="/login" th:unless="${user != null}">登录</a>
+            <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <script>
+    (function($) {
+      $('body').scrollspy({
+          target: '.navbar-fixed-top',
+          offset: 51
+      });
+      $('#mainNav').affix({
+          offset: {
+              top: 100
+          }
+      })
+    })(jQuery);
+  </script>
+    <!-- /.container-fluid -->
+  </nav>
+  <section style="margin-left:0;">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-9">
+          <div class="classification">
+            <ul>
+              <li>
+              <a id="categoryALL" name="categoryALL" class="active" href="/lookAround/standard/ALL">全部</a>
+            </li>
+              <li>
+                <a id="categoryTRAVEL" name="categoryTRAVEL" href="/lookAround/standard/TRAVEL">旅行</a>
+              </li>
+              <li>
+                <a id="categoryFOOD" name="categoryFOOD" href="/lookAround/standard/FOOD">料理</a>
+              </li>
+              <li>
+                <a id="categoryEXERCISE" name="categoryEXERCISE" href="/lookAround/standard/EXERCISE">健身</a>
+              </li>
+              <li>
+                <a id="categoryPHOTOGRAPH" name="categoryPHOTOGRAPH" href="/lookAround/standard/PHOTOGRAPH">摄影</a>
+              </li>
+              <li>
+                <a id="categoryMUSIC" name="categoryMUSIC" href="/lookAround/standard/MUSIC">音乐</a>
+              </li>
+              <li>
+                <a id="categoryREARING" name="categoryREARING" href="/lookAround/standard/REARING">育儿</a>
+              </li>
+              <li>
+                <a id="categoryLOVE" name="categoryLOVE" href="/lookAround/standard/LOVE">恋爱</a>
+              </li>
+              <li>
+                <a id="categoryBUSINESS" name="categoryBUSINESS" href="/lookAround/standard/BUSINESS">创业</a>
+              </li>
+              <li>
+                <a id="categoryART" name="categoryART" href="/lookAround/standard/ART">美术设计</a>
+              </li>
+              <li>
+                <a id="categoryMANAGER" name="categoryMANAGER" href="/lookAround/standard/MANAGER">产品经理</a>
+              </li>
+              <li>
+                <a id="categoryMARKET" name="categoryMARKET" href="/lookAround/standard/MARKET">市场营销</a>
+              </li>
+              <li>
+                <a id="categoryRUNNING" name="categoryRUNNING" href="/lookAround/standard/RUNNING">运营</a>
+              </li>
+            </ul>
+          </div>
+          <div class="slider">
+            <ul class="slides">
+              <li th:each="collect : ${fiveCollects}" th:style="'background-image:url(' + @{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})} + ')'">
+                <h3>
+                  <a th:href="@{${collect.url}}" th:text="${collect.title}"></a>
+                </h3>
+                <p>
+                  <a th:href="'/collector/' + ${collect.userId} + '/0'">
+                    <img th:src="@{(${collect.profilePicture}=='' ? 'img/favicon.png' : '../../' + ${collect.profilePicture})}"></img>
+                    <span th:text="${collect.userName}"></span>
+                  </a>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div id="simple" th:if="${collects.size() > 0}" style="margin-top: 45px;">
+            <div class="btn-group btn-xs mb pull-right" style="margin-top: -25px;">
+
+              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default"  th:href="'/lookAround/standard/' + ${category}">
+
+                <span class="icon-layers"></span>
+
+              </a>
+
+              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default active"  th:href="'/lookAround/standard/' + ${category}">
+
+                <span class="icon-layers"></span>
+
+              </a>
+
+              <a th:if="${otherPeople == null}" class="btn btn-xs btn-default  active" th:href="'/lookAround/simple/' + ${category}" >
+
+                <span class="icon-list"></span>
+
+              </a>
+
+              <a th:if="${otherPeople != null}" class="btn btn-xs btn-default" th:href="'/lookAround/simple/' + ${category}" >
+
+                <span class="icon-list"></span>
+
+              </a>
+
+            </div>
+            <table class="table">
+
+              <tbody  id="collectSimpleList">
+
+              <tr th:each="collect,collectStat : ${collects}">
+
+                <td>
+
+                  <a target="_blank" style="font-size:16px;color:#656565;" th:href="@{${collect.url}}" th:text="${collect.title}">title</a>
+
+                </td>
+
+                <td width="10%" class="text-center">
+
+                  <img   th:src="@{(${collect.logoUrl}=='' ? 'img/favicon.png' : ${collect.logoUrl})}"  width="35px" height="25px" alt=""/></td>
+
+                <td width="15%" class="text-center">
+
+                  <div>
+
+
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              </tbody>
+
+            </table>
+            <button  id="loadSimpleMore" class="mt-lg btn btn-primary btn-block" style="display:none;">加载更多</button>
+            <div id="loadingSimple" style="text-align:center;margin:20px;display:none;"><img src="/img/loading.gif" width="64" height="64" /></div>
+            <br />
+            <br />
+            <br />
+          </div>
+          <div  th:if="${collects.size() == 0}" style="margin-top: 45px;">
+            <h3 align="center" style="color:#aaaaaa;" class="mt text-thin">暂时没有该类别的收藏</h3>
+          </div>
+        </div>
+
+        <input type="hidden" name="collectId" id="collectId" />
+
+        <input type="hidden" name="forward" id="forward" th:value="'/simple/'+${type}+'/0'" />
+
+        <input type="hidden" name="category" id="category" th:value="${category}" />
+
+        <input type="hidden" name="pageType" id="pageType" th:value="${type}" />
+
+        <input type="hidden"  id="userId" th:value="${userId}" />
+
+        <div class="col-lg-3 col-md-3 hidden-sm">
+          <div class="panel panel-default panel-follow">
+            <div class="panel-heading">推荐关注</div>
+            <ul class="list-group" th:each="user,userStat : ${fiveUsers}">
+              <li class="list-group-item">
+                <a th:href="'/collector/' + ${user.id} + '/0'" class="pull-left">
+                  <img th:src="@{(${user.profilePicture}=='' ? '/img/favicon.png' : '../../' + ${user.profilePicture})}" alt="" width="32px" height="32px"></img>
+                </a>
+                <div class="media-body">
+                  <h4>
+                    <a th:href="'/collector/' + ${user.id} + '/0'" th:text="${user.userName}"></a>
+                  </h4>
+                  <small></small>
+                  <a href="#" th:if="${userId != user.id}" th:id="'follow' + ${user.id}" class="btn btn-default btn-xs" th:text="@{(${user.isFollow}=='FOLLOW' ? '取消关注' : '关注')}"
+                     onclick="changeFollow(this.id)"></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer style="margin-left:0;">
+    <span>&copy; 2016 - 2017</span>
+    <span class="pull-right">
+	                  云收藏 | 让收藏更简单
+	    </span>
+  </footer>
+</div>
+
+<script>
+   $(".slider").flexslider({
+      animation: "side",
+      slideshowSpeed: 3000,
+      pauseOnHover: true,
+      directionNav: true,
+      controlNav: true,
+      prevText: "&lt;",
+      nextText: "&gt;"
+   });
+</script>
+</body>
+</html>

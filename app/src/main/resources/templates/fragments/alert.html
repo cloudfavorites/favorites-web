@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+   <div th:fragment="alert" style="z-index:1050;">
+	 <div id="modal-changeSharing" class="modal fade" >
+		 <div class="modal-dialog wd-xl">
+		   <div th:replace="fragments/collect :: collect">collect</div>
+		 </div>
+	   </div>
+   <div id="modal-remove" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">删除收藏</h4>
+            </div>
+            <div class="modal-body">
+               <p>该收藏将被永久删除，且无法找回，是否继续？</p>
+            </div>
+            <div class="modal-footer">
+               <button id="delCollect" type="button"  class="btn btn-primary" onclick="delCollect()" >确定</button>
+               <button type="button" data-dismiss="modal" class="btn btn-danger">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <div id="modal-changeFavName" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改收藏夹名</h4>
+            </div>
+            <form id="updateFavoritesForm" data-parsley-validate="true" onsubmit="return false">
+            <div class="modal-body">
+            	<div id="updateErrorMsg" class="alert alert-danger text-center" style="display:none;"></div>
+               <div class="form-group has-feedback">
+                  <input type="text" name="favoritesName" placeholder="新收藏夹名" class="form-control" data-parsley-error-message="请输入新收藏夹名" required="required"/>
+                  <span class="fa fa-folder form-control-feedback text-muted"></span>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button id="updateFavoritesBtn" onclick="updateFavorites()" class="btn btn-block btn-primary mt-lg">确定</button>
+            </div>
+            <input type="hidden" name="favoritesId" id="favoritesId" />
+            </form>
+         </div>
+      </div>
+   </div>
+   <div id="modal-loginTips" class="modal fade">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" data-dismiss="modal" class="close">
+                       <span>&times;</span>
+                   </button>
+                   <h4 class="modal-title">请登录</h4>
+               </div>
+               <div class="modal-body">
+                   <p>您还没有登录，请先 <a href="/login" class="btn btn-primary btn-sm">登录</a> 或 <a href="/register" class="btn btn-default btn-sm">注册</a></p>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" data-dismiss="modal" class="btn btn-danger">取消</button>
+               </div>
+           </div>
+       </div>
+   </div>
+   <div id="modal-removeFav" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">删除收藏夹名</h4>
+            </div>
+            <div class="modal-body">
+               <p>删除收藏夹将删除该收藏下所有收藏，且无法找回，是否继续？</p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn">取消</button>
+               <button id="delFavoritesBtn" onclick="delFavorites()" type="button" class="btn btn-danger">删除收藏夹</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-defaultFav" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">选择默认收藏夹</h4>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <select name="layoutFavoritesName" id="layoutFavoritesName" class="form-control">
+                     <option value="未读列表">未读列表</option>
+                  </select>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id="updateFavoritestBtn" onclick="changeConfig('defaultFavorites')" class="btn btn-primary">确定</button>
+               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="modal-ChangePass" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改密码</h4>
+            </div>
+            <form id="updatePwdForm" data-parsley-validate="true" onsubmit="return false">
+	            <div class="modal-body">
+	               <div class="alert alert-danger text-center" id="passwordError">密码输入错误</div>
+	               <div class="form-group has-feedback">
+	                  <input id="oldPassword" name="oldPassword" type="password" placeholder="旧密码" class="form-control" v-model="password" required="required" data-parsley-required-message="请输入旧密码"/>
+	                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+	               </div>
+	               <div class="form-group has-feedback">
+	                  <input id="newPassword" name="newPassword" type="password" placeholder="新密码" class="form-control" v-model="password" required="required" data-parsley-required-message="请输入新密码" pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)(?![^0-9a-zA-Z]+$)\S{6,20}$/" data-parsley-pattern-message="请输入6-20位字母数字组合"/>
+	                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+	               </div>
+	            </div>
+	            <div class="modal-footer">
+	               <button type="submit" id="updatePwdBtn" class="btn btn-block btn-primary mt-lg" onclick="updatePwd();">确定</button>
+	            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div id="modal-changeDescription" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改个人简介</h4>
+            </div>
+            <form id="updateIntroductionForm" data-parsley-validate="true" onsubmit="return false">
+	            <div class="modal-body">
+	               <div class="form-group">
+	                  <textarea name="introduction" id="introduction" class="form-control" cols="30" rows="2" required="required" data-parsley-error-message="请输入个人简介"></textarea>
+	               </div>
+	            </div>
+	            <div class="modal-footer">
+	               <button type="submit" id="updateIntroductionBtn" class="btn btn-block btn-primary mt-lg" onclick="updateIntroduction();">确定</button>
+	               <!--  <button type="button" class="btn btn-primary">确定</button>
+	               <button type="button" data-dismiss="modal" class="btn btn-warning">取消</button>  -->
+	            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div id="modal-ChangeNickname" class="modal fade">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" class="close">
+                  <span>&times;</span>
+               </button>
+               <h4 class="modal-title">修改昵称</h4>
+            </div>
+            <form id="updateNicknameForm" data-parsley-validate="true" onsubmit="return false">
+	            <div class="modal-body">
+	               <div class="alert alert-danger text-center" id="nicknameError"></div>
+	               <div class="form-group has-feedback">
+	                  <input id="newNickname" name="newNickname" type="text" placeholder="新昵称" class="form-control" required="required" data-parsley-error-message="请输入新昵称"/>
+	                  <span class="fa fa-user form-control-feedback text-muted"></span>
+	               </div>
+	            </div>
+	            <div class="modal-footer">
+	               <button type="submit" id="updateNicknameBtn" class="btn btn-block btn-primary mt-lg" onclick="updateNickname();">确定</button>
+	            </div>
+	        </form>
+         </div>
+      </div>
+   </div>
+   <div id="modal-letter" class="modal fade">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" data-dismiss="modal" class="close">
+                       <span>&times;</span>
+                   </button>
+                   <h4 class="modal-title">给TA发私信</h4>
+               </div>
+               <form id="sendLetterForm" data-parsley-validate="true" onsubmit="return false">
+                   <div class="modal-body">
+                       <div class="form-group">
+                           <textarea id="letterContent" class="form-control" rows="3" required="required" placeholder="请输入内容！" data-parsley-error-message="请输入内容！"> </textarea>
+                       </div>
+                       <!--<div class="btn btn-primary btn-block" onclick="sendLetter('original');">发送</div>-->
+                       <button id="sendLetterBtn" type="submit" class="btn btn-primary btn-block" onclick="sendLetter('original','','');">发送</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   <input type="hidden" id="layoutConfigId" name="layoutConfigId"/>
+  </div> 
+</body>
+</html>
+

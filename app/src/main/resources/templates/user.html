@@ -1,0 +1,145 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="layout :: htmlhead" th:with="title='favorites'">
+</head>
+<body>
+<section>
+    <div class="content-wrapper">
+        <div class="unwrap">
+            <div class="mast" th:style="'background-image:url('+ @{(${user.backgroundPicture} == null ? 'img/profile-bg.jpg': ${user.backgroundPicture})} +')'">
+                <div class="bg-cover"> <a href="javascript:void(0);" th:onclick="'locationUrl(\'/uploadBackground\',\'\');'" id="background">
+                    <div th:if="${user.id == loginUser.id}"> <img src="img/camera.png" alt=""/> <span>上传背景图</span> </div>
+                    </a>
+                    <div class="p-xl text-center text-white"> <a href="javascript:void(0);"> <img th:src="${user.profilePicture == null ? 'img/favicon.png':user.profilePicture}" alt="" class="img-thumbnail img-circle thumb128"/></a>
+                        <h3 class="m0 mt" th:text="${user.userName}" id="userUserName">用户昵称</h3>
+                        <p th:if="${myself == 'YES'}" th:text="${user.email}">123456789@qq.com</p>
+                        <p th:text="${user.introduction== null ? '暂无简介': user.introduction}" id="userIntroduction">暂无简介</p>
+                        <a href="javascript:void(0);" th:if="${myself == 'NO'}" id="follow"></a>
+                        <a href="javascript:void(0);" th:if="${myself == 'NO'}" class="btn btn-success" data-toggle="modal" data-target="#modal-letter">私信</a>
+                    </div>
+                </div>
+                <div class="text-center bg-gray-dark p-lg mb">
+                    <div class="row row-table">
+                        <div class="col-xs-4 br">
+                            <h3 class="m0" th:text="${collectCount}" id="totalCount">4</h3>
+                            <p class="m0"> <span th:if="${myself == 'YES'}">收藏</span> <span th:if="${myself == 'NO'}">公开收藏</span> </p>
+                        </div>
+                        <div class="col-xs-4 br">
+                            <h3 class="m0" th:text="${follow}">0</h3>
+                            <p class="m0"> <span>关注</span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h3 class="m0" th:text="${followed}" id="followed">0</h3>
+                            <p class="m0"> <span>粉丝</span> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-lg">
+                <div class="row" >
+                    <div layout:fragment="usercontent" id="usercontent" ></div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center">TA的收藏夹</div>
+                            <div class="list-group" id="userFavorites"> <a id="userAll" href="javascript:void(0);" class="media p mt0 list-group-item active" th:onclick="'userLocationUrl(\'/usercontent/'+${user.id}+'/0\',\'userAll\');'"> <span class="media-body"> <span class="media-heading" id="allFavorites"> </span> </span> </a> </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center">关注</div>
+                            <div class="list-group ng-scope" th:each=" follow : ${followUser}"> <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${follow[3]}+'/0\',\'\');'"> <span class="pull-left"> <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${follow[2] !=null? follow[2]:'img/dummy.png'}" /> </span> <span class="media-body"> <span class="media-heading"> <strong class="ng-binding" th:text="${follow[0]}">粉丝1</strong> <small class="text-muted ng-binding" th:text="${follow[1] == null ? '暂无简介' : follow[1].length() gt 10 ? follow[1].substring(0,10)+'...' : follow[1]}">暂无简介</small> </span> </span> </a> </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center">粉丝</div>
+                            <div class="list-group ng-scope" th:each=" followed : ${followedUser}"> <a class="media p mt0 list-group-item" href="javascript:void(0);" th:onclick="'locationUrl(\'/user/'+${followed[3]}+'/0\',\'\');'"> <span class="pull-left"> <img  alt="Image" class="media-object img-circle thumb32" src="img/dummy.png" th:src="${followed[2] !=null? followed[2]:'img/dummy.png'}" /> </span> <span class="media-body"> <span class="media-heading"> <strong class="ng-binding" th:text="${followed[0]}">粉丝1</strong> <small class="text-muted ng-binding" th:text="${followed[1] == null ? '暂无简介' : followed[1].length() gt 10 ? followed[1].substring(0,10)+'...' : followed[1]}">暂无简介</small> </span> </span> </a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="collectId" id="collectId" />
+        <input type="hidden"  id="userId" th:value="${user.id}" />
+        <input type="hidden" id="myself" th:value="${myself}"/>
+    </div>
+</section>
+</body>
+<script type='text/javascript' th:inline="javascript">
+	$(function(){
+		var isFollow = /*[[${isFollow}]]*/;
+		var user = /*[[${user}]]*/;
+        var loginUser = /*[[${loginUser}]]*/;
+		if(isFollow > 0){
+			$("#follow").attr("class","btn btn-default");
+			$("#follow").attr("onclick","changeFollow('unfollow','"+user.id+"')");
+			$("#follow").text("取消关注");
+		}else{
+			$("#follow").attr("class","btn btn-success");
+			$("#follow").attr("onclick","changeFollow('follow','"+user.id+"')");
+			$("#follow").text("关注");
+		}
+		$("#standardBtn").click(function(){
+			$("#standard").hide();
+			$("#simple").show();
+			$("#showModel").val("simple");
+		});
+		$("#simpleBtn").click(function(){
+			$("#standard").show();
+			$("#simple").hide();
+			$("#showModel").val("standard");
+		});
+		userLocationUrl("/usercontent/"+user.id+"/0","userAll");
+		loadUserFavorites();
+		standardStr = "standard";
+		if(user.id == loginUser.id){
+		    $("#background").attr("class", "camerabtn");
+        }
+	});
+
+	function changeFollow(status,userId){
+		$.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			data:{'status':status,'userId':userId},
+			url: '/follow/changeFollowStatus',
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(response){
+				if(response.rspCode == '000000'){
+					$("#follow").removeAttr("class");
+					$("#follow").removeAttr("onclick");
+					$("#follow").text("");
+					if(status == "follow"){
+							$("#follow").attr("class","btn btn-default");
+							$("#follow").attr("onclick","changeFollow('unfollow','"+userId+"')");
+							$("#follow").text("取消关注");
+							$("#followed").text(Number($("#followed").text())+1);
+					 }else{
+							$("#follow").attr("class","btn btn-success");
+							$("#follow").attr("onclick","changeFollow('follow','"+userId+"')");
+							$("#follow").text("关注");
+							$("#followed").text(Number($("#followed").text())-1);
+					 }
+				}
+			}
+		});
+	}
+	
+	function loadUserFavorites(){
+		$.ajax({
+			async: false,
+			type: 'POST',
+			dataType: 'json',
+			url: '/favorites/getFavorites/'+$("#userId").val(),
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			success: function(favorites){
+				initUserFavorites(favorites);
+			}
+		});
+	}
+</script>
+</html>

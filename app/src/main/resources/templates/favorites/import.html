@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+  <head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+  <body>
+      <section>
+        <div class="content-wrapper">
+            <h3>导入云收藏</h3>
+            <div class="container-fluid ng-scope">
+			   <div class="row">
+			      <form class="" id="importHtmlForm" method="post" action="" enctype="multipart/form-data">
+			      <div class="col-md-3">
+			         <div class="panel">
+			            <div class="panel-heading">请选择浏览器导出的html格式的书签文件</div>
+			            <div class="panel-body">
+			               <div class="form-group">
+			                  <input id="fileInput" name="htmlFile"  filestyle="" type="file" accept="text/html" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);" />
+			                  <div class="bootstrap-filestyle input-group">
+				                  	<input type="text" id="fileInputName" value="" class="form-control " disabled="" /> 
+				                  	<span class="group-span-filestyle input-group-btn" tabindex="0">
+					                  	<label for="fileInput" class="btn btn-default ">
+					                  		<span class="glyph glyphicon glyphicon-folder-open"></span> 
+					                  	</label>
+				                  	</span>
+			                  	</div>
+			               </div>
+			            </div>
+			         </div>
+			         <div class="checkbox c-checkbox needsclick">
+                              <label class="needsclick">
+                                 <input type="checkbox" name="structure" class="needsclick" value="YES" />
+                                 <span class="fa fa-check"></span>
+                                 <font>按照目录结构导入收藏夹</font>
+                              </label>
+                              <p></p>
+                              <label class="needsclick">
+                                 <input type="checkbox" name="type" class="needsclick" value="PRIVATE" />
+                                 <span class="fa fa-check"></span>
+                                 <font>私密导入收藏</font>
+                              </label>
+                           </div>
+			         <a href="javascript:void(0);" id="submitBtn" class="btn btn-primary btn-block">提交</a>
+			      </div>
+			      <!-- <input type="hidden" id="favoritesId" name="favoritesId" value="" /> -->
+			      </form>
+			   </div>
+			</div>
+         </div>
+      </section>
+  </body>
+  <script type='text/javascript'>
+  $(function(){
+	  toastr.options = {
+	            'closeButton': true,
+	            'positionClass': 'toast-top-center',
+	            'timeOut': '5000',
+	         };
+	  $("#fileInput").change(function(){
+		  getFileName("fileInput");
+	  });
+	  var count = 0;
+	  $("#submitBtn").click(function(){
+		  if($("#fileInputName").val()==""){
+			  return;
+		  }
+		  $("#submitBtn").attr("disabled","disabled");
+		  $("#importHtmlForm").ajaxSubmit({
+				type: 'post',
+				async: true,
+				url: '/collect/import',
+				success: function(response){
+				}
+			});
+		  if(count == 0){
+			  toastr.success('正在导入到"导入自浏览器"收藏夹，请稍后查看', '操作成功');
+			  loadFavorites();
+		  }
+		  count++;
+	  });
+  });
+ </script>
+</html>
