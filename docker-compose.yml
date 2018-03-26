@@ -8,7 +8,9 @@ services:
    - 80:80
    - 443:443
    volumes:
-   - ./nginx/conf.d:/etc/nginx/conf.d
+     - ./nginx/conf.d:/etc/nginx/conf.d
+     - /tmp/logs:/var/log/nginx
+     
     
   mysql:
    build: ./mysql
@@ -16,8 +18,11 @@ services:
      MYSQL_DATABASE: favorites
      MYSQL_ROOT_PASSWORD: root
      MYSQL_ROOT_HOST: '%'
+     TZ: Asia/Shanghai
    ports:
    - "3306:3306"
+   volumes:
+     - ./mysql_data:/var/lib/mysql
    restart: always
       
   app:
@@ -27,11 +32,10 @@ services:
     volumes:
       - ./app:/app
       - ~/.m2:/root/.m2
+      - /tmp/logs:/usr/local/logs
     expose:
       - "8080"
     command: mvn clean spring-boot:run -Drun.profiles=docker
     depends_on:
       - nginx
       - mysql
-    environment:
-     MYSQL_DATABASE: favorites
