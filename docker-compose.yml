@@ -11,16 +11,15 @@ services:
    - ./nginx/conf.d:/etc/nginx/conf.d
     
   mysql:
-   container_name: favorites-mysql
-   image: mysql/mysql-server:5.7
+   build: ./mysql
    environment:
-    MYSQL_DATABASE: favorites
-    MYSQL_ROOT_PASSWORD: favorites
-    MYSQL_ROOT_HOST: '%'
+     MYSQL_DATABASE: favorites
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_ROOT_HOST: '%'
    ports:
    - "3306:3306"
    restart: always
-    
+      
   app:
     restart: always
     build: ./app
