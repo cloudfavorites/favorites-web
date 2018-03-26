@@ -71,6 +71,53 @@ Discussing
 - [submit issue](https://github.com/cloudfavorites/favorites-web/issues/new)
 - email: ityouknow@126.com
 
+Docker Deploy
+----------
+
+推荐使用 Docker 部署此项目
+
+下载最新发布版本
+
+``` sh
+wget https://github.com/cloudfavorites/favorites-web/archive/favorites-1.1.1.zip
+```
+
+解压
+
+``` sh
+unzip favorites-1.1.1.zip
+```
+
+进入目录
+
+``` sh
+cd favorites-web-favorites-1.1.1/
+```
+
+修改文件`application-docker.properties`
+
+``` sh
+vi app/src/main/resources/application-docker.properties
+```
+
+修改内容如下
+``` sh
+favorites.base.path=http://xx.xxx.xx.xx/ 
+```
+>地址为部署服务器的地址
+
+配置完成后，后台启动
+
+``` sh
+[root@~]# docker-compose up -d
+Creating network "favoriteswebfavorites111_default" with the default driver
+Creating favorites-nginx                  ... done
+Creating favoriteswebfavorites111_mysql_1 ... done
+Creating favoriteswebfavorites111_app_1   ... done
+```
+
+启动完成后，浏览器访问上面配置地址：`http://xx.xxx.xx.xx/`，就可以看到云收藏的首页了。
+
 勾搭下
 --------
 关注公众号：纯洁的微笑，回复"springboot"进群交流
