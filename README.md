@@ -66,11 +66,6 @@ How to use
 ![How to use](http://favorites.ren/img/useTool.gif)
 
 
-Discussing
-----------
-- [submit issue](https://github.com/cloudfavorites/favorites-web/issues/new)
-- email: ityouknow@126.com
-
 Docker Deploy
 ----------
 
@@ -117,6 +112,13 @@ Creating favoriteswebfavorites111_app_1   ... done
 ```
 
 启动完成后，浏览器访问上面配置地址：`http://xx.xxx.xx.xx/`，就可以看到云收藏的首页了。
+
+
+Discussing
+----------
+- [submit issue](https://github.com/cloudfavorites/favorites-web/issues/new)
+- email: ityouknow@126.com
+
 
 勾搭下
 --------
