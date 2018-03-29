@@ -69,7 +69,7 @@ How to use
 Docker Deploy
 ----------
 
-推荐使用 Docker 部署此项目
+推荐使用 Docker 部署此项目，需要提前安装 Docker 和 Docker compose 环境，[可以参考这里](http://www.ityouknow.com/docker.html)
 
 下载最新发布版本
 
