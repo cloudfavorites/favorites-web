@@ -39,6 +39,7 @@ public class NoticeServiceImpl implements NoticeService{
 	 * @param userId
 	 * @param operId
 	 */
+	@Override
 	public void saveNotice(String collectId,String type,Long userId,String operId){
 		Notice notice = new Notice();
 		if(StringUtils.isNotBlank(collectId)){

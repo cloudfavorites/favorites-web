@@ -25,8 +25,8 @@ public class FavoritesServiceImpl implements FavoritesService{
 		Favorites favorites = new Favorites();
 		favorites.setName(name);
 		favorites.setUserId(userId);
-		favorites.setCount(0l);
-		favorites.setPublicCount(10l);
+		favorites.setCount(0L);
+		favorites.setPublicCount(10L);
 		favorites.setCreateTime(DateUtils.getCurrentTime());
 		favorites.setLastModifyTime(DateUtils.getCurrentTime());
 		favoritesRepository.save(favorites);
@@ -37,15 +37,16 @@ public class FavoritesServiceImpl implements FavoritesService{
 	 * 保存
 	 * @return
 	 */
+	@Override
 	public Favorites saveFavorites(Collect collect){
 		Favorites favorites = new Favorites();
 		favorites.setName(collect.getNewFavorites());
 		favorites.setUserId(collect.getUserId());
-		favorites.setCount(1l);
+		favorites.setCount(1L);
 		if(CollectType.PUBLIC.name().equals(collect.getType())){
-			favorites.setPublicCount(1l);
+			favorites.setPublicCount(1L);
 		}else {
-			favorites.setPublicCount(10l);
+			favorites.setPublicCount(10L);
 		}
 		favorites.setCreateTime(DateUtils.getCurrentTime());
 		favorites.setLastModifyTime(DateUtils.getCurrentTime());
@@ -53,7 +54,7 @@ public class FavoritesServiceImpl implements FavoritesService{
 		return favorites;
 	}
 
-
+	@Override
 	public void countFavorites(Long id){
 		Favorites favorite=favoritesRepository.findOne(id);
 		favorite.setCount(collectRepository.countByFavoritesIdAndIsDelete(id, IsDelete.NO));

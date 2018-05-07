@@ -9,7 +9,7 @@ public class MD5Util {
 		try {
 			MessageDigest m = MessageDigest.getInstance("MD5");
 			m.update(dataStr.getBytes("UTF8"));
-			byte s[] = m.digest();
+			byte[] s = m.digest();
 			String result = "";
 			for (int i = 0; i < s.length; i++) {
 				result += Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00)

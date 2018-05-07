@@ -19,6 +19,7 @@ public class ConfigServiceImpl implements ConfigService{
 	 * @param favoritesId
 	 * @return
 	 */
+	@Override
 	public Config saveConfig(Long userId,String favoritesId){
 		Config config = new Config();
 		config.setUserId(userId);
@@ -36,6 +37,7 @@ public class ConfigServiceImpl implements ConfigService{
 	 * @param id
 	 * @param type
 	 */
+	@Override
 	public void updateConfig(Long id ,String type,String defaultFavorites){
 		Config config = configRepository.findOne(id);
 		String value="";

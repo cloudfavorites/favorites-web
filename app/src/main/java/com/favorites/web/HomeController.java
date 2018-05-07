@@ -129,7 +129,7 @@ public class HomeController extends BaseController{
 	public String userPageShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size){
 		User user = userRepository.findOne(userId);
-		Long collectCount = 0l;
+		Long collectCount = 0L;
 		Sort sort = new Sort(Direction.DESC, "id");
 	    Pageable pageable = new PageRequest(page, size, sort);
 	    List<CollectSummary> collects = null;
@@ -140,7 +140,7 @@ public class HomeController extends BaseController{
 			if(0 == favoritesId){
 				collects =collectService.getCollects("myself", userId, pageable,null,null);
 			}else{
-				collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l,null);
+				collects = collectService.getCollects(String.valueOf(favoritesId), userId, pageable, 0L, null);
 			}
 		}else{
 			model.addAttribute("myself",IsDelete.NO.toString());
@@ -190,7 +190,7 @@ public class HomeController extends BaseController{
 		public String userContentShow(Model model,@PathVariable("userId") Long userId,@PathVariable("favoritesId") Long favoritesId,@RequestParam(value = "page", defaultValue = "0") Integer page,
 		        @RequestParam(value = "size", defaultValue = "15") Integer size){
 			User user = userRepository.findOne(userId);
-			Long collectCount = 0l;
+			Long collectCount = 0L;
 			Sort sort = new Sort(Direction.DESC, "id");
 		    Pageable pageable = new PageRequest(page, size, sort);
 		    List<CollectSummary> collects = null;
@@ -200,7 +200,7 @@ public class HomeController extends BaseController{
 				if(0 == favoritesId){
 					collects =collectService.getCollects("myself", userId, pageable,null,null);
 				}else{
-					collects =collectService.getCollects(String.valueOf(favoritesId), userId, pageable,0l,null);
+					collects = collectService.getCollects(String.valueOf(favoritesId), userId, pageable, 0L, null);
 				}
 			}else{
 				model.addAttribute("myself",IsDelete.NO.toString());

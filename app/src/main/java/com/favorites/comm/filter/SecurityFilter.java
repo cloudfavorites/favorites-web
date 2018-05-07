@@ -26,7 +26,7 @@ public class SecurityFilter implements Filter {
 	private UserRepository userRepository;
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init (FilterConfig arg0) {
 		// TODO Auto-generated method stub
 		GreenUrlSet.add("/login");
 		GreenUrlSet.add("/register");
@@ -59,7 +59,7 @@ public class SecurityFilter implements Filter {
 							break;
 						}
 						String value = getUserId(cookie.getValue());
-						Long userId = 0l;
+						Long userId = 0L;
 						if (userRepository == null) {
 							BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
 							userRepository = (UserRepository) factory.getBean("userRepository");
@@ -136,22 +136,8 @@ public class SecurityFilter implements Filter {
 	 * @date 2016-5-4
 	 */
 	private boolean containsSuffix(String url) {
-		if (url.endsWith(".js")
-				|| url.endsWith(".css")
-				|| url.endsWith(".jpg")
-				|| url.endsWith(".gif")
-				|| url.endsWith(".png")
-				|| url.endsWith(".html")
-				|| url.endsWith(".eot")
-				|| url.endsWith(".svg")
-				|| url.endsWith(".ttf")
-				|| url.endsWith(".woff")
-				|| url.endsWith(".ico")
-				|| url.endsWith(".woff2")) {
-			return true;
-		} else {
-			return false;
-		}
+		return url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".jpg") || url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".html") || url.endsWith(".eot") || url.endsWith(".svg") || url.endsWith(".ttf")
+				|| url.endsWith(".woff") || url.endsWith(".ico") || url.endsWith(".woff2");
 	}
 
 	/**
@@ -162,25 +148,11 @@ public class SecurityFilter implements Filter {
 	 */
 	private boolean containsKey(String url) {
 
-		if (url.contains("/media/")
-				|| url.contains("/login")||url.contains("/user/login")
-				|| url.contains("/register")||url.contains("/user/regist")||url.contains("/index")
-				|| url.contains("/forgotPassword")||url.contains("/user/sendForgotPasswordEmail")
-				|| url.contains("/newPassword")||url.contains("/user/setNewPassword")
-				|| (url.contains("/collector") && !url.contains("/collect/detail/"))
-				|| url.contains("/collect/standard/")||url.contains("/collect/simple/")
-				|| url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
-				|| url.startsWith("/lookAround/standard/")
-				|| url.startsWith("/lookAround/simple/")
-				|| url.startsWith("/user/")
-				|| url.startsWith("/feedback")
-				|| url.startsWith("/standard/")
-				|| url.startsWith("/collect/standard/lookAround/")
-				|| url.startsWith("/collect/simple/lookAround/")) {
-			return true;
-		} else {
-			return false;
-		}
+		return url.contains("/media/") || url.contains("/login") || url.contains("/user/login") || url.contains("/register") || url.contains("/user/regist") || url.contains("/index") || url.contains("/forgotPassword") || url
+				.contains("/user/sendForgotPasswordEmail") || url.contains("/newPassword") || url.contains("/user/setNewPassword") || (url.contains("/collector") && !url.contains("/collect/detail/")) || url
+				.contains("/collect/standard/") || url.contains("/collect/simple/") || url.contains("/user") || url.contains("/favorites") || url.contains("/comment") || url.startsWith("/lookAround/standard/") || url
+				.startsWith("/lookAround/simple/") || url.startsWith("/user/") || url.startsWith("/feedback") || url.startsWith("/standard/") || url.startsWith("/collect/standard/lookAround/") || url
+				.startsWith("/collect/simple/lookAround/");
 	}
 
 
@@ -193,7 +165,7 @@ public class SecurityFilter implements Filter {
 	public  String codeToString(String str) {
 		String strString = str;
 		try {
-			byte tempB[] = strString.getBytes("ISO-8859-1");
+			byte[] tempB = strString.getBytes("ISO-8859-1");
 			strString = new String(tempB);
 			return strString;
 		} catch (Exception e) {
