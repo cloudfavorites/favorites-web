@@ -1,1 +1,1 @@
-create database favorites;
+CREATE DATABASE IF NOT EXISTS `favorites`;
