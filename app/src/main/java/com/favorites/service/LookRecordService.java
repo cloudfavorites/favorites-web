@@ -11,12 +11,12 @@ import java.util.List;
  */
 public interface LookRecordService {
 
-    public void saveLookRecord(Long userId, Long collectId);
+	void saveLookRecord (Long userId, Long collectId);
 
-    public void deleteLookRecord(Long userId, Long collectId);
+	void deleteLookRecord (Long userId, Long collectId);
 
-    public void deleteLookRecordByUserID(Long userId);
+	void deleteLookRecordByUserID (Long userId);
 
-    public List<CollectSummary> getLookRecords(Long userId, Pageable pageable);
+	List<CollectSummary> getLookRecords (Long userId, Pageable pageable);
 
 }

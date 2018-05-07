@@ -40,7 +40,7 @@ public class BaseController {
     }
     
     protected Long getUserId() {
-    	Long id=0l;
+	    Long id = 0L;
     	User user=getUser();
     	if(user!=null){
     		id=user.getId();

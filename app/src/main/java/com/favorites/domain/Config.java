@@ -94,7 +94,7 @@ public class Config extends Entitys implements Serializable {
 	}
 
 	public String getCollectTypeName() {
-		return defaultCollectType.equals("private")?"私密":"公开";
+		return "private".equals(defaultCollectType) ? "私密" : "公开";
 	}
 
 	public void setCollectTypeName(String collectTypeName) {
@@ -102,7 +102,7 @@ public class Config extends Entitys implements Serializable {
 	}
 
 	public String getModelName() {
-		return defaultModel.equals("simple")?"简单":"专业";
+		return "simple".equals(defaultModel) ? "简单" : "专业";
 	}
 
 	public void setModelName(String modelName) {

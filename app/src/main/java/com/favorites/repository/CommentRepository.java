@@ -11,7 +11,7 @@ import com.favorites.domain.view.CommentView;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-  public String findReplyUserSql="select u.id as userId,u.userName as userName,u.profilePicture as profilePicture,c.content as content,c.createTime as createTime,c.replyUserId as replyUserId "
+	String findReplyUserSql = "select u.id as userId,u.userName as userName,u.profilePicture as profilePicture,c.content as content,c.createTime as createTime,c.replyUserId as replyUserId "
       + "from Comment c,User u WHERE c.userId=u.id";
   
 	Long countByCollectId(Long collectId);

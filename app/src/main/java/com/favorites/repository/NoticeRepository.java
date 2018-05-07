@@ -13,7 +13,7 @@ import com.favorites.domain.view.CollectView;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-	public String baseSql="select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+	String baseSql = "select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
 			+ "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime, "
 			+ "u.userName as userName,u.profilePicture as profilePicture,n.operId as operId "
 			+ "from Notice n,Collect c,User u WHERE n.collectId=c.id and c.userId=u.id";

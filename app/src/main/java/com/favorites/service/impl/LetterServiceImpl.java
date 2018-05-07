@@ -37,6 +37,7 @@ public class LetterServiceImpl implements LetterService{
      * 发送私信
      * @param letter
      */
+    @Override
     public void sendLetter(Letter letter){
         if("original".equals(letter.getSendType())){
             letter.setType(LetterType.ORIGINAL);
@@ -71,6 +72,7 @@ public class LetterServiceImpl implements LetterService{
      * @param pageable
      * @return
      */
+    @Override
     public List<LetterSummary> findLetter(Long userId, Pageable pageable){
         List<LetterView> viewList = letterRepository.findLetterByReceiveUserId(userId,pageable);
         List<LetterSummary> summaryList = new ArrayList<LetterSummary>();
