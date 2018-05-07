@@ -154,6 +154,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 * 收藏文章
 	 * @param collect
 	 */
+	@Override
 	@Transactional
 	public void saveCollect(Collect collect) {
 		if (collect.getType()==null) {
@@ -181,6 +182,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 * @date 2016年8月24日
 	 * @param newCollect
 	 */
+	@Override
 	@Transactional
 	public void updateCollect(Collect newCollect) {
 		Collect collect=collectRepository.findOne(newCollect.getId());
@@ -219,6 +221,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 * @date 2016年8月31日
 	 * @param collect
 	 */
+	@Override
 	@Transactional
 	public void otherCollect(Collect collect) {
 		Collect other=collectRepository.findOne(collect.getId());
@@ -250,6 +253,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 * @param collect
 	 * @return
 	 */
+	@Override
 	public boolean checkCollect(Collect collect){
 		if(StringUtils.isNotBlank(collect.getNewFavorites())){
 			// url+favoritesId+userId
@@ -258,11 +262,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 				return true;
 			}else{
 				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(favorites.getId(), collect.getUrl(), collect.getUserId(), IsDelete.NO);
-				if(null != list && list.size() > 0){
-					return false;
-				}else{
-					return true;
-				}
+				return null == list || list.size() <= 0;
 			}
 		}else{
 			if(collect.getId() != null){
@@ -271,19 +271,11 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 					return true;
 				}else{
 					List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);
-					if(null != list && list.size() > 0){
-						return false;
-					}else{
-						return true;
-					}
+					return null == list || list.size() <= 0;
 				}
 			}else{
 				List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);
-				if(null != list && list.size() > 0){
-					return false;
-				}else{
-					return true;
-				}
+				return null == list || list.size() <= 0;
 			}
 		}
 	}
@@ -291,6 +283,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	/**
 	 * 导入收藏文章
 	 */
+	@Override
 	public void importHtml(Map<String, String> map,Long favoritesId,Long userId,String type){
 		for(Map.Entry<String, String> entry : map.entrySet()){
 			try {
@@ -338,6 +331,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 * 导出到html文件
 	 * @param favoritesId
 	 */
+	@Override
 	public StringBuilder exportToHtml(Long favoritesId){
 		try {
 			Favorites favorites = favoritesRepository.findOne(favoritesId);

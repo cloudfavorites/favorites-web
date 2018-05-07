@@ -89,7 +89,7 @@ public class Des3EncryptionUtil {
 			IvParameterSpec IVSpec = new IvParameterSpec(new byte[8]);
 			Cipher c = Cipher.getInstance("DESede/CBC/PKCS5Padding");
 			c.init(1, k, ((IVSpec)));
-			byte output[] = c.doFinal(data.getBytes("UTF-8"));
+			byte[] output = c.doFinal(data.getBytes("UTF-8"));
 			return new String(Base64.encode(output), "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,7 +117,7 @@ public class Des3EncryptionUtil {
 			IvParameterSpec IVSpec = new IvParameterSpec(new byte[8]);
 			Cipher c = Cipher.getInstance("DESede/CBC/PKCS5Padding");
 			c.init(2, k, ((IVSpec)));
-			byte output[] = c.doFinal(input);
+			byte[] output = c.doFinal(input);
 			return new String(output, "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,32 +126,36 @@ public class Des3EncryptionUtil {
 	}
 
 	public static byte[] UdpHexDecode(String s) {
-		byte abyte0[] = new byte[s.length() / 2];
+		byte[] abyte0 = new byte[s.length() / 2];
 		String s1 = s.toLowerCase();
 		for (int i = 0; i < s1.length(); i += 2) {
 			char c = s1.charAt(i);
 			char c1 = s1.charAt(i + 1);
 			int j = i / 2;
-			if (c < 'a')
+			if (c < 'a') {
 				abyte0[j] = (byte) (c - 48 << 4);
-			else
+			} else {
 				abyte0[j] = (byte) ((c - 97) + 10 << 4);
-			if (c1 < 'a')
+			}
+			if (c1 < 'a') {
 				abyte0[j] += (byte) (c1 - 48);
-			else
+			} else {
 				abyte0[j] += (byte) ((c1 - 97) + 10);
+			}
 		}
 		return abyte0;
 	}
 
-	public static String toHex(byte input[]) {
-		if (input == null)
+	public static String toHex (byte[] input) {
+		if (input == null) {
 			return null;
+		}
 		StringBuffer output = new StringBuffer(input.length * 2);
 		for (int i = 0; i < input.length; i++) {
 			int current = input[i] & 0xff;
-			if (current < 16)
+			if (current < 16) {
 				output.append("0");
+			}
 			output.append(Integer.toString(current, 16));
 		}
 
@@ -159,12 +163,13 @@ public class Des3EncryptionUtil {
 	}
 	
 	public static byte[] fromHex(String input) {
-		if (input == null)
+		if (input == null) {
 			return null;
-		byte output[] = new byte[input.length() / 2];
-		for (int i = 0; i < output.length; i++)
-			output[i] = (byte) Integer.parseInt(
-					input.substring(i * 2, (i + 1) * 2), 16);
+		}
+		byte[] output = new byte[input.length() / 2];
+		for (int i = 0; i < output.length; i++) {
+			output[i] = (byte)Integer.parseInt(input.substring(i * 2, (i + 1) * 2), 16);
+		}
 
 		return output;
 	}

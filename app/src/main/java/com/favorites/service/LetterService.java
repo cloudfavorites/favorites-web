@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface LetterService {
 
-    public void sendLetter(Letter letter);
+	void sendLetter (Letter letter);
 
-    public List<LetterSummary> findLetter(Long userId, Pageable pageable);
+	List<LetterSummary> findLetter (Long userId, Pageable pageable);
 }

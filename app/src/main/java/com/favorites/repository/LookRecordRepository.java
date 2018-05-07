@@ -20,7 +20,7 @@ public interface LookRecordRepository  extends JpaRepository<LookRecord, Long> {
     /**
      * 查询用户浏览历史记录
      */
-    public String userLookRecordSql = "select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
+    String userLookRecordSql = "select c.id as id,c.title as title, c.type as type,c.url as url,c.logoUrl as logoUrl,c.userId as userId, "
             + "c.remark as remark,c.description as description,c.lastModifyTime as lastModifyTime,r.lastModifyTime as createTime, "
             + "u.userName as userName,u.profilePicture as profilePicture,f.id as favoriteId,f.name as favoriteName "
             + "from LookRecord r,Collect c,User u,Favorites f "

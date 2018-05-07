@@ -35,7 +35,7 @@ services:
       - /tmp/logs:/usr/local/logs
     expose:
       - "8080"
-    command: mvn clean spring-boot:run -Drun.profiles=docker
+    command: mvn clean -Dmaven.test.skip=true spring-boot:run -Drun.profiles=docker
     depends_on:
       - nginx
       - mysql

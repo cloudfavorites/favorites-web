@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface LoggerManage {
 
-	public String description();
+	String description ();
 }

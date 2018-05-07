@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface LetterRepository extends JpaRepository<Letter,Long> {
 
-    public String findSql = "select l.id as id,l.sendUserId as sendUserId,u.userName as sendUserName,u.profilePicture as profilePicture,l.content as content,l.createTime as createTime,l.pid as pid,l.type as type from Letter l,User u where l.sendUserId = u.id";
+	String findSql = "select l.id as id,l.sendUserId as sendUserId,u.userName as sendUserName,u.profilePicture as profilePicture,l.content as content,l.createTime as createTime,l.pid as pid,l.type as type from Letter l,User u where l.sendUserId = u.id";
 
     @Transactional
     @Modifying

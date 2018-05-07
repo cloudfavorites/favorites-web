@@ -25,7 +25,8 @@ public enum ExceptionMsg {
     LimitPictureSize("000401","图片大小必须小于2M"),
     LimitPictureType("000402","图片格式必须为'jpg'、'png'、'jpge'、'gif'、'bmp'")
     ;
-   private ExceptionMsg(String code, String msg) {
+
+	ExceptionMsg (String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
