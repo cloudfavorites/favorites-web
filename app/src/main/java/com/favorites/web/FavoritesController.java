@@ -92,10 +92,10 @@ public class FavoritesController extends BaseController{
 	 */
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	@LoggerManage(description="修改收藏夹")
-	public Response updateFavorites(String favoritesName,Long favoritesId){
-		if(StringUtils.isNotBlank(favoritesName)&& null != favoritesId){
-			Favorites fav = favoritesRepository.findOne(favoritesId);
-			if(null != fav && getUserId().longValue() == fav.getUserId().longValue()){
+	public Response updateFavorites(String favoritesName,long favoritesId){
+		if(StringUtils.isNotBlank(favoritesName)&& 0 != favoritesId){
+			Favorites fav = favoritesRepository.findById(favoritesId);
+			if(null != fav && getUserId() == fav.getUserId().longValue()){
 				Favorites favorites = favoritesRepository.findByUserIdAndName(getUserId(), favoritesName);
 				if(null != favorites){
 					logger.info("收藏夹名称已被创建");
@@ -122,14 +122,14 @@ public class FavoritesController extends BaseController{
 	 */
 	@RequestMapping(value="/del",method=RequestMethod.POST)
 	@LoggerManage(description="删除收藏夹")
-	public Response delFavorites(Long id){
-		if(null == id){
+	public Response delFavorites(long id){
+		if(0 == id){
 			return result(ExceptionMsg.FAILED);
 		}
 		try {
-			Favorites fav = favoritesRepository.findOne(id);
-			if(null != fav && getUserId().longValue() == fav.getUserId().longValue()){
-				favoritesRepository.delete(id);
+			Favorites fav = favoritesRepository.findById(id);
+			if(null != fav && getUserId() == fav.getUserId().longValue()){
+				favoritesRepository.deleteById(id);
 				// 删除该收藏夹下文章
 				collectRepository.deleteByFavoritesId(id);
 				Config config = configRespository.findByUserIdAndDefaultFavorties(getUserId(),String.valueOf(id));

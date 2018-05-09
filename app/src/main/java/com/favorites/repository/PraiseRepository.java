@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import com.favorites.domain.Praise;
 import com.favorites.domain.view.CommentView;
 
+import javax.transaction.Transactional;
+
 public interface PraiseRepository extends JpaRepository<Praise, Long> {
 
 
@@ -17,5 +19,7 @@ public interface PraiseRepository extends JpaRepository<Praise, Long> {
 	
 	@Query(findPraiseUserSql+ " and p.id=?1")
 	CommentView findPraiseUser(Long id);
-	
+
+	@Transactional
+	void deleteById(Long id);
 }

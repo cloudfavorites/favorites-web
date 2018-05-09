@@ -19,7 +19,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 	List<Comment> findByCollectIdOrderByIdDesc(Long collectId);
 	
 	@Transactional
-	Long deleteById(Long id);
+	void deleteById(Long id);
 
 	
 	@Query(findReplyUserSql+ " and c.id=?1")

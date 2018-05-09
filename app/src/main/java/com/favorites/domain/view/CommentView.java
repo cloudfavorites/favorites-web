@@ -12,5 +12,5 @@ public interface CommentView {
 	String getProfilePicture();
 	String getContent();
 	Long getCreateTime();
-	Long getReplyUserId();
+	long getReplyUserId();
 }

@@ -6,7 +6,8 @@ import javax.transaction.Transactional;
 
 import com.favorites.cache.CacheService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,7 @@ import com.favorites.utils.StringUtil;
 
 @Service("collectService")
 public class CollectServiceImpl extends CacheService implements CollectService {
-	protected Logger logger = Logger.getLogger(this.getClass());
+	protected Logger logger =  LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private CollectRepository collectRepository;
@@ -183,7 +184,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 */
 	@Transactional
 	public void updateCollect(Collect newCollect) {
-		Collect collect=collectRepository.findOne(newCollect.getId());
+		Collect collect=collectRepository.findById(newCollect.getId());
 		if(StringUtils.isNotBlank(newCollect.getNewFavorites())){
 			collect.setFavoritesId(createfavorites(collect));
 		}else if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !IsDelete.YES.equals(collect.getIsDelete())){
@@ -221,7 +222,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 */
 	@Transactional
 	public void otherCollect(Collect collect) {
-		Collect other=collectRepository.findOne(collect.getId());
+		Collect other=collectRepository.findById(collect.getId());
 		//收藏别人文章默认给点赞
 		collectLike(collect.getUserId(),other.getId());
 		if(StringUtils.isNotBlank(collect.getNewFavorites())){
@@ -265,8 +266,8 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 				}
 			}
 		}else{
-			if(collect.getId() != null){
-				Collect c = collectRepository.findOne(collect.getId());
+			if(collect.getId() != 0){
+				Collect c = collectRepository.findById(collect.getId());
 				if(c.getFavoritesId().longValue() == collect.getFavoritesId().longValue()){
 					return true;
 				}else{
@@ -333,14 +334,14 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 		}
 		
 	}
-	
+
 	/**
 	 * 导出到html文件
 	 * @param favoritesId
 	 */
-	public StringBuilder exportToHtml(Long favoritesId){
+	public StringBuilder exportToHtml(long favoritesId){
 		try {
-			Favorites favorites = favoritesRepository.findOne(favoritesId);
+			Favorites favorites = favoritesRepository.findById(favoritesId);
 			StringBuilder sb = new StringBuilder();
 			List<Collect> collects = collectRepository.findByFavoritesIdAndIsDelete(favoritesId,IsDelete.NO);
 			StringBuilder sbc = new StringBuilder();
@@ -405,12 +406,12 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 			newPraise.setCreateTime(DateUtils.getCurrentTime());
 			praiseRepository.save(newPraise);
 			// 保存消息通知
-			Collect collect = collectRepository.findOne(id);
+			Collect collect = collectRepository.findById(id);
 			if(null != collect){
 				noticeService.saveNotice(String.valueOf(id), "praise", collect.getUserId(), String.valueOf(newPraise.getId()));
 			}
 		}else if(praise.getUserId().equals(userId)){
-			praiseRepository.delete(praise.getId());
+			praiseRepository.deleteById(praise.getId());
 		}
 	}
 
@@ -428,7 +429,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 			newPraise.setCreateTime(DateUtils.getCurrentTime());
 			praiseRepository.save(newPraise);
 			// 保存消息通知
-			Collect collect = collectRepository.findOne(id);
+			Collect collect = collectRepository.findById(id);
 			if(null != collect){
 				noticeService.saveNotice(String.valueOf(id), "praise", collect.getUserId(), String.valueOf(newPraise.getId()));
 			}

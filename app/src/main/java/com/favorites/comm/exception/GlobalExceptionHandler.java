@@ -1,7 +1,8 @@
 package com.favorites.comm.exception;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    protected Logger logger = Logger.getLogger(this.getClass());
+    protected Logger logger =  LoggerFactory.getLogger(this.getClass());
 
     public static final String DEFAULT_ERROR_VIEW = "error";
 

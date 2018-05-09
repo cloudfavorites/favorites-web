@@ -3,11 +3,12 @@ package com.favorites.utils;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class URLUtil {
-	
-    private static Logger logger = Logger.getLogger(URLUtil.class);
+
+	public static Logger logger =  LoggerFactory.getLogger(HtmlUtil.class);
     
 	public static synchronized boolean isConnect(String urlStr) {  
         int counts = 0;  

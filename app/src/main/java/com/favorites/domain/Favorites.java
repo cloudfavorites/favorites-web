@@ -2,11 +2,8 @@ package com.favorites.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 /**
  * 收藏夹
  * @author DingYS
@@ -17,7 +14,7 @@ public class Favorites extends Entitys implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	@Column(nullable = false)
 	private Long userId;
@@ -75,4 +72,16 @@ public class Favorites extends Entitys implements Serializable {
 		this.lastModifyTime = lastModifyTime;
 	}
 
+	@Override
+	public String toString() {
+		return "Favorites{" +
+				"id=" + id +
+				", userId=" + userId +
+				", name='" + name + '\'' +
+				", count=" + count +
+				", createTime=" + createTime +
+				", lastModifyTime=" + lastModifyTime +
+				", publicCount=" + publicCount +
+				'}';
+	}
 }

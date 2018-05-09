@@ -2,13 +2,7 @@ package com.favorites.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
@@ -18,19 +12,19 @@ public class Collect  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue
-	private Long id;
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private long id;
 	@Column(nullable = false)
 	private Long userId;
 	@Column(nullable = false)
 	private Long favoritesId;
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "varchar(500)")
 	private String url;
 	@Column(nullable = false)
 	private String title;
 	@Column(nullable = true, length = 65535, columnDefinition = "Text")
 	private String description;
-	@Column(nullable = true)
+	@Column(nullable = true, columnDefinition = "varchar(300)")
 	private String logoUrl;
 	@Column(nullable = true)
 	private String charset;
@@ -57,7 +51,7 @@ public class Collect  implements Serializable {
 		super();
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -65,7 +59,7 @@ public class Collect  implements Serializable {
 		this.id = id;
 	}
 
-	public Long getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 

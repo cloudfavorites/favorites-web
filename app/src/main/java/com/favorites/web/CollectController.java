@@ -83,7 +83,7 @@ public class CollectController extends BaseController{
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
 				Collect exist=collectRepository.findByIdAndUserId(collect.getId(), collect.getUserId());
-				if(collect.getId()==null){
+				if(collect.getId()==0){
 					collectService.saveCollect(collect);
 				}else if(exist==null){//收藏别人的文章
 					collectService.otherCollect(collect);
@@ -254,9 +254,9 @@ public class CollectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/delete/{id}")
-	public Response delete(@PathVariable("id") Long id) {
-		Collect collect = collectRepository.findOne(id);
-		if(null != collect && getUserId().equals(collect.getUserId())){
+	public Response delete(@PathVariable("id") long id) {
+		Collect collect = collectRepository.findById(id);
+		if(null != collect && getUserId()==collect.getUserId()){
 		  collectRepository.deleteById(id);
 			if(null != collect.getFavoritesId() && !IsDelete.YES.equals(collect.getIsDelete())){
 				favoritesRepository.reduceCountById(collect.getFavoritesId(), DateUtils.getCurrentTime());
@@ -274,7 +274,7 @@ public class CollectController extends BaseController{
 	 */
 	@RequestMapping(value="/detail/{id}")
 	public Collect detail(@PathVariable("id") long id) {
-		Collect collect=collectRepository.findOne(id);
+		Collect collect=collectRepository.findById(id);
 		return collect;
 	}
 	

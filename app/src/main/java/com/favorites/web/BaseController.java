@@ -7,7 +7,8 @@ import com.favorites.domain.result.Response;
 import com.favorites.utils.Des3EncryptionUtil;
 import com.favorites.utils.MD5Util;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class BaseController {
 
-    protected Logger logger = Logger.getLogger(this.getClass());
+    protected Logger logger =  LoggerFactory.getLogger(this.getClass());
     
     protected Response result(ExceptionMsg msg){
     	return new Response(msg);
@@ -39,7 +40,7 @@ public class BaseController {
         return (User) getSession().getAttribute(Const.LOGIN_SESSION_KEY);
     }
     
-    protected Long getUserId() {
+    protected long getUserId() {
     	Long id=0l;
     	User user=getUser();
     	if(user!=null){

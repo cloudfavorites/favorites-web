@@ -36,8 +36,8 @@ public class ConfigServiceImpl implements ConfigService{
 	 * @param id
 	 * @param type
 	 */
-	public void updateConfig(Long id ,String type,String defaultFavorites){
-		Config config = configRepository.findOne(id);
+	public void updateConfig(long id ,String type,String defaultFavorites){
+		Config config = configRepository.findById(id);
 		String value="";
 		if("defaultCollectType".equals(type)){
 			if("public".equals(config.getDefaultCollectType())){

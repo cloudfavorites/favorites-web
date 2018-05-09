@@ -4,6 +4,8 @@ import com.favorites.domain.Collect;
 import com.favorites.domain.enums.CollectType;
 import com.favorites.domain.enums.IsDelete;
 import com.favorites.repository.CollectRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,8 @@ import com.favorites.utils.DateUtils;
 
 @Service("favoritesService")
 public class FavoritesServiceImpl implements FavoritesService{
-	
+	protected Logger logger =  LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private FavoritesRepository favoritesRepository;
 	@Autowired
@@ -54,11 +57,14 @@ public class FavoritesServiceImpl implements FavoritesService{
 	}
 
 
-	public void countFavorites(Long id){
-		Favorites favorite=favoritesRepository.findOne(id);
-		favorite.setCount(collectRepository.countByFavoritesIdAndIsDelete(id, IsDelete.NO));
-		favorite.setPublicCount(collectRepository.countByFavoritesIdAndTypeAndIsDelete(id, CollectType.PUBLIC, IsDelete.NO));
+	public void countFavorites(long id){
+		Favorites favorite=favoritesRepository.findById(id);
+		Long count=collectRepository.countByFavoritesIdAndIsDelete(id, IsDelete.NO);
+		favorite.setCount(count);
+		Long pubCount=collectRepository.countByFavoritesIdAndTypeAndIsDelete(id, CollectType.PUBLIC, IsDelete.NO);
+		favorite.setPublicCount(pubCount);
 		favorite.setLastModifyTime(DateUtils.getCurrentTime());
 		favoritesRepository.save(favorite);
+
 	}
 }

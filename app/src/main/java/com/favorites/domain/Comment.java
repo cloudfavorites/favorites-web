@@ -52,7 +52,7 @@ public class Comment extends Entitys implements Serializable {
 		this.id = id;
 	}
 
-	public Long getCollectId() {
+	public long getCollectId() {
 		return collectId;
 	}
 
@@ -68,7 +68,7 @@ public class Comment extends Entitys implements Serializable {
 		this.content = content;
 	}
 
-	public Long getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
@@ -76,7 +76,7 @@ public class Comment extends Entitys implements Serializable {
 		this.userId = userId;
 	}
 
-	public Long getReplyUserId() {
+	public long getReplyUserId() {
 		return replyUserId;
 	}
 

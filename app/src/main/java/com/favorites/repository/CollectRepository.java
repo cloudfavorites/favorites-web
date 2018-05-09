@@ -44,7 +44,7 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	Collect findByIdAndUserId(Long id,Long userId);
 	 
 	@Transactional
-    Long deleteById(Long id);
+    void deleteById(Long id);
 	
 	Page<Collect> findByFavoritesIdAndIsDelete(Long favoritesId,Pageable pageable,IsDelete isDelete);
 	
@@ -107,5 +107,7 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 	int updateLogoUrlByUrl(String logoUrl,Long lastModifyTime,String url);
 
 	List<Collect> findByUserIdAndIsDelete(Long userId,IsDelete isDelete);
+
+	Collect findById(long  id);
 
 }

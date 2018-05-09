@@ -48,7 +48,7 @@ public class NoticeController extends BaseController{
 			comment.setCreateTime(DateUtils.getCurrentTime());
 			Comment saveCommon = commentRepository.save(comment);
 			Notice notice = new Notice();
-			notice.setCollectId(comment.getCollectId().toString());
+			notice.setCollectId(comment.getCollectId()+"");
 			notice.setUserId(comment.getReplyUserId());
 			notice.setType("comment");
 			notice.setReaded("unread");

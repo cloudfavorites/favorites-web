@@ -20,7 +20,7 @@ public interface CollectService {
 	
 	public void importHtml(Map<String, String> map,Long favoritesId,Long userId,String type);
 	
-	public StringBuilder exportToHtml(Long favoritesId);
+	public StringBuilder exportToHtml(long favoritesId);
 	
 	public List<CollectSummary> searchMy(Long userId,String key,Pageable pageable);
 	

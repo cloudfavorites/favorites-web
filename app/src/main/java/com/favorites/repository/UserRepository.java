@@ -22,7 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserNameOrEmail(String username, String email);
     
     User findByEmail(String email);
-    
+
+    User findById(long  id);
+
     @Modifying(clearAutomatically=true)
     @Transactional
     @Query("update User set outDate=:outDate, validataCode=:validataCode where email=:email") 
@@ -55,6 +57,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User set backgroundPicture=:backgroundPicture where id=:id")
     int setBackgroundPicture(@Param("backgroundPicture") String backgroundPicture, @Param("id") Long id);
-
-    User findById(Long id);
 }

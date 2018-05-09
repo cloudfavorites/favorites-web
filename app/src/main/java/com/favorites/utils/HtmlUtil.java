@@ -2,11 +2,12 @@ package com.favorites.utils;
 
 import com.favorites.comm.Const;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,8 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HtmlUtil {
-	
-    private static Logger logger = Logger.getLogger(HtmlUtil.class);
+
+	public static Logger logger =  LoggerFactory.getLogger(HtmlUtil.class);
 	/**
 	 * @param url
 	 * @return

@@ -11,7 +11,9 @@ import com.favorites.domain.Config;
 public interface ConfigRepository extends JpaRepository<Config, Long> {
 
 	Config findByUserId(Long userId);
-	
+
+	Config findById(long id);
+
 	Config findByUserIdAndDefaultFavorties(Long userId,String defaultFavorites);
 	
 	@Transactional

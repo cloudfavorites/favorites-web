@@ -81,8 +81,8 @@ public class NoticeServiceImpl implements NoticeService{
 				summary.setUserId(comment.getUserId());
 				summary.setUserName(comment.getUserName());
 				summary.setProfilePicture(comment.getProfilePicture());
-				if(comment.getReplyUserId() != null && comment.getReplyUserId() != 0L){
-					User replyUser = userRepository.findOne(comment.getReplyUserId());
+				if(comment.getReplyUserId() != 0 && comment.getReplyUserId() != 0L){
+					User replyUser = userRepository.findById(comment.getReplyUserId());
 				    summary.setRemark("回复@"+replyUser.getUserName()+": "+comment.getContent());
 				}else{
 					summary.setRemark(comment.getContent());
