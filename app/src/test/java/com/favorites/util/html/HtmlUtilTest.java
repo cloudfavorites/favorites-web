@@ -5,13 +5,15 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.favorites.utils.HtmlUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,7 +27,7 @@ import com.favorites.utils.URLUtil;
 @SpringBootTest
 public class HtmlUtilTest {
 
-   private static Logger logger = Logger.getLogger(HtmlUtilTest.class);
+	public static Logger logger =  LoggerFactory.getLogger(HtmlUtilTest.class);
    @Autowired
 	ScheduledTasks tasks;
 

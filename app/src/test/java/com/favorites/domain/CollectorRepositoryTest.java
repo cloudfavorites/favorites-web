@@ -1,5 +1,6 @@
 package com.favorites.domain;
 
+import com.favorites.domain.enums.IsDelete;
 import com.favorites.domain.view.IndexCollectorView;
 import com.favorites.repository.CollectorRepository;
 import com.favorites.service.CollectorService;
@@ -69,4 +70,6 @@ public class CollectorRepositoryTest {
         IndexCollectorView indexCollectorView = collectorService.getCollectors();
         System.out.println("+++++++++++++++++++++++++++++++++++++ collectors:"+indexCollectorView.getMostActiveUser());
     }
+
+
 }

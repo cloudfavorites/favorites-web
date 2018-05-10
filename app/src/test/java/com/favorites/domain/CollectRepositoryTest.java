@@ -3,6 +3,7 @@ package com.favorites.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.favorites.domain.enums.IsDelete;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,12 @@ public class CollectRepositoryTest {
 	    	System.out.println("   Url==" +view.getUrl());
 	    }
 	}
-	
+
+
+	@Test
+	public void  Testcount(){
+		Long count=collectRepository.countByFavoritesIdAndIsDelete(4L, IsDelete.NO);
+		System.out.println("+++++++++++++++++++++++++++++++++++++ count:"+count);
+	}
 
 }
