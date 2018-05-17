@@ -184,7 +184,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 */
 	@Transactional
 	public void updateCollect(Collect newCollect) {
-		Collect collect=collectRepository.findById(newCollect.getId());
+		Collect collect=collectRepository.findById(newCollect.getId().longValue());
 		if(StringUtils.isNotBlank(newCollect.getNewFavorites())){
 			collect.setFavoritesId(createfavorites(collect));
 		}else if(!collect.getFavoritesId().equals(newCollect.getFavoritesId()) && !IsDelete.YES.equals(collect.getIsDelete())){
@@ -222,7 +222,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 	 */
 	@Transactional
 	public void otherCollect(Collect collect) {
-		Collect other=collectRepository.findById(collect.getId());
+		Collect other=collectRepository.findById(collect.getId().longValue());
 		//收藏别人文章默认给点赞
 		collectLike(collect.getUserId(),other.getId());
 		if(StringUtils.isNotBlank(collect.getNewFavorites())){
@@ -266,8 +266,8 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 				}
 			}
 		}else{
-			if(collect.getId() != 0){
-				Collect c = collectRepository.findById(collect.getId());
+			if(collect.getId() != null){
+				Collect c = collectRepository.findById(collect.getId().longValue());
 				if(c.getFavoritesId().longValue() == collect.getFavoritesId().longValue()){
 					return true;
 				}else{

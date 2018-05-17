@@ -13,7 +13,7 @@ public interface CollectView{
 	Long getLastModifyTime();
 	Long getCreateTime();
 	String getUserName();
-	Long getFavoriteId();
+	Long getFavoritesId();
 	String getFavoriteName();
 	String getOperId();
 }

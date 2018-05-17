@@ -702,7 +702,7 @@ function listStandardCollect(collects,listId,user){
 		"         </div>"+
 		"         <div class=\"m0\">"+
 		"            <span class=\"icon-folder mr-sm\"></span>"+
-		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoriteId+"/"+collects[i].userId+"\',\'"+collects[i].favoriteId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
+		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoritesId+"/"+collects[i].userId+"\',\'"+collects[i].favoritesId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
 		"            <div class=\"pull-right hidden-xxs\">"+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button btn-praise\">"+
 		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+

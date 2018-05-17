@@ -13,7 +13,7 @@ public class Collect  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	@Column(nullable = false)
 	private Long userId;
 	@Column(nullable = false)
@@ -24,7 +24,7 @@ public class Collect  implements Serializable {
 	private String title;
 	@Column(nullable = true, length = 65535, columnDefinition = "Text")
 	private String description;
-	@Column(nullable = true, columnDefinition = "varchar(300)")
+	@Column(nullable = true,columnDefinition = "varchar(300)")
 	private String logoUrl;
 	@Column(nullable = true)
 	private String charset;
@@ -51,7 +51,7 @@ public class Collect  implements Serializable {
 		super();
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

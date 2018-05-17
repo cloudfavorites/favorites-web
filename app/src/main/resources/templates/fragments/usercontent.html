@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${user.id}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                        <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoritesId} + '/'+${user.id}+'\',\''+ ${collect.favoritesId} + '\');'" >文件加名称</a>
                             <div th:if="${loginUser!=null}" class="pull-right hidden-xxs">
                                 <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-o-up"></span>
                                 <show th:id="'likeS' + ${collect.id}"  th:text="|点赞(${collect.praiseCount})|" ></show>

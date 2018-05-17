@@ -17,7 +17,6 @@ public class CollectSummary  implements Serializable {
 	private String remark;
 	private Long lastModifyTime;
 	private String userName;
-	private Long favoriteId;
 	private String favoriteName;
 	private String collectTime;
 	private String newFavorites;
@@ -33,7 +32,7 @@ public class CollectSummary  implements Serializable {
 		this.id = view.getId();
 		this.userId = view.getUserId();
 		this.profilePicture = view.getProfilePicture();
-		this.favoritesId = view.getFavoriteId();
+		this.favoritesId = view.getFavoritesId();
 		this.url = view.getUrl();
 		this.title = view.getTitle();
 		this.description = view.getDescription();
@@ -42,8 +41,6 @@ public class CollectSummary  implements Serializable {
 		this.remark = view.getRemark();
 		this.lastModifyTime = view.getLastModifyTime();
 		this.userName = view.getUserName();
-		this.favoriteId = view.getFavoriteId();
-		this.favoriteName = view.getFavoriteName();
 	}
 	
 	public Long getId() {
@@ -117,12 +114,6 @@ public class CollectSummary  implements Serializable {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-	public Long getFavoriteId() {
-		return favoriteId;
-	}
-	public void setFavoriteId(Long favoriteId) {
-		this.favoriteId = favoriteId;
 	}
 	public String getFavoriteName() {
 		return favoriteName;

@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${collect.userId}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                                <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoritesId} + '/'+${collect.userId}+'\',\''+ ${collect.favoritesId} + '\');'" >文件加名称</a>
                                     <div class="pull-right hidden-xxs"> <small> <a class="sharing-action-button" style="display:none"> <span class="fa fa-share-alt"></span> 分享 </a>
                                         <if style="display:none"    > | </if>
                                         <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-o-up"></span>
@@ -146,7 +146,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoriteId} + '/'+${collect.userId}+'\',\''+ ${collect.favoriteId} + '\');'" >文件加名称</a>
+                                <div class="m0"> <span class="icon-folder mr-sm"></span> <a href="javascript:void(0);" class="normal-color-a ng-binding"   th:text="${collect.favoriteName}" th:onclick="'locationUrl(\'/standard/' + ${collect.favoritesId} + '/'+${collect.userId}+'\',\''+ ${collect.favoritesId} + '\');'" >文件加名称</a>
                                     <div class="pull-right hidden-xxs"> <small> <a class="sharing-action-button" style="display:none"> <span class="fa fa-share-alt"></span> 分享 </a>
                                         <if style="display:none"    > | </if>
                                         <a th:id="'like' + ${collect.id}"  class="sharing-action-button" th:style="'display:' + @{(${collect.Praise} ? 'none' : 'inline-block')} + ''"    th:onclick="'changeLike(' + ${collect.id} + ');'"> <span class="fa fa-thumbs-o-up"></span>

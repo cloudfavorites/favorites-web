@@ -56,7 +56,7 @@ public class LetterController extends BaseController {
     public List<LetterSummary> getLetterList(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                              @RequestParam(value = "size", defaultValue = "15") Integer size){
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size,sort);
         List<LetterSummary> letterList = letterService.findLetter(getUserId(),pageable);
         return letterList;
     }

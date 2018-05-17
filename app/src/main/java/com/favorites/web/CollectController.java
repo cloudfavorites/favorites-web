@@ -77,13 +77,13 @@ public class CollectController extends BaseController{
 	@LoggerManage(description="文章收集")
 	public Response collect(Collect collect) {		
 		try {
-			if(StringUtils.isBlank(collect.getLogoUrl())){
+			if(StringUtils.isBlank(collect.getLogoUrl()) || collect.getLogoUrl().length()>300){
 				collect.setLogoUrl(Const.BASE_PATH + Const.default_logo);
 			}
 			collect.setUserId(getUserId());
 			if(collectService.checkCollect(collect)){
 				Collect exist=collectRepository.findByIdAndUserId(collect.getId(), collect.getUserId());
-				if(collect.getId()==0){
+				if(collect.getId()==null){
 					collectService.saveCollect(collect);
 				}else if(exist==null){//收藏别人的文章
 					collectService.otherCollect(collect);
@@ -156,7 +156,7 @@ public class CollectController extends BaseController{
 	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId,
 			@PathVariable("category") String category) {
 		  Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> collects = null;
 	    if("otherpublic".equalsIgnoreCase(type)){
 	    	if(null != favoritesId && 0 != favoritesId){
@@ -194,7 +194,7 @@ public class CollectController extends BaseController{
 	        @PathVariable("favoritesId") Long favoritesId,@PathVariable("userId") Long userId
 			,@PathVariable("category") String category) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> collects = null;
 	    if("otherpublic".equalsIgnoreCase(type)){
 	    	if(null != favoritesId && 0 != favoritesId){
@@ -359,7 +359,7 @@ public class CollectController extends BaseController{
 	public List<CollectSummary> searchMy(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
 		model.addAttribute("myCollects", myCollects);
 		logger.info("searchMy end :");
@@ -372,7 +372,7 @@ public class CollectController extends BaseController{
 	public List<CollectSummary> searchOther(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
 		logger.info("searchOther end :");
 		return otherCollects;

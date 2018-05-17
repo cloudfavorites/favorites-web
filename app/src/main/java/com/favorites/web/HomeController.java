@@ -55,7 +55,7 @@ public class HomeController extends BaseController{
 	public String standard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size,@PathVariable("type") String type,@PathVariable("userId") long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type) && !"garbage".equals(type)){
@@ -89,7 +89,7 @@ public class HomeController extends BaseController{
 	        @RequestParam(value = "size", defaultValue = "20") Integer size,@PathVariable("type") String type,
 	        @PathVariable("userId") long userId) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 		model.addAttribute("type", type);
 		Favorites favorites = new Favorites();
 		if(!"my".equals(type)&&!"explore".equals(type) && !"garbage".equals(type)){
@@ -131,7 +131,7 @@ public class HomeController extends BaseController{
 		User user = userRepository.findById(userId);
 		Long collectCount = 0l;
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> collects = null;
 	    Integer isFollow = 0;
 		if(getUserId() == userId){
@@ -192,7 +192,7 @@ public class HomeController extends BaseController{
 			User user = userRepository.findById(userId);
 			Long collectCount = 0l;
 			Sort sort = new Sort(Direction.DESC, "id");
-		    Pageable pageable = new PageRequest(page, size, sort);
+		    Pageable pageable = PageRequest.of(page, size,sort);
 		    List<CollectSummary> collects = null;
 			if(getUserId() == userId){
 				model.addAttribute("myself",IsDelete.YES.toString());
@@ -237,7 +237,7 @@ public class HomeController extends BaseController{
 	public String search(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> myCollects=collectService.searchMy(getUserId(),key ,pageable);
 	    List<CollectSummary> otherCollects=collectService.searchOther(getUserId(), key, pageable);
 		model.addAttribute("myCollects", myCollects);
@@ -263,7 +263,7 @@ public class HomeController extends BaseController{
 	public String atMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> collects=noticeService.getNoticeCollects("at", getUserId(), pageable);
 		model.addAttribute("collects", collects);
 		noticeRepository.updateReadedByUserId("read",getUserId(),"at");
@@ -282,7 +282,7 @@ public class HomeController extends BaseController{
 	public String commentMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
+	    Pageable pageable = PageRequest.of(page, size,sort);
 	    List<CollectSummary> collects=noticeService.getNoticeCollects("comment", getUserId(), pageable);
 		model.addAttribute("collects", collects);
 		noticeRepository.updateReadedByUserId("read",getUserId(),"comment");
@@ -301,8 +301,8 @@ public class HomeController extends BaseController{
 	public String praiseMe(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "15") Integer size) {
 		Sort sort = new Sort(Direction.DESC, "id");
-	    Pageable pageable = new PageRequest(page, size, sort);
-	    List<CollectSummary> collects=noticeService.getNoticeCollects("praise", getUserId(), pageable);
+	    Pageable pageable = PageRequest.of(page, size,sort);
+		List<CollectSummary> collects=noticeService.getNoticeCollects("praise", getUserId(), pageable);
 		model.addAttribute("collects", collects);
 		noticeRepository.updateReadedByUserId("read",getUserId(),"praise");
 		logger.info("praiseMe end :"+ getUserId());
@@ -323,7 +323,7 @@ public class HomeController extends BaseController{
 							 @PathVariable("type") String type,@PathVariable("userId") long userId) {
 
 		Sort sort = new Sort(Direction.DESC, "lastModifyTime");
-		Pageable pageable = new PageRequest(page, size, sort);
+		Pageable pageable = PageRequest.of(page, size,sort);
 		model.addAttribute("type", "lookRecord");
 		Favorites favorites = new Favorites();
 
@@ -354,7 +354,7 @@ public class HomeController extends BaseController{
 								@PathVariable("type") String type,@PathVariable("userId") long userId) {
 
 		Sort sort = new Sort(Direction.DESC, "lastModifyTime");
-		Pageable pageable = new PageRequest(page, size, sort);
+		Pageable pageable = PageRequest.of(page, size,sort);
 		model.addAttribute("type", "lookRecord");
 		Favorites favorites = new Favorites();
 
@@ -376,7 +376,7 @@ public class HomeController extends BaseController{
 	public String letterMe(Model model, @RequestParam(value = "page", defaultValue = "0") Integer page,
 						   @RequestParam(value = "size", defaultValue = "15") Integer size){
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
-		Pageable pageable = new PageRequest(page, size, sort);
+		Pageable pageable = PageRequest.of(page, size,sort);
 		List<LetterSummary> letterList = letterService.findLetter(getUserId(),pageable);
 		model.addAttribute("letterList",letterList);
 		noticeRepository.updateReadedByUserId("read",getUserId(),"letter");

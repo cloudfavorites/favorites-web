@@ -97,7 +97,7 @@ public class IndexController extends BaseController{
 							 @PathVariable("category") String category) {
 
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
-		Pageable pageable = new PageRequest(page, size, sort);
+		Pageable pageable = PageRequest.of(page, size,sort);
 		model.addAttribute("category", category);
 		model.addAttribute("type", "lookAround");
 		Favorites favorites = new Favorites();
@@ -130,7 +130,7 @@ public class IndexController extends BaseController{
 									 @PathVariable("category") String category) {
 
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
-		Pageable pageable = new PageRequest(page, size, sort);
+		Pageable pageable = PageRequest.of(page, size,sort);
 		model.addAttribute("category", category);
 		model.addAttribute("type", "lookAround");
 		Favorites favorites = new Favorites();
@@ -275,7 +275,7 @@ public class IndexController extends BaseController{
         User user = userRepository.findById(userId);
         Long collectCount = 0l;
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size,sort);
         List<CollectSummary> collects = null;
         Integer isFollow = 0;
         if(getUserId() == userId){
