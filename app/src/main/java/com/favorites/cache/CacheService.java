@@ -36,6 +36,9 @@ public class CacheService {
 
 
     public void addMaps(String key){
+        if(key.contains("?")){
+            key=key.substring(0,key.indexOf("?"));
+        }
         String logoUrl = HtmlUtil.getImge(key);
         maps.put(key,logoUrl);
         UrlLibrary urlLibrary = new UrlLibrary();

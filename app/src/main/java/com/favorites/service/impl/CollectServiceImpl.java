@@ -168,6 +168,9 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 		if(StringUtils.isBlank(collect.getDescription())){
 			collect.setDescription(collect.getTitle());
 		}
+		if(collect.getUrl().contains("?")){
+			collect.setUrl(collect.getUrl().substring(0,collect.getUrl().indexOf("?")));
+		}
 		collect.setIsDelete(IsDelete.NO);
 		collect.setCreateTime(DateUtils.getCurrentTime());
 		collect.setLastModifyTime(DateUtils.getCurrentTime());

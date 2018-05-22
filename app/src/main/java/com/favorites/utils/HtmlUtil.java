@@ -31,7 +31,7 @@ public class HtmlUtil {
 	public static String getImge(String url){
 		String logo="";
 		logo=getPageImg(url);
-		if(StringUtils.isBlank(logo)){
+		if(StringUtils.isBlank(logo) || logo.length()>300){
 			logo=Const.BASE_PATH + Const.default_logo;
 		}
 		return logo;
@@ -60,27 +60,29 @@ public class HtmlUtil {
 				}
 				// 判断图片大小
 				String fileUrl = download(imgUrl);
-				File picture = new File(fileUrl);
-				FileInputStream in = new FileInputStream(picture);
-				BufferedImage sourceImg = ImageIO.read(in);
-				String weight = String.format("%.1f",picture.length()/1024.0);
-				int width = sourceImg.getWidth();
-				int height = sourceImg.getHeight();
-				// 删除临时文件
-				if(picture.exists()){
-					in.close();
-					picture.delete();
-				}
-				if(Double.parseDouble(weight) <= 0 || width <=0 || height <= 0){
-					logger.info("当前图片大小为0，继续获取图片链接");
-					imgUrl="";
-				}else{
-					break;
+				if(fileUrl!=null){
+					File picture = new File(fileUrl);
+					FileInputStream in = new FileInputStream(picture);
+					BufferedImage sourceImg = ImageIO.read(in);
+					String weight = String.format("%.1f",picture.length()/1024.0);
+					int width = sourceImg.getWidth();
+					int height = sourceImg.getHeight();
+					// 删除临时文件
+					if(picture.exists()){
+						in.close();
+						picture.delete();
+					}
+					if(Double.parseDouble(weight) <= 0 || width <=0 || height <= 0){
+						logger.info("当前图片大小为0，继续获取图片链接");
+						imgUrl="";
+					}else{
+						break;
+					}
 				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error("getPageImg失败,url:"+url,e);
+			logger.warn("getPageImg  失败,url:"+url,e.getMessage());
 		}
 		return imgUrl;
 	}

@@ -18,7 +18,7 @@ public class Collect  implements Serializable {
 	private Long userId;
 	@Column(nullable = false)
 	private Long favoritesId;
-	@Column(nullable = false, columnDefinition = "varchar(500)")
+	@Column(nullable = false, columnDefinition = "varchar(600)")
 	private String url;
 	@Column(nullable = false)
 	private String title;
