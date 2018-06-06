@@ -205,7 +205,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
 	@LoggerManage(description="收藏页面")
 	public String collect(Model model) {
-		List<Favorites> favoritesList = favoritesRepository.findByUserIdOrderByIdDesc(getUserId());
+		List<Favorites> favoritesList = favoritesRepository.findByUserIdOrderByLastModifyTimeDesc(getUserId());
 		Config config = configRepository.findByUserId(getUserId());
 		List<String> followList = followRepository.findByUserId(getUserId());
 		logger.info("model：" + config.getDefaultModel());

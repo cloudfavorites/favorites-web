@@ -125,7 +125,7 @@ public class CollectController extends BaseController{
 		Long result = null;
 		int faultPosition = 0;
 		Map<String,Object> maps = new HashMap<String,Object>();
-		List<Favorites> favoritesList = this.favoritesRepository.findByUserIdOrderByIdDesc(getUserId());
+		List<Favorites> favoritesList = this.favoritesRepository.findByUserIdOrderByLastModifyTimeDesc(getUserId());
 		for (int i = 0; i < favoritesList.size(); i++){
 			Favorites favorites = favoritesList.get(i);
 			if(favorites.getName().indexOf(title) > 0 || favorites.getName().indexOf(description) > 0){

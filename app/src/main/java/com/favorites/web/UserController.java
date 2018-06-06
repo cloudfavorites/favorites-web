@@ -141,7 +141,7 @@ public class UserController extends BaseController {
 	public List<Favorites> getFavorites() {
 		List<Favorites> favorites = null;
 		try {
-			favorites = favoritesRepository.findByUserId(getUserId());
+			favorites = favoritesRepository.findByUserIdOrderByLastModifyTimeDesc(getUserId());
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);

@@ -161,7 +161,7 @@ public class FavoritesController extends BaseController{
 			if(null != userId && 0 != userId){
 				id = userId;
 			}
-			favorites = favoritesRepository.findByUserIdOrderByIdDesc(id);
+			favorites = favoritesRepository.findByUserIdOrderByLastModifyTimeAsc(id);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("getFavorites failed, ", e);

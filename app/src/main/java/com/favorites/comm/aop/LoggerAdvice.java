@@ -41,7 +41,7 @@ public class LoggerAdvice {
 	}
 
 	private String parseParames(Object[] parames) {
-		if (null == parames || parames.length <= 0 || parames.length >10240) {
+		if (null == parames || parames.length <= 0 || parames.length >1024) {
 			return "";
 		}
 		StringBuffer param = new StringBuffer("传入参数[{}] ");
