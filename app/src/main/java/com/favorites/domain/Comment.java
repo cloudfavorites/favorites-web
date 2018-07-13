@@ -36,10 +36,6 @@ public class Comment extends Entitys implements Serializable {
 	@Transient
 	private String profilePicture;
 
-	public Comment() {
-		super();
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -48,7 +44,7 @@ public class Comment extends Entitys implements Serializable {
 		this.id = id;
 	}
 
-	public long getCollectId() {
+	public Long getCollectId() {
 		return collectId;
 	}
 
@@ -64,7 +60,7 @@ public class Comment extends Entitys implements Serializable {
 		this.content = content;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
@@ -72,7 +68,7 @@ public class Comment extends Entitys implements Serializable {
 		this.userId = userId;
 	}
 
-	public long getReplyUserId() {
+	public Long getReplyUserId() {
 		return replyUserId;
 	}
 
@@ -82,14 +78,6 @@ public class Comment extends Entitys implements Serializable {
 
 	public Long getCreateTime() {
 		return createTime;
-	}
-
-	public String getProfilePicture() {
-		return profilePicture;
-	}
-
-	public void setProfilePicture(String profilePicture) {
-		this.profilePicture = profilePicture;
 	}
 
 	public void setCreateTime(Long createTime) {
@@ -112,12 +100,19 @@ public class Comment extends Entitys implements Serializable {
 		this.userName = userName;
 	}
 
-  public String getReplyUserName() {
-    return replyUserName;
-  }
+	public String getReplyUserName() {
+		return replyUserName;
+	}
 
-  public void setReplyUserName(String replyUserName) {
-    this.replyUserName = replyUserName;
-  }
+	public void setReplyUserName(String replyUserName) {
+		this.replyUserName = replyUserName;
+	}
 
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 }

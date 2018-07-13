@@ -177,7 +177,16 @@ public class CollectController extends BaseController{
 	    }
 		return collects;
 	}
-	
+
+	@RequestMapping(value="/lookAround")
+	@LoggerManage(description="查看更多lookAround")
+	public List<CollectSummary> lookAround(@RequestParam(value = "page", defaultValue = "0") Integer page,
+										 @RequestParam(value = "size", defaultValue = "15") Integer size) {
+		Sort sort = new Sort(Direction.DESC, "id");
+		Pageable pageable = PageRequest.of(page, size, sort);
+		List<CollectSummary> collects =lookAroundService.queryCollectExplore(pageable, getUserId(),null);
+		return collects;
+	}
 	
 	/**
 	 * @author neo
@@ -265,7 +274,6 @@ public class CollectController extends BaseController{
 		return result();
 	}
 	
-	
 	/**
 	 * @author neo
 	 * @date 2016年8月24日
@@ -352,9 +360,6 @@ public class CollectController extends BaseController{
 	}
 	
 	
-	
-	
-	
 	@RequestMapping(value="/searchMy/{key}")
 	public List<CollectSummary> searchMy(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
 	        @RequestParam(value = "size", defaultValue = "20") Integer size, @PathVariable("key") String key) {
@@ -365,8 +370,6 @@ public class CollectController extends BaseController{
 		logger.info("searchMy end :");
 		return myCollects;
 	}
-	
-	
 	
 	@RequestMapping(value="/searchOther/{key}")
 	public List<CollectSummary> searchOther(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -390,6 +393,5 @@ public class CollectController extends BaseController{
 		maps.put("praiseCount",praiseCount);
 		return maps;
 	}
-	
 	
 }

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="云收藏 | 让收藏更简单 |收藏夹 |网络收藏夹"/>
     <meta name="author" content=""/>
+    <meta http-equiv="refresh" content="6;url=/lookAround" />
 
     <title>云收藏 | 让收藏更简单</title>
     <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
@@ -52,21 +53,17 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a href="/lookAround">瞅一瞅</a>
+                    </li>
+                    <li>
                         <a href="/login" th:unless="${user != null}">登录</a>
                         <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
                     </li>
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <!--<li>
-                        <a href="/lookAround/standard/ALL">随便看看</a>
-                    </li>-->
-                    <li>
-                        <a href="/feedback">提建议</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#about">关于</a>
-                    </li>
+
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -103,7 +100,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a href="/lookAround" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -114,7 +111,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a href="/lookAround" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -125,7 +122,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a href="/lookAround" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -136,7 +133,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a href="/lookAround" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -147,7 +144,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a href="/lookAround" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -158,7 +155,7 @@
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="/login" class="portfolio-link" data-toggle="modal">
+                    <a href="/lookAround" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -326,6 +323,8 @@
                         <a  href="https://github.com/cloudfavorites">
                             关注我们
                         </a>
+                        <br/>
+                        3、如果您觉得还有完善的地方，<a href="/feedback">请给我们提建议！</a>
                     </p>
                     <p>
                         平时工作很忙，一个人维护这个系统有时候也忙不过来，如果你有兴趣我们可以一起来做，欢迎联系我！
@@ -402,7 +401,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        Copyright &copy; favorites 2016-2017
+                        Copyright &copy; favorites 2016-2018
                     </div>
                 </div>
             </div>

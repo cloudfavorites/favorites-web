@@ -68,7 +68,7 @@ public class CommentController extends BaseController{
 			noticeService.saveNotice(String.valueOf(comment.getCollectId()), "comment", user.getId(), String.valueOf(comment.getId()));
 		}else{
 			// 保存消息通知（直接评论）
-			Collect collect = colloectRepository.findById(comment.getCollectId());
+			Collect collect = colloectRepository.findById((long)comment.getCollectId());
 			if(null != collect){
 				noticeService.saveNotice(String.valueOf(comment.getCollectId()), "comment", collect.getUserId(), String.valueOf(comment.getId()));
 			}
@@ -113,13 +113,13 @@ public class CommentController extends BaseController{
 	 */
 	private List<Comment> convertComment(List<Comment> comments) {
 		for (Comment comment : comments) {
-			User user = userRepository.findById(comment.getUserId());
+			User user = userRepository.findById((long)comment.getUserId());
 			comment.setCommentTime(DateUtils.getTimeFormatText(comment.getCreateTime()));
 			comment.setUserName(user.getUserName());
 			comment.setProfilePicture(user.getProfilePicture());
-			if(comment.getReplyUserId()!=0){
-		     User replyUser = userRepository.findById(comment.getReplyUserId());
-		     comment.setReplyUserName(replyUser.getUserName());
+			if(comment.getReplyUserId()!=null && comment.getReplyUserId()!=0){
+				 User replyUser = userRepository.findById((long)comment.getReplyUserId());
+				 comment.setReplyUserName(replyUser.getUserName());
 			}
 		}
 		return comments;

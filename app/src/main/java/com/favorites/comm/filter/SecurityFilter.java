@@ -76,8 +76,7 @@ public class SecurityFilter implements Filter {
 							logger.info("userId :" + user.getId());
 							request.getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
 							String referer = this.getRef(request);
-							if(referer.indexOf("/collect?") >= 0 || referer.indexOf("/lookAround/standard/") >= 0
-									|| referer.indexOf("/lookAround/simple/") >= 0){
+							if(referer.indexOf("/collect?") >= 0 || referer.indexOf("/lookAround") >= 0){
 								filterChain.doFilter(srequest, sresponse);
 								return;
 							}else{
@@ -97,8 +96,7 @@ public class SecurityFilter implements Filter {
 					String referer = this.getRef(request);
 					logger.debug("security filter, deney, " + request.getRequestURI());
 					String html = "";
-					if(referer.contains("/collect?") || referer.contains("/lookAround/standard/")
-							|| referer.contains("/lookAround/simple/")){
+					if(referer.contains("/collect?") || referer.contains("/lookAround")){
 						html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
 					}else{
 						html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
@@ -111,8 +109,7 @@ public class SecurityFilter implements Filter {
 				String referer = this.getRef(request);
 				logger.debug("security filter, deney, " + request.getRequestURI());
 				String html = "";
-				if(referer.contains("/collect?") || referer.contains("/lookAround/standard/")
-						|| referer.contains("/lookAround/simple/")){
+				if(referer.contains("/collect?") || referer.contains("/lookAround")){
 					html = "<script type=\"text/javascript\">window.location.href=\"_BP_login\"</script>";
 				}else{
 					html = "<script type=\"text/javascript\">window.location.href=\"_BP_index\"</script>";
@@ -171,13 +168,10 @@ public class SecurityFilter implements Filter {
 				|| (url.contains("/collector") && !url.contains("/collect/detail/"))
 				|| url.contains("/collect/standard/")||url.contains("/collect/simple/")
 				|| url.contains("/user")||url.contains("/favorites")||url.contains("/comment")
-				|| url.startsWith("/lookAround/standard/")
-				|| url.startsWith("/lookAround/simple/")
+				|| url.contains("/lookAround")
 				|| url.startsWith("/user/")
 				|| url.startsWith("/feedback")
-				|| url.startsWith("/standard/")
-				|| url.startsWith("/collect/standard/lookAround/")
-				|| url.startsWith("/collect/simple/lookAround/")) {
+				|| url.startsWith("/standard/")) {
 			return true;
 		} else {
 			return false;

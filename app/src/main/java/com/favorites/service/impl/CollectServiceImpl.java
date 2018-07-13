@@ -271,7 +271,7 @@ public class CollectServiceImpl extends CacheService implements CollectService {
 		}else{
 			if(collect.getId() != null){
 				Collect c = collectRepository.findById(collect.getId().longValue());
-				if(c.getFavoritesId().longValue() == collect.getFavoritesId().longValue()){
+				if(c.getFavoritesId().equals(collect.getFavoritesId())){
 					return true;
 				}else{
 					List<Collect> list = collectRepository.findByFavoritesIdAndUrlAndUserIdAndIsDelete(collect.getFavoritesId(), collect.getUrl(), collect.getUserId(),IsDelete.NO);

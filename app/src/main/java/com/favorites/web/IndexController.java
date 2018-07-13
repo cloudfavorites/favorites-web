@@ -87,37 +87,27 @@ public class IndexController extends BaseController{
 	}
 
 	/**
-	 * 随便看看 标准模式显示  added by chenzhimin 暂时去掉，以后优化更新
+	 * 随便看看 标准模式显示
 	 * @return
 	 */
-	/*@RequestMapping(value="/lookAround/standard/{category}")
+	@RequestMapping(value="/lookAround")
 	@LoggerManage(description="随便看看页面")
 	public String lookAroundStandard(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,
-							 @RequestParam(value = "size", defaultValue = "15") Integer size,
-							 @PathVariable("category") String category) {
+							 @RequestParam(value = "size", defaultValue = "15") Integer size) {
 
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
 		Pageable pageable = PageRequest.of(page, size,sort);
-		model.addAttribute("category", category);
 		model.addAttribute("type", "lookAround");
-		Favorites favorites = new Favorites();
-		List<CollectSummary> collects = null;
-		List<CollectSummary> fivecollects = lookAroundService.scrollFiveCollect();
-		List<UserIsFollow> fiveUsers = lookAroundService.queryFiveUser(this.getUserId());
-
-		collects =lookAroundService.queryCollectExplore(pageable,getUserId(),category);
+		List<CollectSummary> collects =lookAroundService.queryCollectExplore(pageable,getUserId(),null);
 		User user = super.getUser();
 		if(null != user){
 			model.addAttribute("user",user);
 		}
-		model.addAttribute("fiveCollects", fivecollects);
-		model.addAttribute("fiveUsers", fiveUsers);
 		model.addAttribute("collects", collects);
-		model.addAttribute("favorites", favorites);
 		model.addAttribute("userId", getUserId());
 		model.addAttribute("size", collects.size());
 		return "lookAround/standard";
-	}*/
+	}
 
 	/**
 	 * 随便看看 简单模式显示  added by chenzhimin

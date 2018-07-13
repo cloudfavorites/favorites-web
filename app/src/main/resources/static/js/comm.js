@@ -145,6 +145,9 @@ function handleServerResponse() {
 }
 
 function smartFavoritesFun(title,description,selectLabelName){
+    if ($('#userId').val() == "" || $('#userId').val() == 0) {
+        return;
+    }
     $.ajax({
         type: "POST",
         url:"/collect/getFavoriteResult",

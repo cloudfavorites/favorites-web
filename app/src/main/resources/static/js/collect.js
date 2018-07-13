@@ -1,3 +1,5 @@
+
+
 $(function(){
 	$("#changeModel1").click(function(){
 		$("#show2").show();
@@ -503,8 +505,6 @@ function loadStandardMore(){
 			},
 			success: function(collects){
 				if(collects.length==0){
-					/*$("#loadStandardNoMore").show();*/
-					/*$("#loadStandardMore").hide();*/
 					$("#loadStandardMore").text('没有更多了');
 				}
 				if($("#userContent").val()== 'usercontent'){
@@ -517,6 +517,29 @@ function loadStandardMore(){
 		});
 }
 
+
+function lookAroundMore(){
+    $.ajax({
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        data:'page='+page,
+        url:'/collect/lookAround',
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        success: function(collects){
+            if(collects.length==0){
+                $("#loadStandardMore").text('没有更多了');
+                $("#loadStandardMore").show();
+            }
+            listStandardCollect(collects,'collectStandardList','');
+            page++;
+        }
+    });
+}
 
 function loadMyMore(){
 	$('#loadMyMore').hide();
@@ -700,9 +723,15 @@ function listStandardCollect(collects,listId,user){
 		"               </div>"+
 		"            </div>"+
 		"         </div>"+
-		"         <div class=\"m0\">"+
-		"            <span class=\"icon-folder mr-sm\"></span>"+
-		"            <a onclick=\"locationUrl(\'/standard/"+collects[i].favoritesId+"/"+collects[i].userId+"\',\'"+collects[i].favoritesId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"+
+		"         <div class=\"m0\">"
+
+        if($('#lookAround').length >= 1){
+            item=item+" <span class=\" mr-sm\"></span>"
+        }else{
+            item=item+"            <span class=\"icon-folder mr-sm\"></span>"+
+                "  <a onclick=\"locationUrl(\'/standard/"+collects[i].favoritesId+"/"+collects[i].userId+"\',\'"+collects[i].favoritesId+"\');\" class=\"normal-color-a ng-binding\" href=\"javascript:void(0);\">"+collects[i].favoriteName+"</a>"
+        }
+        item=item+
 		"            <div class=\"pull-right hidden-xxs\">"+
 		"                  <a onclick=\"changeLike("+collects[i].id+");\" style=\"display:"+(collects[i].praise? 'none' : 'inline-block')+"\" id=\"like"+collects[i].id+"\" class=\"sharing-action-button btn-praise\">"+
 		"                     <span class=\"fa fa-thumbs-o-up\"></span>"+
@@ -857,18 +886,30 @@ $(function() {
 
 	$(window).scroll(function() {
 		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-			if ($('#standard').length >= 1 && $('#simple').length >= 1) {
-				if ($('#standard').is(':visible')) {
-					if ($('#loadStandardMore').text() == '加载更多') {
-						if (loadingFlag) {
-							loadingFlag = false;
-							$('#loadingStandard').show();
-							loadStandardMore();
-							$('#loadingStandard').hide();
-							loadingFlag = true;
+            if ($('#lookAround').length >= 1) {
+                if ($('#standard').is(':visible')) {
+                    if ($('#loadStandardMore').text() == '加载更多') {
+                        if (loadingFlag) {
+                            loadingFlag = false;
+                            $('#loadingStandard').show();
+                            lookAroundMore();
+                            $('#loadingStandard').hide();
+                            loadingFlag = true;
+                        }
+                    }
+                }
+             } else if ($('#standard').length >= 1 && $('#simple').length >= 1) {
+					if ($('#standard').is(':visible')) {
+						if ($('#loadStandardMore').text() == '加载更多') {
+							if (loadingFlag) {
+								loadingFlag = false;
+								$('#loadingStandard').show();
+								loadStandardMore();
+								$('#loadingStandard').hide();
+								loadingFlag = true;
+							}
 						}
-					}
-				} else if ($('#simple').is(':visible')) {
+			} else if ($('#simple').is(':visible')) {
 					if ($('#loadSimpleMore').text() == '加载更多') {
 						if (loadingFlag) {
 							loadingFlag = false;
@@ -904,17 +945,4 @@ $(function() {
 	});
 });
 
-function lookAroundInit(category){
-
-    var categoryArr = ['ALL','TRAVEL','FOOD','EXERCISE','PHOTOGRAPH','MUSIC','REARING',
-    'LOVE','BUSINESS','ART','MANAGER','MARKET','RUNNING'];
-    $("#category"+category).addClass('active');
-    for(var i = 0; i < categoryArr.length; i++){
-        if(categoryArr[i] != category){
-            $("#category"+categoryArr[i]).removeClass('active');
-        }
-    }
-    loadConfig();
-    loadFavorites();
-}
 

@@ -131,3 +131,10 @@ function initFavorites(favorites){
 		$("#layoutFavoritesName").append("<option value=\"" + id + "\">" + name + "</option>");
 	}
 }
+
+function lookAroundInit(){
+    if ($('#userId').val() != "" && $('#userId').val() != 0) {
+        loadConfig();
+        loadFavorites();
+    }
+}

@@ -33,6 +33,7 @@ public class CollectSummary  implements Serializable {
 		this.userId = view.getUserId();
 		this.profilePicture = view.getProfilePicture();
 		this.favoritesId = view.getFavoritesId();
+		this.favoriteName=view.getFavoriteName();
 		this.url = view.getUrl();
 		this.title = view.getTitle();
 		this.description = view.getDescription();
