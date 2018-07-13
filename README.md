@@ -74,7 +74,7 @@ Docker Deploy
 下载最新发布版本
 
 ``` sh
-wget https://github.com/cloudfavorites/favorites-web/archive/favorites-1.2.2.zip
+wget https://github.com/cloudfavorites/favorites-web/archive/favorites-1.3.0.zip
 ```
 
 解压
