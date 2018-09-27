@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by DingYS on 2016/12/29.
@@ -17,7 +18,7 @@ import java.util.Map;
 @Component
 public class CacheService {
 
-    private Map<String,String> maps = new HashMap<String, String>();
+    private Map<String,String> maps = new ConcurrentHashMap<>();
     @Autowired
     private UrlLibraryRepository urlLibraryRepository;
 
