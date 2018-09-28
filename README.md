@@ -2,7 +2,7 @@
 ![](http://favorites.ren/index/img/profile.png)
 
 云收藏 - 让收藏更简单
-=========================
+====================
 
 ![Spring Boot 2.0](https://img.shields.io/badge/Spring%20Boot-2.0-brightgreen.svg)
 ![Thymeleaf 3.0](https://img.shields.io/badge/Thymeleaf-3.0-yellow.svg)
