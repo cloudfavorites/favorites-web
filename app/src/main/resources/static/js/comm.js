@@ -73,7 +73,11 @@ function getFileName(param){
 	　　}
 
 function locationUrl(url,activeId){
-	if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
+    //每次跳转切换页面时，设置该页面page=1
+    page =1;
+    //滚动条设置为页面顶部。不设置的话，假设第一个页面加载了10页，第二个页面切换过去后，由于滚动条在下边，会一直加载10页才停止
+    window.scrollTo(0,0);
+    if(mainActiveId != null && mainActiveId != "" && activeId != null && activeId != ""){
 		$("#"+mainActiveId).removeAttr("class");
 		$("#"+activeId).attr("class", "active");
 		mainActiveId = activeId;
