@@ -885,7 +885,8 @@ $(function() {
 	var loadingFlag = true;
 
 	$(window).scroll(function() {
-		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        //当前页面剩40px加载完时，预加载下一页，使翻页更平滑
+        if ( $(document).height() - $(window).height() -$(window).scrollTop() < 40 ) {
             if ($('#lookAround').length >= 1) {
                 if ($('#standard').is(':visible')) {
                     if ($('#loadStandardMore').text() == '加载更多') {
