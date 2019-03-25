@@ -76,7 +76,8 @@
                      </a>
                      <ul class="dropdown-menu">
                         <li>
-                            <a href="javascript:void(0);" th:each="name : ${followList}" th:onclick="'javascript:showAt(\''+${name}+'\');'" th:text="${name}">好友名称</a>
+                            <!--<a href="javascript:void(0);" th:each="name : ${followList}" th:onclick="'javascript:showAt(\''+${name}+'\');'" th:text="${name}">好友名称</a>-->
+                            <a  th:each="name : ${followList}" th:onclick="showAt([[${name}]])" th:text="${name}">好友名称</a>
                         </li>
                      </ul>
                   </div>
