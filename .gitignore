@@ -7,6 +7,9 @@
 /.gradle
 *.log
 *.iml
-*.class
 .checkstyle
 /.idea
+# IntelliJ project files
+.idea
+out
+gen
