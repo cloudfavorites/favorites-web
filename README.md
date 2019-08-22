@@ -17,7 +17,7 @@
 网站可以查看别人公开收藏的内容，了解同行业内的大拿都在学习什么，方便学习、整理、检索，根据共同的收藏内容我们可以帮您找到**最熟悉的陌生人** :)。
 
 
-[官方主页](http://favorites.ren) | [github地址](https://github.com/cloudfavorites/favorites-web) | [码云地址](https://gitee.com/ityouknow/favorites-web) | [中文说明](http://www.ityouknow.com/springboot/2016/09/26/springboot%E5%AE%9E%E6%88%98-%E6%88%91%E4%BB%AC%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%BE%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6.html) | [文档手册](https://github.com/cloudfavorites/favorites-web/wiki/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E9%A1%B9%E7%9B%AE).
+[官方主页](http://favorites.ren) | [github地址](https://github.com/cloudfavorites/favorites-web) | [码云地址](https://gitee.com/ityouknow/favorites-web) | [中文说明](http://www.ityouknow.com/springboot/2016/09/26/spring-boot-opensource-favorites.html) | [文档手册](https://github.com/cloudfavorites/favorites-web/wiki/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E9%A1%B9%E7%9B%AE).
 
 核心功能点：
 
