@@ -48,16 +48,16 @@ Screenshots
 ------------
 
 主页  
-![favorites_chrome](http://www.ityouknow.com/assets/images/2016/favorites_index.png)  
+![favorites_chrome](http://favorites.ren/assets/images/2016/favorites_index.png)  
 
 注册  
-![favorites_chrome](http://www.ityouknow.com/assets/images/2016/favorites_register.png)  
+![favorites_chrome](http://favorites.ren/assets/images/2016/favorites_register.png)  
 
 首页  
-![favorites_chrome](http://www.ityouknow.com/assets/images/2016/favorites_home.png)  
+![favorites_chrome](http://favorites.ren/assets/images/2016/favorites_home.png)  
 
 收藏  
-![favorites_chrome](http://www.ityouknow.com/assets/images/2016/favorites_collect.png)  
+![favorites_chrome](http://favorites.ren/assets/images/2016/favorites_collect.png)  
 
 
 How to use
